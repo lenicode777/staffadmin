@@ -1,0 +1,62 @@
+#previous
+{
+    position: absolute;
+    left: 5%;
+    margin-bottom: 40px;
+    display: none;
+}
+#save
+{
+    position: absolute;
+    right: 15%;
+    width: 30%;
+    margin-bottom: 40px;
+    display: none;
+}
+#next
+{
+    position: absolute;
+    right: 35%;
+    width: 30%;
+    margin-bottom: 40px;
+    display: none;
+}
+#validate
+{
+    position: absolute;
+    right: 35%;
+    width: 30%;
+    margin-bottom: 40px;
+}
+
+.error-msg
+{
+    color: orangered;
+    font-size: 11px;
+    font-weight: bolder;
+    display: none;
+    padding-top: 40px;
+
+}
+
+#form-error-msg
+{
+	margin-bottom: 40px;
+    background-color:red;
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    display: none;
+    
+    padding-top: 40px;
+    text-align: center;
+    margin-top: 50px;
+    border-radius: 5px;
+    padding: 10px 0px;
+    opacity: 0.7;
+}
+
+.form-group .col-lg-4
+{
+    padding: 0px;
+}

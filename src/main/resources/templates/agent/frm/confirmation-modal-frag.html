@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="confirmation-modal-frag">
+<!-- 			<div class="modal" id="confirmation-modal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">Liste des agents</div>
+		                <div class="modal-body">
+		                    <div class="col col-lg-4">
+		                        <div class="form-group">
+									<label for="nom">Nom</label> <span class="error-msg text-danger" id="nom-error-msg"></span>
+			                        <input id="nom" name="nom" class="form-control" type="text" />
+		                        </div>
+		                    </div>
+		                    <div class="col col-lg-4"></div>
+		                    <div class="col col-lg-4"></div>
+		                </div>						
+					</div>
+				</div>
+			
+			</div> -->
+
+			<div class="modal fade" id="confirmation-modal">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">Voulez-vous enregistrer un nouvel agent avec les données suivantes ?</h4>
+						</div>
+						<div class="modal-body">
+							
+							<div class="list-group">
+								<a href="#" class="list-group-item active">Item 1 
+								
+								</a>
+								<a href="#" class="list-group-item">Item 2 <span class="badge">Badge</span></a>
+								<a href="#" class="list-group-item">Item 3</a>
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+      	</th:block>
+    </body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+    <aside th:fragment="side-bar-frag">
+          <div id="sidebar" class="nav-collapse" style="filter:brightness(1.3); background: green;">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+              <!-- =======Photo de l'utilisateur======== -->
+              <p class="centered"><a href="profile.html"><img src="/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+              <h5 class="centered">Sam Soffes</h5>
+              <!-- =======Fin Photo de l'utilisateur======== --> 
+                
+              <!-- =======Lien tableau de bord======== -->
+              <li class="mt">
+                <a href="index.html">
+                  <i class="fa fa-dashboard"></i>
+                  <span>Dashboard</span>
+                  </a>
+              </li>
+              <!-- =======Fin Lien tableau de bord======== -->
+                
+                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-desktop"></i>
+                  <span>Sous Directions</span>
+                  </a>
+                <ul class="sub">
+                  <li th:each="sd:${SDs}"><a th:href="@{/staffadmin/views/saf/sd(id=${sd.id})}" th:text="${sd.sigle}"></a></li>
+                </ul>
+              </li>
+                
+                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-cogs"></i>
+                  <span>Direction Régionale </span>
+                  </a>
+                <ul class="sub">
+                  <li><a href="grids.html">Grids</a></li>
+                  <li><a href="calendar.html">Calendar</a></li>
+                  <li><a href="gallery.html">Gallery</a></li>
+                  <li><a href="todo_list.html">Todo List</a></li>
+                  <li><a href="dropzone.html">Dropzone File Upload</a></li>
+                  <li><a href="inline_editor.html">Inline Editor</a></li>
+                  <li><a href="file_upload.html">Multiple File Upload</a></li>
+                </ul>
+              </li>
+                
+                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-book"></i>
+                  <span>Services Rattachés</span>
+                  </a>
+                <ul class="sub">
+                  <li class="active"><a href="blank.html">Blank Page</a></li>
+                  <li><a href="login.html">Login</a></li>
+                  <li><a href="lock_screen.html">Lock Screen</a></li>
+                  <li><a href="profile.html">Profile</a></li>
+                  <li><a href="invoice.html">Invoice</a></li>
+                  <li><a href="pricing_table.html">Pricing Table</a></li>
+                  <li><a href="faq.html">FAQ</a></li>
+                  <li><a href="404.html">404 Error</a></li>
+                  <li><a href="500.html">500 Error</a></li>
+                </ul>
+              </li>
+                
+                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-tasks"></i>
+                  <span>Le personnel</span>
+                  </a>
+                <ul class="sub">
+                  <li><a th:href="@{/staffadmin/views/saf/employe/personnel}">Voir la liste du personnel</a></li>
+                  <li><a href="advanced_form_components.html">Enregistrer un nouvel agent</a></li>
+                </ul>
+              </li>
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-th"></i>
+                  <span>Suivi des missions</span>
+                  </a>
+                <ul class="sub">
+                  <li><a href="basic_table.html">Basic Table</a></li>
+                  <li><a href="responsive_table.html">Responsive Table</a></li>
+                  <li><a href="advanced_table.html">Advanced Table</a></li>
+                </ul>
+              </li>
+                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-th"></i>
+                  <span>Suivi des retraites</span>
+                  </a>
+                <ul class="sub">
+                  <li><a href="basic_table.html">Basic Table</a></li>
+                  <li><a href="responsive_table.html">Responsive Table</a></li>
+                  <li><a href="advanced_table.html">Advanced Table</a></li>
+                </ul>
+              </li>  
+                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-th"></i>
+                  <span>Suivi des formations</span>
+                  </a>
+                <ul class="sub">
+                  <li><a href="basic_table.html">Basic Table</a></li>
+                  <li><a href="responsive_table.html">Responsive Table</a></li>
+                  <li><a href="advanced_table.html">Advanced Table</a></li>
+                </ul>
+              </li>                
+                
+              <li>
+                <a href="inbox.html">
+                  <i class="fa fa-envelope"></i>
+                  <span>Mail </span>
+                  <span class="label label-theme pull-right mail-info">2</span>
+                </a>
+              </li>
+
+            </ul>
+            <!-- sidebar menu end-->
+          </div>
+        </aside>
+</html>

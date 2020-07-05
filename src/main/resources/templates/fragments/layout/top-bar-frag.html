@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr"
+	  xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+        <header class="header orange-bg" th:fragment="top-bar-frag">
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+                </div>
+          <!--logo start-->
+                <a href="index.html" class="logo"><b>ADMINISTRATION DU PERSONNEL</b></a>
+          <!--logo end-->
+                <div class="nav notify-row" id="top_menu">
+                    <!--  notification start -->
+                    <ul class="nav top-menu">
+                        
+                        <!--============ Notification de demandes de conges ================-->
+                        <!-- settings start -->
+                        <li class="dropdown" data-toggle="tooltip" data-deplacement="bottom" title="Demandes de congés">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                                <i class="fa fa-bus"></i>
+                                <span class="badge bg-theme" th:text="15"></span>
+                            </a>
+                            <ul class="dropdown-menu extended tasks-bar">
+                                <div class="notify-arrow notify-arrow-green"></div>
+                                <li>
+                                    <p class="green" th:text="${'Vous avez 15 demandes de congés'}">Vous avez  4 demandes de congés</p>
+                                </li>
+                                
+                                <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px;">
+                                            	<span class="label label-danger"><i class="glyphicon glyphicon-repeat"></i></span> 
+                                            	Demandes de congés annuel <span class="badge" th:text="4"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                             <div class="col col-lg-12" style="padding: 0px;">
+                                             	<span class="label label-danger"><i class="fas fa-briefcase-medical"></i></span>
+                                             	Demande de congés maladies <span class="badge" th:text="5"></span>
+                                             </div>                                         
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px;"><span class="label label-danger"><i class="fa fa-child"></i></span> Demandes de congés de maternité <span class="badge" th:text="6"></span></div>                                            
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="external">
+                                    <a href="#">Voir toutes les demandes de congés</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- settings end -->
+                        <!--============ Notification de demandes de conges ================-->
+                        
+                        
+                        <!--============ Notification de demandes de d'absence ================-->
+                        <!-- inbox dropdown start-->
+                        <li id="header_inbox_bar" class="dropdown" data-toggle="tooltip" data-deplacement="bottom" title="Demandes d'absence">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                                <i class="fa fa-ban"></i>
+                                <span class="badge bg-theme">5</span>
+                            </a>
+                            <ul class="dropdown-menu extended inbox">
+                              <div class="notify-arrow notify-arrow-green"></div>
+                              <li>
+                                <p class="green">Vous avez 9 demandes d'absence</p>
+                              </li>
+                              <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px;">
+                                            	Demande d'autorisation spéciale <span class="badge" th:text="4"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                              </li>
+                              <li>
+                             		<a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px;">
+                                            	Demande de permission spéciale <span class="badge" th:text="5"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                              </li>
+
+                                <li>
+                                    <a href="index.html#">Voir toutes les demandes d'absence</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- inbox dropdown end -->
+                        <!--============ Notification de demandes de d'absence ================-->
+                        
+                        
+                        <!--============ Notification de demandes d'actes================-->
+                        <!-- notification dropdown start-->
+                        <li id="header_notification_bar" class="dropdown" data-toggle="tooltip" data-deplacement="bottom" title="Demandes d'actes administratifs">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-book"></i>
+                            <span class="badge bg-warning">18</span>
+                            </a>
+                            <ul class="dropdown-menu extended notification">
+                                <div class="notify-arrow notify-arrow-yellow"></div>
+                                <li>
+                                    <p class="yellow">Vous avez 18 demandes acte</p>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px; margin: 0px;">
+                                                Demande de certificat de travail <span class="badge" th:text="12"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px; margin: 0px;">
+                                            	Demande d'attestation de présence <span class="badge" th:text="6"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="col col-lg-12"style="padding: 0px; margin: 0px;"><a href="index.html#">Voir toutes les demandes d'actes</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- notification dropdown end -->
+                        <!--============ Fin Notification de demandes d'actes================-->
+                        
+                        
+                        <!--============ Notification de demandes de changement de position================-->
+                        <!-- notification dropdown start-->
+                        <li id="header_notification_bar" class="dropdown" data-toggle="tooltip" data-deplacement="bottom" title="Demandes de changement de position">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-book"></i>
+                            <span class="badge bg-warning">18</span>
+                            </a>
+                            <ul class="dropdown-menu extended notification">
+                                <div class="notify-arrow notify-arrow-yellow"></div>
+                                <li>
+                                    <p class="yellow">Changement de position en instance</p>
+                                </li>
+                                <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px; margin: 0px;">
+                                                Demande de detachement <span class="badge" th:text="12"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                 <li>
+                                    <a href="index.html#">
+                                        <div class="task-info">
+                                            <div class="col col-lg-12" style="padding: 0px; margin: 0px;">
+                                                Demande de mise en disponibilite <span class="badge" th:text="12"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>                               
+                                
+                                
+                            </ul>
+                        </li>
+                        <!-- notification dropdown end -->
+                        <!--============ Fin Notification de changement de position================-->                        
+                                                
+                    </ul>
+                    <!--======================  notification end ==========================-->
+                </div>
+            
+                
+                <div class="top-menu">
+                    <ul class="nav pull-right top-menu">
+                        <li><a class="logout" th:href="@{logout}">Logout</a></li>
+                    </ul>
+                </div>
+        </header>
+</html>

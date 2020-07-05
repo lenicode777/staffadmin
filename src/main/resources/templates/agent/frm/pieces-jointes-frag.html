@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+        
+		<th:block th:fragment="pieces-jointes-frag">
+        	<div class="panel panel-default">
+            	<div class="panel-heading"><a href="#pieces-jointes" data-toggle="collapse">Pieces jointes</a></div>
+                <div class="panel-body panel-collapse collapse" id="pieces-jointes">
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="noteServiceDAAF">Note de service de la DAAF</label><span class="error-msg text-danger" id="noteServiceDAAF-error-msg"></span>
+                            <input type="file" class="form-control" id="noteServiceDAAF" name="noteServiceDAAF" required="required"/>
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="noteServiceDGBF">Note de service de la DGBF</label>
+                            <span class="error-msg text-danger" id="noteServiceDGBF-error-msg"></span>
+                            <input type="file" class="form-control" id="noteServiceDGBF" name="noteServiceDGBF" required="required"/>
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="certificatService1">Certificat de 1ère prise de Service</label>
+                            <span class="error-msg text-danger" id="certificatService1-error-msg"></span>
+                            <input type="file" class="form-control" id="certificatService1"  name="certificatService1" required="required"/>
+                        </div>                        
+                    </div>
+
+
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="arreteNomination">Arrêté de nomination</label>
+                            <span class="error-msg text-danger" id="arreteNomination-error-msg"></span>
+                            <input type="file" class="form-control" id="arreteNomination" name="arreteNomination" required="required"/>
+                        </div>                         
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="decisionAttente">Décision d'attente</label>
+                            <span class="error-msg text-danger" id="decisionAttente-error-msg"></span>
+                            <input type="file" class="form-control" id="decisionAttente" name="decisionAttente" />
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="cv">CV</label>
+                            <span class="error-msg text-danger" id="cv-error-msg"></span>
+                            <input type="file" class="form-control" id="cv" name="cv" />
+                        </div>                        
+                    </div>
+
+                    <div class="col col-lg-6">
+                        <div class="form-group">
+                            <label for="pieceIdentite">Pièce d'identité</label>
+                            <span class="error-msg text-danger" id="pieceIdentite-error-msg"></span>
+                            <input type="file" class="form-control" id="pieceIdentite" name="pieceIdentite" />
+                        </div>                        
+                    </div>
+                    <div class="col col-lg-6">
+                        <div class="form-group">
+                            <label for="photo">Photo</label>
+                            <span class="error-msg text-danger" id="photo-error-msg"></span>
+                            <input type="file" class="form-control" id="photo" name="photo"/>
+                        </div>                        
+                    </div>                    
+                </div>
+       		</div>
+      	</th:block>
+    </body>
+</html>

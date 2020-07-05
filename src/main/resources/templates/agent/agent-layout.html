@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{fragments/layout/layout}">    
+    
+	<head>		
+		<th:block th:replace="fragments/layout/dependancies.html::css-dependancies"></th:block>
+	</head>
+	<body>
+        <div layout:fragment="content">
+            <h1>DESIGNED BY THYMELEAF LAYOUTS</h1>
+            
+        </div>
+        <th:block th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block>
+	</body>
+</html>

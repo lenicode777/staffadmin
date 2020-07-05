@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{fragments/layout/layout}">    
+    
+	<head>		
+		<meta charset="utf-8">
+		<style type="text/css">
+			div.panel div.panel-heading
+			{
+				font-size: 20px;
+				font-weight: bolder;
+			}
+			
+			div.panel-default div.panel-heading, div.panel-default div.panel-heading a
+			{
+				/*color:#39B510;*/
+				color: #FF9008;
+			}
+			
+			form label
+			{
+				font-size: 20px;
+				font-weight: bolder;
+				color : black;
+			}
+			
+		</style>
+	</head>
+	<body>
+        <div layout:fragment="content">
+            <div class="container-fluid">
+            	<form action="#" method="POST">
+            		<th:block th:replace="agent/frm/infos-generales-frag.html::infos-generales-frag"></th:block>
+            		<th:block th:replace="agent/frm/infos-emploi-frag.html::infos-emploi-frag"></th:block>
+            		<th:block th:replace="agent/frm/pieces-jointes-frag.html::pieces-jointes-frag"></th:block>
+            		<th:block th:replace="agent/frm/confirmation-modal-frag.html::confirmation-modal-frag"></th:block>
+            		<button class="btn btn-success mr-3" id="btn-valider" type="button" data-toggle="modal" href="#confirmation-modal">Valider</button>
+            		<button class="btn btn-warning mr-3" id="btn-reset" type="reset">Reset</button>
+            	</form>
+            </div>            
+            
+        </div>
+<!--         <th:block th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block> -->
+		<script type="text/javascript">
+
+		</script>
+	</body>
+</html>

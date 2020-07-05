@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="infos-generales-frag">
+        	<div class="panel panel-default">
+            	<div class="panel-heading"><a href="#infos-generales" data-toggle="collapse">Informations générales</a></div>
+                <div class="panel-body panel-collapse collapse in" id="infos-generales" >
+
+                <!-- ================================================LIGNE 1====================================-->                     
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+							<label for="nom">Nom</label> <span class="error-msg text-danger" id="nom-error-msg"></span>
+	                        <input id="nom" name="nom" class="form-control" type="text" required="required"/>
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+							<label for="prenom">Prénom</label> <span class="error-msg text-danger" id="prenom-error-msg"></span>
+	                        <input id="prenom" name="prenom" class="form-control" type="text" required="required"/>
+                        </div>                    
+                    </div>
+                    <div class="col col-lg-3">
+                        <div class="form-group">
+							<label for="dateNaissance">Date de naissance</label> <span class="error-msg text-danger" id="dateNaissance-error-msg"></span>
+	                        <input id="dateNaissance" name="dateNaissance" class="form-control" type="date" required="required"/>
+                        </div>                    
+                    </div>
+                    <div class="col col-lg-1">
+                        <div class="form-group">
+							<label for="sexe">Sexe</label> <span class="error-msg text-danger" id="sexe-error-msg"></span>
+	                        <select id="sexe" name="sexe" class="form-control" required="required">
+	                        	<option value=""></option>
+	                        	<option value="HOMME">H</option>
+	                        	<option value="FEMME">F</option>
+	                        </select>
+                        </div>                    
+                    </div>  
+                    
+                    <!-- /*================================================LIGNE 2====================================*/   -->
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+							<label for="email">Email</label> <span class="error-msg text-danger" id="email-error-msg"></span>
+	                        <input id="email" name="email" class="form-control" type="email" required="required"/>
+                        </div>
+                    </div>
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+							<label for="lieuNaissance">Lieu de naissance</label> <span class="error-msg text-danger" id="lieuNaissance-error-msg"></span>
+	                        <select id="lieuNaissance" name="lieuNaissance" class="form-control" required="required">
+	                        	<option>ABIDJAN</option>
+	                        	<option>GRAND-LAHOU</option>
+	                        </select>
+                        </div>                    
+                    </div>                     
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+							<label for="fixeBureau">Fixe de bureau</label> <span class="error-msg text-danger" id="fixeBureau-error-msg"></span>
+	                        <input id="fixeBureau" name="fixeBureau" class="form-control" type="text" required="required"/>
+                        </div>                    
+                    </div>                    
+                    <div class="col col-lg-2">
+                        <div class="form-group">
+							<label for="tel">Mobile</label> <span class="error-msg text-danger" id="tel-error-msg"></span>
+	                        <input id="tel" name="tel" class="form-control" type="tel" required="required"/>
+                        </div>                    
+                    </div>
+
+                    <!-- /*================================================LIGNE 3====================================*/   -->
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
+                        <div class="form-group">
+                            <label for="typePiece">Tyepe de pièce</label>
+                            <span class="error-msg" id="typePiece-error-msg"></span>
+                            <select class="form-control" id="typePiece">
+                                <option value=""></option>
+                                <option value="CNI">CNI</option>
+                                <option value="ATTESTATION D'IDENTITE">Attestation d'identité</option>
+                                <option value="PASSEPORT">Passeport</option>
+                                <option value="PERMIS DE CONDUIRE">Permis de conduire</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
+                        <div class="form-group">
+                            <label for="numPiece">N° pièce</label> 
+                            <span class="error-msg" id="numPiece-error-msg"></span>
+                            <input id="numPiece" class="form-control" type="text" name="numPiece" required="required">
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label for="nomPere">Nom du père</label> 
+                            <span class="error-msg" id="nomPere-error-msg"></span>                            
+                            <input id="nomPere" class="form-control" type="text" name="nomPere">
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <label for="nomMere">Nom de la mère</label> 
+                            <span class="error-msg" id="nomMere-error-msg"></span>                            
+                            <input id="nomMere" class="form-control" type="text" name="nomMere">
+                        </div>
+                    </div>                                   
+                                      
+                </div>
+       		</div>
+      	</th:block>
+    </body>
+</html>
