@@ -14,10 +14,10 @@ public class StaffadminApplication {
 		SpringApplication.run(StaffadminApplication.class, args);
 	}
 	
-	@Bean
+	/*@Bean
 	public LayoutDialect thymeleafDialect()
 	{
 		return new LayoutDialect();
-	}
+	}*/
 
 }

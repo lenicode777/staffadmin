@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="fr"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{fragments/layout/layout}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Title Page</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" /> 
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+		<style type="text/css">
+
+			div.panel div.panel-heading
+			{
+				font-size: 20px;
+				font-weight: bolder;
+			}
+			
+			div.panel-default div.panel-heading, div.panel-default div.panel-heading a
+			{
+				/*color:#39B510;*/
+				color: #FF9008;
+			}
+			
+			form label
+			{
+				font-size: 20px;
+				font-weight: bolder;
+				color : black;
+			}
+			
+		</style>        
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <form id="frm-agent" th:action="@{/agents/save}" method="POST" role="form">
+                <th:block th:replace="agent/frm/infos-generales-frag.html::infos-generales-frag"></th:block>
+                <th:block th:replace="agent/frm/infos-emploi-frag.html::infos-emploi-frag"></th:block>
+                <th:block th:replace="agent/frm/pieces-jointes-frag.html::pieces-jointes-frag"></th:block> 
+                <th:block th:replace="agent/frm/confirmation-modal-frag.html::confirmation-modal-frag"></th:block>
+                <button class="btn btn-success mr-3" id="btn-valider" type="button" data-toggle="modal" href="#confirmation-modal">Valider</button>
+                <button class="btn btn-warning mr-3" id="btn-reset" type="reset">Reset</button>					
+                <button type="submit" class="btn btn-success btn-lg">Save</button>
+            </form>
+        </div>
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>

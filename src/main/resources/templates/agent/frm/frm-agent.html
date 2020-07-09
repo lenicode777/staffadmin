@@ -1,49 +1,151 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
-                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorate="~{fragments/layout/layout}">    
-    
-	<head>		
-		<meta charset="utf-8">
-		<style type="text/css">
-			div.panel div.panel-heading
-			{
-				font-size: 20px;
-				font-weight: bolder;
-			}
-			
-			div.panel-default div.panel-heading, div.panel-default div.panel-heading a
-			{
-				/*color:#39B510;*/
-				color: #FF9008;
-			}
-			
-			form label
-			{
-				font-size: 20px;
-				font-weight: bolder;
-				color : black;
-			}
-			
-		</style>
-	</head>
-	<body>
-        <div layout:fragment="content">
-            <div class="container-fluid">
-            	<form action="#" method="POST">
-            		<th:block th:replace="agent/frm/infos-generales-frag.html::infos-generales-frag"></th:block>
-            		<th:block th:replace="agent/frm/infos-emploi-frag.html::infos-emploi-frag"></th:block>
-            		<th:block th:replace="agent/frm/pieces-jointes-frag.html::pieces-jointes-frag"></th:block>
-            		<th:block th:replace="agent/frm/confirmation-modal-frag.html::confirmation-modal-frag"></th:block>
-            		<button class="btn btn-success mr-3" id="btn-valider" type="button" data-toggle="modal" href="#confirmation-modal">Valider</button>
-            		<button class="btn btn-warning mr-3" id="btn-reset" type="reset">Reset</button>
-            	</form>
-            </div>            
-            
-        </div>
-<!--         <th:block th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block> -->
-		<script type="text/javascript">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout/layout}">
 
-		</script>
-	</body>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
+    <style type="text/css">
+        div.panel div.panel-heading {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        
+        div.panel-default div.panel-heading,
+        div.panel-default div.panel-heading a {
+            /*color:#39B510;*/
+            color: #FF9008;
+        }
+        
+        form label {
+            font-size: 15px;
+            font-weight: bolder;
+            color: black;
+        }
+        
+        form .error-msg {
+            font-size: 10px;
+            font-weight: bolder;
+            color: red;
+            display: none;
+        }
+        
+        #btn-modal-trigger,
+        #btn-submit {
+            display: none;
+        }
+        
+        .form-group .error-msg {
+            position: relative;
+            margin-left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid">
+            <form id="frm-agent" th:action="@{/agents/save}" method="post" enctype="multipart/form-data">
+                <th:block th:replace="agent/frm/infos-generales-frag.html::infos-generales-frag"></th:block>
+                <th:block th:replace="agent/frm/infos-emploi-frag.html::infos-emploi-frag"></th:block>
+                <th:block th:replace="agent/frm/pieces-jointes-frag.html::pieces-jointes-frag"></th:block>
+                <th:block th:replace="agent/frm/confirmation-modal-frag.html::confirmation-modal-frag"></th:block>
+                <button class="btn btn-success mr-3" id="btn-modal-trigger" type="button" data-toggle="modal" href="#confirmation-modal">Valider</button>
+                <button class="btn btn-success mr-3" id="btn-valider" type="button">Valider btn</button>
+                <button class="btn btn-warning mr-3" id="btn-reset" type="reset">Reset</button>
+                <button type="submit" id="btn-submit" class="btn btn-success btn-lg">Save</button>
+            </form>
+        </div>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
+        <script src="lib/jquery/JQueryBolckUI.js"></script>
+
+        <script>
+            var frmAgent = $("#frm-agent");
+            var txtEmail = $("#email");
+            var txtNumPiece = $("#numPiece");
+            var txtTel = $("#tel");
+            var txtMatricule = $("#matricule");
+            var agentExistingRestUrl = "http://localhost:8081/staffadmin/exists/";
+
+
+            $("#btn-valider").click(function(e) {
+                if (!frmAgent[0].checkValidity()) {
+                    $("#btn-submit").trigger("click");
+                } else {
+                    $("#btn-modal-trigger").trigger("click");
+                }
+            });
+
+            txtEmail.blur(function(e) {
+                unicityChecking("email/", txtEmail, e.target.value, $("#email-error-msg"), "*adresse email déjà utilisée");
+            });
+
+            txtMatricule.blur(function(e) {
+                unicityChecking("matricule/", txtMatricule, e.target.value, $("#matricule-error-msg"), "*matricule déjà utilisé");
+            });
+
+            txtNumPiece.blur(function(e) {
+                unicityChecking("numPiece/", txtNumPiece, e.target.value, $("#numPiece-error-msg"), "*N° déjà utilisé");
+            });
+
+            txtTel.blur(function(e) {
+                unicityChecking("tel/", txtTel, e.target.value, $("#tel-error-msg"), "*Tel déjà utilisé");
+            });
+
+            function switchOnOffBtnValider() {
+                if ($("#email-error-msg").css("display") != "none" || $("#numPiece-error-msg").css("display") != "none" ||
+                    $("#tel-error-msg").css("display") != "none" || $("#matricule-error-msg").css("display") != "none") {
+                    $("#btn-valider").attr("disabled", "disabled");
+                } else {
+                    $("#btn-valider").removeAttr("disabled");
+                }
+            }
+
+            function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, errorMsg) {
+                const existingPromise = new Promise((resolve, reject) => {
+                    //document).block();
+                    //$().blockUI();
+                    $.ajax({
+                        type: "get",
+                        url: agentExistingRestUrl + variant + checkedValue,
+                        success: function(response) {
+                            resolve(response);
+                            //$.unblockUI();
+                        },
+                        error: function(error) {
+                            alert(agentExistingRestUrl + variant + checkedValue);
+                            alert("An error occured! Please check your connexion");
+                            reject(error);
+                            //$.unblockUI();
+                        }
+                    });
+                });
+
+                existingPromise.then((value) => {
+                    //alert(errorMsg);
+                    if (value) {
+                        errorMsgElmt.text(errorMsg);
+                        errorMsgElmt.show("slow");
+                        //alert(errorMsgElmt.css("display"));
+                        //$("#btn-valider").attr("disabled", "disabled");
+                    } else {
+                        errorMsgElmt.hide("slow");
+                        errorMsgElmt.css("display", "none");
+                    }
+                    switchOnOffBtnValider();
+                    //alert(errorMsgElmt.text());
+                    //return value;
+
+                }).catch((value) => {
+
+                });
+            }
+        </script>
+    </div>
+</body>
+
 </html>
