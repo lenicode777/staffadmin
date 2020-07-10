@@ -60,6 +60,8 @@ public class Agent
 	private Emploi emploi = new Emploi();
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_GRADE")
 	private Grade grade = new Grade();
+	@ManyToOne @JoinColumn(name = "ID_TUTELLE_DIRECT")
+	private UniteAdministrative tutelleDirecte;
 	
 	@Column(length = 15)
 	private String situationPresence;
