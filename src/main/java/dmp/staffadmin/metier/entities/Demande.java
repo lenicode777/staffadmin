@@ -3,10 +3,14 @@ package dmp.staffadmin.metier.entities;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,9 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity @Inheritance(strategy = InheritanceType.JOINED) @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "TYPE_DMDE")
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Demande 
+public abstract class Demande 
 {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idDmde;
@@ -25,11 +29,6 @@ public class Demande
 	private String statutDmde;
 	@ManyToOne @JoinColumn(name = "ID_AGENT")
 	private Agent demandeur;
-	@ManyToOne @JoinColumn(name = "ID_TYPE_DEMANDE")
-	private TypeDmde typeDmde;
-	private int duree;
-	private Date dateDebut;
-	private Date dateFin;
 	@OneToMany(mappedBy = "demande")
 	private Collection<Decision> decision;
 }
