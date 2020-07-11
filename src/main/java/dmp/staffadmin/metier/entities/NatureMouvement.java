@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class NatureMouvement 
+public class NatureMouvement
 {
 	@Id @GeneratedValue
 	private Long idNatureMouvement;

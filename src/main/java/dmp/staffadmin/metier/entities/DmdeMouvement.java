@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 
 @Entity @DiscriminatorValue(value = "DEMANDE_AFFECTATION")
 @Data @NoArgsConstructor @AllArgsConstructor
-public class DmdeMouvement extends Demande
+public class DmdeMouvement extends Dmde
 {
 	@ManyToOne @JoinColumn(name = "ID_NATURE_MOUVEMENT")
 	private NatureMouvement natureMouvement;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_DESTINATION")
-	private UniteAdministrative destination;
+	private UniteAdmin destination;
 }

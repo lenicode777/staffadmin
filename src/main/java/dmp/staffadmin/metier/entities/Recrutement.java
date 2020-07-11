@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +29,10 @@ public class Recrutement
 	private Date dateSignatureCertificatServiceDmp;
 	private Date dateSignatureCertificatServiceDGBF;
 	private Date dateSignatureCertificatServiceDAF;
+	private String ficheEnregistrementPath;
+	@Transient private MultipartFile ficheEnregistrementFile;
+	private String ficheRecrutementPath;
+	@Transient private MultipartFile ficheRecrutementFile;
 	@OneToOne @JoinColumn(name = "ID_AGENT")
 	private Agent agent;
 }

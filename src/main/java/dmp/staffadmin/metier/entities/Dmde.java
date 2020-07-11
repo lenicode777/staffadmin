@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 
 @Entity @Inheritance(strategy = InheritanceType.JOINED) @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "TYPE_DMDE")
 @Data @AllArgsConstructor @NoArgsConstructor
-public abstract class Demande 
+public abstract class Dmde 
 {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idDmde;

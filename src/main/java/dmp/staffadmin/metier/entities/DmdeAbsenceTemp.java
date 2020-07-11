@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 
 @Entity @DiscriminatorValue(value = "DEMANDE_ABSENCE_TEMP") 
 @Data @NoArgsConstructor @AllArgsConstructor
-public class DmdeAbsenceTemp extends Demande
+public class DmdeAbsenceTemp extends Dmde
 {
 	@ManyToOne @JoinColumn(name = "ID_NATURE_ABSENCE")
 	private NatureAbsenceTemp natureAbsenceDmdeTemp;

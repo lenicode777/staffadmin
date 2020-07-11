@@ -20,7 +20,7 @@ public class Decision
 	private boolean verdict;
 	private String motif;
 	@ManyToOne @JoinColumn(name="ID_DEMANDE")
-	private Demande demande;
+	private Dmde demande;
 	@ManyToOne @JoinColumn(name="ID_USER")
 	private User user;
 }

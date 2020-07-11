@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity(name = "type_ua") //@Table(name = "type_ua")
-public class TypeUA 
+public class TypeUniteAdmin 
 {
 	@Id @GeneratedValue
 	private Long idUA;
 	private String typeUA;
 	private int administrativeLevel;
 	@OneToMany(mappedBy = "typeUA", fetch = FetchType.LAZY)
-	private List<UniteAdministrative> UAs;
+	private List<UniteAdmin> UAs;
 }

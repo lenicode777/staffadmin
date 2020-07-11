@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity
-public class UniteAdministrative 
+public class UniteAdmin 
 {
 	@Id @GeneratedValue
 	private Long idAdmin;
@@ -40,40 +40,40 @@ public class UniteAdministrative
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
 	private List<Agent> personnel;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECTE")
-	private UniteAdministrative tutelleDirecte;
+	private UniteAdmin tutelleDirecte;
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
-	private List<UniteAdministrative> UASousTutelle;
+	private List<UniteAdmin> UASousTutelle;
 	@ManyToOne() @JoinColumn(name="ID_TYPE_UA")
-	private TypeUA typeUA;
+	private TypeUniteAdmin typeUA;
 	private String ficheTechPath;
 	@Transient
 	private MultipartFile ficheTechFile;
 	
-	public UniteAdministrative ajouterUA(UniteAdministrative ua)
+	public UniteAdmin ajouterUA(UniteAdmin ua)
 	{
 		UASousTutelle.add(ua);
 		return this;
 	}
 	
-	public UniteAdministrative retirerUA(UniteAdministrative ua)
+	public UniteAdmin retirerUA(UniteAdmin ua)
 	{
 		UASousTutelle.remove(ua);
 		return this;
 	}
 	
-	public UniteAdministrative ajouterAgent(Agent a)
+	public UniteAdmin ajouterAgent(Agent a)
 	{
 		personnel.add(a);
 		return this;
 	}
 	
-	public UniteAdministrative retirerAgent(Agent a)
+	public UniteAdmin retirerAgent(Agent a)
 	{
 		personnel.remove(a);
 		return this;
 	}
 	
-	public UniteAdministrative changerResponsable(Agent newResponsable)
+	public UniteAdmin changerResponsable(Agent newResponsable)
 	{
 		this.responsable = newResponsable;
 		return this;
