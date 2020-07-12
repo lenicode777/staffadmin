@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
+import dmp.staffadmin.metier.validation.IAgentValidation;
 
 @Service
 public class AgentMetier implements IAgentMetier
 {
 	@Autowired private IAgentDao agentDao;
+	@Autowired private IAgentValidation agentValidation;
 	@Override
 	public boolean existingEmail(String email) 
 	{
@@ -38,27 +41,53 @@ public class AgentMetier implements IAgentMetier
 	}
 
 	@Override
-	public Agent save() {
-		// TODO Auto-generated method stub
+	public Agent save(Agent agent)
+	{
+		agentValidation.validate(agent);
+		agent.setActive(true);
+		return agentDao.save(agent);
+	}
+
+	@Override
+	public Agent update(Agent agent) 
+	{
+		return save(agent);
+	}
+	
+	@Override
+	public Agent update(Long agentId, Agent agentBody)
+	{
+		agentBody.setIdAgent(agentId);
+		save(agentBody);
 		return null;
 	}
 
 	@Override
-	public Agent update(Agent e) {
-		// TODO Auto-generated method stub
+	public List<Agent> findAll() 
+	{
+		return agentDao.findAll();
+	}
+
+	@Override
+	public Agent affecter(Agent agent, UniteAdmin UAdestination) 
+	{
 		return null;
 	}
 
 	@Override
-	public List<Agent> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Agent> findActive() 
+	{
+		
+		return agentDao.findByActiveTrue();
 	}
 
 	@Override
-	public Agent affecter(Agent agent) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Agent> findNoneActive() 
+	{
+		return agentDao.findByActiveFalse();
 	}
+
+
+
 
 }

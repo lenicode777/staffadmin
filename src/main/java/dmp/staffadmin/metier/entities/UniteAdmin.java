@@ -44,7 +44,7 @@ public class UniteAdmin
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
 	private List<UniteAdmin> UASousTutelle;
 	@ManyToOne() @JoinColumn(name="ID_TYPE_UA")
-	private TypeUniteAdmin typeUA;
+	private TypeUniteAdmin typeUniteAdmin;
 	private String ficheTechPath;
 	@Transient
 	private MultipartFile ficheTechFile;
