@@ -1,13 +1,17 @@
 package dmp.staffadmin.metier.services.local;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dmp.staffadmin.dao.IAgentDao;
+import dmp.staffadmin.dao.IRecrutementDao;
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.Recrutement;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.EtatRecrutement;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
 import dmp.staffadmin.metier.validation.IAgentValidation;
 
@@ -16,6 +20,7 @@ public class AgentMetier implements IAgentMetier
 {
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IAgentValidation agentValidation;
+	@Autowired private IRecrutementDao recrutementDao;
 	@Override
 	public boolean existingEmail(String email) 
 	{
@@ -48,6 +53,16 @@ public class AgentMetier implements IAgentMetier
 		return agentDao.save(agent);
 	}
 
+	@Override
+	public Recrutement recruter(Agent agent)
+	{
+		Recrutement recrutement = new Recrutement();
+		save(agent);
+		recrutement.setAgent(agent);
+		recrutement.setDateEnregistrementAgent(new Date());
+		recrutement.setStatut(EtatRecrutement.ATTENTE_MUTATION.toString());
+		return recrutementDao.save(recrutement);
+	}
 	@Override
 	public Agent update(Agent agent) 
 	{

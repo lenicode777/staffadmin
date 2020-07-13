@@ -19,6 +19,7 @@ import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Emploi;
 import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
+import dmp.staffadmin.metier.interfaces.IAgentMetier;
 
 @Controller
 public class AgentController 
@@ -27,6 +28,7 @@ public class AgentController
 	@Autowired private IFonctionDao fonctionDao;
 	@Autowired private IGradeDao gradeDao;
 	@Autowired private IAgentDao agentDao;
+	@Autowired private IAgentMetier agentMetier;
 	
 	@GetMapping(path ="/saf/frm-agent")
 	public String goToFormAgent(Model model)
@@ -62,10 +64,48 @@ public class AgentController
 	@PostMapping(path = "/agents/save")
 	public String saveNewAgent(Model model, Agent agent, String nomEmploi, String  nomFonction, String  nomGrade, BindingResult bindingResult)
 	{
-		agent.setEmploi( emploiDao.findByNomEmploi(nomEmploi).get(0));
-		agent.setFonction(fonctionDao.findByNomFonction(nomFonction).get(0));
-		agent.setGrade(gradeDao.findByNomGrade(nomGrade).get(0));
-		agentDao.save(agent);
+		System.out.println("========================================");
+		System.out.println(agent.getEmploi().getNomEmploi());
+		System.out.println("========================================");
+		
+		//agent.setEmploi( emploiDao.findByNomEmploi(nomEmploi).get(0));
+		//agent.setFonction(fonctionDao.findByNomFonction(nomFonction).get(0));
+		//agent.setGrade(gradeDao.findByNomGrade(nomGrade).get(0));
+		//System.out.println(agent);
+		
+		try 
+		{
+			agentMetier.recruter(agent);
+		} 
+		catch (RuntimeException e) 
+		{
+
+			
+			List<Emploi> emplois = emploiDao.findAll();
+			List<Fonction> fonctions = fonctionDao.findAll();
+			List<Grade> grades = gradeDao.findAll();
+			
+			nomEmploi = agent.getEmploi().getNomEmploi();
+			nomFonction = agent.getFonction().getNomFonction();
+			nomGrade = agent.getGrade().getNomGrade();
+
+			Map modelAttributes = new HashMap<>();
+			agent.setEmploi(new Emploi());
+			agent.setFonction(new Fonction());
+			agent.setGrade(new Grade());
+			
+			modelAttributes.put("agent", agent);
+			modelAttributes.put("emplois", emploiDao.findAll());
+			modelAttributes.put("fonctions", fonctionDao.findAll());
+			modelAttributes.put("grades", gradeDao.findAll());
+			modelAttributes.put("nomEmploi", nomEmploi);
+			modelAttributes.put("nomFonction", nomFonction);
+			modelAttributes.put("nomGrade", nomGrade);
+			model.addAllAttributes(modelAttributes);
+			model.addAttribute("errorMsg", e.getMessage());
+			//e.printStackTrace();
+			return "agent/frm/frm-agent";
+		}
 		return "redirect:/";
 	}
 }

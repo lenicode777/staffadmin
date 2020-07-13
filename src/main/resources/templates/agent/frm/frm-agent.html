@@ -46,6 +46,11 @@
     <div layout:fragment="content">
         <div class="container-fluid">
             <form id="frm-agent" th:action="@{/agents/save}" method="post" enctype="multipart/form-data">
+                <div class="alert alert-danger col-lg-12 mb-3" th:if="${errorMsg}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Erreur de saisie : </strong> 
+                    <div th:text="${errorMsg}"></div>
+                </div>
                 <th:block th:replace="agent/frm/infos-generales-frag.html::infos-generales-frag"></th:block>
                 <th:block th:replace="agent/frm/infos-emploi-frag.html::infos-emploi-frag"></th:block>
                 <th:block th:replace="agent/frm/pieces-jointes-frag.html::pieces-jointes-frag"></th:block>
@@ -64,6 +69,11 @@
         <script src="lib/jquery/JQueryBolckUI.js"></script>
 
         <script>
+            var today = new Date();
+            var dateNaissMin = new Date(); 
+            var dateNaissMax = new Date(); 
+            var datePriseService1Min = new Date(); 
+            var datePriseService1Max = new Date(); 
             var frmAgent = $("#frm-agent");
             var txtEmail = $("#email");
             var txtNumPiece = $("#numPiece");
@@ -71,6 +81,19 @@
             var txtMatricule = $("#matricule");
             var agentExistingRestUrl = "http://localhost:8081/staffadmin/exists/";
 
+            datePriseService1Min.setYear(today.getYear() - 50 + 1900);
+            datePriseService1Max = today;
+
+            dateNaissMin.setYear(today.getYear() -80 +1900);
+            dateNaissMax.setYear(today.getYear() -18 +1900);
+
+            function getDateDefaultFormat(date) //dd/mm/yyyy
+            {
+                return date.getDate() + "/" +(date.getMonth()+1)+"/"+(date.getYear()+1900);
+            }
+            
+            checkDate("dateNaissance", dateNaissMin, dateNaissMax, " * "+getDateDefaultFormat(dateNaissMin)+" < date < "+getDateDefaultFormat(dateNaissMax), "dateNaissance-error-msg");
+            checkDate("datePriseService1", dateNaissMin, dateNaissMax, " * "+getDateDefaultFormat(datePriseService1Min)+" < date < "+getDateDefaultFormat(datePriseService1Max), "datePriseService1-error-msg");
 
             $("#btn-valider").click(function(e) {
                 if (!frmAgent[0].checkValidity()) {
@@ -96,34 +119,84 @@
                 unicityChecking("tel/", txtTel, e.target.value, $("#tel-error-msg"), "*Tel déjà utilisé");
             });
 
-            function switchOnOffBtnValider() {
-                if ($("#email-error-msg").css("display") != "none" || $("#numPiece-error-msg").css("display") != "none" ||
-                    $("#tel-error-msg").css("display") != "none" || $("#matricule-error-msg").css("display") != "none") {
+            function switchOnOffBtnValider() 
+            {
+                if (
+                        $("#email-error-msg").css("display") != "none" || $("#numPiece-error-msg").css("display") != "none" ||
+                        $("#tel-error-msg").css("display") != "none" || $("#matricule-error-msg").css("display") != "none" ||
+                        $("#dateNaissance-error-msg").css("display") != "none" || $("#datePriseService1-error-msg").css("display") != "none"
+                    ) 
+                {
                     $("#btn-valider").attr("disabled", "disabled");
-                } else {
+                }
+                else 
+                {
                     $("#btn-valider").removeAttr("disabled");
                 }
             }
 
-            function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, errorMsg) {
-                const existingPromise = new Promise((resolve, reject) => {
-                    //document).block();
-                    //$().blockUI();
-                    $.ajax({
-                        type: "get",
-                        url: agentExistingRestUrl + variant + checkedValue,
-                        success: function(response) {
-                            resolve(response);
-                            //$.unblockUI();
-                        },
-                        error: function(error) {
-                            alert(agentExistingRestUrl + variant + checkedValue);
-                            alert("An error occured! Please check your connexion");
-                            reject(error);
-                            //$.unblockUI();
-                        }
-                    });
+            function checkDate(inputDateId, dateMin, dateMax, errorMsg, errorMsgId)
+            {
+                $("#"+inputDateId).blur(function ()
+                {
+                    var checkedDate = new Date(this.value);
+                    if(checkedDate < dateMin || checkedDate > dateMax)
+                    {
+                        $("#"+errorMsgId).text(errorMsg);
+                        $("#"+errorMsgId).show("slow");                        
+                    }
+                    else
+                    {
+                        $("#"+errorMsgId).hide("slow");
+                        $("#"+errorMsgId).css("display","none");
+                    }
+                    switchOnOffBtnValider();
                 });
+            }
+            /*
+            $("#dateNaissance").blur(function () 
+            { 
+                var dateNaissance = new Date(this.value);
+                var today = new Date();
+                var maxDateNaiss = new Date();
+                maxDateNaiss.setYear(today.getYear() -20 +1900);
+                if(maxDateNaiss < dateNaissance)
+                {
+                    $("#dateNaissance-error-msg").text("Trop jeune");
+                    $("#dateNaissance-error-msg").show("slow");
+                }
+                else
+                {
+                    $("#dateNaissance-error-msg").hide("slow");
+                    $("#dateNaissance-error-msg").css("display","none");
+                }
+                switchOnOffBtnValider();
+            });*/
+
+            function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, errorMsg) {
+                //alert(checkedValue);
+                if(checkedValue != null && checkedValue != "")
+                {
+                    const existingPromise = new Promise((resolve, reject) => {
+                        //document).block();
+                        //$().blockUI();
+                            $.ajax({
+                                type: "get",
+                                url: agentExistingRestUrl + variant + checkedValue,
+                                success: function(response) {
+                                    resolve(response);
+                                    //$.unblockUI();
+                                },
+                                error: function(error) {
+                                    alert(agentExistingRestUrl + variant + checkedValue);
+                                    alert("An error occured! Please check your connexion");
+                                    reject(error);
+                                    //$.unblockUI();
+                                }
+                            });
+                        
+                    });
+                }
 
                 existingPromise.then((value) => {
                     //alert(errorMsg);

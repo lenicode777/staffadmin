@@ -9,7 +9,7 @@
     <th:block th:fragment="infos-emploi-frag">
         <div class="panel panel-default">
             <div class="panel-heading"><a href="#infos-emploi" data-toggle="collapse">Informations liées à l'emploi</a></div>
-            <div class="panel-body panel-collapse collapse" id="infos-emploi">
+            <div class="panel-body panel-collapse collapse in" id="infos-emploi">
                 <div class="col col-lg-3 ">
                     <div class="form-group">
                         <label for="matricule">Matricule</label> <span class="error-msg text-danger" id="matricule-error-msg"></span>
@@ -23,6 +23,7 @@
                         <select name="nomFonction" id="fonction" class="form-control" required="required" th:value="${nomFonction}">
                                 <option ></option>
                                 <option th:each="f:${fonctions}" th:value="${f.nomFonction}" th:text="${f.nomFonction}"></option>
+
                             </select>
                     </div>
                 </div>
@@ -39,8 +40,8 @@
                 <div class="col col-lg-2">
                     <div class="form-group">
                         <label for="datePriseService1">1ère prise de service</label>
-                        <span class="error-msg text-danger" id="datePriseService1-error-msg"></span>
                         <input type="date" class="form-control" id="datePriseService1" name="datePriseService1" th:value="${agent.datePriseService1}" />
+                        <span class="error-msg text-danger" id="datePriseService1-error-msg"></span>
                     </div>
                 </div>
                 <div class="col col-lg-4">
@@ -48,10 +49,10 @@
                         <label for="emploi">Emploi</label>
                         <span class="error-msg text-danger" id="emploi-error-msg"></span>
 
-                        <select name="nomEmploi" id="emploi" class="form-control" required="required" th:value="${nomEmploi}">                        
+                        <select name="nomEmploi" id="emploi" class="form-control" required="required" th:value="${nomEmploi}">                    
                                 <option ></option>
                                 <option th:each="e:${emplois}" th:value="${e.nomEmploi}" th:text="${e.nomEmploi}"></option>
-                            </select>
+                        </select>
                     </div>
                 </div>
                 <script src="https:://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
