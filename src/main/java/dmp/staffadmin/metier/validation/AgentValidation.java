@@ -40,11 +40,17 @@ public class AgentValidation implements IAgentValidation
 	public void validate(Agent agent) 
 	{
 		isValideDateNaissance(agent.getDateNaissance());
+		System.out.println("1===========DATE NAISSANCE VALIDE==============");
 		isValideDatePriseService1(agent.getDatePriseService1());
-		isValideDatePriseServiceDMP(agent.getDatePriseServiceDMP());
+		System.out.println("2===========DATE DATE SERVICE1 VALIDE==============");
+		//isValideDatePriseServiceDMP(agent.getDatePriseServiceDMP());
+		//System.out.println("3===========DATE SERVICE DMP VALIDE==============");
 		isValideEmploi(agent.getEmploi().getNomEmploi());
+		System.out.println("4===========EMPLOI VALIDE==============");
 		isValideFonction(agent.getFonction().getNomFonction());
+		System.out.println("5===========FONCTION VALIDE==============");
 		isValideGrade(agent.getGrade().getNomGrade());
+		System.out.println("6===========GRADE VALIDE==============");
 	}
 
 	@Override
@@ -98,7 +104,11 @@ public class AgentValidation implements IAgentValidation
 		System.out.println("================IdEmploi = "+emploi0.getIdEmploi());
 		System.out.println("================NomEmploi = "+emploi0.getNomEmploi());
 		System.out.println();
-		if( emploiMetier.findByNom(emploi.toUpperCase()) == null ) {System.out.println("===========ECHEC VALIDATION EMPLOI==============");throw new RuntimeException("Emploi invalide");}
+		if( emploiMetier.findByNom(emploi.toUpperCase()) == null ) 
+		{
+			System.out.println("===========ECHEC VALIDATION EMPLOI==============");
+			throw new RuntimeException("Emploi invalide");
+		}
 		System.out.println("===========EMPLOI VALIDE==============");
 		return true;
 	}
@@ -106,14 +116,20 @@ public class AgentValidation implements IAgentValidation
 	@Override
 	public boolean isValideFonction(String fonction)
 	{
-		if(emploiMetier.findByNom(fonction.toUpperCase())==null ) throw new RuntimeException("Fonction invalide");
+		if(fonctionMetier.findByNom(fonction.toUpperCase())==null )
+		{
+			throw new RuntimeException("Fonction invalide");
+		}
 		return true;
 	}
 
 	@Override
 	public boolean isValideGrade(String grade)
 	{
-		if(gradeMetier.findByNom(grade.toUpperCase())==null) throw new RuntimeException("Grade invalide");
+		if(gradeMetier.findByNom(grade.toUpperCase())==null) 
+		{
+			throw new RuntimeException("Grade invalide");
+		}
 		return true;
 	}
 
