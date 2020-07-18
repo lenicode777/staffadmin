@@ -1,10 +1,13 @@
 package dmp.staffadmin.metier.services.local;
 
+import java.lang.reflect.Method;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IRecrutementDao;
@@ -14,6 +17,7 @@ import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.EtatRecrutement;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
 import dmp.staffadmin.metier.validation.IAgentValidation;
+import dmp.staffadmin.utilities.FileManager;
 
 @Service
 public class AgentMetier implements IAgentMetier
@@ -48,8 +52,20 @@ public class AgentMetier implements IAgentMetier
 	@Override
 	public Agent save(Agent agent)
 	{
+		//saveFile(MultipartFile file, Agent agent, String typeFileDir, String setStaticPAthMethodeName)
 		agentValidation.validate(agent);
 		agent.setActive(true);
+		agent=agentDao.save(agent);
+		//FileManager.store(Agent.generateFileName(agent.getMatricule(), "noteServiceDAAF"), agent.getNoteServiceDAAFFile());
+		saveFile(agent.getNoteServiceDAAFFile(), agent, "noteServiceDAAF", "setNoteServiceDAAFPath");
+		saveFile(agent.getNoteServiceDGBFFile(), agent, "noteServiceDGBF", "setNoteServiceDGBFPath");
+		saveFile(agent.getCertificatService1File(), agent, "certificatService1", "setCertificatService1Path");
+		saveFile(agent.getDecisionAttenteFile(), agent, "decisionAttente", "setDecisionAttentePath");
+		saveFile(agent.getArreteNominationFile(), agent, "arreteNomination", "setArreteNominationPath");
+		saveFile(agent.getCvFile(), agent, "cv", "setCvPath");
+		saveFile(agent.getPieceIdentiteFile(), agent, "pieceIdentite", "setPieceIdentitePath");
+		saveFile(agent.getPhotoFile(), agent, "photo", "setPhotoPath");
+		
 		return agentDao.save(agent);
 	}
 
@@ -103,6 +119,26 @@ public class AgentMetier implements IAgentMetier
 	}
 
 
+	private void saveFile(MultipartFile file, Agent agent, String typeFileDir, String setStaticPAthMethodeName)
+	{
+		//Class[] types = new Class[]{String.class};
 
+		String extension = FileManager.getFileExtension(file);
+		String staticPath = FileManager.generateStaticFileStorePath("agent", typeFileDir, typeFileDir+"_"+agent.getIdAgent(), extension);
+		String completePath = FileManager.generateFileStorePath("agent", typeFileDir, typeFileDir+"_"+agent.getIdAgent(), extension);
+		
+		//abn.setPiecePath(staticPath);
+		try 
+		{
+			Class clAgent = Class.forName("dmp.staffadmin.metier.entities.Agent");
+			Method setPathMethode = clAgent.getMethod(setStaticPAthMethodeName, new Class[]{String.class});
+			setPathMethode.invoke(agent, staticPath);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		} 
+		FileManager.store(Paths.get(completePath), file);
+	}
 
 }

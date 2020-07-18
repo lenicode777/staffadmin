@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -96,20 +97,25 @@ public class Agent
 	
 	
 	
-	@Transient private String noteServiceDAAFFile;
+	@Transient private MultipartFile noteServiceDAAFFile;
 
-	@Transient private String noteServiceDGBFFile;
+	@Transient private MultipartFile noteServiceDGBFFile;
 
-	@Transient private String certificatService1File;
+	@Transient private MultipartFile certificatService1File;
 
-	@Transient private String arreteNominationFile;
+	@Transient private MultipartFile arreteNominationFile;
 
-	@Transient private String decisionAttenteFile;
+	@Transient private MultipartFile decisionAttenteFile;
 
-	@Transient private String cvFile;
+	@Transient private MultipartFile cvFile;
 
-	@Transient private String pieceIdentiteFile;
+	@Transient private MultipartFile pieceIdentiteFile;
 
-	@Transient private String photoFile;
+	@Transient private MultipartFile photoFile;
+	
+	public static String generateFileName(String matriculeAgent, String typeFile)
+	{
+		return typeFile+matriculeAgent;
+	}
 	
 }

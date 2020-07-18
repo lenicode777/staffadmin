@@ -10,21 +10,21 @@
                     <div class="col col-lg-4">
                         <div class="form-group">
                             <label for="noteServiceDAAF">Note de service de la DAAF</label><span class="error-msg text-danger" id="noteServiceDAAF-error-msg"></span>
-                            <input type="file" class="form-control" id="noteServiceDAAF" name="noteServiceDAAF" required="required" th:value="${agent.noteServiceDAAFPath}"/>
+                            <input type="file" class="form-control" id="noteServiceDAAF" name="noteServiceDAAFFile" required="required" th:value="${agent.noteServiceDAAFFile}"/>
                         </div>
                     </div>
                     <div class="col col-lg-4">
                         <div class="form-group">
                             <label for="noteServiceDGBF">Note de service de la DGBF</label>
                             <span class="error-msg text-danger" id="noteServiceDGBF-error-msg"></span>
-                            <input type="file" class="form-control" id="noteServiceDGBF" name="noteServiceDGBF" required="required" th:value="${agent.noteServiceDGBFPath}"/>
+                            <input type="file" class="form-control" id="noteServiceDGBF" name="noteServiceDGBFFile" required="required" th:value="${agent.noteServiceDGBFFile}"/>
                         </div>
                     </div>
                     <div class="col col-lg-4">
                         <div class="form-group">
                             <label for="certificatService1">Certificat de 1ère prise de Service</label>
                             <span class="error-msg text-danger" id="certificatService1-error-msg"></span>
-                            <input type="file" class="form-control" id="certificatService1"  name="certificatService1" required="required" th:value="${agent.certificatService1Path}"/>
+                            <input type="file" class="form-control" id="certificatService1"  name="certificatService1File" required="required" th:value="${agent.certificatService1File}"/>
                         </div>                        
                     </div>
 
@@ -33,21 +33,21 @@
                         <div class="form-group">
                             <label for="arreteNomination">Arrêté de nomination</label>
                             <span class="error-msg text-danger" id="arreteNomination-error-msg"></span>
-                            <input type="file" class="form-control" id="arreteNomination" name="arreteNomination" required="required" th:value="${agent.arreteNominationPath}"/>
+                            <input type="file" class="form-control" id="arreteNomination" name="arreteNominationFile" required="required" th:value="${agent.arreteNominationFile}"/>
                         </div>                         
                     </div>
                     <div class="col col-lg-4">
                         <div class="form-group">
                             <label for="decisionAttente">Décision d'attente</label>
                             <span class="error-msg text-danger" id="decisionAttente-error-msg"></span>
-                            <input type="file" class="form-control" id="decisionAttente" name="decisionAttente" th:value="${agent.decisionAttentePath}"/>
+                            <input type="file" class="form-control" id="decisionAttente" name="decisionAttenteFile" th:value="${agent.decisionAttenteFile}"/>
                         </div>
                     </div>
                     <div class="col col-lg-4">
                         <div class="form-group">
                             <label for="cv">CV</label>
                             <span class="error-msg text-danger" id="cv-error-msg"></span>
-                            <input type="file" class="form-control" id="cv" name="cv" th:value="${agent.cvPath}"/>
+                            <input type="file" class="form-control" id="cv" name="cvFile" th:value="${agent.cvFile}"/>
                         </div>                        
                     </div>
 
@@ -55,14 +55,14 @@
                         <div class="form-group">
                             <label for="pieceIdentite">Pièce d'identité</label>
                             <span class="error-msg text-danger" id="pieceIdentite-error-msg"></span>
-                            <input type="file" class="form-control" id="pieceIdentite" name="pieceIdentite" th:value="${agent.pieceIdentitePath}"/>
+                            <input type="file" class="form-control" id="pieceIdentite" name="pieceIdentiteFile" th:value="${agent.pieceIdentiteFile}"/>
                         </div>                        
                     </div>
                     <div class="col col-lg-6">
                         <div class="form-group">
                             <label for="photo">Photo</label>
                             <span class="error-msg text-danger" id="photo-error-msg"></span>
-                            <input type="file" class="form-control" id="photo" name="photo" th:value="${agent.photoPath}"/>
+                            <input type="file" class="form-control" id="photo" name="photoFile" th:value="${agent.photoFile}"/>
                         </div>                        
                     </div>                    
                 </div>

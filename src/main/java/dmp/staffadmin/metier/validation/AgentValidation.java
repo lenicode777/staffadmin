@@ -1,10 +1,14 @@
 package dmp.staffadmin.metier.validation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IEmploiDao;
@@ -29,6 +33,10 @@ public class AgentValidation implements IAgentValidation
 	@Autowired private IEmploiMetier emploiMetier;
 	private DateManager dateManager = new DateManager();
 	private Date today = new Date();
+	private final List<String> imageAuthorizedTypes = Arrays.asList("image/jpeg","image/png");
+	private final List<String> docAuthorizedTypes = Arrays.asList("application/pdf", "image/jpeg","image/png");
+	private final List<String> pdfAuthorizedTypes = Arrays.asList("application/pdf");
+	private long fileMaxSize = 1000000;
 	@Override
 	public boolean isValide(Agent agent) 
 	{
@@ -51,10 +59,26 @@ public class AgentValidation implements IAgentValidation
 		System.out.println("5===========FONCTION VALIDE==============");
 		isValideGrade(agent.getGrade().getNomGrade());
 		System.out.println("6===========GRADE VALIDE==============");
+		isValidNoteServiceDAAF(agent.getNoteServiceDAAFFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("7===========NSDAAF VALIDE==============");
+		isValidNoteServiceDGBF(agent.getNoteServiceDGBFFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("8===========NSDGBF VALIDE==============");
+		isValidCertificatService1(agent.getCertificatService1File(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("9===========CS1 VALIDE==============");
+		isValidArreteNomination(agent.getArreteNominationFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("10===========ARRETE NOMINATION VALIDE==============");
+		isValidDecisionAttente(agent.getDecisionAttenteFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("11===========DECISION ATTENTE VALIDE==============");
+		isValidCv(agent.getCvFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("12===========CV VALIDE==============");
+		isValidPieceIdentite(agent.getPieceIdentiteFile(), "* Fichiers autorisé : PDF, JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);
+		System.out.println("13===========PI VALIDE==============");
+		isValidPhoto(agent.getPhotoFile(), "* Fichiers autorisé : JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);	
+		System.out.println("14===========PHOTO VALIDE==============");
 	}
-
+	
 	@Override
-	public boolean isValideDateNaissance(Date dateNaissance) 
+	public boolean isValideDateNaissance(Date dateNaissance)
 	{
 		Date dateNaissanceMax = dateManager.addDates(today, -20, Calendar.YEAR);
 		if(dateNaissance.after(dateNaissanceMax)) 
@@ -145,4 +169,67 @@ public class AgentValidation implements IAgentValidation
 		return false;
 	}
 
+	@Override
+	public boolean isValidNoteServiceDAAF(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, pdfAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidNoteServiceDGBF(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, pdfAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidCertificatService1(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, pdfAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidArreteNomination(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, pdfAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidDecisionAttente(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, pdfAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidCv(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, pdfAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidPieceIdentite(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, docAuthorizedTypes, typeErrorMsg, sizeErrorMsg);
+	}
+
+	@Override
+	public boolean isValidPhoto(MultipartFile file, String typeErrorMsg, String sizeErrorMsg) 
+	{
+		return checkFileValidity(file, imageAuthorizedTypes ,typeErrorMsg ,sizeErrorMsg);
+	}
+
+	private boolean checkFileValidity(MultipartFile file, List<String> authorizedTypes , String typeErrorMsg, String sizeErrorMsg) 
+	{
+		if(!authorizedTypes.contains(file.getContentType()))
+		{
+			System.out.println(file.getContentType());
+			throw new RuntimeException(typeErrorMsg);
+		}
+	
+		if(file.getSize() > fileMaxSize)
+		{
+			System.out.println(file.getSize());
+			throw new RuntimeException(sizeErrorMsg);
+		}
+		return true;
+	}
 }

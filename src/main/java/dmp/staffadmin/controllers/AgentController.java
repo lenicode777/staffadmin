@@ -73,6 +73,8 @@ public class AgentController
 	@PostMapping(path = "/agents/save")
 	public String saveNewAgent(Model model, Agent agent, String nomEmploi, String  nomFonction, String  nomGrade, BindingResult bindingResult)
 	{
+		//System.out.println("===================================Nom agent=============================== : " + agent.getNom());
+		System.out.println(agent.getNoteServiceDAAFFile());
 		//System.out.println("========================================");
 		//System.out.println(agent.getEmploi().getNomEmploi());
 		//System.out.println("========================================");
