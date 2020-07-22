@@ -29,7 +29,7 @@ public class UniteAdmin
 	@Id @GeneratedValue
 	private Long idAdmin;
 	private int level;
-	private String single;
+	private String sigle;
 	private String appelation;
 	private String situationGeo;
 	@Temporal(TemporalType.DATE)
@@ -42,7 +42,7 @@ public class UniteAdmin
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECTE")
 	private UniteAdmin tutelleDirecte;
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
-	private List<UniteAdmin> UASousTutelle;
+	private List<UniteAdmin> UniteAdminSousTutelle;
 	@ManyToOne() @JoinColumn(name="ID_TYPE_UA")
 	private TypeUniteAdmin typeUniteAdmin;
 	private String ficheTechPath;
@@ -51,13 +51,13 @@ public class UniteAdmin
 	
 	public UniteAdmin ajouterUA(UniteAdmin ua)
 	{
-		UASousTutelle.add(ua);
+		UniteAdminSousTutelle.add(ua);
 		return this;
 	}
 	
 	public UniteAdmin retirerUA(UniteAdmin ua)
 	{
-		UASousTutelle.remove(ua);
+		UniteAdminSousTutelle.remove(ua);
 		return this;
 	}
 	

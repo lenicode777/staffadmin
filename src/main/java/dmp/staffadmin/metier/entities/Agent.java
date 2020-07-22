@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import dmp.staffadmin.utilities.DateManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -118,4 +119,28 @@ public class Agent
 		return typeFile+matriculeAgent;
 	}
 	
+	public int getAgeRetraite()
+	{
+		if(this.getGrade().getNomGrade().startsWith("A"))
+		{
+			if(this.getGrade().getNomGrade().compareTo("A4")>=0)
+			{
+				return 65;
+			}
+			else
+			{
+				return 60;
+			}
+		}
+		else
+		{
+			return 60;
+		}
+	}
+	
+	public Date getDateDepartRetraite()
+	{
+		int ageRetraite = this.getAgeRetraite();
+		return DateManager.addYears(this.getDateNaissance(), ageRetraite);
+	}
 }

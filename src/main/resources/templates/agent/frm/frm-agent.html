@@ -65,7 +65,7 @@
         </div>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
         <script src="lib/jquery/JQueryBolckUI.js"></script>
@@ -153,12 +153,14 @@
                         if (value) 
                         {
                             errorMsgElmt.text(errorMsg);
-                            errorMsgElmt.show("slow");
+                            errorMsgElmt.show("slow");                  
+                            $("#btn-submit-modal").attr("disabled", "disabled");
                         } 
                         else 
                         {
                             errorMsgElmt.hide("slow");
                             errorMsgElmt.css("display", "none");
+                            $("#btn-submit-modal").removeAttr("disabled");
                         }
                         switchOnOffBtnValider();
                     }).catch((value) => 
@@ -215,8 +217,12 @@
                     
                 }
             }
-                                   
+            $( function()
+            {
+                $( "#confirmation-modal" ).draggable();
+            } );                  
         </script>
+        
 
         <script>//=============================================IMPLEMENTATION DE LA VALIDATION======================================
             var today = new Date();
@@ -291,7 +297,20 @@
                 } 
                 else 
                 {
-                    $("#btn-modal-trigger").trigger("click"); //Si le formulaire est valide, j'affiche la modale recapitulative
+                    const formCheckPromise = new Promise((resolve, reject)=>
+                    {
+                        resolve();
+                        $("#btn-modal-trigger").trigger("click");
+                    });
+
+                    formCheckPromise.then(()=>
+                    {
+                        txtEmail.trigger("blur");
+                        txtMatricule.trigger("blur");
+                        txtNumPiece.trigger("blur");
+                        txtTel.trigger("blur");
+                    });
+                    
                 }
             });
 

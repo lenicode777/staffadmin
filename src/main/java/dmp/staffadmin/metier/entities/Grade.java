@@ -20,5 +20,5 @@ public class Grade
 	private Long idGrade;
 	private String nomGrade;
 	@OneToMany(mappedBy = "grade")
-	private Collection<Agent> listAgents; 
+	private Collection<Agent> listAgents;
 }

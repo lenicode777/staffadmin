@@ -48,31 +48,17 @@ public class AgentValidation implements IAgentValidation
 	public void validate(Agent agent) 
 	{
 		isValideDateNaissance(agent.getDateNaissance());
-		System.out.println("1===========DATE NAISSANCE VALIDE==============");
 		isValideDatePriseService1(agent.getDatePriseService1());
-		System.out.println("2===========DATE DATE SERVICE1 VALIDE==============");
-		//isValideDatePriseServiceDMP(agent.getDatePriseServiceDMP());
-		//System.out.println("3===========DATE SERVICE DMP VALIDE==============");
 		isValideEmploi(agent.getEmploi().getNomEmploi());
-		System.out.println("4===========EMPLOI VALIDE==============");
 		isValideFonction(agent.getFonction().getNomFonction());
-		System.out.println("5===========FONCTION VALIDE==============");
 		isValideGrade(agent.getGrade().getNomGrade());
-		System.out.println("6===========GRADE VALIDE==============");
 		isValidNoteServiceDAAF(agent.getNoteServiceDAAFFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("7===========NSDAAF VALIDE==============");
 		isValidNoteServiceDGBF(agent.getNoteServiceDGBFFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("8===========NSDGBF VALIDE==============");
 		isValidCertificatService1(agent.getCertificatService1File(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("9===========CS1 VALIDE==============");
 		isValidArreteNomination(agent.getArreteNominationFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("10===========ARRETE NOMINATION VALIDE==============");
 		isValidDecisionAttente(agent.getDecisionAttenteFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("11===========DECISION ATTENTE VALIDE==============");
 		isValidCv(agent.getCvFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("12===========CV VALIDE==============");
 		isValidPieceIdentite(agent.getPieceIdentiteFile(), "* Fichiers autorisé : PDF, JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);
-		System.out.println("13===========PI VALIDE==============");
 		isValidPhoto(agent.getPhotoFile(), "* Fichiers autorisé : JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);	
 		System.out.println("14===========PHOTO VALIDE==============");
 	}
@@ -100,8 +86,7 @@ public class AgentValidation implements IAgentValidation
 		else if(datePriseService1.after(today))
 		{
 			throw new RuntimeException("La date de prise de service ne peut être ultérieur à aujourd'hui.");
-		}		
-		System.out.println("===========DatePriseService1 VALIDE==============");
+		}
 		return true;
 	}
 
@@ -109,7 +94,11 @@ public class AgentValidation implements IAgentValidation
 	public boolean isValideDatePriseServiceDMP(Date datePriseServiceDMP) 
 	{
 		System.out.println();
-		 if(isValideDatePriseService1(datePriseServiceDMP)) {System.out.println("===========DatePriseServiceDMP VALIDE==============");return true;}
+		 if(isValideDatePriseService1(datePriseServiceDMP)) 
+		 {
+			 System.out.println("===========DatePriseServiceDMP VALIDE==============");
+			 return true;
+		}
 		 else return false;
 	}
 
