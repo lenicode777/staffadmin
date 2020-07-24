@@ -10,6 +10,7 @@ import dmp.staffadmin.metier.entities.Emploi;
 import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
 import dmp.staffadmin.metier.entities.Post;
+import dmp.staffadmin.metier.entities.UniteAdmin;
 
 public interface IAgentDao extends JpaRepository<Agent, Long> 
 {
@@ -50,4 +51,5 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findBySexe(String sexe);
 	public List<Agent> findBySituationPresence(String situationPresence);
 	public List<Agent> findByStatutEmploye(String statutEmploye);
+	public List<Agent> findByTutelleDirecte(UniteAdmin tutelleDirecte);
 }

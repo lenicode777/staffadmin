@@ -5,7 +5,15 @@
     
 	<head>		
 		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
 		<style type="text/css">
+		
+			tfoot input 
+			{
+		        width: 100%;
+		        padding: 3px;
+		        box-sizing: border-box;
+	    	}
 			div.panel div.panel-heading
 			{
 				font-size: 20px;
@@ -18,69 +26,88 @@
 				color: #FF9008;
 			}
 			
-			form label
-			{
-				font-size: 20px;
-				font-weight: bolder;
-				color : black;
-			}
-			
 		</style>
 	</head>
 	<body>
         <div layout:fragment="content">
             <div class="container-fluid">
-            	<form action="#" method="POST">
-            		<th:block th:replace="agent/frm/infos-generales-frag.html::infos-generales-frag"></th:block>
-            		<th:block th:replace="agent/frm/infos-emploi-frag.html::infos-emploi-frag"></th:block>
-            		<th:block th:replace="agent/frm/pieces-jointes-frag.html::pieces-jointes-frag"></th:block>
-            		<th:block th:replace="agent/frm/confirmation-modal-frag.html::confirmation-modal-frag"></th:block>
-            		<button class="btn btn-success mr-3" id="btn-valider" type="button" data-toggle="modal" href="#confirmation-modal">Valider</button>
-            		<button class="btn btn-warning mr-3" id="btn-reset" type="reset">Reset</button>
-            	</form>
-            </div>            
-            
-        </div>
-<!--         <th:block th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block> -->
-		<script type="text/javascript">
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading">Liste du personnel</div>
+                    <div class="panel-body">
+                        <table id="tbl-list-agents" class="table table-striped display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Sexe</th>
+                                    <th>Matricule</th>
+                                    <th>Sous direction</th>
+                                    <th>Photo</th>
+                                    <th></th>
+                                </tr>                        
+                            </thead>
+                            <tbody>
+                                <tr th:each="agent : ${listAgents}">
+                                    <td th:text="${agent.nom}"></td>
+                                    <td th:text="${agent.prenom}"></td>
+                                    <td th:text="${agent.sexe}"></td>
+                                    <td th:text="${agent.matricule}"></td>
+                                    <td th:text="${agent.tutelleDirecte}"></td>
+                                    <td>
+                                    	<p class="centered"><a href="profile.html"><img th:src="${agent.photoPath}" class="img-circle" width="40" height="40"></a></p>
+                                    </td>
+									<td style="text-align: center; vertical-align: middle;">
+										<div class="btn-group">
+											<button type="button" class="btn btn-theme dropdown-toggle"
+												data-toggle="dropdown">
+												Actions <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="#"><i
+														class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
+												<li><a href="#"><i class="glyphicon glyphicon-edit"></i>
+														Modifier</a></li>
+												<li><a href="#"><i class="glyphicon glyphicon-trash">
+															Supprimer</i></a></li>
+												<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
+														Nouveau Versement</a></li>
+												<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
+														Nouvelle Commande</a></li>
+												<li class="divider"></li>
+												<li><a href="#">Separated link</a></li>
+											</ul>
+										</div>
+									</td>                                    
+                                </tr>                              
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Sexe</th>
+                                    <th>Matricule</th>
+                                    <th>Sous direction</th>
+                                    <th>Photo</th>
+                                    <th></th>
+                                </tr>                        
+                            </tfoot>                              
+                        </table>                       
+                    </div>
+                </div>
+            </div>
 
-		</script>
-	</body>
+	        	
+        </div>
+        <div layout:fragment="js-specifics-dependancies">
+        	<script type="text/javascript" src="/staffadmin/js/agent/list-agent.js"></script>
+        </div>
+        
+
+    </body>
 </html>
 
-Table with individual column search
-https://code.jquery.com/jquery-3.5.1.js
-https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js
-https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css
-<script>
-$(document).ready(function() {
-    // Setup - add a text input to each footer cell
-    $('#example tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
- 
-    // DataTable
-    var table = $('#example').DataTable({
-        initComplete: function () {
-            // Apply the search
-            this.api().columns().every( function () {
-                var that = this;
- 
-                $( 'input', this.footer() ).on( 'keyup change clear', function () {
-                    if ( that.search() !== this.value ) {
-                        that
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-        }
-    });
- 
-} );
-</script>
-<table id="example" class="display" style="width:100%">
+<!-- <table id="example" class="display" style="width:100%">
     <thead>
         <tr>
             <th>Name</th>
@@ -160,4 +187,4 @@ $(document).ready(function() {
             <th>Salary</th>
         </tr>
     </tfoot>
-</table>
+</table> -->

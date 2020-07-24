@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IEmploiDao;
 import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.IGradeDao;
+import dmp.staffadmin.dao.IUserDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Emploi;
 import dmp.staffadmin.metier.entities.Fonction;
@@ -40,10 +42,23 @@ public class AgentController
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IAgentMetier agentMetier;
 	
-	@GetMapping(path = "/respo/list-agent")
-	public String goToListAgent(Model model, User user)
+	@Autowired private IUserDao userDao;
+	
+	@GetMapping(path = "/respo/list-agents/{idUser}")
+	public String goToListAgent(Model model, @PathVariable Long idUser)
 	{
-		Agent agent = user.getAgent();
+		User user;
+		List<Agent> listAgents;
+		if(idUser == null || idUser==0)
+		{
+			listAgents = agentDao.findAll();
+		}
+		else
+		{
+			user = userDao.getOne(idUser);
+			listAgents = agentDao.findByTutelleDirecte(user.getAgent().getTutelleDirecte());
+		}
+		model.addAttribute("listAgents", listAgents);
 		return "agent/list/list-agent";
 	}
 	

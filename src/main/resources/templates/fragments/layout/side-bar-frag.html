@@ -28,13 +28,14 @@
                   <span>Mouvements du personnel</span>
                 </a>
                 <ul class="sub">
-                  <li class="sub-menu">
-                    <a href="#">Recrutement</a>
-                    <ul class="sub">
-                      <li><a href="#">Enregistrer un nouvel agent</a></li>
-                      <li><a  href="#">Liste des nouveaux agents</a></li>
-                    </ul>
-                  </li>
+                	<li><a th:href="@{/respo/list-agents/0}">Liste du personnel</a></li>
+                  	<li class="sub-menu">
+                    	<a href="#">Recrutement</a>
+                    	<ul class="sub">
+                      		<li><a th:href="@{/saf/frm-agent}">Enregistrer un nouvel agent</a></li>
+                      		<li><a  href="#">Liste des nouveaux agents</a></li>
+                    	</ul>
+                  	</li>
                   <li><a>Gérer les départs</a></li>
                   <li><a>Gérer les mouvements internes</a></li>
                 </ul>

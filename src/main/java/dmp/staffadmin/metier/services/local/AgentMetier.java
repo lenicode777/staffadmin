@@ -11,9 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IRecrutementDao;
+import dmp.staffadmin.dao.IUserDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Recrutement;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.entities.User;
 import dmp.staffadmin.metier.enumeration.EtatRecrutement;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
 import dmp.staffadmin.metier.validation.IAgentValidation;
@@ -25,6 +27,7 @@ public class AgentMetier implements IAgentMetier
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IAgentValidation agentValidation;
 	@Autowired private IRecrutementDao recrutementDao;
+	@Autowired private IUserDao userDao;
 	@Override
 	public boolean existingEmail(String email) 
 	{
@@ -74,6 +77,11 @@ public class AgentMetier implements IAgentMetier
 	{
 		Recrutement recrutement = new Recrutement();
 		save(agent);
+		User user = new User();
+		user.setAgent(agent);
+		user.setUsername();
+		user.setPassword();
+		userDao.save(user);
 		recrutement.setAgent(agent);
 		recrutement.setDateEnregistrementAgent(new Date());
 		recrutement.setStatut(EtatRecrutement.ATTENTE_MUTATION.toString());

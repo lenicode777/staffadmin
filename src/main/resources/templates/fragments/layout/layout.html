@@ -16,9 +16,11 @@
 <!--         <th:block layout:fragment="css-dependancies"></th:block> -->
         <th:block  th:replace="fragments/layout/dependancies.html::css-dependancies"></th:block>
         <!-- ============CSS DEPENDANCIES==================-->		
-        
+
 	</head>
 	<body>
+
+        	
 		<section id="content">
 			<header class="header black-bg" th:replace="fragments/layout/top-bar-frag.html::top-bar-frag"></header>
             <aside th:replace="fragments/layout/side-bar-frag.html::side-bar-frag"></aside>
@@ -40,12 +42,11 @@
             <footer class="site-footer" th:replace="fragments/layout/footer-frag.html::footer-frag"></footer>
             
         </section>
-		
-		<!-- ============JAVA SCRIPT DEPENDANCIES==================-->
-         <th:block layout:fragment="js-dependancies" th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block>         
         <!-- ============JAVA SCRIPT DEPENDANCIES==================-->
-		<script type="text/javascript">
-
-        </script>
+        <th:block layout:fragment="js-dependancies" th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block>
+        <!-- ============JAVA SCRIPT DEPENDANCIES==================-->	
+        <div layout:fragment="js-specifics-dependancies">
+        
+        </div>
 	</body>
 </html>
