@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-unite-admin-frag">
+            <form id="frm-unite-admin" th:action="@{/staffadmin/unite-admin/save}" method="post" enctype="multipart/form-data">
+                
+                <a class="btn btn-success" data-toggle="modal" href='#modal-id'>Créer une unité administrative</a>
+                <div class="modal fade" id="modal-id">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Ajout d'unité administrative</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="appelation">Appelation</label>
+                                        <input type="text" class="form-control" id="appelation" placeholder="Appelation">
+                                    </div>
+                                </div>
+                                <div class="col col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="sigle">Sigle</label>
+                                        <input type="text" class="form-control" id="sigle" placeholder="Sigle">
+                                    </div>
+                                </div>
+                                <div class="col col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="type-uniteAdmin">Type unité admin</label>
+                                        <select class="form-control" id="type-uniteAdmin">
+                                            <option>Sous-Direction</option>
+                                            <option>Direction Régionale</option>
+                                            <option>Service</option>
+                                            <option>Cellule</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="situationGeo">Situation géographique</label>
+                                        <textarea  class="form-control" id="situationGeo"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="tutelleDirecte">Structure de tutelle directe</label>
+                                        <select class="form-control" id="tutelleDirecte">
+                                            <option>DMP</option>
+                                            <option>SDSIC</option>
+                                            <option>SDESE</option>
+                                            <option>SDOFE</option>
+                                            <option>SDPO</option>
+                                            <option>SDFAT</option>
+                                            <option>SDREG</option>
+                                            <option>C2D</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="ficheTech">Fiche technique</label>
+                                        <input type="file" class="form-control-file" id="ficheTech">
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </form>
+      	</th:block>
+    </body>
+</html>

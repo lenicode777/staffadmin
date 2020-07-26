@@ -16,17 +16,17 @@ import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IEmploiDao;
 import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.IGradeDao;
-import dmp.staffadmin.dao.IUserDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Emploi;
 import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
-import dmp.staffadmin.metier.entities.User;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
 import dmp.staffadmin.metier.interfaces.IEmploiMetier;
 import dmp.staffadmin.metier.interfaces.IFonctionMetier;
 import dmp.staffadmin.metier.interfaces.IGradeMetier;
 import dmp.staffadmin.metier.services.local.EmploiMetier;
+import dmp.staffadmin.security.userdetailsservice.IUserDao;
+import dmp.staffadmin.security.userdetailsservice.User;
 
 @Controller
 public class AgentController 
@@ -120,6 +120,7 @@ public class AgentController
 		{
 			System.out.println("========================================");
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 			System.out.println("========================================");
 			
 			List<Emploi> emplois = emploiDao.findAll();

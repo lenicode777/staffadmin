@@ -1,8 +1,10 @@
-package dmp.staffadmin.metier.entities;
+package dmp.staffadmin.security.userdetailsservice;
 
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -15,7 +17,9 @@ import lombok.ToString;
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class Role
 {
-	@Id
+	@Id @GeneratedValue
+	private Long idRole;
+	@Column(unique = true, nullable = false)
 	private String role;
 	@ManyToMany(mappedBy = "roles")
 	private Collection<User> users;

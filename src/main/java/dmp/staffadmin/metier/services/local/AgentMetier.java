@@ -5,29 +5,41 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IRecrutementDao;
-import dmp.staffadmin.dao.IUserDao;
+
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Recrutement;
+
 import dmp.staffadmin.metier.entities.UniteAdmin;
-import dmp.staffadmin.metier.entities.User;
+
 import dmp.staffadmin.metier.enumeration.EtatRecrutement;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
+
 import dmp.staffadmin.metier.validation.IAgentValidation;
+import dmp.staffadmin.security.userdetailsservice.IRoleDao;
+import dmp.staffadmin.security.userdetailsservice.IUserDao;
+import dmp.staffadmin.security.userdetailsservice.IUserMetier;
+import dmp.staffadmin.security.userdetailsservice.Role;
+import dmp.staffadmin.security.userdetailsservice.User;
 import dmp.staffadmin.utilities.FileManager;
 
-@Service
+@Service @Transactional
 public class AgentMetier implements IAgentMetier
 {
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IAgentValidation agentValidation;
 	@Autowired private IRecrutementDao recrutementDao;
 	@Autowired private IUserDao userDao;
+	@Autowired private IUserMetier userMetier;
+	@Autowired private IRoleDao roleDao;
 	@Override
 	public boolean existingEmail(String email) 
 	{
@@ -79,9 +91,11 @@ public class AgentMetier implements IAgentMetier
 		save(agent);
 		User user = new User();
 		user.setAgent(agent);
-		user.setUsername();
-		user.setPassword();
-		userDao.save(user);
+		user.setUsername(user.generateUsername());
+		user.setPassword(user.generatePassword());
+		Role roleAgent = roleDao.findByRole("AGENT");
+		user.addRole(roleAgent);
+		userMetier.save(user);
 		recrutement.setAgent(agent);
 		recrutement.setDateEnregistrementAgent(new Date());
 		recrutement.setStatut(EtatRecrutement.ATTENTE_MUTATION.toString());

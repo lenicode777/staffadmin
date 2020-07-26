@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+        
+		<th:block th:fragment="list-unites-admins-frag">
+        	<div class="panel panel-default mt-3">
+            	<div class="panel-heading"><a href="#pieces-jointes" data-toggle="collapse">Liste du personnel par unité d'administration</a></div>
+                <div class="panel-body panel-collapse collapse in" id="pieces-jointes">
+                    <h1>List</h1>
+                    <div id="unite-admin-tree"></div>
+                </div>
+       		</div>
+      	</th:block>
+    </body>
+</html>
