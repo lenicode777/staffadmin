@@ -5,8 +5,10 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <style type="text/css">
-        div.panel div.panel-heading {
+        div.panel div.panel-heading 
+        {
             font-size: 20px;
             font-weight: bolder;
         }
@@ -18,7 +20,8 @@
             color: #FF9008;
         }
         
-        form label {
+        form label 
+        {
             font-size: 15px;
             font-weight: bolder;
             color: black;
@@ -33,13 +36,31 @@
         }
         
         #btn-modal-trigger,
-        #btn-submit {
+        #btn-submit 
+        {
             display: none;
         }
         
-        .form-group .error-msg {
+        .form-group .error-msg 
+        {
             position: relative;
             margin-left: 0px;
+        }
+        
+        .ml-20
+        {
+        	margin-left: 20px;
+        }
+        
+        .sub-admin-3
+        {
+        	font-size: 16px;
+        }
+        .btn-subadmin
+        {
+        	float: right;
+        	color: white;
+        	font-weight: bolder;
         }
     </style>
 </head>
@@ -56,9 +77,20 @@
         <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
         <script src="/lib/jquery/JQueryBolckUI.js"></script>
         <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
         <script>
-            $("#unite-admin-tree").treeview({data:uniteAdminDatas});
+           /* $.ajax(
+            {
+                type: "GET",
+                url: "http://localhost:8081/staffadmin/unites-admins/toString",
+                success: function (response) 
+                {
+                    alert(response);
+                    $("#unite-admin-tree").treeview({data:response});
+                }
+            });*/
+            
         </script>
     </div>
 </body>

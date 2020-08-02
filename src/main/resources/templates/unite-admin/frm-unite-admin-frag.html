@@ -3,76 +3,67 @@
     <head><meta charset="UTF-8"/></head>
     <body>
 		<th:block th:fragment="frm-unite-admin-frag">
-            <form id="frm-unite-admin" th:action="@{/staffadmin/unite-admin/save}" method="post" enctype="multipart/form-data">
-                
-                <a class="btn btn-success" data-toggle="modal" href='#modal-id'>Créer une unité administrative</a>
+            <form id="frm-unite-admin" th:object="${uniteAdmin}" th:action="@{/staffadmin/saf/unite-admin/save}" method="post" enctype="multipart/form-data">
+                <a class="btn btn-success mb-3" data-toggle="modal" href='#modal-id' data-backdrop="static" data-keyboard="false">Créer une unité administrative</a>
                 <div class="modal fade" id="modal-id">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h4 class="modal-title">Ajout d'unité administrative</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="col col-md-12 col-sm-12">
+                                
                                     <div class="form-group">
                                         <label for="appelation">Appelation</label>
-                                        <input type="text" class="form-control" id="appelation" placeholder="Appelation">
+                                        <input th:field="*{appelation}" type="text" class="form-control" id="appelation" placeholder="Appelation">
                                     </div>
-                                </div>
-                                <div class="col col-md-12 col-sm-12">
+                                
+                                
                                     <div class="form-group">
                                         <label for="sigle">Sigle</label>
-                                        <input type="text" class="form-control" id="sigle" placeholder="Sigle">
+                                        <input th:field="*{sigle}" type="text" class="form-control" id="sigle" placeholder="Sigle">
                                     </div>
-                                </div>
-                                <div class="col col-md-12 col-sm-12">
+                                
+                                
                                     <div class="form-group">
-                                        <label for="type-uniteAdmin">Type unité admin</label>
-                                        <select class="form-control" id="type-uniteAdmin">
-                                            <option>Sous-Direction</option>
-                                            <option>Direction Régionale</option>
-                                            <option>Service</option>
-                                            <option>Cellule</option>
+                                        <label for="idTypeUniteAdmin">Type unité admin</label>
+                                        <select th:field="*{typeUniteAdmin.idTypeUniteAdmin}" class="form-control" id="idTypeUniteAdmin">
+                                            <option value="0" ></option>
+                                            <option th:each="typeUniteAdmin : ${typesUniteAdmins}" th:text="${typeUniteAdmin.nomTypeUniteAdmin}" th:value="${typeUniteAdmin.idTypeUniteAdmin}"></option>
                                         </select>
                                     </div>
-                                </div>
+                                
 
-                                <div class="col col-md-12 col-sm-12">
+                                
                                     <div class="form-group">
                                         <label for="situationGeo">Situation géographique</label>
-                                        <textarea  class="form-control" id="situationGeo"></textarea>
+                                        <textarea th:field="*{situationGeo}"  class="form-control" id="situationGeo"></textarea>
                                     </div>
-                                </div>
-                                <div class="col col-md-12 col-sm-12">
+                                
+                                
                                     <div class="form-group">
-                                        <label for="tutelleDirecte">Structure de tutelle directe</label>
-                                        <select class="form-control" id="tutelleDirecte">
-                                            <option>DMP</option>
-                                            <option>SDSIC</option>
-                                            <option>SDESE</option>
-                                            <option>SDOFE</option>
-                                            <option>SDPO</option>
-                                            <option>SDFAT</option>
-                                            <option>SDREG</option>
-                                            <option>C2D</option>
+                                        <label for="idTutelleDirecte">Structure de tutelle directe</label>
+                                        <select th:field="*{tutelleDirecte.idUniteAdmin}" class="form-control" id="idTutelleDirecte" style="width: 100%;">
+                                            <option value="0"></option>
+                                            <option th:each="ua:${unitesAdmins}" th:value="${ua.idUniteAdmin}" th:text="${ua.sigle}"></option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col col-md-12 col-sm-12">
+                               
+                               
                                     <div class="form-group">
                                         <label for="ficheTech">Fiche technique</label>
-                                        <input type="file" class="form-control-file" id="ficheTech">
+                                        <input name="ficheTechFile" th:value="${uniteAdmin.ficheTechFile}"  type="file" class="form-control-file" id="ficheTech">
                                     </div>
-                                </div>                                
+                               
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
-                </div>   
+                </div>
             </form>
       	</th:block>
     </body>

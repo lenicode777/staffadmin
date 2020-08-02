@@ -32,12 +32,12 @@
                   	<li class="sub-menu">
                     	<a href="#">Recrutement</a>
                     	<ul class="sub">
-                      		<li><a th:href="@{/saf/frm-agent}">Enregistrer un nouvel agent</a></li>
+                      		<li><a th:href="@{/saf/frm-agent}">Enregistrer un nouvel agent</a> </li>
                       		<li><a  href="#">Liste des nouveaux agents</a></li>
                     	</ul>
                   	</li>
-                  <li><a>Gérer les départs</a></li>
-                  <li><a>Gérer les mouvements internes</a></li>
+                  	<li><a>Gérer les départs</a></li>
+                  	<li><a>Gérer les mouvements internes</a></li>
                 </ul>
               </li>
 
@@ -53,9 +53,9 @@
               </li>    
               
               <li class="sub-menu">
-                <a href="#">
-                  <i class="fa fa-users"></i>
-                  <span>Congés et absence</span>
+              	<a href="#">
+                	<i class="fa fa-users"></i>
+                  	<span>Congés et absence</span>
                 </a>
    				<ul class="sub">
    					<li><a>Congés</a></li>
@@ -76,13 +76,23 @@
    				</ul>
               </li>              
                 
-                
+              <li class="sub-menu">
+                <a href="javascript:;">
+                  <i class="fa fa-cogs"></i>
+                  <span>Administration </span>
+                 </a>
+				        <ul class="sub">
+                  <li><a th:href="@{/sataffadmin/respo/unites-admins}">Liste SD/DR</a></li>
+                  <li><a href="#">Créer une unité administrative</a></li>
+                </ul>                 
+              </li>
+              
               <li class="sub-menu">
                 <a href="javascript:;">
                   <i class="fa fa-cogs"></i>
                   <span>Commandes </span>
                  </a>
-				<ul class="sub">
+				        <ul class="sub">
                   <li><a href="grids.html">Grids</a></li>
                   <li><a href="calendar.html">Calendar</a></li>
                   <li><a href="gallery.html">Gallery</a></li>
@@ -91,7 +101,6 @@
                   <li><a href="inline_editor.html">Inline Editor</a></li>
                   <li><a href="file_upload.html">Multiple File Upload</a></li>
                 </ul>                 
-   
               </li>
                 
                 

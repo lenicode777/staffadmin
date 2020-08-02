@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
+@Data @NoArgsConstructor @AllArgsConstructor
 public class Agent 
 {
 	//private static final long serialVersionUID = 6994365318807504839L;
@@ -142,5 +142,10 @@ public class Agent
 	{
 		int ageRetraite = this.getAgeRetraite();
 		return DateManager.addYears(this.getDateNaissance(), ageRetraite);
+	}
+	@Override
+	public String toString()
+	{
+		return this.nom + " " + this.prenom + " ("+this.matricule+ ")";
 	}
 }

@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 public class TypeUniteAdmin 
 {
 	@Id @GeneratedValue
-	private Long idUniteAdmin;
-	private String typeUniteAdmin;
+	private Long idTypeUniteAdmin;
+	private String nomTypeUniteAdmin;
 	private int administrativeLevel;
 	@OneToMany(mappedBy = "typeUniteAdmin", fetch = FetchType.LAZY)
-	private List<UniteAdmin> UniteAdmins;
+	private List<UniteAdmin> uniteAdmins;
 }

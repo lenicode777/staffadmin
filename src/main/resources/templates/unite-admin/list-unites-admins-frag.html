@@ -3,14 +3,79 @@
     <head><meta charset="UTF-8"/></head>
     <body>
         
-		<th:block th:fragment="list-unites-admins-frag">
-        	<div class="panel panel-default mt-3">
-            	<div class="panel-heading"><a href="#pieces-jointes" data-toggle="collapse">Liste du personnel par unité d'administration</a></div>
-                <div class="panel-body panel-collapse collapse in" id="pieces-jointes">
-                    <h1>List</h1>
-                    <div id="unite-admin-tree"></div>
+		<th:block th:fragment="list-unites-admins-frag">            
+            <div class="panel panel-default">
+            	<div class="panel-heading"><a href="#sces-rattaches" data-toggle="collapse">Services rattachés</a></div>
+            </div>
+            <div  id="sces-rattaches" class="panel-collapse collapse">
+                <div th:each="sr:${scesRattaches}" class="panel panel-success ml-20" style="font-size: 10px; height: 35px;">
+                	<div class="panel-heading" ><span th:text="${sr.sigle}" class="sub-admin-3"></span><button class="btn btn-subadmin orange-bg" >Voir</button></div>
                 </div>
-       		</div>
+            </div>
+            
+            <div class="panel panel-default">
+            	<div class="panel-heading"><a href="#sds" data-toggle="collapse">Sous Directions</a></div>
+            </div>
+            <div  id="sds" class="panel-collapse collapse">
+                <div th:each="sd:${sds}" class="panel panel-success ml-20">
+                	<div class="panel-heading"><a th:href="${'#list-services-sd' + sd.idUniteAdmin}" data-toggle="collapse"><span th:text="${sd.sigle}" class="sub-admin-3"></span></a> <button class="btn btn-subadmin orange-bg" >Voir</button></div>
+                	<div class="panel-body panel-collapse collapse" th:id="${'list-services-sd' + sd.idUniteAdmin}">
+                		<h3>Liste des services</h3>
+                		<table class="table table-striped table-condensed">
+                			<thead>
+                				<tr>
+                					<th>Sigle</th>
+                					<th>Appelation</th>
+                					<th>Situation géographique</th>
+                					<th>Date de création</th>
+                					<th>Responsable</th>
+                				</tr>
+                			</thead>
+                			<tbody>
+                				<tr th:each="sce:${sd.uniteAdminSousTutelle}">
+                					<td th:text="${sce.sigle}">Sigle</td>
+                					<td th:text="${sce.appelation}">Appelation</td>
+                					<td th:text="${sce.situationGeo}">Situation géographique</td>
+                					<td th:text="${sce.dateCreation}">Responsable</td>
+                					<td th:if="${sce.responsable}" th:text="${sce.responsable.nom + ' ' + sce.responsable.prenom}">Date de création</td>
+                				</tr>                			
+                			</tbody>
+                		</table>
+                	</div>
+                </div>
+            </div>    
+            
+            <div class="panel panel-default">
+            	<div class="panel-heading"><a href="#drs" data-toggle="collapse">Direction Régionales</a></div>
+            </div>
+            <div  id="drs" class="panel-collapse collapse">
+                <div th:each="dr:${drs}" class="panel panel-success ml-20">
+                	<div class="panel-heading" ><a th:href="${'#list-services-sd' + dr.idUniteAdmin}" data-toggle="collapse"><span th:text="${dr.sigle}" class="sub-admin-3"></span></a> <button class="btn btn-subadmin orange-bg" >Voir</button></div>
+                	<div class="panel-body panel-collapse collapse" th:id="${'list-services-sd' + dr.idUniteAdmin}">
+                		<h1>Liste des services</h1>
+                		<table class="table table-striped table-condensed">
+                			<thead>
+                				<tr>
+                					<th>Sigle</th>
+                					<th>Appelation</th>
+                					<th>Situation géographique</th>
+                					<th>Date de création</th>
+                					<th>Responsable</th>
+                				</tr>
+                			</thead>
+                			<tbody>
+                				<tr th:each="sce:${dr.uniteAdminSousTutelle}">
+                					<td th:text="${sce.sigle}">Sigle</td>
+                					<td th:text="${sce.appelation}">Appelation</td>
+                					<td th:text="${sce.situationGeo}">Situation géographique</td>
+                					<td th:text="${sce.dateCreation}">Responsable</td>
+                					<td th:if="${sce.responsable}" th:text="${sce.responsable.nom + ' ' + sce.responsable.prenom}">Date de création</td>
+                				</tr>                			
+                			</tbody>
+                		</table>
+                	</div>                
+                </div>
+            </div>                     
       	</th:block>
     </body>
 </html>
