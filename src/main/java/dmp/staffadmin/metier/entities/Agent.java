@@ -102,7 +102,7 @@ public class Agent
 	@Column(length = 255, unique = true)
 	private String pieceIdentitePath;
 	@Column(length = 255, unique = true)
-	private String photoPath;
+	private String nomPhoto;
 	
 	
 	

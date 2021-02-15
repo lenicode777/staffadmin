@@ -69,16 +69,16 @@ public class AgentMetier implements IAgentMetier
 	{
 		//saveFile(MultipartFile file, Agent agent, String typeFileDir, String setStaticPAthMethodeName)
 		agentValidation.validate(agent);
-		agent.setActive(true);
+		agent.setActive(false);
 		if(agent.getSexe().contains("F") || agent.getSexe().contains("f"))
 		{
-			agent.setPhotoPath("inconnue.png");
+			agent.setNomPhoto("inconnue.png");
 		}
 		else 
 		{
-			agent.setPhotoPath("inconnu.jpg");
+			agent.setNomPhoto("inconnu.jpg");
 		}
-		//agent=agentDao.save(agent);
+		agent=agentDao.save(agent);
 		
 		//FileManager.store(Agent.generateFileName(agent.getMatricule(), "noteServiceDAAF"), agent.getNoteServiceDAAFFile());
 		/*saveFile(agent.getNoteServiceDAAFFile(), agent, "noteServiceDAAF", "setNoteServiceDAAFPath");
@@ -89,27 +89,30 @@ public class AgentMetier implements IAgentMetier
 		saveFile(agent.getCvFile(), agent, "cv", "setCvPath");
 		saveFile(agent.getPieceIdentiteFile(), agent, "pieceIdentite", "setPieceIdentitePath");
 		saveFile(agent.getPhotoFile(), agent, "photo", "setPhotoPath");*/
-		User user = new User();
-		user.setAgent(agent);
-		user.setActive(false);
-		user.setUsername(agent.getNom() + "_" +agent.getMatricule());
-		user.setPassword(agent.getMatricule());
-		
-		return agentDao.save(agent);
+
+		return agent;
 	}
 
 	@Override
 	public Recrutement recruter(Agent agent)
 	{
 		Recrutement recrutement = new Recrutement();
-		save(agent);
+		//save(agent);
 		User user = new User();
 		user.setAgent(agent);
-		user.setUsername(user.generateUsername());
-		user.setPassword(user.generatePassword());
+		user.setActive(true);
+		user.setUsername(agent.getNom() + "_" +agent.getMatricule());
+		user.setPassword(agent.getMatricule());
+		
 		Role roleAgent = roleDao.findByRole("AGENT");
 		user.addRole(roleAgent);
-		userMetier.save(user);
+		
+		user = userMetier.save(user);
+		
+		agent.setUser(user);
+		
+		agent = save(agent);
+		
 		recrutement.setAgent(agent);
 		recrutement.setDateEnregistrementAgent(new Date());
 		recrutement.setStatut(EtatRecrutement.ATTENTE_MUTATION.toString());

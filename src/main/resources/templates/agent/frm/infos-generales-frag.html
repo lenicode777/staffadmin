@@ -11,28 +11,28 @@
                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="nom">Nom</label> <span class="error-msg text-danger" id="nom-error-msg"></span>
-	                       <input th:value="${agent.nom}"id="nom" name="nom" class="form-control" type="text" required="required" />
+	                       <input  th:field="*{nom}" id="nom" class="form-control" type="text" required="required" />
                         </div>
                     </div>
                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="prenom">Prénom</label> <span class="error-msg text-danger" id="prenom-error-msg"></span>
-	                        <input id="prenom" name="prenom" class="form-control" type="text" required="required" th:value="${agent.prenom}"/>
+	                        <input id="prenom" class="form-control" type="text" required="required"  th:field="*{prenom}"/>
                         </div>                    
                     </div>
                     <div class="col col-lg-3">
                         <div class="form-group">
 							<label for="dateNaissance" id="lbl-dateNaissance">Date de naissance</label> <span class="error-msg text-danger" id="dateNaissance-error-msg"></span>
-	                        <input id="dateNaissance" name="dateNaissance" class="form-control" type="date" required="required" th:value="${agent.dateNaissance}"/>
+	                        <input id="dateNaissance" class="form-control" type="date" required="required"  th:field="*{dateNaissance}"/>
                         </div>                    
                     </div>
                     <div class="col col-lg-1">
                         <div class="form-group">
 							<label for="sexe">Sexe</label> <span class="error-msg text-danger" id="sexe-error-msg"></span>
-	                        <select id="sexe" name="sexe" class="form-control" required="required" th:value="${agent.sexe}">
-	                        	<option value=""></option>
-	                        	<option value="HOMME">H</option>
-	                        	<option value="FEMME">F</option>
+	                        <select id="sexe" class="form-control" required="required" th:field="*{sexe}">
+	                        	<option value="0"></option>
+	                        	<option value="M">M</option>
+	                        	<option value="FEMININ">F</option>
 	                        </select>
                         </div>                    
                     </div>  
@@ -41,28 +41,28 @@
                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="email" id="lbl-email">Email</label> <span class="error-msg text-danger" id="email-error-msg"></span>
-	                        <input id="email" name="email" class="form-control" type="email" required="required" th:value="${agent.email}"/>
+	                        <input id="email" class="form-control" type="email" required="required" th:field="*{email}"/>
                         </div>
                     </div>
                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="lieuNaissance">Lieu de naissance</label> <span class="error-msg text-danger" id="lieuNaissance-error-msg"></span>
-	                        <select id="lieuNaissance" name="lieuNaissance" class="form-control" required="required" th:value="${agent.lieuNaissance}">
-	                        	<option>ABIDJAN</option>
-	                        	<option>GRAND-LAHOU</option>
+	                        <select id="lieuNaissance" class="form-control" required="required" th:field="*{lieuNaissance}">
+	                        	<option value="ABIDJAN">ABIDJAN</option>
+	                        	<option value="GRAND-LAHOU">GRAND-LAHOU</option>
 	                        </select>
                         </div>                    
                     </div>                     
                     <div class="col col-lg-2">
                         <div class="form-group">
 							<label for="fixeBureau" id="lbl-fixeBureau">Fixe de bureau</label> <span class="error-msg text-danger" id="fixeBureau-error-msg"></span>
-	                        <input id="fixeBureau" name="fixeBureau" class="form-control" type="text" required="required" th:value="${agent.fixeBureau}"/>
+	                        <input id="fixeBureau" class="form-control" type="text" th:field="*{fixeBureau}"/>
                         </div>                    
                     </div>                    
                     <div class="col col-lg-2">
                         <div class="form-group">
 							<label for="tel" id="lbl-tel">Mobile</label> <span class="error-msg text-danger" id="tel-error-msg"></span>
-	                        <input id="tel" name="tel" class="form-control" type="tel" required="required" th:value="${agent.tel}"/>
+	                        <input id="tel" class="form-control" type="tel" required="required" th:field="*{tel}"/>
                         </div>                    
                     </div>
 
@@ -71,7 +71,7 @@
                         <div class="form-group">
                             <label for="typePiece">Type de pièce</label>
                             <span class="error-msg" id="typePiece-error-msg"></span>
-                            <select class="form-control" id="typePiece" th:value="${agent.typePiece}">
+                            <select class="form-control" id="typePiece" th:field="*{typePiece}">
                                 <option value=""></option>
                                 <option value="CNI">CNI</option>
                                 <option value="ATTESTATION D'IDENTITE">Attestation d'identité</option>
@@ -87,7 +87,7 @@
                         	<label for="numPiece" id="lbl-numPiece">N° Pièce</label> 
                             <span class="error-msg" id="numPiece-error-msg">*N° déjà utilisé</span>
                             
-                            <input id="numPiece" class="form-control" type="text" name="numPiece" required="required" th:value="${agent.numPiece}">
+                            <input id="numPiece" class="form-control" type="text" required="required" th:field="*{numPiece}">
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -96,14 +96,14 @@
                                 <label for="nomPere">Nom du père</label> 
                                 <span class="error-msg" id="nomPere-error-msg"></span>
                             </div>                            
-                            <input id="nomPere" class="form-control" type="text" name="nomPere" th:value="${agent.nomPere}">
+                            <input id="nomPere" class="form-control" type="text" th:field="*{nomPere}">
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="form-group">
                             <label for="nomMere">Nom de la mère</label> 
                             <span class="error-msg" id="nomMere-error-msg"></span>                            
-                            <input id="nomMere" class="form-control" type="text" name="nomMere" th:value="${agent.nomMere}">
+                            <input id="nomMere" class="form-control" type="text" th:field="*{nomMere}">
                         </div>
                     </div>                                   
                                       

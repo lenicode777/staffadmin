@@ -49,18 +49,29 @@ public class AgentValidation implements IAgentValidation
 	{
 		isValideDateNaissance(agent.getDateNaissance());
 		isValideDatePriseService1(agent.getDatePriseService1());
-		isValideEmploi(agent.getEmploi().getNomEmploi());
-		isValideFonction(agent.getFonction().getNomFonction());
-		isValideGrade(agent.getGrade().getNomGrade());
-		isValidNoteServiceDAAF(agent.getNoteServiceDAAFFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		isValidNoteServiceDGBF(agent.getNoteServiceDGBFFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		isValidCertificatService1(agent.getCertificatService1File(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		isValidArreteNomination(agent.getArreteNominationFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		isValidDecisionAttente(agent.getDecisionAttenteFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		isValidCv(agent.getCvFile(), "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
-		isValidPieceIdentite(agent.getPieceIdentiteFile(), "* Fichiers autorisé : PDF, JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);
-		isValidPhoto(agent.getPhotoFile(), "* Fichiers autorisé : JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);	
-		System.out.println("14===========PHOTO VALIDE==============");
+		
+//		isValideEmploi(agent.getEmploi().getNomEmploi());
+//		isValideFonction(agent.getFonction().getNomFonction());
+//		isValideGrade(agent.getGrade().getNomGrade());
+		
+		/*
+		 * isValidNoteServiceDAAF(agent.getNoteServiceDAAFFile(), "Document PDF requis",
+		 * "Taille maximale autorisée : "+fileMaxSize);
+		 * isValidNoteServiceDGBF(agent.getNoteServiceDGBFFile(), "Document PDF requis",
+		 * "Taille maximale autorisée : "+fileMaxSize);
+		 * isValidCertificatService1(agent.getCertificatService1File(),
+		 * "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		 * isValidArreteNomination(agent.getArreteNominationFile(),
+		 * "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		 * isValidDecisionAttente(agent.getDecisionAttenteFile(), "Document PDF requis",
+		 * "Taille maximale autorisée : "+fileMaxSize); isValidCv(agent.getCvFile(),
+		 * "Document PDF requis", "Taille maximale autorisée : "+fileMaxSize);
+		 * isValidPieceIdentite(agent.getPieceIdentiteFile(),
+		 * "* Fichiers autorisé : PDF, JPEG, PNG",
+		 * "Taille maximale autorisée : "+fileMaxSize);
+		 */
+		//isValidPhoto(agent.getPhotoFile(), "* Fichiers autorisé : JPEG, PNG", "Taille maximale autorisée : "+fileMaxSize);	
+		//System.out.println("14===========PHOTO VALIDE==============");
 	}
 	
 	@Override

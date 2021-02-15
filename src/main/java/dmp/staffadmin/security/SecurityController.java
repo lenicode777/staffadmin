@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dmp.staffadmin.dao.IAgentDao;
+import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
 import dmp.staffadmin.security.userdetailsservice.IUserMetier;
@@ -52,12 +53,14 @@ public class SecurityController
 		}
 		else
 		{
+			//Agent visitedAgent = agentDao.findById(idAgent).get();
 			visitedUser = agentDao.findById(idAgent).get().getUser();
+			//visitedUser.setAgent(visitedAgent);
 		}
 		
 		model.addAttribute("modelRoles", roleDao.findAll());
-		model.addAttribute("user", visitedUser);
-		model.addAttribute("displaySideMenu", visitedUser.getAgent().isActive());
+		model.addAttribute("visitedUser", visitedUser);
+		model.addAttribute("authUser", authUser);
 		//model.addAttribute("userForm", new UserForm(user, "", "", ""));
 	
 		return "user/profil";
@@ -67,12 +70,12 @@ public class SecurityController
 	public String gotoChangePassword(HttpServletRequest request, Model model)
 	{
 		String username = request.getUserPrincipal().getName();
-		User user = userDao.findByUsername(username);
-		model.addAttribute("user", user);
-		UserForm userForm = new UserForm(user, "", "", "");
+		User authUser = userDao.findByUsername(username);
+		model.addAttribute("user", authUser);
+		UserForm userForm = new UserForm(authUser, "", "", "");
 		model.addAttribute("userForm", userForm);
 		model.addAttribute("formError", null);
-		model.addAttribute("displaySideMenu", user.getAgent().isActive());
+		model.addAttribute("displaySideMenu", authUser.getAgent().isActive());
 		
 		if(userForm.getUser().getAgent()==null)
 		{

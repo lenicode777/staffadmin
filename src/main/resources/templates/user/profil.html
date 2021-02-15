@@ -16,13 +16,11 @@
         <div layout:fragment="content">
 			
 			<div style="margin-bottom: 10px;">
-				<span th:if="${#request.userPrincipal.principal.agent.idAgent == user.agent.idAgent}">
+				<span th:if="${#request.userPrincipal.principal.agent.idAgent == visitedUser.agent.idAgent}">
 					<a class="btn btn-success" style="font-weight: bolder;" type="button" th:href="@{/staffadmin/change-password}">
 						Changer votre mot de passe <i class="fa fa-key"></i>
 					</a>
 				</span>
-				<a style="font-weight: bolder;" class="btn btn-success" data-toggle="modal" href='#gestion-privilege-modal-frag'>Gérer les privilèges</a>
-
 			</div>
 			
 			<th:block th:replace="user/summary-card-frag.html::summary-card-frag"></th:block>
@@ -34,30 +32,7 @@
             <!-- <button class="btn btn-success mr-3" id="btn-modal-trigger" type="button" data-toggle="modal" href="#change-password-modal">Valider</button> -->
 
 	
-	<div class="modal fade" id="gestion-privilege-modal-frag">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Modal title</h4>
-					</div>
-					<div class="modal-body">
-						<form action="/" >
-							<ul th:each="r : ${modelRoles}">
-								<li>
-									<input type="checkbox" th:id="${r.idRole}" th:name="${r.role}" th:disabled="${r.role == 'AGENT'}" th:checked="${user.hasRole(r)}" th:value="${r.role}"/> 
-									<label th:for="${r.idRole}" th:text="${r.role}"></label>
-								</li>
-							</ul>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Valider</button>
-					</div>
-				</div>
-			</div>
-		</div>
+	
 
         </div>
 <!--         <th:block th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block> -->

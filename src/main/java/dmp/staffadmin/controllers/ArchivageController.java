@@ -52,14 +52,14 @@ public class ArchivageController
 		String fileName;
 		try 
 		{
+			
 			Class classAgent = Class.forName("dmp.staffadmin.metier.entities.Agent");
-			Method agentGetFileNameMethod = classAgent.getMethod("get"+StringUtils.capitalize(typeFichier)+"Path");
+			Method agentGetFileNameMethod = classAgent.getMethod("getNom"+StringUtils.capitalize(typeFichier));
 			fileName = (String) agentGetFileNameMethod.invoke(agent);
 			String destinationPath = System.getProperty("user.home")+"/workspace/cefive/staffadmin/docs/uploads/agent/"+typeFichier+"/"+fileName ;
 			File file = new File(destinationPath);
 			Path path = Paths.get(file.toURI());
 			return Files.readAllBytes(path);
-			//return archivageMetier.downloadFile(destinationPath);
 		} 
 		catch (Exception e) 
 		{
@@ -71,7 +71,7 @@ public class ArchivageController
 	public @ResponseBody byte[] getImage(@PathVariable(name = "idAgent") Long idAgent) throws IOException
 	{
 		Agent agent = agentDao.getOne(idAgent);
-		String nomPhoto = agent.getPhotoPath();
+		String nomPhoto = agent.getNomPhoto();
 		File file = new File(System.getProperty("user.home")+"/workspace/cefive/staffadmin/docs/uploads/agent/photo/"+nomPhoto);
 		Path path = Paths.get(file.toURI());
 		return Files.readAllBytes(path); 
@@ -98,9 +98,9 @@ public class ArchivageController
 		}
 		
 		Class classAgent = Class.forName("dmp.staffadmin.metier.entities.Agent");
-		Method agentSetFileNameMethod = classAgent.getMethod("set"+StringUtils.capitalize(typeFichier)+"Path", String.class);
+		Method agentSetFileNameMethod = classAgent.getMethod("setNom"+StringUtils.capitalize(typeFichier), String.class);
 		Method agentSetFileMethod = classAgent.getMethod("set"+StringUtils.capitalize(typeFichier)+"File", MultipartFile.class);
-		Method agentGetFileNameMethod = classAgent.getMethod("get"+StringUtils.capitalize(typeFichier)+"Path");
+		Method agentGetFileNameMethod = classAgent.getMethod("getNom"+StringUtils.capitalize(typeFichier));
 		Method agentGetFileMethod = classAgent.getMethod("get"+StringUtils.capitalize(typeFichier)+"File");
 		Agent agent = agentDao.findById(idAgent).get();
 		agentSetFileNameMethod.invoke(agent, typeFichier + "_" + agent.getIdAgent() + fileExtension);
@@ -134,9 +134,9 @@ public class ArchivageController
 		}
 		
 		Class classAgent = Class.forName("dmp.staffadmin.metier.entities.Agent");
-		Method agentSetFileNameMethod = classAgent.getMethod("set"+StringUtils.capitalize(typeFichier)+"Path", String.class);
+		Method agentSetFileNameMethod = classAgent.getMethod("setNom"+StringUtils.capitalize(typeFichier), String.class);
 		Method agentSetFileMethod = classAgent.getMethod("set"+StringUtils.capitalize(typeFichier)+"File", MultipartFile.class);
-		Method agentGetFileNameMethod = classAgent.getMethod("get"+StringUtils.capitalize(typeFichier)+"Path");
+		Method agentGetFileNameMethod = classAgent.getMethod("getNom"+StringUtils.capitalize(typeFichier));
 		Method agentGetFileMethod = classAgent.getMethod("get"+StringUtils.capitalize(typeFichier)+"File");
 		Agent agent = agentDao.getOne(idAgent);
 		agentSetFileNameMethod.invoke(agent, typeFichier + "_" + agent.getIdAgent() + fileExtension);

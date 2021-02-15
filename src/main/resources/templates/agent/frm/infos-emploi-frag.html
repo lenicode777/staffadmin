@@ -10,51 +10,54 @@
         <div class="panel panel-default">
             <div class="panel-heading"><a href="#infos-emploi" data-toggle="collapse">Informations liées à l'emploi</a></div>
             <div class="panel-body panel-collapse collapse in" id="infos-emploi">
-                <div class="col col-lg-3 ">
+                <div class="col col-lg-3">
                     <div class="form-group">
                         <label for="matricule">Matricule</label> <span class="error-msg text-danger" id="matricule-error-msg"></span>
-                        <input id="matricule" name="matricule" class="form-control" type="text" th:value="${agent.matricule}" />
-                    </div>
-                </div>
-                <div class="col col-lg-2">
-                    <div class="form-group">
-                        <label for="fonction">Fonction</label>
-                        <span class="error-msg text-danger" id="fonction-error-msg"></span>
-                        <select name="nomFonction" id="fonction" class="form-control" required="required" th:value="${nomFonction}">
-                                <option ></option>
-                                <option th:each="f:${fonctions}" th:value="${f.nomFonction}" th:text="${f.nomFonction}"></option>
-
-                            </select>
-                    </div>
-                </div>
-                <div class="col col-lg-1">
-                    <div class="form-group">
-                        <label for="grade">Grade</label>
-                        <span class="error-msg text-danger" id="grade-error-msg"></span>
-                        <select name="nomGrade" id="grade" class="form-control" required="required" th:value="${nomGrade}">
-                                <option ></option>
-                                <option th:each="g:${grades}" th:value="${g.nomGrade}" th:text="${g.nomGrade}"></option>
-                            </select>
-                    </div>
-                </div>
-                <div class="col col-lg-2">
-                    <div class="form-group">
-                        <label for="datePriseService1">1ère prise de service</label>
-                        <input type="date" class="form-control" id="datePriseService1" name="datePriseService1" th:value="${agent.datePriseService1}" />
-                        <span class="error-msg text-danger" id="datePriseService1-error-msg"></span>
+                        <input id="matricule" name="matricule" class="form-control" type="text" th:field="*{matricule}" />
                     </div>
                 </div>
                 <div class="col col-lg-4">
                     <div class="form-group">
-                        <label for="emploi">Emploi</label>
-                        <span class="error-msg text-danger" id="emploi-error-msg"></span>
+                        <label for="fonction">Fonction</label>
+                        <span class="error-msg text-danger" id="fonction-error-msg"></span>
+                        <select name="nomFonction" id="fonction" class="form-control" required="required" th:field="*{fonction.idFonction}">
+                                <option value="0" ></option>
+                                <option th:each="f:${fonctions}" th:value="${f.idFonction}" th:text="${f.nomFonction}"></option>
 
-                        <select name="nomEmploi" id="emploi" class="form-control" required="required" th:value="${nomEmploi}">                    
-                                <option ></option>
-                                <option th:each="e:${emplois}" th:value="${e.nomEmploi}" th:text="${e.nomEmploi}"></option>
                         </select>
                     </div>
                 </div>
+
+                <div class="col col-lg-5">
+                    <div class="form-group">
+                        <label for="emploi">Emploi</label>
+                        <span class="error-msg text-danger" id="emploi-error-msg"></span>
+
+                        <select name="nomEmploi" id="emploi" class="form-control" required="required"  th:field="*{emploi.idEmploi}">                    
+                                <option value="0"></option>
+                                <option th:each="e:${emplois}" th:value="${e.idEmploi}" th:text="${e.nomEmploi}"></option>
+                        </select>
+                    </div>
+                </div>                
+                
+                <div class="col col-lg-3">
+                    <div class="form-group">
+                        <label for="grade">Grade</label>
+                        <span class="error-msg text-danger" id="grade-error-msg"></span>
+                        <select name="nomGrade" id="grade" class="form-control" required="required" th:field="*{grade.idGrade}">
+                                <option value="0"></option>
+                                <option th:each="g:${grades}" th:value="${g.idGrade}" th:text="${g.nomGrade}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col col-lg-4">
+                    <div class="form-group">
+                        <label for="datePriseService1">1ère prise de service</label>
+                        <input type="date" class="form-control" id="datePriseService1" name="datePriseService1" th:field="*{datePriseService1}" />
+                        <span class="error-msg text-danger" id="datePriseService1-error-msg"></span>
+                    </div>
+                </div>
+
                 <script src="https:://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
                 </script>
 

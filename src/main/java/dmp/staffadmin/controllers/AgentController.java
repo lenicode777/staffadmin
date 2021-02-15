@@ -26,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.comparator.Comparators;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -239,27 +240,31 @@ public class AgentController
 		modelAttributes.put("nomEmploi", nomEmploi);
 		modelAttributes.put("nomFonction", nomFonction);
 		modelAttributes.put("nomGrade", nomGrade);
-		
 		model.addAllAttributes(modelAttributes); */
+		
 		Agent agent = new Agent();
-		model.addAttribute("agent", agent);
+		Map modelAttributes = new HashMap<>();
+		modelAttributes.put("agent", agent);
+		modelAttributes.put("emplois", emploiDao.findAll());
+		modelAttributes.put("fonctions", fonctionDao.findAll());
+		modelAttributes.put("grades", gradeDao.findAll());
+		model.addAllAttributes(modelAttributes);
 		return "agent/frm/frm-agent";
 		//return "test";
 	}
 	
 	@PostMapping(path = "/staffadmin/agents/save")
-	public String saveNewAgent(Model model, Agent agent, String nomEmploi, String  nomFonction, String  nomGrade, BindingResult bindingResult)
+	public String saveNewAgent(Model model, @ModelAttribute Agent agent, BindingResult bindingResult)
 	{
-		//System.out.println("===================================Nom agent=============================== : " + agent.getNom());
-		System.out.println(agent.getNoteServiceDAAFFile());
-		agent.setEmploi(emploiMetier.findByNom(nomEmploi));
-		agent.setFonction(fonctionMetier.findByNom(nomFonction));
-		agent.setGrade(gradeMetier.findByNom(nomGrade));
-		try 
+		System.out.println("===================================Nom agent=============================== : " + agent.getNom());
+//		agent.setEmploi(emploiMetier.findByNom(nomEmploi));
+//		agent.setFonction(fonctionMetier.findByNom(nomFonction));
+//		agent.setGrade(gradeMetier.findByNom(nomGrade));
+		try
 		{
 			agentMetier.recruter(agent);
-		} 
-		catch (RuntimeException e) 
+		}
+		catch (RuntimeException e)
 		{
 			System.out.println("========================================");
 			System.out.println(e.getMessage());
@@ -270,26 +275,28 @@ public class AgentController
 			List<Fonction> fonctions = fonctionDao.findAll();
 			List<Grade> grades = gradeDao.findAll();
 			
-			nomEmploi = agent.getEmploi().getNomEmploi();
-			nomFonction = agent.getFonction().getNomFonction();
-			nomGrade = agent.getGrade().getNomGrade();
+//			nomEmploi = agent.getEmploi().getNomEmploi();
+//			nomFonction = agent.getFonction().getNomFonction();
+//			nomGrade = agent.getGrade().getNomGrade();
 
 			Map modelAttributes = new HashMap<>();
 			agent.setEmploi(new Emploi());
 			agent.setFonction(new Fonction());
 			agent.setGrade(new Grade());
-			
+
 			modelAttributes.put("agent", agent);
 			modelAttributes.put("emplois", emploiDao.findAll());
 			modelAttributes.put("fonctions", fonctionDao.findAll());
 			modelAttributes.put("grades", gradeDao.findAll());
-			modelAttributes.put("nomEmploi", nomEmploi);
-			modelAttributes.put("nomFonction", nomFonction);
-			modelAttributes.put("nomGrade", nomGrade);
+			
+//			modelAttributes.put("nomEmploi", nomEmploi);
+//			modelAttributes.put("nomFonction", nomFonction);
+//			modelAttributes.put("nomGrade", nomGrade);
+			
 			model.addAllAttributes(modelAttributes);
 			model.addAttribute("errorMsg", e.getMessage());
 
-			//e.printStackTrace();
+//			e.printStackTrace();
 			return "agent/frm/frm-agent";
 		}
 		return "redirect:/";
@@ -299,14 +306,14 @@ public class AgentController
 	public byte[] getPhoto(@PathVariable("idAgent") Long idAgent) throws IOException
 	{
 		Agent agent = agentDao.findById(idAgent).get();
-		return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecom/products/"+agent.getPhotoPath()));
+		return Files.readAllBytes(Paths.get(System.getProperty("user.home")+"/ecom/products/"+agent.getNomPhoto()));
 	}
 	@PostMapping(path = "uploadPhoto/{idAgent}")
 	public void uploadPhoto(@RequestParam(name = "photo") MultipartFile file, @PathVariable Long idAgent) throws IOException
 	{
 		Agent agent = agentDao.findById(idAgent).get();
-		agent.setPhotoPath(idAgent + ".jpeg");
-		Files.write(Paths.get(System.getProperty("user.home")+"/ecom/products/"+agent.getPhotoPath()), file.getBytes());
+		agent.setNomPhoto(idAgent + ".jpeg");
+		Files.write(Paths.get(System.getProperty("user.home")+"/ecom/products/"+agent.getNomPhoto()), file.getBytes());
 		agentDao.save(agent);
 	}
 }
