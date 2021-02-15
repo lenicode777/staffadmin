@@ -26,6 +26,21 @@
                     
                     <div class="row mt">
                         <div class="col-lg-12" layout:fragment="content">
+                        	<th:block th:if="${!#request.userPrincipal.principal.agent.active}">
+                                <div class="jumbotron">
+                                    <div class="container">
+                                        <h1 class="centered">Compte non actif!</h1>
+                                        <p class="centered">Veuillez changer votre mot de passe pour activer votre compte</p>
+                                        <p>
+                                            <a class="btn btn-primary btn-lg">Changer le mot de passe</a>
+                                        </p>
+                                    </div>
+                                </div>                        	
+                        	</th:block>
+                        		<div>
+                        		
+                        		</div>
+                        	</th:block>
                             <!-- ============PAGE CONTENTE==================-->        
                             <p>Place your content here.</p>
                             <!-- ============PAGE CONTENTE==================-->                            

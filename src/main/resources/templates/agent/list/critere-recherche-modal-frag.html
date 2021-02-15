@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="critere-recherche-modal-frag">
+
+			<div class="panel panel-default">
+				<div class="panel-heading" >
+					<a href="#criteres-recherche" data-toggle="collapse">Critères de recherches</a>
+					<button type="submit" class="btn btn-primary pull-right">
+						<span class="glyphicon glyphicon-search"></span>
+						 Search
+					</button>
+				</div>
+				<div class="panel-body panel-collapse collapse" id="criteres-recherche">
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title"><a href="#criteres-service" data-toggle="collapse"> Choix du Services</a> </h3>
+							</div>
+							<div class="panel-body panel-collapse collapse" id="criteres-service">
+								<label for="dg">Direction Générale</label>
+								<select name="dg" id="dg" class="form-control" required="required">
+									<option value="2">DGMP</option>
+								</select> <br/>
+
+								<label for="dc">Direction Centrale</label>
+								<select name="idDc" id="dc" class="form-control"  required="required" th:value="${formCritere.idDc}">
+									<option value="0">--</option>
+									<span th:each="dc:${listDCs}">
+										<option th:value="${dc.idUniteAdmin}" th:selected="${dc.idUniteAdmin==attrIdDc}" th:text="${dc.appellation + '(' + dc.sigle + ')'}">DGMP</option>
+										
+									</span>
+									
+								</select> <br/>
+
+								<label for="sd">SD/DR</label>
+								<select name="idSd" id="sd" class="form-control" required="required" th:value="${formCritere.idSd}">
+									<option value="0"></option>
+									<span th:if="${listSds}">
+										<span th:each="sd:${listSds}">
+											<option th:value="${sd.idUniteAdmin}" th:text="${sd.appellation + '(' + sd.sigle + ')'}" th:selected="${sd.idUniteAdmin==attrIdSd}"></option>
+										</span>
+									</span>
+								</select> <br/>
+								
+								<label for="service">Service</label>
+								<select name="idService" id="service" class="form-control" required="required" th:value="${formCritere.idService}">
+									<option value="0" ></option>
+									<span th:if="${listServices}">
+										<span th:each="service:${listServices}">
+											<option th:value="${service.idUniteAdmin}" th:text="${service.appellation + '(' + service.sigle + ')'}" th:selected="${service.idUniteAdmin==attrIdService}"></option>
+										</span>
+									</span>
+								</select>
+							</div>
+						</div>
+				   </div>
+
+				   <div class="col-md-6">
+					   
+					   <div class="panel panel-default" >
+							 <div class="panel-heading">
+								   <h3 class="panel-title"><a href="#criteres-statut" data-toggle="collapse">Critères liés au statut</a></h3>
+							 </div>
+							 <div class="panel-body panel-collapse collapse" id="criteres-statut">
+									<div class="col-md-6">
+										<label for="presence">Situation de présence</label>
+										<select name="presence" id="presence" class="form-control" required="required">
+											
+											<option value="PRESENT">PRESENT</option>
+											<option value="ABSENT">ABSENT</option>
+											<option value="ENSEMBLE">ENSEMBLE</option>
+										</select> <br/>
+
+										<label for="presence">Situation d'affectations</label>
+										<select name="presence" id="presence" class="form-control" required="required">
+											
+											<option value="AFFECTE">AFFECTE</option>
+											<option value="AFFECTE">NON AFFECTE</option>
+											<option value="ENSEMBLE">ENSEMBLE</option>
+										</select> <br/>
+
+										<label for="position">Situation de présence</label>
+										<select name="position" id="position" class="form-control" required="required">
+											
+											<option value="FONCTION">EN FONCTION</option>
+											<option value="DETTACHEMENT">EN DETTACHEMENT</option>
+											<option value="DRAPEAUX">SOUS LES DRAPEAUX</option>
+											<option value="ENSEMBLE">ENSEMBLE</option>
+										</select> <br/>
+										
+									</div>
+
+									<div class="col-md-6">
+										<label for="conge">Congé</label>
+										<select name="conge" id="conge" class="form-control" required="required">
+											
+											<option value="ENSEMBLE">ENSEMBLE</option>
+											<option value="SERVICE">EN SERVICE</option>
+											<option value="CONGE">EN CONGE</option>
+										</select> <br/>
+
+										<label for="presence">Retraite</label>
+										<select name="retraite" id="retraite" class="form-control" required="required">
+											<option value="ENSEMBLE">ENSEMBLE</option>
+											<option value="SERVICE">EN SERVICE</option>
+											<option value="RETRATE">RETRAITE</option>
+										</select> <br/>
+
+										<label for="necrologie">Nécrologie</label>
+										<select name="necrologie" id="necrologie" class="form-control" required="required">
+											<option value="ENSEMBLE">ENSEMBLE</option>
+											<option value="VIE">EN VIE</option>
+											<option value="DECEDE">DECEDE</option>
+											
+										</select> <br/>
+										
+									</div>
+
+									</div>
+							 </div>
+					   </div>
+					   
+				   </div>
+				   
+			</div>			
+			
+      	</th:block>
+    </body>
+</html>

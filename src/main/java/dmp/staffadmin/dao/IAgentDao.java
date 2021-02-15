@@ -11,6 +11,7 @@ import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
 import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.security.userdetailsservice.User;
 
 public interface IAgentDao extends JpaRepository<Agent, Long> 
 {
@@ -47,9 +48,12 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findByNomContains(String nom);
 	public List<Agent> findByPrenom(String prenom);
 	public List<Agent> findByPrenomContains(String prenom);
+	public List<Agent> findByPosition(String position);
 	public List<Agent> findByPost(Post post);
 	public List<Agent> findBySexe(String sexe);
 	public List<Agent> findBySituationPresence(String situationPresence);
 	public List<Agent> findByStatutEmploye(String statutEmploye);
 	public List<Agent> findByTutelleDirecte(UniteAdmin tutelleDirecte);
+	
+	public Agent findByUser(User user);
 }

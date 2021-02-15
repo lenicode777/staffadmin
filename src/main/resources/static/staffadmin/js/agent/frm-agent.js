@@ -13,11 +13,7 @@ function switchOnOffBtnValider() //
     if (
             $("#email-error-msg").css("display") != "none" || $("#numPiece-error-msg").css("display") != "none" ||
             $("#tel-error-msg").css("display") != "none" || $("#matricule-error-msg").css("display") != "none" ||
-            $("#dateNaissance-error-msg").css("display") != "none" || $("#datePriseService1-error-msg").css("display") != "none" ||
-            $("#noteServiceDAAF-error-msg").css("display") != "none"|| $("#noteServiceDGBF-error-msg").css("display") != "none" ||
-            $("#certificatService1-error-msg").css("display") != "none"|| $("#arreteNomination-error-msg").css("display") != "none" ||
-            $("#decisionAttente-error-msg").css("display") != "none" || $("#cv-error-msg").css("display") != "none" ||
-            $("#pieceIdentite-error-msg").css("display") != "none" || $("#photo-error-msg").css("display") != "none"
+            $("#dateNaissance-error-msg").css("display") != "none" || $("#datePriseService1-error-msg").css("display") != "none"
         ) 
     {
         $("#btn-valider").attr("disabled", "disabled");
@@ -176,7 +172,7 @@ var docTypesTable = ["application/pdf", "image/jpeg","image/png"];
 var imageTypesTable = ["image/jpeg","image/png"];
 var pdfTypesTable = ["application/pdf"];
 
-document.querySelector("#noteServiceDAAF").addEventListener("change", function()
+/*document.querySelector("#noteServiceDAAF").addEventListener("change", function()
 {
     checkInputFile(this, pdfTypesTable , "noteServiceDAAF-error-msg", " * Document PDF requis", " * Taille limite = 1Mo" );
 });
@@ -214,7 +210,7 @@ document.querySelector("#pieceIdentite").addEventListener("change", function()
 document.querySelector("#photo").addEventListener("blur", function()
 {
     checkInputFile(this, imageTypesTable , "photo-error-msg", " * Fichiers autorisé : JPEG, PNG", " * Taille limite = 1Mo" );
-});
+});*/
 
 datePriseService1Min.setYear(today.getYear() - 50 + 1900);
 datePriseService1Max = today;

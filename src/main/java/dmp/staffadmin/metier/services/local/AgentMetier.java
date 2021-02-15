@@ -70,16 +70,30 @@ public class AgentMetier implements IAgentMetier
 		//saveFile(MultipartFile file, Agent agent, String typeFileDir, String setStaticPAthMethodeName)
 		agentValidation.validate(agent);
 		agent.setActive(true);
-		agent=agentDao.save(agent);
+		if(agent.getSexe().contains("F") || agent.getSexe().contains("f"))
+		{
+			agent.setPhotoPath("inconnue.png");
+		}
+		else 
+		{
+			agent.setPhotoPath("inconnu.jpg");
+		}
+		//agent=agentDao.save(agent);
+		
 		//FileManager.store(Agent.generateFileName(agent.getMatricule(), "noteServiceDAAF"), agent.getNoteServiceDAAFFile());
-		saveFile(agent.getNoteServiceDAAFFile(), agent, "noteServiceDAAF", "setNoteServiceDAAFPath");
+		/*saveFile(agent.getNoteServiceDAAFFile(), agent, "noteServiceDAAF", "setNoteServiceDAAFPath");
 		saveFile(agent.getNoteServiceDGBFFile(), agent, "noteServiceDGBF", "setNoteServiceDGBFPath");
 		saveFile(agent.getCertificatService1File(), agent, "certificatService1", "setCertificatService1Path");
 		saveFile(agent.getDecisionAttenteFile(), agent, "decisionAttente", "setDecisionAttentePath");
 		saveFile(agent.getArreteNominationFile(), agent, "arreteNomination", "setArreteNominationPath");
 		saveFile(agent.getCvFile(), agent, "cv", "setCvPath");
 		saveFile(agent.getPieceIdentiteFile(), agent, "pieceIdentite", "setPieceIdentitePath");
-		saveFile(agent.getPhotoFile(), agent, "photo", "setPhotoPath");
+		saveFile(agent.getPhotoFile(), agent, "photo", "setPhotoPath");*/
+		User user = new User();
+		user.setAgent(agent);
+		user.setActive(false);
+		user.setUsername(agent.getNom() + "_" +agent.getMatricule());
+		user.setPassword(agent.getMatricule());
 		
 		return agentDao.save(agent);
 	}
@@ -161,6 +175,30 @@ public class AgentMetier implements IAgentMetier
 			e.printStackTrace();
 		} 
 		FileManager.store(Paths.get(completePath), file);
+	}
+
+	@Override
+	public List<Agent> findByPosition(String position) 
+	{
+		return agentDao.findByPosition(position);
+	}
+
+	@Override
+	public List<Agent> findBySexe(String sexe) 
+	{
+		return agentDao.findBySexe(sexe);
+	}
+
+	@Override
+	public List<Agent> findBySituationPresence(String situationPresence) 
+	{
+		return agentDao.findBySituationPresence(situationPresence);
+	}
+
+	@Override
+	public List<Agent> findByStatutAgent(String statutAgent) 
+	{
+		return agentDao.findByStatutEmploye(statutAgent);
 	}
 
 }

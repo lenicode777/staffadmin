@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="list-commandes-frag">
+		<div class="col col-lg-6" style="padding: 0px; margin: 0px">
+			<div class="panel green-panel" style="margin: 0px 0px 0px 5px">
+				<div class="panel-heading"><a href="#list-cmdes-body" data-toggle="collapse">Liste des commandes</a></div>
+				<div class="panel-body panel-collapse collapse" id="list-cmdes-body">
+					<button th:if="${abn.nbLotsCmdes (lt) 3}" href="#new-cmd-form" type="button" class="btn btn-success btn-lg" data-toggle="modal">Nouvelle commande</button>
+					<th:block th:replace="fragments/cmd-vers/cmd/new-cmd-modal-frag.html::new-cmd-modal-frag"></th:block>
+					
+					<table id="list-cmdes-table"
+						class="table table-striped table-condensed  table-responsive">
+						<thead>
+							<tr>
+								<th>Date de commande</th>
+								<th>nbre lots commandés</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="cmd:${cmdesAbn}">
+								<td th:text="${cmd.dateCmd}" style="vertical-align: middle;"></td>
+								<td th:text="${cmd.nbLotsCmde}" style="vertical-align: middle;"></td>
+																
+								<td style="text-align: center; vertical-align: middle;">
+									<div class="btn-group">
+										<button type="button" class="btn btn-theme dropdown-toggle"
+											data-toggle="dropdown">
+											Actions <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a th:href="@{/mucab/projets/bassam/abonne/single-abonne(idAbonne=${abn.idAbonne})}"><i
+													class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
+											<li><a href="#"><i class="glyphicon glyphicon-edit"></i>Modifier</a></li>
+											<li><a href="#"><i class="glyphicon glyphicon-trash">Supprimer</i></a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

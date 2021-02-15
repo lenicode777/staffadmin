@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="list-agent-frag">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Liste du personnel
+					<span class="pull-right" th:each="ua:${uniteAdminHierarchie}">
+						<span th:text="${ua}"></span>
+					</span>
+				</div>
+				<div class="panel-body">
+					<table id="tbl-list-agents" class="table table-striped display" style="width:100%">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Sexe</th>
+								<th>Matricule</th>
+								<th>Sous direction</th>
+								<th>Fonction</th>
+								<th>Grade</th>
+								<th>Photo</th>
+								<th>Actions</th>
+							</tr>                        
+						</thead>
+						<tbody>
+							<tr th:each="agent : ${listAgents}">
+								
+								<td th:text="${agent.nom}"></td>
+								<td th:text="${agent.prenom}"></td>
+								<td th:text="${agent.sexe}"></td>
+								<td th:text="${agent.matricule}"></td>
+								<td th:text="${agent.fonction.nomFonction}"></td>
+								<td th:text="${agent.grade.nomGrade}"></td>
+								<td th:text="${agent.tutelleDirecte}"></td>
+								<td>
+									
+									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/agents/'+${agent.idAgent}+'/photo'}" class="img-circle" width="40" height="40"></a></p>
+								</td>
+								<td style="text-align: center; vertical-align: middle;">
+									<div class="btn-group">
+										<button type="button" class="btn btn-theme dropdown-toggle"
+											data-toggle="dropdown">
+											Actions <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><i
+													class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
+											<li><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-edit"></i>
+													Modifier</a></li>
+													
+											<li><a th:href="@{/staffadmin/nominations/form(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-trash">
+														Nomination</i></a></li>
+											<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
+													Promotion</a></li>
+											<li class="divider"></li>
+											<li><a th:href="@{'/staffadmin/agents/'+${agent.idAgent}+'/archivage/'}">Separated link</a></li>
+											
+<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
+												<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
+										</ul>
+									</div>
+								</td>                                    
+							</tr>                              
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Sexe</th>
+								<th>Matricule</th>
+								<th>Sous direction</th>
+								<th>Fonction</th>
+								<th>Grade</th>
+								<th>Photo</th>
+								<th>Actions</th>
+							</tr>                        
+						</tfoot>                              
+					</table> 
+				</div>
+			</div>			
+			
+      	</th:block>
+    </body>
+</html>

@@ -11,5 +11,11 @@ public interface IAgentMetier extends IAgentExistingRestController, ICrudMetier<
 	public Agent affecter(Agent agent, UniteAdmin UAdestination);
 	public List<Agent> findActive();
 	public List<Agent> findNoneActive();
+	public List<Agent> findByPosition(String position);
+	public List<Agent> findBySexe(String sexe);
+	public List<Agent> findBySituationPresence(String situationPresence);
+	public List<Agent> findByStatutAgent(String statutAgent);
+	
 	public Recrutement recruter(Agent agent);
+	
 }

@@ -1,8 +1,10 @@
 package dmp.staffadmin.controllers;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
@@ -23,7 +26,7 @@ public class UniteAdminController
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IUniteAdminMetier uniteAdminMetier;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
-	@GetMapping(path = "/sataffadmin/respo/unites-admins")
+	@GetMapping(path = "/staffadmin/unites-admins")
 	public String goToUniteAdmin(Model model)
 	{
 		List<UniteAdmin> unitesAdmins = uniteAdminDao.findByLevelGreaterThan(2);
@@ -48,10 +51,10 @@ public class UniteAdminController
 		return "unite-admin/unite-admin";
 	}
 	
-	@PostMapping(path = "/staffadmin/saf/unite-admin/save")
+	@PostMapping(path = "/staffadmin/unite-admins/save")
 	public String saveUniteAdmin(Model model, UniteAdmin uniteAdmin)
 	{
 		uniteAdminMetier.save(uniteAdmin);
-		return "redirect:/sataffadmin/respo/unites-admins";
-	}
+		return "redirect:/sataffadmin/unites-admins";
+	}	
 }

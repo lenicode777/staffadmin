@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="infos-generales-frag">
+			    	<div class="panel-heading">
+			    		<a href="#infos-generales" data-toggle="collapse">Informations générales</a>
+			    	
+			    	</div>
+			    	<div id = "infos-generales" class="panel-body panel-collapse collapse">
+			    		<div class="col col-lg-6">
+					    	<div class="panel orange-panel">
+					    		<div class="panel-heading">
+					    			<h3 class="panel-title">Informations personnelles</h3>
+					    		</div>
+					    		<div class="list-group">
+						    		<li class="list-group-item"> Nom : <span class="badge" th:text="${abn.nom}"></span></li>
+						    		<li class="list-group-item"> Prénom : <span class="badge" th:text="${abn.prenom}"></span></li>
+						    		<li class="list-group-item"> Sexe : <span class="badge" th:text="${abn.sexe}"></span></li>
+						    		<li class="list-group-item"> Date de naissance : <span class="badge" th:text="${abn.dateNaiss}"></span></li>
+						    		<li class="list-group-item"> Lieu de naissance : <span class="badge" th:text="${abn.lieuNaiss}"></span></li>
+						    		<li class="list-group-item"> E-mail : <span class="badge" th:text="${abn.email}"></span></li>
+						    		<li class="list-group-item"> Téléphone : <span class="badge" th:text="${abn.tel}"></span></li>
+					    		</div>
+					    	</div>
+					    </div>
+					    <div class="col col-lg-6">
+					    	<div  class="panel orange-panel">
+					    		<div class="panel-heading">
+					    			<h3 class="panel-title">Informations professionnelles</h3>
+					    		</div>	
+					    		<div class="list-group">			    	
+						    		<li class="list-group-item"> Ministère : <span class="badge" th:text="${abn.nom}"></span></li>
+						    		<li class="list-group-item"> Structure : <span class="badge" th:text="${abn.prenom}"></span></li>
+						    		<li class="list-group-item"> Fonction : <span class="badge" th:text="${abn.sexe}"></span></li>
+						    		<li class="list-group-item"> Matricule : <span class="badge" th:text="${abn.dateNaiss}"></span></li>
+						    		<li class="list-group-item"> Type de pièce : <span class="badge" th:text="${abn.typePiece}"></span></li>
+						    		<li class="list-group-item"> N° de pièce : <span class="badge" th:text="${abn.numPiece}"></span></li>
+						    		<li class="list-group-item"> Type d'abonné : <span class="badge" th:text="${abn.typeAbonne}"></span></li>
+					    		</div>
+					    	</div>	
+					    </div>
+			    	</div>		    			
+	</th:block>
+
+</body>
+</html>

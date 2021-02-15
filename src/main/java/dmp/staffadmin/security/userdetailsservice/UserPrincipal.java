@@ -8,9 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import dmp.staffadmin.metier.entities.Agent;
+import lombok.Data;
+
+@Data
 public class UserPrincipal implements UserDetails
 {
 	private static final long serialVersionUID = 1L;
+	
 	private User user;
 	//@Autowired private IRoleDao roleDao;
 	
@@ -69,5 +74,10 @@ public class UserPrincipal implements UserDetails
 	public boolean isEnabled() 
 	{
 		return user.isActive();
+	}
+	
+	public Agent getAgent()
+	{
+		return user.getAgent();
 	}
 }

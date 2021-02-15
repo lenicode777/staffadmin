@@ -25,14 +25,23 @@ public class UniteAdminRestController
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IUniteAdminMetier uniteAdminMetier;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
-	@GetMapping(path = "/staffadmin/unites-admins")
+	@GetMapping(path = "/staffadmin/ajax/unites-admins")
 	public UniteAdmin getUnitesAdmins(Model model)
 	{
 		UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
 		return uniteAdminMetier.setSubAdminTree(DGBF);
 	}
 
-	@GetMapping(path = "/staffadmin/saf/frm-uniteAdmin/ajax/onTypeUniteAdminChange/{idTypeUniteAdmin}")
+	@GetMapping(path = "/staffadmin/sub-admin/{idTutelleDirecte}")
+	public List<UniteAdmin> getSubAdmin(@PathVariable Long idTutelleDirecte)
+	{
+		System.out.println("=============================================");
+		System.out.println(idTutelleDirecte);
+		System.out.println("=============================================");
+		return uniteAdminDao.findByTutelleDirecteIdUniteAdmin(idTutelleDirecte);
+	}
+	
+	@GetMapping(path = "/staffadmin/frm-uniteAdmin/ajax/onTypeUniteAdminChange/{idTypeUniteAdmin}")
 	public List<UniteAdmin> onTypeUniteAdminChange_ajax(@PathVariable Long idTypeUniteAdmin)
 	{
 		TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.getOne(idTypeUniteAdmin);

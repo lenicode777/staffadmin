@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="list-versements-frag">
+		<div class="col col-lg-6" style="padding: 0px; margin: 0px">
+			<div class="panel green-panel"  style="margin: 0px 5px 0px 0px">
+				<div class="panel-heading"><a href="#list-vers-body" data-toggle="collapse"> Liste des versements</a></div>
+				<div class="panel-body panel-collapse collapse" id="list-vers-body">
+					<button th:if="${!abn.solde}" data-toggle="modal" href="#new-vers-form" class="btn btn-success btn-lg" type="button">Nouveau versement</button>
+					
+					<th:block th:replace="fragments/cmd-vers/vers/new-versement-modal-frag.html::new-versement-modal-frag"></th:block>
+					<table id="list-vers-table"
+						class="table table-striped table-condensed  table-responsive">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Montants</th>
+								<th>Mode</th>
+								
+								<th>pièces</th>
+								<th>Actions</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="vers:${versAbn}">
+								<td th:text="${vers.dateVers}" style="vertical-align: middle;"></td>
+								<td th:text="${vers.mtVers}" style="vertical-align: middle;"></td>
+								<td th:text="${vers.modePaie}" style="vertical-align: middle;"></td>
+
+								<td style="text-align: center; vertical-align: middle;">
+									<div class="btn-group">
+										<button type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">
+											Pièces <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+<!-- 											<li><a th:href="@{/mucab/projets/bassam/abonne/single-abonne(idAbonne=${abn.idAbonne})}"><i class="glyphicon glyphicon-eye-open"></i> Voire</a></li> -->
+											<li><a href="#"><i class="glyphicon glyphicon-edit"></i>Reçu de versement</a></li>
+											<li><a href="#"><i class="glyphicon glyphicon-trash">Reçu de dépot</i></a></li>
+										</ul>
+									</div>
+								</td>			
+								
+								<td style="text-align: center; vertical-align: middle;">
+									<div class="btn-group">
+										<button type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">
+											Actions <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a th:href="@{/mucab/projets/bassam/abonne/single-abonne(idAbonne=${abn.idAbonne})}"><i class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
+											<li><a href="#"><i class="glyphicon glyphicon-edit"></i>Modifier</a></li>
+											<li><a href="#"><i class="glyphicon glyphicon-trash">Supprimer</i></a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+</body>
+</html>

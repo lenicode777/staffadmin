@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="infos-paiement-frag">
+					<div class="col col-lg-3">
+						<div class="box" style="background-color: #FF9008;">
+							<div class="box-heading"><i class="fa fa-tasks"></i> Commande</div>
+							<div class="box-body">
+								<div class="col col-lg-6" style="text-align: right;">Nombre de lots : </div>
+								<div class="col col-lg-6" style="text-align: left;" th:text="${abn.nbLotsCmdes}"></div>
+								
+								<div class="col col-lg-6" style="text-align: right;">Prix unitaire : </div>
+								<div class="col col-lg-6" style="text-align: left;" th:text="${#numbers.formatDecimal(abn.prixUnitaire, 0, 'POINT', 0, 'COMMA' )+ ' FCFA'}"></div>
+								
+								<div class="col col-lg-6" style="text-align: right;">Total : </div>
+								<div class="col col-lg-6" style="text-align: left;" th:text="${#numbers.formatDecimal(abn.totalAPayer, 0, 'POINT', 0, 'COMMA' )+ ' FCFA'}"></div>								
+							</div>
+						</div>
+					</div>
+					<div class="col col-lg-3">
+						<div class="box" style="background-color: #E89605;">
+							<div class="box-heading"><i class="fa fa-money"></i> Paiement</div>
+							<div class="box-body">
+								<div class="col col-lg-6" style="text-align: right;">Total versé : </div>
+								<div class="col col-lg-6" style="text-align: left;" th:text="${#numbers.formatDecimal(abn.totalRegle, 0, 'POINT', 0, 'COMMA' )+ ' FCFA'}"></div>
+							</div>
+						</div>
+					</div>	
+					
+					<div class="col col-lg-3">
+						<div class="box" style="background-color: #E86705;">
+							<div class="box-heading"><i class="fa fa-minus"></i>  Reste</div>
+							<div class="box-body">
+								<div class="col col-lg-6" style="text-align: right;">Reste à payer : </div>
+								<div class="col col-lg-6" style="text-align: left;" th:text="${#numbers.formatDecimal(abn.resteAPayer, 0, 'POINT', 0, 'COMMA' )+ ' FCFA'}"></div>
+								
+								<div class="col col-lg-6" style="text-align: right;">Gap de retard : </div>
+								<div class="col col-lg-6" style="text-align: left;" th:text="${#numbers.formatDecimal(abn.gapRetard, 0, 'POINT', 0, 'COMMA' )+ ' FCFA'}"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col col-lg-3">
+						<div class="box" style="background-color: #B33A02;">
+							<div class="box-heading"><i class="fa fa-picture"></i> Photo de l'abonné</div>
+							<div>
+								<img class="img-circle" width="160" th:src="${abn.photoPath}"/>
+							</div>
+						</div>
+					</div>	    			
+	</th:block>
+
+</body>
+</html>

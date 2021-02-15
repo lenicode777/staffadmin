@@ -18,6 +18,9 @@ import javax.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import dmp.staffadmin.security.userdetailsservice.User;
 import dmp.staffadmin.utilities.DateManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -56,12 +59,14 @@ public class Agent
 	private String matricule;
 	@ManyToOne(fetch = FetchType.EAGER)	@JoinColumn(name = "ID_FONCTION")
 	private Fonction fonction = new Fonction();
-	@OneToOne
+	@OneToOne @JoinColumn(name = "ID_POST")
+	@JsonIgnore
 	private Post post; 
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_EMPLOI") 
 	private Emploi emploi = new Emploi();
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_GRADE")
 	private Grade grade = new Grade();
+	private String titre;
 	@ManyToOne @JoinColumn(name = "ID_TUTELLE_DIRECT")
 	private UniteAdmin tutelleDirecte;
 	
@@ -78,6 +83,9 @@ public class Agent
 	private boolean active;
 	@OneToOne @JoinColumn(name = "ID_RECRUTEMENT")
 	private Recrutement recrutement;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	private User user;
 	
 	@Column(length = 255, unique = true)
 	private String noteServiceDAAFPath;

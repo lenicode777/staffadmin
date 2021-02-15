@@ -5,9 +5,18 @@
     
 	<head>		
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
-		<style type="text/css">
+			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<!-- 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" /> -->
 		
+<!-- 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" /> -->
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+		<!--<link rel="stylesheet" href="/static/select2-4.1.0-rc.0/dist/css/select2.min.css" /> -->
+        <style type="text/css">
+		
+			.clickable
+			{
+				cursor: pointer;
+			}
 			tfoot input 
 			{
 		        width: 100%;
@@ -31,76 +40,105 @@
 	<body>
         <div layout:fragment="content">
             <div class="container-fluid">
-                
-                <div class="panel panel-default">
-                    <div class="panel-heading">Liste du personnel</div>
-                    <div class="panel-body">
-                        <table id="tbl-list-agents" class="table table-striped display" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Sexe</th>
-                                    <th>Matricule</th>
-                                    <th>Sous direction</th>
-                                    <th>Photo</th>
-                                    <th></th>
-                                </tr>                        
-                            </thead>
-                            <tbody>
-                                <tr th:each="agent : ${listAgents}">
-                                    <td th:text="${agent.nom}"></td>
-                                    <td th:text="${agent.prenom}"></td>
-                                    <td th:text="${agent.sexe}"></td>
-                                    <td th:text="${agent.matricule}"></td>
-                                    <td th:text="${agent.tutelleDirecte}"></td>
-                                    <td>
-                                    	<p class="centered"><a href="profile.html"><img th:src="${agent.photoPath}" class="img-circle" width="40" height="40"></a></p>
-                                    </td>
-									<td style="text-align: center; vertical-align: middle;">
-										<div class="btn-group">
-											<button type="button" class="btn btn-theme dropdown-toggle"
-												data-toggle="dropdown">
-												Actions <span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu" role="menu">
-												<li><a href="#"><i
-														class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
-												<li><a href="#"><i class="glyphicon glyphicon-edit"></i>
-														Modifier</a></li>
-												<li><a href="#"><i class="glyphicon glyphicon-trash">
-															Supprimer</i></a></li>
-												<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
-														Nouveau Versement</a></li>
-												<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
-														Nouvelle Commande</a></li>
-												<li class="divider"></li>
-												<li><a href="#">Separated link</a></li>
-											</ul>
-										</div>
-									</td>                                    
-                                </tr>                              
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Sexe</th>
-                                    <th>Matricule</th>
-                                    <th>Sous direction</th>
-                                    <th>Photo</th>
-                                    <th></th>
-                                </tr>                        
-                            </tfoot>                              
-                        </table>                       
-                    </div>
-                </div>
+            	<form th:action="@{/staffadmin/agents/search}" method="get">
+                	<th:block th:replace="agent/list/critere-recherche-modal-frag.html::critere-recherche-modal-frag"></th:block>
+                </form>
+                <th:block th:replace="agent/list/list-agent-frag.html::list-agent-frag"></th:block>
             </div>
-
-	        	
+            
+                
         </div>
+
+   
         <div layout:fragment="js-specifics-dependancies">
-        	<script type="text/javascript" src="/staffadmin/js/agent/list-agent.js"></script>
+<!--         	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+        	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<!--    <script type="text/javascript" src="/staffadmin/js/agent/list-agent.js"></script> -->
+	<!--    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> -->
+	        <script src="/lib/jquery/JQueryBolckUI.js"></script>
+	        <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+<!-- 			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> -->
+
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        
+        <script type="text/javascript">
+	        $(document).ready(function() 
+	    	{
+		    	//alert("JQ TABLE");
+	            $('#tbl-list-agents').DataTable();
+	        } );
+        
+            	//alert('Hello');
+            $(".clickable").click(function(e)
+            {
+                 //alert("CLICK");
+            });
+            
+			$("#dc").change(function (e) 
+			{ 
+			    //alert('Hello value = ' +this.value);
+			    $.ajax({
+			        type: "get",
+			        url: "http://localhost:8081/staffadmin/sub-admin/"+this.value,
+			        success: function (response) 
+			        {
+			            //alert("HELLO AJAX Value = "+ this.value);
+			            $("#sd").children('option').remove();
+			            $('#sd').append($("<option></option>").attr("value", "0"));
+			            $.each(response, function(key, value) 
+			            {
+			            	//alert(value["sigle"]);
+			                $('#sd')
+			                    .append($("<option></option>")
+			                    .attr("value",value["idUniteAdmin"])
+			                    .text(value["sigle"]));
+			            });
+			            $("#service").children('option').remove();
+			            $('#service').append($("<option></option>").attr("value", "0"));
+			        },
+			    	error:function(err)
+			    	{
+			    		alert("ERROR AJAX Value = "+ this.value);
+			        }
+			    });  
+			});
+			
+			$("#sd").change(function (e) 
+			{ 
+					    //alert('Hello');
+					    $.ajax({
+					        type: "get",
+					        url: "http://localhost:8081/staffadmin/sub-admin/"+this.value,
+					        success: function (response) 
+					        {
+					            //alert("HELLO AJAX = "+ this.value);
+					            $("#service").children('option').remove();
+					            $('#service').append($("<option></option>").attr("value", 0));
+					            $.each(response, function(key, value) 
+					            {
+					            	//alert(value["sigle"]);
+					                $('#service')
+					                    .append($("<option></option>")
+					                    .attr("value",value["idUniteAdmin"])
+					                    .text(value["sigle"]));
+					            });
+					        }
+					    });  
+				});
+            
+            </script>
+            
+            <script type="text/javascript">
+/*             	$(document).ready(function() 
+            	{
+            		$('#sd').select2();
+            	});
+
+            	$(document).ready(function() 
+                {
+                    $('#service').select2();
+                }); */
+			</script>
         </div>
     </body>
 </html>

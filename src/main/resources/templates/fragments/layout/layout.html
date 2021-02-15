@@ -19,7 +19,7 @@
 
 	</head>
 	<body>
-
+		
         	
 		<section id="content">
 			<header class="header black-bg" th:replace="fragments/layout/top-bar-frag.html::top-bar-frag"></header>
@@ -30,6 +30,19 @@
                     
                     <div class="row mt" style="margin-left: 90px;">
                         <div class="col-lg-12" layout:fragment="content">
+                        	<th:block th:if="${!#request.userPrincipal.principal.agent.active}">
+                                
+                                <div class="jumbotron">
+                                    <div class="container">
+                                        <h1>Compte inactif!</h1>
+                                        <p>Veuillez changer votre mot de passe pour activer votre compte</p>
+                                        <p>
+                                            <a class="btn btn-primary btn-lg" th:href="@{/staffadmin/profil}">Profil</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                        	</th:block>                            
                             <!-- ============PAGE CONTENTE==================-->        
 
                             <!-- ============PAGE CONTENTE==================-->                            

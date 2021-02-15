@@ -18,7 +18,7 @@
             </div>
             <div  id="sds" class="panel-collapse collapse">
                 <div th:each="sd:${sds}" class="panel panel-success ml-20">
-                	<div class="panel-heading"><a th:href="${'#list-services-sd' + sd.idUniteAdmin}" data-toggle="collapse"><span th:text="${sd.sigle}" class="sub-admin-3"></span></a> <button class="btn btn-subadmin orange-bg" >Voir</button></div>
+                	<div class="panel-heading"><a th:href="${'#list-services-sd' + sd.idUniteAdmin}" data-toggle="collapse"><span th:text="${sd.sigle}" class="sub-admin-3"></span></a> <span th:if="${sd.postManager}" th:text="${sd.postManager.agent}" class="sub-admin-3"></span> <button class="btn btn-subadmin orange-bg" >Voir</button></div>
                 	<div class="panel-body panel-collapse collapse" th:id="${'list-services-sd' + sd.idUniteAdmin}">
                 		<h3>Liste des services</h3>
                 		<table class="table table-striped table-condensed">
@@ -34,11 +34,11 @@
                 			<tbody>
                 				<tr th:each="sce:${sd.uniteAdminSousTutelle}">
                 					<td th:text="${sce.sigle}">Sigle</td>
-                					<td th:text="${sce.appelation}">Appelation</td>
+                					<td th:text="${sce.appellation}">Appelation</td>
                 					<td th:text="${sce.situationGeo}">Situation géographique</td>
                 					<td th:text="${sce.dateCreation}">Responsable</td>
-                					<td th:if="${sce.responsable}" th:text="${sce.responsable.nom + ' ' + sce.responsable.prenom}">Date de création</td>
-                				</tr>                			
+                					<td th:if="${sce.postManager}"><span th:if="${sce.postManager.agent}" th:text="${sce.postManager.agent.nom + ' ' + sce.postManager.agent.prenom}"></span></td>
+                				</tr>           			
                 			</tbody>
                 		</table>
                 	</div>
@@ -69,7 +69,7 @@
                 					<td th:text="${sce.appelation}">Appelation</td>
                 					<td th:text="${sce.situationGeo}">Situation géographique</td>
                 					<td th:text="${sce.dateCreation}">Responsable</td>
-                					<td th:if="${sce.responsable}" th:text="${sce.responsable.nom + ' ' + sce.responsable.prenom}">Date de création</td>
+                					<td th:if="${sce.postManager}"><span th:if="${sce.postManager.agent}" th:text="${sce.postManager.agent}"></span></td>
                 				</tr>                			
                 			</tbody>
                 		</table>

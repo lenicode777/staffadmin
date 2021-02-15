@@ -16,7 +16,7 @@ public class UniteAdminValidation implements IUniteAdminValidation
 	@Override
 	public void validate(UniteAdmin uniteAdmin) 
 	{
-		if(uniteAdmin.getAppelation().equals("") || uniteAdmin.getAppelation()==null)
+		if(uniteAdmin.getAppellation().equals("") || uniteAdmin.getAppellation()==null)
 		{
 			throw new RuntimeException("Le nom de l'unité d'administration est vide");
 		}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<th:block th:fragment="agent-profile-card-frag">
+		<!-- WEATHER-2 PANEL -->
+		<div class="col-lg-12 col-md-12 col-sm-12 mb">
+			<div class="weather-2 pn">
+				<div class="weather-2-header">
+					<div class="row">
+						<div class="col-sm-6 col-xs-6">
+							<p th:text="${agent.nom +' '+ agent.prenom}"></p>
+						</div>
+						<div class="col-sm-6 col-xs-6 goright">
+							<p class="small" th:text="${agent.fonction.nomFonction}"></p>
+						</div>
+					</div>
+				</div>
+				<!-- /weather-2 header -->
+				<div class="row centered">
+					<img th:src="@{'/staffadmin/agents/'+${agent.idAgent}+'/photo'}"
+						class="img-circle" width="70" height="70">
+				</div>
+				<div class="row data">
+					<div class="col-sm-6 col-xs-6 goleft">
+						<h6>
+							<b th:text="${'Fixe bureau : ' + agent.fixeBureau}"></b>
+						</h6>
+						<h6>
+							<b th:text="${'Cel : ' + agent.tel}"></b>
+						</h6>
+						<h6>
+							<b th:text="${agent.email}"></b>
+						</h6>
+					</div>
+					<div class="col-sm-6 col-xs-6 goright">
+						<h6>
+							<b th:text="${agent.emploi.nomEmploi}"></b>
+						</h6>
+						<h6>
+							<b th:text="${'Matricule : ' + agent.matricule}"></b>
+						</h6>
+						<h6>
+							<b th:text="${'Grade : ' + agent.grade.nomGrade}"></b>
+						</h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

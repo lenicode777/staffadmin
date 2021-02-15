@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+        
+		<th:block th:fragment="pieces-jointes-frag">
+			<div class="col-sm-12">
+				
+						<form  th:action="@{'/staffadmin/archivage/agents/'+${agent.idAgent}}" method="post" enctype="multipart/form-data">
+							
+							<div class="form-group">
+								<label>Choisir le type de fichier</label>
+								<select class="form-control" name="typeFile" id="typeFile" th:value="${typeFile}">
+									<option value=""></option>
+									<option value="noteServiceDAAF">Note de service de la DAAF</option>
+								    <option value="noteServiceDGBF">Note de service de la DGBF</option>
+								    <option value="certificatService1">Certificat de première prise de service</option>
+								    <option value="arreteNomination">Arrêté de nomination</option>
+								    <option value="decisionAttente">Décision d'attente</option>
+								    <option value="cv">CV</option>
+								  	<option value="photo">Photo</option>
+								</select>
+								
+								<input style="margin: 20px 0px;" type="file" class="form-control" id="noteServiceDAAF" name="file" required="required"/>
+								<button class="btn btn-success" id="btnUpload" disabled="disabled">Upload</button>
+							</div>	
+													
+						</form>
+			
+			</div>
+
+      	</th:block>
+    </body>
+</html>

@@ -7,15 +7,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 @RepositoryRestResource
 public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long> 
 {
-	public List<UniteAdmin> findByResponsable(Agent responsable);
+	public List<UniteAdmin> findByPostManager(Post postManager);
 	public List<UniteAdmin> findByTutelleDirecte(UniteAdmin ua);
+	public List<UniteAdmin> findByTutelleDirecteIdUniteAdmin(Long idTutelleDirecte);
 	public List<UniteAdmin> findByTypeUniteAdmin(TypeUniteAdmin typeUA);
-	public List<UniteAdmin> findByAppelation(String appelation);
+	public List<UniteAdmin> findByAppellation(String appelation);
 	public List<UniteAdmin> findByDateCreation(Date dateCreation);
 	public List<UniteAdmin> findByDateCreationBefore(Date dateCreation);
 	public List<UniteAdmin> findByDateCreationAfter(Date dateCreation);

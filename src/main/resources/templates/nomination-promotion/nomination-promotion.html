@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout/layout}">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style type="text/css">
+        div.panel div.panel-heading 
+        {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        
+        div.panel-default div.panel-heading,
+        div.panel-default div.panel-heading a 
+        {
+            /*color:#39B510;*/
+            color: #FF9008;
+        }
+        
+        form label 
+        {
+            font-size: 15px;
+            font-weight: bolder;
+            color: black;
+        }
+        
+        form .error-msg 
+        {
+            font-size: 10px;
+            font-weight: bolder;
+            color: red;
+            display: none;
+        }
+        
+        #btn-modal-trigger,
+        #btn-submit 
+        {
+            display: none;
+        }
+        
+        .form-group .error-msg 
+        {
+            position: relative;
+            margin-left: 0px;
+        }
+        
+        .ml-20
+        {
+        	margin-left: 20px;
+        }
+        
+        .sub-admin-3
+        {
+        	font-size: 16px;
+        }
+        .btn-subadmin
+        {
+        	float: right;
+        	color: white;
+        	font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid">
+        	<div class="col col-lg-12">
+	        	<div class="panel orange-panel">
+	        		<div class="panel-heading">Enregistrer une nouvelle nomination</div>
+	        		<div class="panel-body">
+	        			<th:block th:replace="nomination-promotion/frm-nomination-frag.html::frm-nomination-frag"></th:block>
+	        		</div>
+	        	</div>
+	        </div>
+        	
+        	<div class="col col-lg-6">
+	        	<div class="panel panel-primary">
+	        		<div class="panel-heading">Enregistrer une nouvelle promotion</div>
+	        		<div class="panel-body">
+	<!--         			<th:block th:replace="nomination-promotion/frm-nomination-frag.html::frm-nomination-frag"></th:block> -->
+	        		</div>
+	        	</div>  
+	        </div>      	
+            
+            
+        </div>
+    </div>
+    <div layout:fragment="js-specifics-dependancies">
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+        <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
+        <script src="/lib/jquery/JQueryBolckUI.js"></script>
+        <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+        <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
+        <script>
+
+
+            $("#idFonction").change(function (e) 
+            { 
+                var idFonction = this.value;
+                $.ajax(
+                {
+                    type: "GET",
+                    url: "http://localhost:8081/staffadmin/saf/frm-nomination/ajax/onFonctionDeNominationChange/"+idFonction,
+                    success: function (response) 
+                    {
+                        $("#idUniteAdminDeNomination").children('option').remove();
+                        $('#idUniteAdminDeNomination').append($("<option value='0'></option>"));
+                        $.each(response, function(key, value) 
+                        {
+                            //alert(value["sigle"]);
+                            $('#idUniteAdminDeNomination')
+                                .append($("<option></option>")
+                                .attr("value",value["idUniteAdmin"])
+                                .text(value["appelation"] + " - " + value["sigle"]));
+                        });                      
+                    }
+                });                
+                
+            });
+
+            $(document).ready(function() 
+            {
+            	$('#idUniteAdminDeNomination').select2();
+            });
+
+            $(document).ready(function() 
+            {
+            	$('#idFonction').select2();
+            });            
+            
+        </script>
+    </div>
+</body>
+
+</html>

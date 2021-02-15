@@ -3,10 +3,13 @@ package dmp.staffadmin.security.userdetailsservice;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -31,17 +34,44 @@ public class User
 	private String username;
 	@Column(nullable = false)
 	private String password;
-	private boolean active;
+	private String formPassword;
 	@ManyToMany @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name="ID_USER"), inverseJoinColumns = @JoinColumn(name="ID_ROLE"))
 	private Collection<Role> roles= new ArrayList<Role>();;
-	@OneToOne @JoinColumn(name = "ID_AGENT")
+	@OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_AGENT")
 	private Agent agent; 
 	
-	public void addRole(Role role)
+	private boolean active;
+	
+	public boolean hasRole(Role role)
 	{
-		this.roles.add(role);
+		boolean hasRole = false;
+		for(Role r:roles)
+		{
+			if(r.getIdRole() == role.getIdRole())
+			{
+				hasRole = true;
+				break;
+			}
+		}
+		
+		return hasRole;
 	}
 	
+	public boolean hasRole(String role)
+	{
+		boolean hasRole = false;
+		for(Role r:roles)
+		{
+			if(r.getRole() == role)
+			{
+				hasRole = true;
+				break;
+			}
+		}
+		
+		return hasRole;
+	}
+		
 	public String generateUsername()
 	{
 		return this.agent.getNom()+this.agent.getIdAgent();
@@ -59,6 +89,26 @@ public class User
 			passwordStringBuilder.append(AlphaNumericString.charAt(index));
 		}
 		return passwordStringBuilder.toString();
+	}
+
+	public void addRole(Role role)
+	{
+		if (hasRole(role))
+		{
+			this.roles.add(role);
+		}
+	}
+	
+	public void removeRoleToUser(Role role) 
+	{
+		for(Role r:roles)
+		{
+			if(r.getIdRole() == role.getIdRole())
+			{
+				roles.remove(r);
+				break;
+			}
+		}
 	}
 }
 

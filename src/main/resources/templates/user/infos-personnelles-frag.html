@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="infos-personnelles-frag">
+			    	<div id = "infos" class="panel-body">
+			    		<div class="col col-lg-12">
+					    	<div class="panel orange-panel">
+					    		<div class="panel-heading">
+					    			<h3 class="panel-title"><a href="#infos-personnelles" data-toggle="collapse">Informations personnelles</a></h3>
+					    		</div>
+					    		<div id = "infos-personnelles" class="list-group panel-collapse collapse">
+						    		<li class="list-group-item"> Nom : <span class="badge" th:text="${user.agent.nom}"></span></li>
+						    		<li class="list-group-item"> Prénom : <span class="badge" th:text="${user.agent.prenom}"></span></li>
+						    		<li class="list-group-item"> Sexe : <span class="badge" th:text="${user.agent.sexe}"></span></li>
+						    		<li class="list-group-item"> Date de naissance : <span class="badge" th:text="${user.agent.dateNaissance}"></span></li>
+						    		<li class="list-group-item"> Lieu de naissance : <span class="badge" th:text="${user.agent.lieuNaissance}"></span></li>
+						    		<li class="list-group-item"> E-mail : <span class="badge" th:text="${user.agent.email}"></span></li>
+						    		<li class="list-group-item"> Téléphone : <span class="badge" th:text="${user.agent.tel}"></span></li>
+					    		</div>
+					    	</div>
+					    </div>
+			    	</div>		    			
+	</th:block>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="summary-card-frag">
+		
+			<div class="row content-panel" style="margin-left: 3px;">
+				<div class="col-md-3 profile-text mt mb centered">
+				<div class="right-divider hidden-sm hidden-xs">
+					<h4 th:text="${user.agent.nom + ' ' + user.agent.prenom}">Sam Soffes</h4>
+					<h6>FOLLOWERS</h6>
+					<h4>290</h4>
+					<h6>FOLLOWING</h6>
+					<h4>$ 13,980</h4>
+					<h6>MONTHLY EARNINGS</h6>
+				</div>
+				</div>
+				<!-- /col-md-4 -->
+				<div class="col-md-6 profile-text">
+					
+					<h4 th:text="${user.agent.titre==null} ? ${user.agent.fonction.nomFonction} : ${user.agent.titre}">Main Administrator</h4>
+					<h4 th:text="${'Grade ' + user.agent.grade.nomGrade}"></h4>
+					<h4 th:text="${user.agent.emploi.nomEmploi}"></h4>
+					<br/>
+
+				</div>
+				<!-- /col-md-4 -->
+				<div class="col-md-3 centered">
+				<div class="profile-pic">
+					<p><img th:src="@{'/staffadmin/agents/'+${user.agent.idAgent}+'/photo'}" class="img-circle"/></p>
+					<p>
+					<button class="btn btn-theme"><i class="fa fa-check"></i> Follow</button>
+					<button class="btn btn-theme02">Add</button>
+					</p>
+				</div>
+				</div>
+				<!-- /col-md-4 -->
+			</div>
+			    			
+	</th:block>
+
+</body>
+</html>

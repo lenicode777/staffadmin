@@ -2,6 +2,8 @@ package dmp.staffadmin.metier.entities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,11 +17,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import dmp.staffadmin.dao.IUniteAdminDao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,14 +36,14 @@ public class UniteAdmin
 	private Long idUniteAdmin;
 	private int level;
 	private String sigle;
-	private String appelation;
+	private String appellation;
 	private String situationGeo;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateCreation;
-	@OneToOne @JoinColumn(name = "ID_RESPONSABLE")
+	@OneToOne @JoinColumn(name = "ID_POST_MANAGER")
 	@JsonIgnore
-	private Agent responsable;
+	private Post postManager;
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Agent> personnel;
@@ -48,7 +52,7 @@ public class UniteAdmin
 	private UniteAdmin tutelleDirecte;
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<UniteAdmin> UniteAdminSousTutelle;
+	private List<UniteAdmin> uniteAdminSousTutelle;
 	@ManyToOne() @JoinColumn(name="ID_TYPE_UA")
 	@JsonIgnore
 	private TypeUniteAdmin typeUniteAdmin;
@@ -56,16 +60,19 @@ public class UniteAdmin
 	@Transient
 	private MultipartFile ficheTechFile;
 	
+	@OneToMany(mappedBy = "uniteAdmin", fetch = FetchType.EAGER) @JsonIgnore
+	private List<Post> postesDeResponsabilites;
+	
 	public UniteAdmin ajouterUA(UniteAdmin ua)
 	{
-		UniteAdminSousTutelle.add(ua);
+		uniteAdminSousTutelle.add(ua);
 		ua.setLevel(this.level + 1);
 		return this;
 	}
 	
 	public UniteAdmin retirerUA(UniteAdmin ua)
 	{
-		UniteAdminSousTutelle.remove(ua);
+		uniteAdminSousTutelle.remove(ua);
 		return this;
 	}
 	
@@ -83,13 +90,35 @@ public class UniteAdmin
 	
 	public UniteAdmin changerResponsable(Agent newResponsable)
 	{
-		this.responsable = newResponsable;
+		this.postManager.setAgent(newResponsable) ;
 		return this;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return this.appelation + " - "+this.sigle; 
+		return this.appellation + " - "+this.sigle; 
 	}
+	
+	public String generateTitreOfPostManager() 
+	{
+		String titre;
+		//==============================================//
+		return "";
+	}
+	
+	@JsonIgnore
+	public Stream<UniteAdmin> getSubAdminStream()
+	{
+		return Stream.concat(Stream.of(this), uniteAdminSousTutelle.stream().flatMap(UniteAdmin::getSubAdminStream));
+	}
+	
+	@JsonIgnore
+	public Stream<UniteAdmin> getPatrentsStream()
+	{
+		return Stream.concat(Stream.of(this), Stream.of(tutelleDirecte).filter(Objects::nonNull).flatMap(UniteAdmin::getPatrentsStream));
+	}
+	
+
+	
 }

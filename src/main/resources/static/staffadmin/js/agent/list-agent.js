@@ -1,5 +1,5 @@
 	    		$(document).ready(function() 
-			    		{
+			    {
 		    			            // Setup - add a text input to each footer cell
 		    			            $('#tbl-list-agents tfoot th').each( function () 
 		    					    {
@@ -29,3 +29,8 @@
 		    			                }
 		    			            });
 		    	    	} );
+				$(".trigger-nomination").click(function (e) 
+				{ 
+					e.preventDefault();
+					
+				});
