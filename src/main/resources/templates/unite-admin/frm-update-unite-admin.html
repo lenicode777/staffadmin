@@ -68,11 +68,23 @@
 <body>
     <div layout:fragment="content">
         <div class="container-fluid">
-            <th:block th:replace="unite-admin/frm-unite-admin-frag.html::frm-unite-admin-frag"></th:block>
+			<div class="col-md-offset-1 col-md-10">
+				<div class="panel panel-default">
+					<div class="panel-heading" th:text="${'Modification dun(e) '+ uniteAdmin.typeUniteAdmin.nomTypeUniteAdmin}"> Modification</div>
+					<div class="panel-body">
+						
+						<form th:action="@{/staffadmin/update}" th:object="${uniteAdmin}" method="post">
+							<input type="hidden" th:field="*{idUniteAdmin}"/>
+							<th:block th:replace="unite-admin/frm-unite-admin-frag.html::input-frm-unite-admin-frag"></th:block>
+							
+							<button type="submit" class="btn btn-lg btn-warning pull-right">Enregistrer les modifications</button>
+							
+						</form>
+						
+					</div>
 
-            <th:bloc th:replace="unite-admin/list-services-rattaches-frag.html::list-services-rattaches-frag"></th:bloc>
-			<th:bloc th:replace="unite-admin/list-directions-frag.html::list-directions-frag"></th:bloc>
-			<th:bloc th:replace="unite-admin/list-directions-regionales-frag.html::list-directions-regionales-frag"></th:bloc> 
+				</div>
+			</div>
         </div>
     </div>
     <div layout:fragment="js-specifics-dependancies">

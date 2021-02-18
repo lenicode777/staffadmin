@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
@@ -16,7 +17,7 @@ import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.IUniteAdminValidation;
-@Service
+@Service @Transactional
 public class UniteAdaminMetier implements IUniteAdminMetier
 {
 	@Autowired private IUniteAdminDao uniteAdminDao;
@@ -27,8 +28,10 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	public UniteAdmin save(UniteAdmin uniteAdmin) 
 	{
 		uniteAdminValidation.validate(uniteAdmin);
-		UniteAdmin tutelleDirecte = uniteAdminDao.getOne(uniteAdmin.getTutelleDirecte().getIdUniteAdmin());
+		UniteAdmin tutelleDirecte = uniteAdminDao.findById(uniteAdmin.getTutelleDirecte().getIdUniteAdmin()).get();
 		tutelleDirecte.ajouterUA(uniteAdmin);
+		System.out.println(uniteAdmin);
+		
 		return uniteAdminDao.save(uniteAdmin);
 	}
 	@Override

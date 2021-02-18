@@ -2,14 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head><meta charset="UTF-8"/></head>
     <body>
-        
 		<th:block th:fragment="list-unites-admins-frag">            
             <div class="panel panel-default">
             	<div class="panel-heading"><a href="#sces-rattaches" data-toggle="collapse">Services rattachés</a></div>
             </div>
             <div  id="sces-rattaches" class="panel-collapse collapse">
                 <div th:each="sr:${scesRattaches}" class="panel panel-success ml-20" style="font-size: 10px; height: 35px;">
-                	<div class="panel-heading" ><span th:text="${sr.sigle}" class="sub-admin-3"></span><button class="btn btn-subadmin orange-bg" >Voir</button></div>
+                	<div class="panel-heading" ><span th:text="${sr.appellation + ' (' sr.sigle + ')'}" class="sub-admin-3"></span><button class="btn btn-subadmin pull-right orange-bg" >Voir</button></div>
                 </div>
             </div>
             
@@ -18,7 +17,13 @@
             </div>
             <div  id="sds" class="panel-collapse collapse">
                 <div th:each="sd:${sds}" class="panel panel-success ml-20">
-                	<div class="panel-heading"><a th:href="${'#list-services-sd' + sd.idUniteAdmin}" data-toggle="collapse"><span th:text="${sd.sigle}" class="sub-admin-3"></span></a> <span th:if="${sd.postManager}" th:text="${sd.postManager.agent}" class="sub-admin-3"></span> <button class="btn btn-subadmin orange-bg" >Voir</button></div>
+                	<div class="panel-heading">
+                		<a th:href="${'#list-services-sd' + sd.idUniteAdmin}" data-toggle="collapse">
+                			<span th:text="${sd.sigle}" class="sub-admin-3"></span>
+                		</a> 
+                		<span th:if="${sd.postManager}" th:text="${sd.postManager.agent}" class="sub-admin-3"></span> 
+                		<button class="btn btn-subadmin pull-right orange-bg" >Voir</button>
+                	</div>
                 	<div class="panel-body panel-collapse collapse" th:id="${'list-services-sd' + sd.idUniteAdmin}">
                 		<h3>Liste des services</h3>
                 		<table class="table table-striped table-condensed">

@@ -29,32 +29,50 @@ public class UniteAdminController
 	@GetMapping(path = "/staffadmin/unites-admins")
 	public String goToUniteAdmin(Model model)
 	{
-		List<UniteAdmin> unitesAdmins = uniteAdminDao.findByLevelGreaterThan(2);
-		List<UniteAdmin> scesRattaches = uniteAdminDao.findByTypeUniteAdmin(typeUniteAdminDao.findByNomTypeUniteAdmin("SERVICE RATTACHE"));
-		List<UniteAdmin> sds = uniteAdminDao.findByTypeUniteAdmin(typeUniteAdminDao.findByNomTypeUniteAdmin("SOUS DIRECTION"));
-		List<UniteAdmin> drs = uniteAdminDao.findByTypeUniteAdmin(typeUniteAdminDao.findByNomTypeUniteAdmin("DIRECTION REGIONALE"));
-		List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(2);
-		UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
-		DGBF = uniteAdminMetier.setSubAdminTree(DGBF);
-		UniteAdmin DMP = DGBF.getUniteAdminSousTutelle().get(0);
-		model.addAttribute("dmp", DMP);
-		UniteAdmin uniteAdmin = new UniteAdmin();
-		uniteAdmin.setTypeUniteAdmin(new TypeUniteAdmin());
-		uniteAdmin.setTutelleDirecte(new UniteAdmin());
-		model.addAttribute("uniteAdmin", new UniteAdmin());
-
-		model.addAttribute("typesUniteAdmins", typesUniteAdmins);
-		model.addAttribute("unitesAdmins", unitesAdmins);
+		//System.out.println("===================================CONTROLLER==========================0");
+		
+		List<UniteAdmin> scesRattaches = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin("SERVICE RATTACHE");
+		List<UniteAdmin> directions = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin("DIRECTION CENTRALE");
+		List<UniteAdmin> directionsRegionales = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin("DIRECTION REGIONALE");
+		List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(1);
+		
 		model.addAttribute("scesRattaches", scesRattaches);
-		model.addAttribute("sds", sds);
-		model.addAttribute("drs", drs);
+		model.addAttribute("directions", directions);
+		model.addAttribute("directionsRegionales", directionsRegionales);
+		model.addAttribute("uniteAdmin", new UniteAdmin());
+		
+		model.addAttribute("typesUniteAdmins", typesUniteAdmins);
+		
 		return "unite-admin/unite-admin";
 	}
 	
 	@PostMapping(path = "/staffadmin/unite-admins/save")
 	public String saveUniteAdmin(Model model, UniteAdmin uniteAdmin)
 	{
+		//uniteAdmin.getSecretariat().setIdUniteAdmin(null);
+		System.out.println("ID="+uniteAdmin.getIdUniteAdmin());
 		uniteAdminMetier.save(uniteAdmin);
-		return "redirect:/sataffadmin/unites-admins";
+		return "redirect:/staffadmin/unites-admins";
 	}	
+	
+	@GetMapping(path = "/staffadmin/update/{idUniteAdmin}")
+	public String goToFrmUpdateUniteAdmin(Model model, @PathVariable(name = "idUniteAdmin") Long idUniteAdmin)
+	{
+		List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(1);
+		
+		UniteAdmin uniteAdmin = uniteAdminDao.findById(idUniteAdmin).get();
+		List<UniteAdmin> unitesAdmins = uniteAdminDao.findByTypeUniteAdminAdministrativeLevelLessThan(uniteAdmin.getTypeUniteAdmin().getAdministrativeLevel());
+		model.addAttribute("typesUniteAdmins", typesUniteAdmins);
+		model.addAttribute("uniteAdmin", uniteAdmin);
+		model.addAttribute("unitesAdmins", unitesAdmins);
+		
+		return "unite-admin/frm-update-unite-admin";
+	}
+	
+	@PostMapping(path = "/staffadmin/update")
+	public String updateUniteAdmin(Model model, @ModelAttribute UniteAdmin uniteAdmin)
+	{
+		uniteAdminMetier.save(uniteAdmin);
+		return "redirect:/staffadmin/unites-admins";
+	}
 }

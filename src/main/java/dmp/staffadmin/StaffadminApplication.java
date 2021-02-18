@@ -27,7 +27,6 @@ public class StaffadminApplication
 	{
 		SpringApplication.run(StaffadminApplication.class, args);
 	}
-
 	
 	/*@Bean
 	public LayoutDialect thymeleafDialect()

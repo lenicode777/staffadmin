@@ -1,4 +1,4 @@
-package dmp.staffadmin.metier.services.rest;
+package dmp.staffadmin.controllers.rest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +32,18 @@ public class UniteAdminRestController
 		return uniteAdminMetier.setSubAdminTree(DGBF);
 	}
 
+	@GetMapping(path = "/staffadmin/sur-admin/{administrativeLevel}")
+	public List<UniteAdmin> getAllSurAdminByAdministrativeLevel(@PathVariable int administrativeLevel)
+	{
+		System.out.println("=============================================");
+		System.out.println("AdministrativeLevel = " + administrativeLevel);
+		System.out.println("=============================================");
+		return uniteAdminDao.findByTypeUniteAdminAdministrativeLevelGreaterThan(administrativeLevel);
+		//return null;
+	}
+	
 	@GetMapping(path = "/staffadmin/sub-admin/{idTutelleDirecte}")
-	public List<UniteAdmin> getSubAdmin(@PathVariable Long idTutelleDirecte)
+	public List<UniteAdmin> getSubAdminByTutelleDirect(@PathVariable Long idTutelleDirecte)
 	{
 		System.out.println("=============================================");
 		System.out.println(idTutelleDirecte);
@@ -44,8 +54,15 @@ public class UniteAdminRestController
 	@GetMapping(path = "/staffadmin/frm-uniteAdmin/ajax/onTypeUniteAdminChange/{idTypeUniteAdmin}")
 	public List<UniteAdmin> onTypeUniteAdminChange_ajax(@PathVariable Long idTypeUniteAdmin)
 	{
-		TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.getOne(idTypeUniteAdmin);
-		List<UniteAdmin> unitesAdmins = uniteAdminDao.findByLevelLessThan(typeUniteAdmin.getAdministrativeLevel());
+		System.out.println("ID_TYPE UNITE ADMIN = "+ idTypeUniteAdmin);
+		
+		System.out.println("ID_TYPE UNITE ADMOIN = "+ idTypeUniteAdmin);
+		
+		TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.findById(idTypeUniteAdmin).get();
+		
+		System.out.println("LEVEL UNITE ADMOIN = "+ typeUniteAdmin.getAdministrativeLevel());
+		
+		List<UniteAdmin> unitesAdmins = uniteAdminDao.findByTypeUniteAdminAdministrativeLevelLessThan(typeUniteAdmin.getAdministrativeLevel());
 		return unitesAdmins;
 	}
 	

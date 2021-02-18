@@ -1,4 +1,4 @@
-package dmp.staffadmin.metier.services.rest;
+package dmp.staffadmin.controllers.rest;
 
 import java.util.List;
 

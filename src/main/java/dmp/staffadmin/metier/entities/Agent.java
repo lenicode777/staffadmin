@@ -67,7 +67,7 @@ public class Agent
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_GRADE")
 	private Grade grade = new Grade();
 	private String titre;
-	@ManyToOne @JoinColumn(name = "ID_TUTELLE_DIRECT")
+	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECT")
 	private UniteAdmin tutelleDirecte;
 	
 	@Column(length = 15)

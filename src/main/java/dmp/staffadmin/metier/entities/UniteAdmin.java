@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,28 +33,34 @@ import lombok.NoArgsConstructor;
 @Entity
 public class UniteAdmin 
 {
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUniteAdmin;
 	private int level;
 	private String sigle;
 	private String appellation;
 	private String situationGeo;
+	private String contacts;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateCreation;
 	@OneToOne @JoinColumn(name = "ID_POST_MANAGER")
 	@JsonIgnore
 	private Post postManager;
-	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Agent> personnel;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECTE")
 	@JsonIgnore
 	private UniteAdmin tutelleDirecte;
-	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.LAZY)
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
+	private UniteAdmin secretariat;
+	
+	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<UniteAdmin> uniteAdminSousTutelle;
-	@ManyToOne() @JoinColumn(name="ID_TYPE_UA")
+	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="ID_TYPE_UA")
 	@JsonIgnore
 	private TypeUniteAdmin typeUniteAdmin;
 	private String ficheTechPath;
@@ -66,6 +73,7 @@ public class UniteAdmin
 	public UniteAdmin ajouterUA(UniteAdmin ua)
 	{
 		uniteAdminSousTutelle.add(ua);
+		ua.setTutelleDirecte(this);
 		ua.setLevel(this.level + 1);
 		return this;
 	}
@@ -97,7 +105,7 @@ public class UniteAdmin
 	@Override
 	public String toString()
 	{
-		return this.appellation + " - "+this.sigle; 
+		return this.appellation + " - "+this.sigle + " - Id="+idUniteAdmin; 
 	}
 	
 	public String generateTitreOfPostManager() 
@@ -118,7 +126,4 @@ public class UniteAdmin
 	{
 		return Stream.concat(Stream.of(this), Stream.of(tutelleDirecte).filter(Objects::nonNull).flatMap(UniteAdmin::getPatrentsStream));
 	}
-	
-
-	
 }

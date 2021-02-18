@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="list-services-rattaches-frag">            
+			<div class="panel panel-default">
+            	<div class="panel-heading">
+					<a href="#sces-rattaches" data-toggle="collapse">Services rattachés</a>
+				</div>
+            </div>
+            <div  id="sces-rattaches" class="panel-collapse collapse">
+                <div th:each="sr:${scesRattaches}" class="panel panel-success ml-20" style="font-size: 10px; height: 35px;">
+                	<div class="panel-heading" >
+						<span th:text="${sr.appellation + ' (' + sr.sigle + ')'}" class="sub-admin-3"></span>
+						
+						<div class="btn-group pull-right">
+							<button type="button" class="btn btn-theme dropdown-toggle"
+								data-toggle="dropdown">
+								Actions <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#"><i
+										class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
+								<li><a href="#"><i class="glyphicon glyphicon-edit"></i>
+										Modifier</a></li>
+										
+								<li><a href="#"><i class="glyphicon glyphicon-trash">
+											Affecter des agents</i></a></li>
+								<li class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+								
+<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
+									<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
+							</ul>
+						</div>
+						
+					</div>	
+                </div>
+            </div>          
+      	</th:block>
+    </body>
+</html>

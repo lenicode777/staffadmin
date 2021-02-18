@@ -25,7 +25,7 @@
 								</select> <br/>
 
 								<label for="dc">Direction Centrale</label>
-								<select name="idDc" id="dc" class="form-control"  required="required" th:value="${formCritere.idDc}">
+								<select name="idDc" id="dc" class="form-control"  required="required" th:value="${formCritere.idDc}" style="width: 100%;">
 									<option value="0">--</option>
 									<span th:each="dc:${listDCs}">
 										<option th:value="${dc.idUniteAdmin}" th:selected="${dc.idUniteAdmin==attrIdDc}" th:text="${dc.appellation + '(' + dc.sigle + ')'}">DGMP</option>
@@ -35,7 +35,7 @@
 								</select> <br/>
 
 								<label for="sd">SD/DR</label>
-								<select name="idSd" id="sd" class="form-control" required="required" th:value="${formCritere.idSd}">
+								<select name="idSd" id="sd" class="form-control" required="required" th:value="${formCritere.idSd}" style="width: 100%;">
 									<option value="0"></option>
 									<span th:if="${listSds}">
 										<span th:each="sd:${listSds}">
@@ -45,7 +45,7 @@
 								</select> <br/>
 								
 								<label for="service">Service</label>
-								<select name="idService" id="service" class="form-control" required="required" th:value="${formCritere.idService}">
+								<select name="idService" id="service" class="form-control" required="required" th:value="${formCritere.idService}" style="width: 100%;">
 									<option value="0" ></option>
 									<span th:if="${listServices}">
 										<span th:each="service:${listServices}">

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="list-unites-admins-frag">            
+			<th:bloc th:replace="unite-admin/list-services-rattaches-frag.html::list-services-rattaches-frag"></th:bloc>
+			<th:bloc th:replace="unite-admin/list-directions-frag.html::list-directions-frag"></th:bloc>
+			<th:bloc th:replace="unite-admin/list-directions-regionales-frag.html::list-directions-regionales-frag"></th:bloc>   
+      	</th:block>
+    </body>
+</html>

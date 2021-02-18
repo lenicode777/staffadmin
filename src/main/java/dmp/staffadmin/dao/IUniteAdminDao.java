@@ -17,6 +17,10 @@ public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long>
 	public List<UniteAdmin> findByTutelleDirecte(UniteAdmin ua);
 	public List<UniteAdmin> findByTutelleDirecteIdUniteAdmin(Long idTutelleDirecte);
 	public List<UniteAdmin> findByTypeUniteAdmin(TypeUniteAdmin typeUA);
+	
+	public List<UniteAdmin> findByTypeUniteAdminAdministrativeLevelLessThan(int level);
+	public List<UniteAdmin> findByTypeUniteAdminAdministrativeLevelGreaterThan(int level);
+	
 	public List<UniteAdmin> findByAppellation(String appelation);
 	public List<UniteAdmin> findByDateCreation(Date dateCreation);
 	public List<UniteAdmin> findByDateCreationBefore(Date dateCreation);
@@ -28,4 +32,5 @@ public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long>
 	public List<UniteAdmin> findBySigleContains(String sigle);
 	public List<UniteAdmin> findBySituationGeo(String situationGeo);
 	public List<UniteAdmin> findBySituationGeoContains(String situationGeo);
+	public List<UniteAdmin> findByTypeUniteAdminNomTypeUniteAdmin(String nomTypeUniteAdmin);
 }

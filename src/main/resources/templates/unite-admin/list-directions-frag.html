@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="list-directions-frag">                        
+				<div class="panel panel-default">
+					<div class="panel-heading"><a href="#sds" data-toggle="collapse">Directions</a></div>
+				</div>
+				<div  id="sds" class="panel-collapse collapse">
+					<div th:each="direction:${directions}" class="panel panel-success ml-20">
+						<div class="panel-heading">
+							<a th:href="${'#list-direction' + direction.idUniteAdmin}" data-toggle="collapse">
+								<span th:text="${direction.appellation + ' (' + direction.sigle + ')'}" class="sub-admin-3"></span>
+							</a> 
+							<span th:if="${direction.postManager}" th:text="${direction.postManager.agent}" class="sub-admin-3"></span> 
+							
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-theme dropdown-toggle"
+									data-toggle="dropdown">
+									Actions <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#"><i
+											class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
+									<li><a th:href="${'/staffadmin/update/' + direction.idUniteAdmin}"><i class="glyphicon glyphicon-edit"></i>
+											Modifier</a></li>
+										  
+											
+									<li><a href="#"><i class="glyphicon glyphicon-trash">
+												Affecter des agents</i></a></li>
+									<li class="divider"></li>
+									<li><a href="#">Separated link</a></li>
+									
+<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
+										<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
+								</ul>
+							</div>
+
+						</div>
+						<div class="panel-body panel-collapse collapse" th:id="${'list-direction' + direction.idUniteAdmin}">
+							<h3>Liste des services</h3>
+							<table class="table table-striped table-condensed">
+								<thead>
+									<tr>
+										<th>Sigle</th>
+										<th>Appelation</th>
+										<th>Situation géographique</th>
+										<th>Date de création</th>
+										<th>Responsable</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="sd:${direction.uniteAdminSousTutelle}">
+										<td th:text="${sd.sigle}">Sigle</td>
+										<td th:text="${sd.appellation}">Appelation</td>
+										<td th:text="${sd.situationGeo}">Situation géographique</td>
+										<td th:text="${sd.dateCreation}">Responsable</td>
+										<td th:if="${sd.postManager}"><span th:if="${sd.postManager.agent}" th:text="${sd.postManager.agent.nom + ' ' + sd.postManager.agent.prenom}"></span></td>
+									</tr>           			
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>  
+      	</th:block>
+    </body>
+</html>
