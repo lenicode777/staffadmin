@@ -28,7 +28,7 @@ public class Post
 	private String libellePost;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_UNITE_ADMIN")
 	private UniteAdmin uniteAdmin;
-	@OneToOne @JoinColumn(name = "ID_AGENT")
+	@OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_AGENT")
 	@JsonIgnore
 	private Agent agent;
 }

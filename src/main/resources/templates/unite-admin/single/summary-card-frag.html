@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="summary-card-frag">
+		
+			<div class="row content-panel" style="margin-left: 0px; margin-right: 5px; margin-bottom:10px;">
+				<div class="row" style="align-content: center; align-items: center; text-align: center;">
+					<b class="logo"  style="font-size: 20px; color: darkred;" th:text="${visitedUniteAdmin.appellation + ' (' +visitedUniteAdmin.sigle +')'}"></b>
+				</div>
+				<div class="col-md-3 profile-text mt mb centered">
+					<div class="hidden-sm hidden-xs">
+						<h4 >
+							<i class="fa fa-users" aria-hidden="true"></i>
+							<span th:text="${uniteAdminStats.nbAgents + ' Agent (s)'}"></span>
+						</h4>
+						<h6>
+							<i class="fa fa-male" aria-hidden="true"></i>
+							<span class="right-divider" th:text="${uniteAdminStats.nbGarcons + ' Hommes'} "></span>
+
+							<i class="fa fa-female" aria-hidden="true"></i>
+							<span th:text="${uniteAdminStats.nbFilles + ' Femmes'} "></span>
+						</h6>
+						<h4>Date de création</h4>
+						<h6 th:text="${visitedUniteAdmin.dateCreation==null} ? 'Non Fournie' : ${visitedUniteAdmin.dateCreation} ">FOLLOWING</h6>
+						
+						<h4>Contacts</h4>
+						<h6 th:text="${visitedUniteAdmin.contacts==null} ? 'Non Fourni' : ${visitedUniteAdmin.contacts}">FOLLOWING</h6>
+					</div>
+				</div>
+				<!-- /col-md-4 -->
+				<div class="col-md-7 profile-text mt mb" style="border: gray; border-left-style: solid; border-right: solid; border-width: thin;" >
+					<ul class="list-unstyled list-group">
+						<li class="list-group-item"> 
+							<b> Encrage institutionnel : </b>
+							<span class="pull-right" th:text="${visitedUniteAdmin.typeUniteAdmin.nomTypeUniteAdmin}"></span>
+						</li>
+
+						<li class="list-group-item"> 
+							<b> Tutelle : </b>
+							<span class="pull-right" th:text="${visitedUniteAdmin.tutelleDirecte} ? ${visitedUniteAdmin.tutelleDirecte.appellation+ ' (' + visitedUniteAdmin.tutelleDirecte.sigle +')'} : 'Non fourni'"></span>
+						</li>
+						
+						<li class="list-group-item"> 
+							<b> Localisation : </b>
+							<span class="pull-right" th:text="${visitedUniteAdmin.situationGeo} ? ${visitedUniteAdmin.situationGeo} : 'Non fourni'"></span>
+						</li><br/>
+					</ul>
+					
+					
+				</div>
+				<!-- /col-md-4 -->
+				<div class="col-md-2 centered">
+					
+					<div class="profile-pic">
+						<span th:if="${visitedUniteAdmin.postManager}">
+							<span th:if="${visitedUniteAdmin.postManager.agent}">
+								<p>
+									<img alt="Photo" th:src="@{'/staffadmin/agents/'+${visitedUniteAdmin.postManager.agent.idAgent}+'/photo'}" class="img-circle"/>
+								</p>
+								
+								<span th:if="${#request.userPrincipal.principal.agent.idAgent == visitedUniteAdmin.postManager.agent.idAgent}">
+									<form th:action="@{'/staffadmin/archivage/agents/'+${visitedUniteAdmin.postManager.agent.idAgent}}" method="post" enctype="multipart/form-data">
+										<button class="btn btn-theme"><i class="fa fa-check"></i> Follow</button>
+										<button type="submit" class="btn btn-theme02">Add</button>
+										<input type="hidden" name="typeFile" value="photo"/>
+										<input type="file" name="file"/>
+									</form>
+								</span>
+							</span>
+						</span>
+					</div>
+					
+				</div>
+				<div class="col-md-12" style="align-content: center; align-items: center; text-align: center;">
+					<p>
+						<a th:href="@{'/staffadmin/unites-admins/update/' + ${visitedUniteAdmin.idUniteAdmin}}" class="btn btn-theme" ><i class="fa fa-edit"></i> Modifier</a>
+						<a class="btn btn-theme"><i class="fa fa-users"></i> Affecter du personnel</a>
+						<a th:href="'/staffadmin/' + ${visitedUniteAdmin.idUniteAdmin} + '/nominations/form'" class="btn btn-theme"><i class="fa fa-edit"></i> Nommer un nouveau responsable</a>
+					</p>
+				</div>
+				<!-- /col-md-4 -->
+			</div>
+	</th:block>
+
+</body>
+</html>

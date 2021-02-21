@@ -75,6 +75,39 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 		return allPersonnel;
 	}
 	
+	@Override
+	public long getNbAgents(UniteAdmin uniteAdmin)
+	{
+		return uniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgent->listAgent.stream()).count();
+	}
+	
+	@Override
+	public long getNbGarcons(UniteAdmin uniteAdmin)
+	{
+		return uniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgent->listAgent.stream()).filter(agent->agent.getSexe().equalsIgnoreCase("M")||agent.getSexe().equalsIgnoreCase("HOMME")).count();
+	}
+	
+	@Override
+	public long getNbFilles(UniteAdmin uniteAdmin)
+	{
+		return uniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgent->listAgent.stream()).filter(agent->agent.getSexe().equalsIgnoreCase("F")||agent.getSexe().equalsIgnoreCase("FEMME")).count();
+	}
+	
+	@Override
+	public long getNbFonctionnaires(UniteAdmin uniteAdmin)
+	{
+		return uniteAdmin.getSubAdminStream()
+				.map(UniteAdmin::getPersonnel)
+				.flatMap(listAgent->listAgent.stream())
+				.filter(agent->agent.getStatutEmploye().equalsIgnoreCase("FONCTIONNAIRE"))
+				.count();
+	}
+	
+	@Override
+	public long getNbContractuelles(UniteAdmin uniteAdmin)
+	{
+		return uniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgent->listAgent.stream()).filter(agent->agent.getSexe().equalsIgnoreCase("CONTRACTUEL")).count();
+	}
 	/*
 	 * @Bean CommandLineRunner start() { return arg-> { UniteAdmin SDSIC =
 	 * uniteAdminDao.findBySigle("SDREG").get(0);
@@ -83,3 +116,4 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	 * getSigle())). map(ua->ua.getSigle()). collect(Collectors.toList())); }; }
 	 */
 }
+

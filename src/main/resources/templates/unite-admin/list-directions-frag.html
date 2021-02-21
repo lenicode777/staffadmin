@@ -20,14 +20,23 @@
 									Actions <span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#"><i
-											class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
-									<li><a th:href="${'/staffadmin/update/' + direction.idUniteAdmin}"><i class="glyphicon glyphicon-edit"></i>
-											Modifier</a></li>
+									<li>
+										<a th:href="@{'/staffadmin/unites-admins/'+${direction.idUniteAdmin}}">
+											<i class="glyphicon glyphicon-eye-open"></i> Voire
+										</a>
+									</li>
+									<li>
+										<a th:href="${'/staffadmin/unites-admins/update/' + direction.idUniteAdmin}">
+											<i class="glyphicon glyphicon-edit"></i> Modifier
+										</a>
+									</li>
 										  
 											
-									<li><a href="#"><i class="glyphicon glyphicon-trash">
-												Affecter des agents</i></a></li>
+									<li>
+										<a href="#">
+											<i class="glyphicon glyphicon-trash"> Affecter des agents</i>
+										</a>
+									</li>
 									<li class="divider"></li>
 									<li><a href="#">Separated link</a></li>
 									
@@ -47,6 +56,7 @@
 										<th>Situation géographique</th>
 										<th>Date de création</th>
 										<th>Responsable</th>
+										<th>Actions</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -56,6 +66,7 @@
 										<td th:text="${sd.situationGeo}">Situation géographique</td>
 										<td th:text="${sd.dateCreation}">Responsable</td>
 										<td th:if="${sd.postManager}"><span th:if="${sd.postManager.agent}" th:text="${sd.postManager.agent.nom + ' ' + sd.postManager.agent.prenom}"></span></td>
+										<td>Actions</td>
 									</tr>           			
 								</tbody>
 							</table>

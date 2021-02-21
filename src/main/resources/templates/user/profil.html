@@ -16,7 +16,7 @@
         <div layout:fragment="content">
 			
 			<div style="margin-bottom: 10px;">
-				<span th:if="${#request.userPrincipal.principal.agent.idAgent == visitedUser.agent.idAgent}">
+				<span th:if="${2 == visitedUser.agent.idAgent}">
 					<a class="btn btn-success" style="font-weight: bolder;" type="button" th:href="@{/staffadmin/change-password}">
 						Changer votre mot de passe <i class="fa fa-key"></i>
 					</a>
@@ -31,15 +31,36 @@
 <!-- 		<th:block th:replace="user/change-password-modal-frag.html::change-password-modal-frag"></th:block> -->
             <!-- <button class="btn btn-success mr-3" id="btn-modal-trigger" type="button" data-toggle="modal" href="#change-password-modal">Valider</button> -->
 
-	
+
 	
 
         </div>
-<!--         <th:block th:replace="fragments/layout/dependancies.html::js-dependancies"></th:block> -->
 
+        <th:block layout:fragment="js-specifics-dependancies">
+			<script>
+				function readURL(input) 
+				{
+					if (input.files && input.files[0]) 
+					{
+						var reader = new FileReader();
+						
+						reader.onload = function (e) 
+						{
+							$('#photo-tag').attr('src', e.target.result);
+						}
+						reader.readAsDataURL(input.files[0]);
+					}
+				}
+				$("#photo").change(function()
+				{
+					readURL(this);
+				});
+
+				$("#btn-choose-file").click(function(e)
+				{
+					$("#photo").trigger("click");
+				});
+			</script>
+		</th:block>	
 	</body>
-	
-	
-	
-	
 </html>

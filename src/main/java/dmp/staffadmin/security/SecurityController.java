@@ -54,7 +54,7 @@ public class SecurityController
 		else
 		{
 			//Agent visitedAgent = agentDao.findById(idAgent).get();
-			visitedUser = agentDao.findById(idAgent).get().getUser();
+			visitedUser = userDao.findByAgentIdAgent(idAgent);
 			//visitedUser.setAgent(visitedAgent);
 		}
 		

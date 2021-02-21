@@ -7,25 +7,26 @@
             	<div class="panel-heading"><a href="#infos-generales" data-toggle="collapse">Informations générales</a></div>
                 <div class="panel-body panel-collapse collapse in" id="infos-generales" >
 
-                <!-- ================================================LIGNE 1====================================-->                     
+<!--                 ================================================LIGNE 1====================================                      -->
                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="nom">Nom</label> <span class="error-msg text-danger" id="nom-error-msg"></span>
-	                       <input  th:field="*{nom}" id="nom" class="form-control" type="text" required="required" />
+	                       	<input  th:field="*{nom}" id="nom" class="form-control" type="text" required="required" />
                         </div>
                     </div>
-                    <div class="col col-lg-4">
+                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="prenom">Prénom</label> <span class="error-msg text-danger" id="prenom-error-msg"></span>
 	                        <input id="prenom" class="form-control" type="text" required="required"  th:field="*{prenom}"/>
                         </div>                    
                     </div>
-                    <div class="col col-lg-3">
+                	<div class="col col-lg-3">
                         <div class="form-group">
 							<label for="dateNaissance" id="lbl-dateNaissance">Date de naissance</label> <span class="error-msg text-danger" id="dateNaissance-error-msg"></span>
 	                        <input id="dateNaissance" class="form-control" type="date" required="required"  th:field="*{dateNaissance}"/>
                         </div>                    
                     </div>
+                    
                     <div class="col col-lg-1">
                         <div class="form-group">
 							<label for="sexe">Sexe</label> <span class="error-msg text-danger" id="sexe-error-msg"></span>
@@ -37,7 +38,7 @@
                         </div>                    
                     </div>  
                     
-                    <!-- /*================================================LIGNE 2====================================*/   -->
+<!--                     /*================================================LIGNE 2====================================*/   -->
                     <div class="col col-lg-4">
                         <div class="form-group">
 							<label for="email" id="lbl-email">Email</label> <span class="error-msg text-danger" id="email-error-msg"></span>
@@ -52,7 +53,8 @@
 	                        	<option value="GRAND-LAHOU">GRAND-LAHOU</option>
 	                        </select>
                         </div>                    
-                    </div>                     
+                    </div>          
+                               
                     <div class="col col-lg-2">
                         <div class="form-group">
 							<label for="fixeBureau" id="lbl-fixeBureau">Fixe de bureau</label> <span class="error-msg text-danger" id="fixeBureau-error-msg"></span>
@@ -65,29 +67,30 @@
 	                        <input id="tel" class="form-control" type="tel" required="required" th:field="*{tel}"/>
                         </div>                    
                     </div>
-
-                    <!-- /*================================================LIGNE 3====================================*/   -->
+					
+<!--                     /*================================================LIGNE 3====================================*/   -->
+                    
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
                         <div class="form-group">
                             <label for="typePiece">Type de pièce</label>
                             <span class="error-msg" id="typePiece-error-msg"></span>
-                            <select class="form-control" id="typePiece" th:field="*{typePiece}">
-                                <option value=""></option>
+                            <select id="typePiece" class="form-control" th:field="*{typePiece}">
+                                <option value="0"></option>
                                 <option value="CNI">CNI</option>
                                 <option value="ATTESTATION D'IDENTITE">Attestation d'identité</option>
                                 <option value="PASSEPORT">Passeport</option>
-                                <option value="PERMIS DE CONDUIRE">Permis de conduire</option>
-                                
+                                <option value="PERMIS DE CONDUIRE">Permis de conduire</option>                                
                             </select>
                         </div>
                     </div>
+                    
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
                         <div class="form-group">
                             
                         	<label for="numPiece" id="lbl-numPiece">N° Pièce</label> 
                             <span class="error-msg" id="numPiece-error-msg">*N° déjà utilisé</span>
                             
-                            <input id="numPiece" class="form-control" type="text" required="required" th:field="*{numPiece}">
+                            <input id="numPiece" class="form-control" type="text" required="required" th:field="*{numPiece}"/>
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -96,16 +99,16 @@
                                 <label for="nomPere">Nom du père</label> 
                                 <span class="error-msg" id="nomPere-error-msg"></span>
                             </div>                            
-                            <input id="nomPere" class="form-control" type="text" th:field="*{nomPere}">
+                            <input id="nomPere" class="form-control" type="text" th:field="*{nomPere}"/>
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                         <div class="form-group">
                             <label for="nomMere">Nom de la mère</label> 
                             <span class="error-msg" id="nomMere-error-msg"></span>                            
-                            <input id="nomMere" class="form-control" type="text" th:field="*{nomMere}">
+                            <input id="nomMere" class="form-control" type="text" th:field="*{nomMere}"/>
                         </div>
-                    </div>                                   
+                    </div>                                    
                                       
                 </div>
        		</div>

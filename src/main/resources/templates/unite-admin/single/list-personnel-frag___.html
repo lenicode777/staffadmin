@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+    	<meta charset="utf-8"/>
+    </head>
+
+<body>
+
+	<th:block th:fragment="list-personnel-frag">
+			    		<div class="col-lg-12">
+					    	<div class="panel green-panel">
+					    		<div class="panel-heading">
+					    			<h3 class="panel-title"><a href="#list-sub-unites-admins" data-toggle="collapse">Listes des unités administratives sous tutelle</a></h3>
+					    		</div>
+					    		<div id = "list-sub-unites-admins" class=" panel-body panel-collapse collapse">
+						    		<table class="table table-striped" id="sub-unites-admins-table">
+										<thead>
+											<tr>
+												<th>Nom</th>
+												<th>Encrage institutionnel</th>
+												<th>Date de création</th>
+												<th>Contacts</th>
+												<th>Localisation</th>
+												<th>Responsable</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr style="margin: 5px;" th:each="subAdmin:${unitesAdminsSousTutelles}">
+												
+												<td th:text="${subAdmin.appellation}">Nom</td>
+												<td th:text="${subAdmin.typeUniteAdmin.nomTypeUniteAdmin}">Encrage institutionnel</td>
+												<td th:text="${subAdmin.dateCreation}">Date de création</td>
+												<td th:text="${subAdmin.contacts}">Contacts</td>
+												<td th:text="${subAdmin.situationGeo}">Localisation</td>
+												<td>Responsable</td>
+												<td>
+													<div class="btn-group pull-right">
+														<button type="button" class="btn btn-theme dropdown-toggle"
+															data-toggle="dropdown">
+															Actions <span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu" role="menu">
+															<li>
+																<a th:href="@{'/staffadmin/unites-admins/'+${subAdmin.idUniteAdmin}}">
+																	<i class="glyphicon glyphicon-eye-open"></i> Voire
+																</a>
+															</li>
+															<li>
+																<a th:href="${'/staffadmin/unites-admins/update/' + subAdmin.idUniteAdmin}">
+																	<i class="glyphicon glyphicon-edit"></i>Modifier
+																</a>
+															</li>
+																	
+															<li>
+																<a href="#">
+																	<i class="glyphicon glyphicon-trash">Affecter des agents</i>
+																</a>
+															</li>
+															
+															<li class="divider"></li>
+															<li><a href="#">Separated link</a></li>
+															
+							<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
+																<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
+														</ul>
+													</div>
+												</td>
+												
+											</tr>
+										</tbody>
+
+										<tfoot>
+											<tr>
+												<th>Nom</th>
+												<th>Encrage institutionnel</th>
+												<th>Date de création</th>
+												<th>Contacts</th>
+												<th>Localisation</th>
+												<th>Responsable</th>
+												<th>Actions</th>
+											</tr>
+										</tfoot>
+									</table>
+					    		</div>
+					    	</div>
+					    </div>
+			    		    			
+	</th:block>
+
+</body>
+</html>

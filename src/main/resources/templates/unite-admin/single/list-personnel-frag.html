@@ -2,16 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head><meta charset="UTF-8"/></head>
     <body>
-		<th:block th:fragment="list-agent-frag">
+		<th:block th:fragment="list-personnel-frag">
 
-			<div class="panel panel-default">
+			<div class="panel green-panel">
 				<div class="panel-heading">
-					Liste du personnel
-					<span class="pull-right" th:each="ua:${uniteAdminHierarchie}">
-						<span th:text="${ua}"></span>
-					</span>
+					<h3 class="panel-title"><a href="#list-agents" data-toggle="collapse"> Liste du personnel</a></h3>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body panel-collapse collapse" id="list-agents">
 					<table id="tbl-list-agents" class="table table-striped display" style="width:100%">
 						<thead>
 							<tr>
@@ -19,15 +16,15 @@
 								<th>Prénom</th>
 								<th>Sexe</th>
 								<th>Matricule</th>
-								<th>Service</th>
 								<th>Fonction</th>
 								<th>Grade</th>
+								<th>Service</th>
 								<th>Photo</th>
 								<th>Actions</th>
 							</tr>                        
 						</thead>
 						<tbody>
-							<tr th:each="agent : ${listAgents}">
+							<tr th:each="agent : ${personnel}">
 								
 								<td th:text="${agent.nom}"></td>
 								<td th:text="${agent.prenom}"></td>
@@ -37,7 +34,6 @@
 								<td th:text="${agent.grade.nomGrade}"></td>
 								<td th:text="${agent.tutelleDirecte}"></td>
 								<td>
-									
 									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/agents/'+${agent.idAgent}+'/photo'}" class="img-circle" width="40" height="40"></a></p>
 								</td>
 								<td style="text-align: center; vertical-align: middle;">
@@ -57,7 +53,7 @@
 											<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
 													Promotion</a></li>
 											<li class="divider"></li>
-											<li><a th:href="@{'/staffadmin/agents/'+${agent.idAgent}+'/archivage/'}">Separated link</a></li>
+											<li><a href="#">Separated link</a></li>
 											
 <!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
 												<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
@@ -72,9 +68,9 @@
 								<th>Prénom</th>
 								<th>Sexe</th>
 								<th>Matricule</th>
-								<th>Service</th>
 								<th>Fonction</th>
 								<th>Grade</th>
+								<th>Service</th>
 								<th>Photo</th>
 								<th>Actions</th>
 							</tr>                        

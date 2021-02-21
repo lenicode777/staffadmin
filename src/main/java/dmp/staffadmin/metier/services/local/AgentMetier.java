@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IRecrutementDao;
-
+import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Recrutement;
 
@@ -34,6 +34,7 @@ import dmp.staffadmin.utilities.FileManager;
 @Service @Transactional
 public class AgentMetier implements IAgentMetier
 {
+	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IAgentValidation agentValidation;
 	@Autowired private IRecrutementDao recrutementDao;
@@ -61,7 +62,9 @@ public class AgentMetier implements IAgentMetier
 	@Override
 	public boolean existingMatricule(String matricule) 
 	{
-		return !agentDao.findByMatricule(matricule).isEmpty();
+		boolean res = !(agentDao.findByMatricule(matricule)==null);
+		System.out.println(res);
+		return res;
 	}
 
 	@Override
@@ -70,6 +73,9 @@ public class AgentMetier implements IAgentMetier
 		//saveFile(MultipartFile file, Agent agent, String typeFileDir, String setStaticPAthMethodeName)
 		agentValidation.validate(agent);
 		agent.setActive(false);
+		UniteAdmin DGMP = uniteAdminDao.findById(1L).get();
+		System.out.println(DGMP);
+		agent.setTutelleDirecte(DGMP);
 		if(agent.getSexe().contains("F") || agent.getSexe().contains("f"))
 		{
 			agent.setNomPhoto("inconnue.png");

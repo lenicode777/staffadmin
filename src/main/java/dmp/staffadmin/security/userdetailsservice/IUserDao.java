@@ -10,5 +10,6 @@ public interface IUserDao extends JpaRepository<User, Long>
 {
 	public User findByUsername(String username);
 	public User findByAgent(Agent agent);
-	public List<User> findByRoles_Role(String role);
+	public User findByAgentIdAgent(Long idAgent);
+	public List<User> findByRoles_Role(String role);	
 }

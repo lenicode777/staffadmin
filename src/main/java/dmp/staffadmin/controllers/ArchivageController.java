@@ -119,6 +119,7 @@ public class ArchivageController
 		System.out.println("========================");
 		System.out.println("Extension : "+archivageMetier.getFileExtension(file));
 		System.out.println(idAgent);
+		System.out.println(typeFichier);
 		System.out.println("========================");
 		
 		long fileSize = file.getSize();

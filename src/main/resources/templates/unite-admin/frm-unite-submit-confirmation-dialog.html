@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-unite-submit-confirmation-dialog">						
+            <div id="dialog-confirm-update" hidden class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 73px; max-height: none; height: auto;">
+				<div class="alert alert-info col-lg-3" style="width: 100%;">
+				    <h1 style="width: 100%;">Confirmez-vous les modifications ?</h1>
+				</div>
+			</div>
+      	</th:block>
+
+		<th:block th:fragment="frm-unite-submit-new-confirmation-dialog">						
+            <div id="dialog-confirm-new" hidden class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 73px; max-height: none; height: auto;">
+				<div class="alert alert-info col-lg-3" style="width: 100%;">
+				    <h1 style="width: 100%;">Êtes-vous sûres de continuer l'enregistrement ?</h1>
+				</div>
+			</div>
+      	</th:block>
+    </body>
+</html>

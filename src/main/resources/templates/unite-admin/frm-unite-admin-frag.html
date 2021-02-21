@@ -9,7 +9,7 @@
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <button type="button" id="btnTriggerNewUniteAdminModalForm" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h4 class="modal-title">Ajout d'unité administrative</h4>
                             </div>
                             <div class="modal-body">
@@ -17,7 +17,7 @@
                                 <th:block th:fragment="input-frm-unite-admin-frag">
 	                                <div class="form-group">
 	                                    <label for="appelation">Appelation</label>
-	                                    <input required="required" th:field="*{appellation}" type="text" class="form-control" id="appelation" placeholder="Appelation">
+	                                    <input required="required" th:field="*{appellation}" type="text" class="form-control" id="appellation" placeholder="Appellation">
 	                                </div>
 	                               
 	                                <div class="col-md-6" style="padding: 0px 10px 0px 0px;">
@@ -47,7 +47,7 @@
 	                                <div class="col-md-6" style="padding: 0px 0px 0px 10px;">
 	                                    <div class="form-group">
 	                                        <label for="dateCreation">Date de création</label>
-	                                        <input type="date" class="form-control" th:field="*{dateCreation}"/>
+	                                        <input type="date" class="form-control" th:field="*{dateCreation}" id="date-creation" />
 	                                    </div>   
 	                                </div>       
 	                             
@@ -61,20 +61,22 @@
 	                                
 	                                <div class="form-group">
 	                                    <label for="situationGeo">Situation géographique</label>
-	                                    <textarea required="required" th:field="*{situationGeo}"  class="form-control" id="situationGeo"></textarea>
+	                                    <textarea required="required" th:field="*{situationGeo}"  class="form-control" id="situation-geo"></textarea>
 	                                </div>
 	                               
 <!-- 	                                <div class="form-group"> -->
 <!-- 	                                    <label for="ficheTech">Fiche technique</label> -->
 <!-- 	                                    <input name="ficheTechFile" th:value="*{ficheTechFile}"  type="file" class="form-control-file" id="ficheTech"> -->
 <!-- 	                                </div> -->
+									<th:block th:insert="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-new-confirmation-dialog"></th:block>
 	                                
                                 </th:block>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success">Save changes</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal" id="btn-submit-new">Save changes</button>
                             </div>
+							
                         </div>
                     </div>
                 </div>

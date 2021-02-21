@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{fragments/layout/layout}">    
+    
+	<head>		
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+		<style>
+			ul li span .agent-property
+			{
+				left: 0px;
+			}
+		</style>
+	</head>
+	<body>
+        <div layout:fragment="content">
+			
+			<div style="margin-bottom: 10px;">
+<!-- 				<span th:if="${#request.userPrincipal.principal.agent.idAgent == visitedUser.agent.idAgent}"> -->
+<!-- 					<a class="btn btn-success" style="font-weight: bolder;" type="button" th:href="@{/staffadmin/change-password}"> -->
+<!-- 						Changer votre mot de passe <i class="fa fa-key"></i> -->
+<!-- 					</a> -->
+<!-- 				</span> -->
+			</div>
+			
+			<th:block th:replace="unite-admin/single/summary-card-frag.html::summary-card-frag"></th:block>
+ 			<th:block th:replace="unite-admin/single/list-sub-unites-admins-frag.html::list-sub-unites-admins-frag"></th:block>
+			<th:block th:replace="unite-admin/single/list-personnel-frag.html::list-personnel-frag"></th:block>
+			<!--<th:block th:replace="user/situation-conges-frag.html::situation-conges-frag"></th:block>
+			<th:block th:replace="user/docs-admins-frag.html::docs-admins-frag"></th:block> -->
+<!-- 		<th:block th:replace="user/change-password-modal-frag.html::change-password-modal-frag"></th:block> -->
+            <!-- <button class="btn btn-success mr-3" id="btn-modal-trigger" type="button" data-toggle="modal" href="#change-password-modal">Valider</button> -->
+
+	
+	
+
+        </div>
+        <th:block layout:fragment="js-specifics-dependancies">
+         	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+         
+			<script type="text/javascript">
+				$(document).ready(function() 
+			    {
+			    	$('#sub-unites-admins-table').DataTable();
+			    });
+
+				$(document).ready(function() 
+				{
+					$('#tbl-list-agents').DataTable();
+				});			    
+			</script>         
+        </th:block>
+	</body>
+</html>

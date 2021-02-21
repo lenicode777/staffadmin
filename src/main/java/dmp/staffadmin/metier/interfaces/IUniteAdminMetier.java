@@ -6,7 +6,7 @@ import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.interfaces.ICrudMetier;
 
-public interface IUniteAdminMetier extends ICrudMetier<UniteAdmin>
+public interface IUniteAdminMetier extends ICrudMetier<UniteAdmin>, IUniteAdminStats
 {
 	public UniteAdmin setSubAdminTree(UniteAdmin uniteAdmin);
 	public List<Agent> getAllPersonnel(UniteAdmin ua);

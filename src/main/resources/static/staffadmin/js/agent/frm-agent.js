@@ -265,3 +265,28 @@ txtTel.blur(function(e)
 {
     unicityChecking("tel/", txtTel, e.target.value, $("#tel-error-msg"), "*Tel déjà utilisé");
 });
+
+$("#btn-modal-trigger").click(function(e)
+{
+	//alert("HELLO");
+	//alert($("#nom").val());
+	$("#confirmNom").text($("#nom").val());
+	$("#confirmPrenom").text($("#prenom").val());
+	$("#confirmDateNaissance").text($("#dateNaissance").val());
+	$("#confirmSexe").text($("#sexe option:selected").text());
+	$("#confirmEmail").text($("#email").val());
+	$("#confirmLieuNaissance").text($("#lieuNaissance").val());
+	$("#confirmFixeBureau").text($("#fixeBureau").val());
+	$("#confirmTel").text($("#tel").val());
+	$("#confirmTypePiece").text($("#typePiece").val());
+	$("#confirmNumPiece").text($("#numPiece").val());
+	$("#confirmNomPere").text($("#nomPere").val());
+	$("#confirmNomMere").text($("#nomMere").val());
+	$("#confirmMatricule").text($("#matricule").val());
+	$("#confirmFonction").text($("#fonction option:selected").text());
+	$("#confirmEmploi").text($("#emploi option:selected").text());
+	
+	$("#confirmGrade").text($("#grade option:selected").text());
+	$("#confirmDatePriseService1").text($("#datePriseService1").val());
+	
+});

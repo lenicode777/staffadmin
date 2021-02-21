@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style type="text/css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<style type="text/css">
         div.panel div.panel-heading 
         {
             font-size: 20px;
@@ -73,18 +74,21 @@
 					<div class="panel-heading" th:text="${'Modification dun(e) '+ uniteAdmin.typeUniteAdmin.nomTypeUniteAdmin}"> Modification</div>
 					<div class="panel-body">
 						
-						<form th:action="@{/staffadmin/update}" th:object="${uniteAdmin}" method="post">
+						<form id="unite-admin-updateForm" th:action="@{/staffadmin/unites-admins/update}" th:object="${uniteAdmin}" method="post">
 							<input type="hidden" th:field="*{idUniteAdmin}"/>
 							<th:block th:replace="unite-admin/frm-unite-admin-frag.html::input-frm-unite-admin-frag"></th:block>
 							
-							<button type="submit" class="btn btn-lg btn-warning pull-right">Enregistrer les modifications</button>
+							<button type="button" id="btn-submit-update" class="btn btn-lg btn-warning pull-right">Enregistrer les modifications</button>
 							
+							<th:block th:replace="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-confirmation-dialog"></th:block>
 						</form>
-						
+
 					</div>
 
 				</div>
+				
 			</div>
+			
         </div>
     </div>
     <div layout:fragment="js-specifics-dependancies">
@@ -94,7 +98,20 @@
         <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
-        <script>
+		
+		
+<!-- 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		
+		<script>
+
+			
+			$("#btn-submit-update").click(function(e)
+			{
+				confirmationDialog("unite-admin-updateForm", "dialog-confirm-update", "Confirmation des modifications", 600, 300);
+				//confirmationDialog location : /staffadmin/js/unite-admin/unite-admin.js
+			});
+			
 			function formatDropDownBoxToSelect2(idDropDown)
 			{
 	         	$(document).ready(function() 

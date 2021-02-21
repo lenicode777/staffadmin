@@ -19,13 +19,23 @@
 								Actions <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#"><i
-										class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
-								<li><a href="#"><i class="glyphicon glyphicon-edit"></i>
-										Modifier</a></li>
+								<li>
+									<a th:href="@{'/staffadmin/unites-admins/'+${sr.idUniteAdmin}}">
+										<i class="glyphicon glyphicon-eye-open"></i> Voire
+									</a>
+								</li>
+								<li>
+									<a th:href="${'/staffadmin/unites-admins/update/' + sr.idUniteAdmin}">
+										<i class="glyphicon glyphicon-edit"></i> Modifier
+									</a>
+								</li>
 										
-								<li><a href="#"><i class="glyphicon glyphicon-trash">
-											Affecter des agents</i></a></li>
+								<li>
+									<a href="#">
+										<i class="glyphicon glyphicon-trash"> Affecter des agents</i>
+									</a>
+								</li>
+								
 								<li class="divider"></li>
 								<li><a href="#">Separated link</a></li>
 								

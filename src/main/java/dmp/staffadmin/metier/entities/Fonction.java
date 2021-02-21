@@ -25,6 +25,6 @@ public class Fonction
 	private boolean fonctionTopManager;
 	@OneToMany(mappedBy = "fonction")
 	private Collection<Agent> listAgents; 
-	@ManyToOne @JoinColumn(name = "ID_TYPE_UNITE_ADMIN")
-	private TypeUniteAdmin typeUniteAdmin;
+	@ManyToOne @JoinColumn(name = "ID_TYPE_UNITE_ADMIN") //Plusieurs Fonction peuvent correspondrent à un même type d'unité admin 
+	private TypeUniteAdmin typeUniteAdmin; // Exemple : Directeur Général, Directeur Général Adjoint et Assistant DG correspondent tous à DG
 }

@@ -164,7 +164,8 @@ public class AgentController
 		}
 		else
 		{
-			listAgentsVisibles = agentDao.findByTutelleDirecte(authUser.getAgent().getTutelleDirecte());	
+			//listAgentsVisibles = agentDao.findByTutelleDirecte(authUser.getAgent().getTutelleDirecte());
+			listAgentsVisibles = authUser.getAgent().getTutelleDirecte().getSubAdminStream().map(ua->ua.getPersonnel()).flatMap(listAgents->listAgents.stream()).collect(Collectors.toList());
 		}
 		
 

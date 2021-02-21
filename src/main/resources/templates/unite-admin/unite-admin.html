@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style type="text/css">
         div.panel div.panel-heading 
         {
@@ -82,7 +83,17 @@
         <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
+          
+	    
+	  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
+			$("#btn-submit-new").click(function(e)
+			{
+				confirmationDialog("frm-unite-admin", "dialog-confirm-new", "Confirmation des informations saisies", 600, 300);
+				//confirmationDialog location : /staffadmin/js/unite-admin/unite-admin.js
+			});
+
 			function formatDropDownBoxToSelect2(idDropDown)
 			{
 	         	$(document).ready(function() 
@@ -91,9 +102,6 @@
 	            });
 			}
 
-			
-
-			
 			formatDropDownBoxToSelect2("idTutelleDirecte");
 			formatDropDownBoxToSelect2("idTypeUniteAdmin");
 

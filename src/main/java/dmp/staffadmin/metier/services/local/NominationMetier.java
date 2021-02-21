@@ -27,8 +27,8 @@ public class NominationMetier implements INominationMetier
 	@Override @Transactional
 	public Nomination save(Nomination nomination) 
 	{
-		nomination.setFonctionNomination(fonctionDao.getOne(nomination.getFonctionNomination().getIdFonction()));
-		nomination.setUniteAdminDeNomination(uniteAdminDao.getOne(nomination.getUniteAdminDeNomination().getIdUniteAdmin()));
+		nomination.setFonctionNomination(fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get());
+		nomination.setUniteAdminDeNomination(uniteAdminDao.findById(nomination.getUniteAdminDeNomination().getIdUniteAdmin()).get());
 		nomination.setAgentNomme(agentDao.getOne(nomination.getAgentNomme().getIdAgent()));
 		nomination.getAgentNomme().setTutelleDirecte(nomination.getUniteAdminDeNomination());
 		agentDao.save(nomination.getAgentNomme());

@@ -9,7 +9,7 @@
 
 	<th:block th:fragment="summary-card-frag">
 		
-			<div class="row content-panel" style="margin-left: 3px;">
+			<div class="row content-panel" style="margin-left: 5px; margin-right: 5px; margin-bottom:10px;">
 				<div class="col-md-3 profile-text mt mb centered">
 				<div class="right-divider hidden-sm hidden-xs">
 					<h4 th:text="${visitedUser.agent.nom + ' ' + visitedUser.agent.prenom}">Nom Prénom</h4>
@@ -29,16 +29,18 @@
 					<br/>
 
 				</div>
+				
 				<!-- /col-md-4 -->
-				<div class="col-md-3 centered">
-				<div class="profile-pic">
-					<p><img th:src="@{'/staffadmin/agents/'+${visitedUser.agent.idAgent}+'/photo'}" class="img-circle"/></p>
-					<p>
-					<button class="btn btn-theme"><i class="fa fa-check"></i> Follow</button>
-					<button class="btn btn-theme02">Add</button>
-					</p>
-				</div>
-				</div>
+	 			<div class="col-md-3 centered">
+					<div class="profile-pic">
+						<p><img id="photo-tag" th:src="@{'/staffadmin/agents/'+${visitedUser.agent.idAgent}+'/photo'}" class="img-circle"/></p>
+						<p>
+							<input type="file" id="photo" style="display: none;"/>
+							<button id="btn-choose-file" class="btn btn-theme"><i class="fa fa-check"></i> Choisir un fichier</button>
+							<button class="btn btn-theme02">Upload</button>
+						</p>
+					</div>
+				</div> 
 				<!-- /col-md-4 -->
 			</div>
 			    			

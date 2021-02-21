@@ -43,7 +43,7 @@ public class UniteAdmin
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateCreation;
-	@OneToOne @JoinColumn(name = "ID_POST_MANAGER")
+	@OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_POST_MANAGER")
 	@JsonIgnore
 	private Post postManager;
 	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.EAGER)
@@ -125,5 +125,11 @@ public class UniteAdmin
 	public Stream<UniteAdmin> getPatrentsStream()
 	{
 		return Stream.concat(Stream.of(this), Stream.of(tutelleDirecte).filter(Objects::nonNull).flatMap(UniteAdmin::getPatrentsStream));
+	}
+	
+	@JsonIgnore
+	public Stream<Long> getIdResponsablesStream()
+	{
+		return Stream.concat(Stream.of(this.getPostManager().getAgent().getIdAgent()), Stream.of(tutelleDirecte).filter(Objects::nonNull).flatMap(UniteAdmin::getIdResponsablesStream));
 	}
 }

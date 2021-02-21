@@ -72,19 +72,11 @@
 	        	<div class="panel orange-panel">
 	        		<div class="panel-heading">Enregistrer une nouvelle nomination</div>
 	        		<div class="panel-body">
-	        			<th:block th:replace="nomination-promotion/frm-nomination-frag.html::frm-nomination-frag"></th:block>
+	        			<th:block th:replace="nomination-promotion/frm-nomination-unite-admin-frag.html::frm-nomination-unite-admin-frag"></th:block>
 	        		</div>
 	        	</div>
 	        </div>
-        	
-        	<div class="col col-lg-6">
-	        	<div class="panel panel-primary">
-	        		<div class="panel-heading">Enregistrer une nouvelle promotion</div>
-	        		<div class="panel-body">
-	<!--         			<th:block th:replace="nomination-promotion/frm-nomination-frag.html::frm-nomination-frag"></th:block> -->
-	        		</div>
-	        	</div>  
-	        </div>      	
+   	
             
             
         </div>
@@ -97,8 +89,55 @@
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
         <script>
+            $("#matricule").blur(function(e)
+            {
+            	alert("BLUR " + this.value);
+                $.ajax
+                ({
+                    type: "GET",
+                    url: "http://localhost:8081/staffadmin/exists/matricule/"+this.value,
+                    success: function (response) 
+                    {
+                        //alert("SUCCESS");
+                        alert($("#matricule").val());
+                        if(response==true)
+                        {
+                        	$("#btnEnregistrer").removeAttr("disabled");
+                            $.ajax({
+                                type: "GET",
+                                url: "/staffadmin/agentRestController/findByMatricule/" + $("#matricule").val(),
+
+                                success: function (response) 
+                                {
+                                    alert($("#matricule").val());
+                                    alert(response["nom"]);
+                                    console.log(response);
+                                    $("#agentInfos").text(response.nom);
+                                },
+                                error: function(e)
+                                {
+                                    console.log(e);
+                                    alert("ERROR 2");
+                                }
+                            });
+                        }
+                        else
+                        {
+                            //alert("INEXISTANT");
+                            $("#btnEnregistrer").attr("disabled", "disabled")
+                        }
+                    },
+                    error: function(e)
+                    {
+                        console.log(e);
+                    	alert("ERROR "+ e);
+                    	$("#btnEnregistrer").attr("disabled", "disabled");
+                    }
+                });
+            });
 
 
+/*
             $("#idFonction").change(function (e) 
             { 
                 var idFonction = this.value;
@@ -132,7 +171,7 @@
             {
             	$('#idFonction').select2();
             });            
-            
+            */
         </script>
     </div>
 </body>
