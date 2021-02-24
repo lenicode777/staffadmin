@@ -9,23 +9,26 @@
 
 	<th:block th:fragment="summary-card-frag">
 		
-			<div class="row content-panel" style="margin-left: 5px; margin-right: 5px; margin-bottom:10px;">
+			<div class="row content-panel main-content-block-item" style="margin-left: 2px; margin-bottom: 10px;">
 				<div class="col-md-3 profile-text mt mb centered">
 				<div class="right-divider hidden-sm hidden-xs">
 					<h4 th:text="${visitedUser.agent.nom + ' ' + visitedUser.agent.prenom}">Nom Prénom</h4>
-					<h6>FOLLOWERS</h6>
-					<h4>290</h4>
-					<h6>FOLLOWING</h6>
-					<h4>$ 13,980</h4>
-					<h6>MONTHLY EARNINGS</h6>
+					<h6 th:text="${visitedUser.agent.email}">----</h6>
+					<h4 th:text="${'Age : ' + visitedUser.agent.age + ' ans'}"></h4>
+					<h6>----</h6>
+					<h4 th:text="${'Depart retraite : '+ #dates.format(visitedUser.agent.dateDepartRetraite, 'dd-MM-yyy')}"></h4>
+					<h6 th:text="'(Dans ' + ${visitedUser.agent.tempsTravailRestant} + ')'">(dans 43 ans)</h6>
 				</div>
 				</div>
 				<!-- /col-md-4 -->
-				<div class="col-md-6 profile-text">
+				<div class="col-md-6 profile-text centered mt">
 					
 					<h4 th:text="${visitedUser.agent.titre==null} ? ${visitedUser.agent.fonction.nomFonction} : ${visitedUser.agent.titre}">Main Administrator</h4>
+					<h6><br/></h6>
 					<h4 th:text="${'Grade ' + visitedUser.agent.grade.nomGrade}"></h4>
+					<h6><br/></h6>
 					<h4 th:text="${visitedUser.agent.emploi.nomEmploi}"></h4>
+					<h6></h6>
 					<br/>
 
 				</div>

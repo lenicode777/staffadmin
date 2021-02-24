@@ -2,7 +2,7 @@ package dmp.staffadmin.metier.enumeration;
 
 public enum Position 
 {
-	ACTIVITE("EN ACTIVITE A LA DMP"),
+	ACTIVITE("EN ACTIVITE A LA DGMP"),
 	DETACHEMENT("EN DETACHEMENT"),
 	DISPONIBILITE("EN DISPONIBILITE"),
 	DRAPEAUX("SOUS LES DRAPEAUX");

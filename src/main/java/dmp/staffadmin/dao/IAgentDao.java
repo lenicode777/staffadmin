@@ -52,8 +52,10 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findByPost(Post post);
 	public List<Agent> findBySexe(String sexe);
 	public List<Agent> findBySituationPresence(String situationPresence);
-	public List<Agent> findByStatutEmploye(String statutEmploye);
+	public List<Agent> findByEtatRecrutement(String etatRecrutement);
 	public List<Agent> findByTutelleDirecte(UniteAdmin tutelleDirecte);
+	public List<Agent> findByStatutAgent(String statutAgent);
 	
 	public Agent findByUser(User user);
+	
 }

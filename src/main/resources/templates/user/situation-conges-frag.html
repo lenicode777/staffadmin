@@ -8,19 +8,13 @@
 <body>
 
 	<th:block th:fragment="situation-conges-frag">
-					    <div class="col-lg-12">
-					    	<div  class="panel orange-panel">
+					    <div class="main-content-block-item">
+					    	<div  class="panel panel-primary">
 					    		<div class="panel-heading">
 					    			<h3 class="panel-title"><a href="#situation-conges" data-toggle="collapse"> Situation congés</a></h3>
 					    		</div>	
-					    		<div class="list-group panel-collapse collapse" id="situation-conges" >			    	
-						    		<li class="list-group-item"> Ministère : <span class="badge" th:text="${visitedUser.agent.fixeBureau}"></span></li>
-						    		<li class="list-group-item"> Structure : <span class="badge" th:text="${visitedUser.agent.matricule}"></span></li>
-						    		<li class="list-group-item"> Fonction : <span class="badge" th:text="${visitedUser.agent.sexe}"></span></li>
-						    		<li class="list-group-item"> Matricule : <span class="badge" th:text="${visitedUser.agent.dateNaissance}"></span></li>
-						    		<li class="list-group-item"> Type de pièce : <span class="badge" th:text="${visitedUser.agent.typePiece}"></span></li>
-						    		<li class="list-group-item"> N° de pièce : <span class="badge" th:text="${visitedUser.agent.numPiece}"></span></li>
-						    		<li class="list-group-item"> Type d'abonné : <span class="badge" th:text="${visitedUser.agent.numPiece}"></span></li>
+					    		<div class="panel-body panel-collapse collapse" id="situation-conges" >			    	
+						    		
 					    		</div>
 					    	</div>	
 					    </div>	    			

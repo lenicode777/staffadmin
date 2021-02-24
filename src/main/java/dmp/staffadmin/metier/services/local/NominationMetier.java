@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IFonctionDao;
@@ -13,41 +14,33 @@ import dmp.staffadmin.dao.INominationDao;
 import dmp.staffadmin.dao.IPostDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Nomination;
-import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.interfaces.INominationMetier;
+import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
+import dmp.staffadmin.metier.validation.INominationValidation;
+import dmp.staffadmin.security.userdetailsservice.IRoleDao;
+import dmp.staffadmin.security.userdetailsservice.IUserDao;
 @Service @Transactional
 public class NominationMetier implements INominationMetier 
 {
+	/*
 	@Autowired private IFonctionDao fonctionDao;
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IPostDao postDao;
-	@Autowired private INominationDao nominationDao;
+	@Autowired private IRoleDao roleDao;
+	@Autowired private IUserDao userDao;
 	@Autowired private IUniteAdminDao uniteAdminDao;
+	*/
+	
+	@Autowired private INominationDao nominationDao;
+	@Autowired private IUniteAdminMetier uniteAdminMetier;
+	@Autowired private INominationValidation nominationValidation;
 	
 	@Override @Transactional
-	public Nomination save(Nomination nomination) 
+	public Nomination save(Nomination nomination) // Fonction très complexe
 	{
-		nomination.setFonctionNomination(fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get());
-		nomination.setUniteAdminDeNomination(uniteAdminDao.findById(nomination.getUniteAdminDeNomination().getIdUniteAdmin()).get());
-		nomination.setAgentNomme(agentDao.getOne(nomination.getAgentNomme().getIdAgent()));
-		nomination.getAgentNomme().setTutelleDirecte(nomination.getUniteAdminDeNomination());
-		agentDao.save(nomination.getAgentNomme());
-		//System.out.println(nomination);
-		//Post postManager = new Post();
-		if(nomination.getFonctionNomination().isFonctionTopManager())
-		{
-			Post postManager = new Post(nomination.getUniteAdminDeNomination().getPostManager().getIdPost(), nomination.getFonctionNomination(), nomination.getTitreNomination(), nomination.getUniteAdminDeNomination(), nomination.getAgentNomme());
-			//postManager = postDao.save(postManager);
-			nomination.getUniteAdminDeNomination().setPostManager(postManager);
-		}
-		else
-		{
-			Post postDeResponsabilite = new Post(null, nomination.getFonctionNomination(), nomination.getTitreNomination(), nomination.getUniteAdminDeNomination(), nomination.getAgentNomme());
-			postDeResponsabilite = postDao.save(postDeResponsabilite);
-			nomination.getUniteAdminDeNomination().getPostesDeResponsabilites().add(postDeResponsabilite);
-		}
+		nominationValidation.validate(nomination);
+		uniteAdminMetier.nommerResponsable(nomination.getUniteAdminDeNomination(), nomination.getAgentNomme(), nomination.getFonctionNomination());
 		
-		uniteAdminDao.save(nomination.getUniteAdminDeNomination());
 		return nominationDao.save(nomination);
 	}
 

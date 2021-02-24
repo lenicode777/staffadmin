@@ -207,7 +207,7 @@ public class AgentMetier implements IAgentMetier
 	@Override
 	public List<Agent> findByStatutAgent(String statutAgent) 
 	{
-		return agentDao.findByStatutEmploye(statutAgent);
+		return agentDao.findByStatutAgent(statutAgent);
 	}
 
 }

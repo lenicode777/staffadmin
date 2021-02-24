@@ -34,11 +34,10 @@
 											
 									<li>
 										<a href="#">
-											<i class="glyphicon glyphicon-trash"> Affecter des agents</i>
+											<i class="glyphicon glyphicon-trash">Affecter du personnel</i>
 										</a>
 									</li>
 									<li class="divider"></li>
-									<li><a href="#">Separated link</a></li>
 									
 <!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
 										<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
@@ -47,7 +46,7 @@
 
 						</div>
 						<div class="panel-body panel-collapse collapse" th:id="${'list-direction' + direction.idUniteAdmin}">
-							<h3>Liste des services</h3>
+							<h3>Liste des Sous-Directions</h3>
 							<table class="table table-striped table-condensed">
 								<thead>
 									<tr>
@@ -64,9 +63,45 @@
 										<td th:text="${sd.sigle}">Sigle</td>
 										<td th:text="${sd.appellation}">Appelation</td>
 										<td th:text="${sd.situationGeo}">Situation géographique</td>
-										<td th:text="${sd.dateCreation}">Responsable</td>
-										<td th:if="${sd.postManager}"><span th:if="${sd.postManager.agent}" th:text="${sd.postManager.agent.nom + ' ' + sd.postManager.agent.prenom}"></span></td>
-										<td>Actions</td>
+										<td th:text="${sd.dateCreation}">Date de creation</td>
+										<td>
+											<span th:if="${sd.postManager}">
+												<span th:text="${sd.postManager.agent} ? ${sd.postManager.agent.nom + ' ' + sd.postManager.agent.prenom} : 'Non defini'">
+
+												</span>
+											</span>
+										</td>
+										<td>
+											<div class="btn-group pull-right">
+												<button type="button" class="btn btn-theme dropdown-toggle"
+													data-toggle="dropdown">
+													Actions <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li>
+														<a th:href="@{'/staffadmin/unites-admins/'+${sd.idUniteAdmin}}">
+															<i class="glyphicon glyphicon-eye-open"></i> Voire
+														</a>
+													</li>
+													<li>
+														<a th:href="${'/staffadmin/unites-admins/update/' + sd.idUniteAdmin}">
+															<i class="glyphicon glyphicon-edit"></i> Modifier
+														</a>
+													</li>
+														  
+															
+													<li>
+														<a href="#">
+															<i class="glyphicon glyphicon-trash">Affecter du personnel</i>
+														</a>
+													</li>
+													<li class="divider"></li>
+													
+				<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
+														<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
+												</ul>
+											</div>
+										</td>
 									</tr>           			
 								</tbody>
 							</table>

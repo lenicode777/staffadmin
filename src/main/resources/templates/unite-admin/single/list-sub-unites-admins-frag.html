@@ -33,7 +33,15 @@
 								<td th:text="${subAdmin.dateCreation}">Date de création</td>
 								<td th:text="${subAdmin.contacts}">Contacts</td>
 								<td th:text="${subAdmin.situationGeo}">Localisation</td>
-								<td>Responsable</td>
+								<td>
+									<p>
+										<span th:if="${subAdmin.postManager}">
+											<a th:href="${subAdmin.postManager.agent} ? @{/staffadmin/profil(idAgent=${subAdmin.postManager.agent.idAgent})} : '#' ">
+												<img style="width: 50px; height: 50px;" alt="Photo" th:src="${subAdmin.postManager.agent} ? @{'/staffadmin/agents/'+${subAdmin.postManager.agent.idAgent}+'/photo'} : '#'" class="img-circle"/>
+											</a>
+										</span>
+									</p>
+								</td>
 								<td>
 									<div class="btn-group pull-right">
 										<button type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">

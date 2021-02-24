@@ -1,10 +1,62 @@
 package dmp.staffadmin.utilities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateManager 
 {
+	public static Period getPeriod(Date dateDepart, Date dateArrivee)
+	{
+		Calendar calendar1 = Calendar.getInstance();
+		Calendar calendar2 = Calendar.getInstance();
+		calendar1.setTime(dateDepart);
+		calendar2.setTime(dateArrivee);
+		
+		LocalDate ld1 = LocalDate.of(calendar1.get(calendar1.YEAR),calendar1.get(calendar1.MONTH), calendar1.get(calendar1.DAY_OF_MONTH));
+		LocalDate ld2 = LocalDate.of(calendar2.get(calendar2.YEAR),calendar2.get(calendar2.MONTH), calendar2.get(calendar2.DAY_OF_MONTH));
+		Period period = Period.between(ld1, ld2);
+		return period;
+	}
+	
+	public static String getRemainTime(Date dateDepart, Date dateArrivee)
+	{
+		Period p = getPeriod(dateDepart, dateArrivee);
+		long nbYears = p.getYears();
+		long nbMonths = p.getMonths();
+		long nbDays = p.getDays();
+		String remainTime = String.valueOf(nbYears);
+		
+		if (nbYears > 1 )
+		{
+			remainTime = String.valueOf(nbYears) + " ans, ";
+		}
+		else
+		{
+			remainTime = String.valueOf(nbYears) + " an, ";
+		}
+		remainTime += String.valueOf(nbMonths) + " mois et ";
+		if(nbDays>1)
+		{
+			remainTime += String.valueOf(nbDays) + " jours";
+		}
+		else
+		{
+			remainTime += String.valueOf(nbDays) + " jour";
+		}
+		return remainTime;
+	}
+	public static long dateDiff(Date dateDebut, Date dateFin)
+	{
+		Period p = getPeriod(dateDebut, dateFin);
+		return p.getYears();
+	}
 	public static Date addDates(Date dateDebut, int duree, int periodeField)
 	{
 		Calendar c = Calendar.getInstance();
@@ -41,5 +93,16 @@ public class DateManager
 	public static Date addSecondes(Date dateDebut, int duree)
 	{
 		return addDates(dateDebut, duree, Calendar.SECOND); // A tester
+	}
+	
+	public static void main(String[] args) throws ParseException
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		
+		Date dateNaissance = sdf.parse("06-04-1991");
+		System.out.println(dateNaissance);
+		System.out.println("Age = " +dateDiff(dateNaissance, new Date()));
+		System.out.println(addMinutes(new Date(), 20));
+		System.out.println(getRemainTime(dateNaissance, new Date()));
 	}
 }

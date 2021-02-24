@@ -16,7 +16,7 @@
         <div layout:fragment="content">
 			
 			<div style="margin-bottom: 10px;">
-				<span th:if="${2 == visitedUser.agent.idAgent}">
+				<span th:if="${#request.userPrincipal.principal.agent.idAgent == visitedUser.agent.idAgent}">
 					<a class="btn btn-success" style="font-weight: bolder;" type="button" th:href="@{/staffadmin/change-password}">
 						Changer votre mot de passe <i class="fa fa-key"></i>
 					</a>

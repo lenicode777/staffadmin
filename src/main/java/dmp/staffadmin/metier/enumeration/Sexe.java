@@ -2,8 +2,8 @@ package dmp.staffadmin.metier.enumeration;
 
 public enum Sexe 
 {
-	HOMME("HOMME"),
-	FEMME("FEMME");
+	MASCULIN("M"),
+	FEMININ("F");
 
 	Sexe(String sexe)
 	{

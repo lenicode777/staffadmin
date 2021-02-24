@@ -16,7 +16,9 @@ public class UserPrincipalDetailsService implements UserDetailsService
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
 	{
+		System.out.println("USERNAME = " + username);
 		User user = userRepository.findByUsername(username);
+		System.out.println("ID_USER = " + user.getIdUser());
 		List<Role> roles = roleDao.findByUsers_Username(user.getUsername());
 		user.setRoles(roles);
 		return new UserPrincipal(user);

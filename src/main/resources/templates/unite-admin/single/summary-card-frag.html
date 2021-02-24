@@ -43,7 +43,9 @@
 
 						<li class="list-group-item"> 
 							<b> Tutelle : </b>
-							<span class="pull-right" th:text="${visitedUniteAdmin.tutelleDirecte} ? ${visitedUniteAdmin.tutelleDirecte.appellation+ ' (' + visitedUniteAdmin.tutelleDirecte.sigle +')'} : 'Non fourni'"></span>
+							<a th:href="${visitedUniteAdmin.tutelleDirecte} ? @{'/staffadmin/unites-admins/'+ ${visitedUniteAdmin.tutelleDirecte.idUniteAdmin}} : '#'">
+								<span class="pull-right" th:text="${visitedUniteAdmin.tutelleDirecte} ? ${visitedUniteAdmin.tutelleDirecte.appellation+ ' (' + visitedUniteAdmin.tutelleDirecte.sigle +')'} : 'Non fourni'"></span>
+							</a>
 						</li>
 						
 						<li class="list-group-item"> 
@@ -61,7 +63,11 @@
 						<span th:if="${visitedUniteAdmin.postManager}">
 							<span th:if="${visitedUniteAdmin.postManager.agent}">
 								<p>
-									<img alt="Photo" th:src="@{'/staffadmin/agents/'+${visitedUniteAdmin.postManager.agent.idAgent}+'/photo'}" class="img-circle"/>
+									<b>Le Responsable</b>
+									<a th:href="@{/staffadmin/profil(idAgent=${visitedUniteAdmin.postManager.agent.idAgent})}">
+										<img alt="Photo" th:title="${visitedUniteAdmin.postManager.agent}" th:src="@{'/staffadmin/agents/'+${visitedUniteAdmin.postManager.agent.idAgent}+'/photo'}" class="img-circle"/>
+									</a> <br/>
+									<b th:text="${visitedUniteAdmin.postManager.agent}"></b>
 								</p>
 								
 								<span th:if="${#request.userPrincipal.principal.agent.idAgent == visitedUniteAdmin.postManager.agent.idAgent}">

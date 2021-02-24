@@ -1,7 +1,10 @@
 package dmp.staffadmin.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -89,8 +92,8 @@ public class UniteAdminController
 	
 	@PostMapping(path = "/staffadmin/unites-admins/update")
 	public String updateUniteAdmin(Model model, @ModelAttribute UniteAdmin uniteAdmin)
-	{
-		uniteAdminMetier.save(uniteAdmin);
+	{		
+		uniteAdminMetier.update(uniteAdmin);
 		return "redirect:/staffadmin/unites-admins/"+uniteAdmin.getIdUniteAdmin();
 	}
 	
@@ -99,18 +102,28 @@ public class UniteAdminController
 	{
 		User authUser = userDao.findByUsername(request.getUserPrincipal().getName());
 		UniteAdmin visitedUniteAdmin = uniteAdminDao.findById(idUniteAdmin).get();
-		List<Long> idResponsablesTutelles = null;
+		List<Long> idResponsablesTutelles = new ArrayList<>();
 		
 		List<String> roles = authUser.getRoles().stream().map(r->r.getRole()).collect(Collectors.toList());
 		if(visitedUniteAdmin.getPostManager()!=null)
 		{
-			idResponsablesTutelles = visitedUniteAdmin.getPatrentsStream().map(ua->ua.getPostManager().getAgent().getIdAgent()).collect(Collectors.toList());
+			List<Optional<Long>> optionalIdResponsablesTutelles = visitedUniteAdmin
+									.getPatrentsStream().filter(ua->ua.getPostManager()!=null ).peek(ua->System.out.println(ua.getAppellation()))
+									.filter(ua->ua.getPostManager().getAgent()!=null)
+									.map(ua->Optional.ofNullable(ua.getPostManager()
+									.getAgent().getIdAgent())).collect(Collectors.toList());
+			
+			for(Optional<Long> ol: optionalIdResponsablesTutelles)
+			{
+				ol.ifPresent(l->idResponsablesTutelles.add(l));
+			}
+									
 		}
 		
 		
 		if(!roles.contains("SAF"))
 		{
-			if(idResponsablesTutelles==null)
+			if(idResponsablesTutelles==null || idResponsablesTutelles.size()==0)
 			{
 				throw new RuntimeException("Accès réfusé");
 			}

@@ -464,8 +464,14 @@ ul.sidebar-menu li a.active i {
 }
 
 /* MAIN CONTENT CONFIGURATION */
-#main-content {
+#main-content 
+{
+    /*margin-left: 210px;*/
     margin-left: 210px;
+}
+.main-content-block-item
+{
+	margin-right: 40px;
 }
 
 .header, .footer {

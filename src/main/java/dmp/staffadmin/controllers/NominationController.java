@@ -1,6 +1,7 @@
 package dmp.staffadmin.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.INominationDao;
 import dmp.staffadmin.dao.IPostDao;
+import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Fonction;
@@ -38,6 +40,8 @@ public class NominationController
 	@Autowired private IUserDao userDao;
 	@Autowired private INominationDao nominationDao;
 	@Autowired private IUniteAdminDao uniteAdminDao;
+	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
+	
 	@GetMapping(path = "/staffadmin/nominations/form")
 	public String goToNominationForm(Model model, HttpServletRequest request, 
 									 @RequestParam(name = "idAgent") Long idAgent)
@@ -64,13 +68,16 @@ public class NominationController
 		//TypeUniteAdmin type = uniteAdmin.getTypeUniteAdmin();
 		//System.out.println("TypeUniteAdmin = "+type.getNomTypeUniteAdmin() + " ID = "+ type.getIdTypeUniteAdmin() );
 		List<Fonction> fonctionsNomination = fonctionDao.findByTypeUniteAdminIdTypeUniteAdmin(uniteAdmin.getTypeUniteAdmin().getIdTypeUniteAdmin());
+		List<String> titres = fonctionsNomination.stream().map(f->Nomination.getTitreNomination2(f, uniteAdmin)).collect(Collectors.toList());
 		Nomination nomination = new Nomination();
 		nomination.setUniteAdminDeNomination(uniteAdmin);
+		
 		//Agent agentANommer = agentDao.findById(idAgent).get();
 		//nomination.setAgentNomme(agentANommer);
 		model.addAttribute("nomination", nomination);
 		//model.addAttribute("agentANommer", new Agent());
 		model.addAttribute("fonctionsNomination", fonctionsNomination);
+		model.addAttribute("titres", titres);
 		
 		return "nomination-promotion/nomination-unite-admin";
 	}
@@ -78,29 +85,39 @@ public class NominationController
 	@PostMapping(path = "/staffadmin/nominations/save")
 	public String saveNomination(Model model, @ModelAttribute Nomination nomination)
 	{
-		/*nomination.setFonctionNomination(fonctionDao.getOne(nomination.getFonctionNomination().getIdFonction()));
-		nomination.setUniteAdminDeNomination(uniteAdminDao.getOne(nomination.getUniteAdminDeNomination().getIdUniteAdmin()));
-		nomination.setAgentNomme(agentDao.getOne(nomination.getAgentNomme().getIdAgent()));
-		nomination.getAgentNomme().setTutelleDirecte(nomination.getUniteAdminDeNomination());
-		agentDao.save(nomination.getAgentNomme());
-		System.out.println(nomination);
-		//Post postManager = new Post();
-		if(nomination.getFonctionNomination().isFonctionTopManager())
-		{
-			Post postManager = new Post(null, nomination.getFonctionNomination(), nomination.getTitreNomination(), nomination.getUniteAdminDeNomination(), nomination.getAgentNomme());
-			postManager = postDao.save(postManager);
-			nomination.getUniteAdminDeNomination().setPostManager(postManager);
-		}
-		else
-		{
-			Post postDeResponsabilite = new Post(null, nomination.getFonctionNomination(), nomination.getTitreNomination(), nomination.getUniteAdminDeNomination(), nomination.getAgentNomme());
-			postDeResponsabilite = postDao.save(postDeResponsabilite);
-			nomination.getUniteAdminDeNomination().getPostesDeResponsabilites().add(postDeResponsabilite);
-		}*/
+		System.out.println("============================SAVE METHODE=========================");
+		  System.out.println("titre : "+nomination.getTitreNomination());
+		  System.out.println("Fonction : "+nomination.getFonctionNomination().
+		  getIdFonction());
+		  System.out.println("date : "+nomination.getDateNomination());
+		  System.out.println("Agent: "+nomination.getAgentNomme().toString());
+		 
 		
-		//uniteAdminDao.save(nomination.getUniteAdminDeNomination());
-		//nominationDao.save(nomination);
 		nomninationMetier.save(nomination);
-		return "redirect:/";
+		return "redirect:/staffadmin/unites-admins/"+nomination.getUniteAdminDeNomination().getIdUniteAdmin();
+	}
+	
+	@PostMapping(path = "/staffadmin/nomination/confirmation")
+	public String goToConfirmationNomination(Model model, HttpServletRequest request, @ModelAttribute Nomination nomination)
+	{
+		UniteAdmin uniteAdminDeNomination = uniteAdminDao.findById(nomination.getUniteAdminDeNomination().getIdUniteAdmin()).get();
+		Fonction fonctionNomination = fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get();
+		
+		System.out.println("FONCTION1111111 = "+fonctionNomination.getNomFonction());
+		//fonctionNomination.setTypeUniteAdmin(typeUniteAdminDao.findById().get());
+		Agent agentANommer = agentDao.findByMatricule(nomination.getAgentNomme().getMatricule());
+		
+		nomination.setAgentNomme(agentANommer);
+		nomination.setUniteAdminDeNomination(uniteAdminDeNomination);
+		nomination.setFonctionNomination(fonctionNomination);
+		model.addAttribute("nomination", nomination);
+		
+		System.out.println("ID_FONCTION = "+ nomination.getFonctionNomination().getIdFonction());
+		System.out.println("titre : "+nomination.getTitreNomination());
+		System.out.println("Fonction : "+nomination.getFonctionNomination().getNomFonction());
+		System.out.println("date : "+nomination.getDateNomination());
+		System.out.println("Agent: "+nomination.getAgentNomme().toString());
+		
+		return "nomination-promotion/confirmation-nomination-unite-admin";
 	}
 }

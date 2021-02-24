@@ -78,15 +78,21 @@ public class Agent
 	private Date datePriseServiceDMP;
 	@Transient
 	private Date dateDepartRetraite;
-	private String statutEmploye; //Fonctionnaire, Contractuel
+	private String statutAgent; //Fonctionnaire, Contractuel
 	private String position; //Activite, Detachement, Disponibilite, Sous les drapeaux
+	private String etatRecrutement; // En service, En attente de première affectation, En attente d'affectation dans une SD, En attente d'affectation dans un service 
 	private boolean active;
-	@OneToOne @JoinColumn(name = "ID_RECRUTEMENT")
-	private Recrutement recrutement;
-	
 	@OneToOne(fetch = FetchType.EAGER)
 	private User user;
+	@Column(length = 255, unique = true)
+	private String nomPhoto;
+	@Transient private MultipartFile photoFile;
 	
+	//@OneToOne @JoinColumn(name = "ID_RECRUTEMENT")
+	//private Recrutement recrutement;
+	
+
+	/*
 	@Column(length = 255, unique = true)
 	private String noteServiceDAAFPath;
 	@Column(length = 255, unique = true)
@@ -101,8 +107,7 @@ public class Agent
 	private String cvPath;
 	@Column(length = 255, unique = true)
 	private String pieceIdentitePath;
-	@Column(length = 255, unique = true)
-	private String nomPhoto;
+
 	
 	
 	
@@ -120,8 +125,15 @@ public class Agent
 
 	@Transient private MultipartFile pieceIdentiteFile;
 
-	@Transient private MultipartFile photoFile;
 	
+	*/
+	@Transient private long age;
+	//@Transient private String tempsTravailRestant;
+	
+	public long getAge()
+	{
+		return DateManager.dateDiff(dateNaissance, new Date());
+	}
 	public static String generateFileName(String matriculeAgent, String typeFile)
 	{
 		return typeFile+matriculeAgent;
@@ -144,6 +156,11 @@ public class Agent
 		{
 			return 60;
 		}
+	}
+	
+	public String getTempsTravailRestant()
+	{
+		return DateManager.getRemainTime(new Date(), getDateDepartRetraite());
 	}
 	
 	public Date getDateDepartRetraite()

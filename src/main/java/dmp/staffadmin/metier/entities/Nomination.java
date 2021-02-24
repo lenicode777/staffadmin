@@ -40,4 +40,63 @@ public class Nomination
 	private Agent agentNomme;
 	@Transient
 	private MultipartFile acteNominationFile;
+	
+	public String getTitreNomination2()
+	{
+		return getTitreNomination2(this.fonctionNomination, this.uniteAdminDeNomination);
+	}
+	
+	public static String getTitreNomination2(Fonction fonction, UniteAdmin uniteAdmin)
+	{
+		StringBuilder titreBuilder = new StringBuilder(fonction.getNomFonction());
+		String[] splitedAppellation = uniteAdmin.getAppellation().split(" ");
+		String nomTypeUniteAdmin = uniteAdmin.getTypeUniteAdmin().getNomTypeUniteAdmin();
+		
+		if(nomTypeUniteAdmin.equalsIgnoreCase("Direction Centrale") || nomTypeUniteAdmin.equalsIgnoreCase("Service Rattaché"))
+		{
+			for(int i=uniteAdmin.getTypeUniteAdmin().getNomTypeUniteAdmin().split(" ").length-1 ; i< splitedAppellation.length; i++) 
+			{
+				titreBuilder.append(" "+splitedAppellation[i]);
+			}
+		}
+		else
+		{
+			for(int i=uniteAdmin.getTypeUniteAdmin().getNomTypeUniteAdmin().split(" ").length ; i< splitedAppellation.length; i++) 
+			{
+				titreBuilder.append(" "+splitedAppellation[i]);
+			}
+		}
+
+		return titreBuilder.toString();
+	}
+	
+	public static void main(String[] args)
+	{
+		Fonction fonction1 = new Fonction(); fonction1.setNomFonction("Directeur Général Adjoint");
+		Fonction fonction2 = new Fonction(); fonction2.setNomFonction("Directeur Général");
+		Fonction fonction3 = new Fonction(); fonction3.setNomFonction("Directeur");
+		Fonction fonction4 = new Fonction(); fonction4.setNomFonction("Chef de Service");
+		UniteAdmin uniteAdmin1 =  new UniteAdmin(); uniteAdmin1.setAppellation("Direction Générale des Marchés Publics");
+		UniteAdmin uniteAdmin2 =  new UniteAdmin(); uniteAdmin2.setAppellation("Direction des Procédures et Opérations");
+		UniteAdmin uniteAdmin3 =  new UniteAdmin();uniteAdmin3.setAppellation("Services des Moyens Généraux et du Personnel");
+		TypeUniteAdmin type1 = new TypeUniteAdmin(null, "Direction Générale", 1, null);
+		TypeUniteAdmin type2 = new TypeUniteAdmin(null, "Direction", 2, null);
+		TypeUniteAdmin type3 = new TypeUniteAdmin(null, "Service", 2, null);
+		TypeUniteAdmin type4 = new TypeUniteAdmin(null, "Service Rattaché", 2, null);
+		uniteAdmin1.setTypeUniteAdmin(type1);
+		uniteAdmin2.setTypeUniteAdmin(type2);
+		uniteAdmin3.setTypeUniteAdmin(type3);
+		
+		
+			
+		
+		
+		
+		
+		System.out.println(getTitreNomination2(fonction1, uniteAdmin1));
+		System.out.println(getTitreNomination2(fonction2, uniteAdmin1));
+		
+		System.out.println(getTitreNomination2(fonction3, uniteAdmin2));
+		System.out.println(getTitreNomination2(fonction4, uniteAdmin3));
+	}
 }

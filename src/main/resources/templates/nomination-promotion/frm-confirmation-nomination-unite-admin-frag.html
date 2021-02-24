@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-confirmation-nomination-unite-admin-frag">
+            <form id="frm-unite-admin" th:object="${nomination}" th:action="@{/staffadmin/nominations/save}" method="POST" enctype="multipart/form-data">
+				<div class="panel panel-default main-content-block-item" >
+                    <div class="panel-heading">
+                    	Confirmation de la nommination
+                    	<span class="pull-right">
+							<img style="width: 35px; height: 35px;" id="photo-tag" th:src="@{'/staffadmin/agents/'+${nomination.agentNomme.idAgent}+'/photo'}" class="img-circle"/>
+						</span>
+                    </div>
+
+                    <div class="list-group">
+                        <li class="list-group-item">
+                            <b>Nom et Prénom</b>
+                            <span class="badge" th:text="${nomination.agentNomme.nom + ' ' + nomination.agentNomme.prenom}"></span>
+                            <input type="hidden" th:field="*{agentNomme.idAgent}">
+                        </li>
+
+                        <li class="list-group-item">
+                            <b>Matricule</b>
+                            <span class="badge" th:text="${nomination.agentNomme.matricule}"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Structure</b>
+                            <span class="badge" th:text="${nomination.uniteAdminDeNomination.appellation}"></span>
+                            <input type="hidden" th:field="*{uniteAdminDeNomination.idUniteAdmin}">
+                        </li>
+                        <li class="list-group-item">
+                            <b>Titre</b>
+                            <span class="badge" th:text="${nomination.titreNomination}"></span>
+                            <input type="hidden" th:field="*{titreNomination}">
+                        </li>
+                        <li class="list-group-item">
+                            <b>Fonction</b>
+                            <span class="badge" th:text="${nomination.fonctionNomination.nomFonction}"></span>
+                            <input type="hidden" th:field="*{fonctionNomination.idFonction}">
+                        </li>
+                        <li class="list-group-item">
+                            <b>Date de nommination</b>
+                            <span class="badge" th:text="${nomination.dateNomination}"></span>
+                            <input type="hidden" th:field="*{dateNomination}">
+                        </li>
+                    </div>
+
+<!--                <div class="col col-lg-12">
+                        <div class="form-group">
+                            <label for="acteNominationFile">Acte de nomination</label>
+                            <input required th:field="*{acteNominationFile}"  type="file" class="form-control-file" id="acteNominationFile">
+                        </div>
+                    </div>  --> 
+                </div>
+
+                <div class="main-content-block-item">
+                    <button id="btnEnregistrer" class="btn green-btn pull-right" style="margin: 5px;" type="submit">Enregistrer</button>
+	                <a th:href="${'/staffadmin/' + {nomination.uniteAdminDeNomination.idUniteAdmin} +'/nominations/form'}" class="btn btn-default pull-right" style="margin: 5px;" type="reset">
+                        <i class="glyphicon glyphicon-hand-left"></i> Revinir
+                    </a> 	                    
+	           </div>  
+            </form>
+      	</th:block>
+    </body>
+</html>

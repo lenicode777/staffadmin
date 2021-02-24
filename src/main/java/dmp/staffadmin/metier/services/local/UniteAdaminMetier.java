@@ -3,6 +3,7 @@ package dmp.staffadmin.metier.services.local;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import dmp.staffadmin.dao.IAgentDao;
+import dmp.staffadmin.dao.IPostDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.Fonction;
+import dmp.staffadmin.metier.entities.Nomination;
+import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.interfaces.IPostMetier;
 import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.IUniteAdminValidation;
 @Service @Transactional
@@ -23,6 +30,8 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IUniteAdminValidation uniteAdminValidation;
 	@Autowired private IAgentDao agentDao;
+	@Autowired private IPostMetier postMetier;
+	@Autowired private IPostDao postDao;
 
 	@Override
 	public UniteAdmin save(UniteAdmin uniteAdmin) 
@@ -30,23 +39,32 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 		uniteAdminValidation.validate(uniteAdmin);
 		UniteAdmin tutelleDirecte = uniteAdminDao.findById(uniteAdmin.getTutelleDirecte().getIdUniteAdmin()).get();
 		tutelleDirecte.ajouterUA(uniteAdmin);
-		System.out.println(uniteAdmin);
+		//System.out.println(uniteAdmin);
 		
 		return uniteAdminDao.save(uniteAdmin);
 	}
 	@Override
 	public UniteAdmin update(UniteAdmin uniteAdmin) 
 	{
-		this.save(uniteAdmin);
-		return null;
+		UniteAdmin uaFromDb = uniteAdminDao.findById(uniteAdmin.getIdUniteAdmin()).get();
+		uaFromDb.setAppellation(uniteAdmin.getAppellation());
+		uaFromDb.setSigle(uniteAdmin.getSigle());
+		uaFromDb.setContacts(uniteAdmin.getContacts());
+		uaFromDb.setTypeUniteAdmin(uniteAdmin.getTypeUniteAdmin());
+		uaFromDb.setDateCreation(uniteAdmin.getDateCreation());
+		uaFromDb.setTutelleDirecte(uniteAdmin.getTutelleDirecte());
+		uaFromDb.setSituationGeo(uniteAdmin.getSituationGeo());
+		uniteAdminValidation.validate(uaFromDb);
+		System.out.println("===Modif Réussi===");
+		return uniteAdminDao.save(uaFromDb);
 	}
 	@Override
 	public UniteAdmin update(Long uniteAdminId, UniteAdmin uniteAdminBody) 
 	{
 		uniteAdminBody.setIdUniteAdmin(uniteAdminId);
-		this.save(uniteAdminBody);
-		return null;
+		return this.update(uniteAdminBody);
 	}
+	
 	@Override
 	public List<UniteAdmin> findAll() 
 	{
@@ -99,7 +117,7 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 		return uniteAdmin.getSubAdminStream()
 				.map(UniteAdmin::getPersonnel)
 				.flatMap(listAgent->listAgent.stream())
-				.filter(agent->agent.getStatutEmploye().equalsIgnoreCase("FONCTIONNAIRE"))
+				.filter(agent->agent.getStatutAgent().equalsIgnoreCase("FONCTIONNAIRE"))
 				.count();
 	}
 	
@@ -115,5 +133,79 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	 * System.out.println(SDSIC.getPatrentsStream().peek(ua->System.out.println(ua.
 	 * getSigle())). map(ua->ua.getSigle()). collect(Collectors.toList())); }; }
 	 */
+	
+	private UniteAdmin nommerManager(UniteAdmin uniteAdmin, Agent agentANommer, Fonction fonctionDeNomination) 
+	{
+		Post postOfManager = uniteAdmin.getPostManager();
+		
+		if(postOfManager == null)
+		{
+			postOfManager = new Post(null,fonctionDeNomination, Nomination.getTitreNomination2(fonctionDeNomination, uniteAdmin), uniteAdmin, agentANommer);
+			postOfManager = postDao.save(postOfManager);
+		}
+		else
+		{
+			Agent ancienManager = postOfManager.getAgent();
+			if(ancienManager!=null)
+			{
+				postMetier.demettreResponsable(postOfManager, ancienManager);
+			}
+		}
+		postMetier.nommerResponsable(postOfManager, agentANommer);
+			
+		return uniteAdmin;
+	}
+	
+	private UniteAdmin nommerAutreResponsable(UniteAdmin uniteAdminDeNomination, Agent agentANommer, Fonction fonctionDeNomination) 
+	{
+		System.out.println("3============Autre Fonction de responsabilité===========");
+		Optional<Post> postResponsable = Optional.empty(); //On recherche un éventuel post de responsabilité vide pour la même fonction au sein de L'UA de nomination
+		try
+		{
+			Long idFonction = fonctionDeNomination.getIdFonction(); //Je capte l'identifiant de la fonction de nomination pour le filtre à la ligne suivante
+			postResponsable = uniteAdminDeNomination.getPostesDeResponsabilites().stream()
+								  .filter(p->p.getAgent()==null && p.getFonction().getIdFonction()==idFonction )
+								  .findFirst();
+			System.out.println("4============Passe le filtre des postes de respo avec succes===========");
+		}
+		catch (Exception e) // Juste par précaution
+		{
+			System.out.println("5===============================PRECAUTION CATCH RESPONSABILITE POST==========================");
+			System.out.println(e.getMessage());
+		}
+		
+		Post postDeNomination = new Post();
+		
+		if(!postResponsable.isPresent()) //Si ce post n'existe pas, on le crée
+		{
+			System.out.println("6============Aucun poste de responsabilité vide trouvé===========");
+			postDeNomination = new Post(null, fonctionDeNomination, Nomination.getTitreNomination2(fonctionDeNomination, uniteAdminDeNomination), uniteAdminDeNomination, agentANommer);
+			postDeNomination.setUniteAdmin(uniteAdminDeNomination); //On lui défini l'UA de nomination comme unite admin
+			postDeNomination.setAgent(agentANommer); //On occupe le poste avec l'agentANommer
+			postDeNomination = postDao.save(postDeNomination);//J'enregistre le poste
+			//nomination.setPostNomination(post); // Je définis ce post comme étant le post de la nomination en cours
+		}
+		else //Si un tel post existe (Vide et de même fonction que celle de la nomination)
+		{
+			System.out.println("7============Poste vide trouvé===========");
+			postDeNomination = postResponsable.get(); //On le récupère
+			postDeNomination.setUniteAdmin(uniteAdminDeNomination);//On lui défini l'UA de nomination comme unite admin
+			postDeNomination.setAgent(agentANommer); // On met l'agentANommer à ce post
+			postDeNomination = postDao.save(postDeNomination); // On l'enregistre
+			//nomination.setPostNomination(post); //On Défini ce post comme post de nomination pour notre nomination
+		}
+		postDeNomination = postMetier.nommerResponsable(postDeNomination, agentANommer);
+		System.out.println("8============Poste de nomination enregistré===========");
+		return postDeNomination.getUniteAdmin();
+	}
+	@Override
+	public UniteAdmin nommerResponsable(UniteAdmin uniteAdmin, Agent agentANommer, Fonction fonctionDeNomination) 
+	{
+		System.out.println("FONCTION  = " + fonctionDeNomination.getNomFonction());
+		System.out.println("FONCTION TOP MANAGER = " + fonctionDeNomination.isFonctionTopManager());
+		if(fonctionDeNomination.isFonctionTopManager()) return nommerManager(uniteAdmin, agentANommer, fonctionDeNomination);
+		else return nommerAutreResponsable(uniteAdmin, agentANommer, fonctionDeNomination);
+
+	}
 }
 

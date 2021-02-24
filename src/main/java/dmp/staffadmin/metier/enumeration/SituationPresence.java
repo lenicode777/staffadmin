@@ -12,7 +12,7 @@ public enum SituationPresence
 	FORMATION("EN FORMATION"),
 	DETACHEMENT("EN DETACHEMENT"),
 	DECEDE("DECEDE"),
-	PARTI("PARTI DE LA DMP");
+	PARTI("PARTI DE LA DGMP");
 	
 	SituationPresence(String situationPresence)
 	{

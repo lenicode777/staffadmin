@@ -67,11 +67,8 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="panel-default panel main-content-block-item">
-            <div class="panel-heading">Nomination</div>
-            <div class="panel-body">
-                <th:block th:replace="nomination-promotion/frm-nomination-unite-admin-frag.html::frm-nomination-unite-admin-frag"></th:block>
-            </div>
+    	<div class="col-md-12">
+        	<th:block th:replace="nomination-promotion/frm-confirmation-nomination-unite-admin-frag.html::frm-confirmation-nomination-unite-admin-frag"></th:block>
         </div>
     </div>
     <div layout:fragment="js-specifics-dependancies">
@@ -84,7 +81,7 @@
         <script>
             $("#matricule").blur(function(e)
             {
-            	//alert("BLUR " + this.value);
+            	alert("BLUR " + this.value);
                 $.ajax
                 ({
                     type: "GET",
@@ -92,25 +89,38 @@
                     success: function (response) 
                     {
                         //alert("SUCCESS");
-                        //alert($("#matricule").val());
+                        alert($("#matricule").val());
                         if(response==true)
                         {
                         	$("#btnEnregistrer").removeAttr("disabled");
-                            $("#matricule-error-msg").fadeOut();
-                            
+                            $.ajax({
+                                type: "GET",
+                                url: "/staffadmin/agentRestController/findByMatricule/" + $("#matricule").val(),
+
+                                success: function (response) 
+                                {
+                                    alert($("#matricule").val());
+                                    alert(response["nom"]);
+                                    console.log(response);
+                                    $("#agentInfos").text(response.nom);
+                                },
+                                error: function(e)
+                                {
+                                    console.log(e);
+                                    alert("ERROR 2");
+                                }
+                            });
                         }
                         else
                         {
                             //alert("INEXISTANT");
-                            $("#matricule-error-msg").fadeIn();
                             $("#btnEnregistrer").attr("disabled", "disabled")
                         }
                     },
                     error: function(e)
                     {
-                        //console.log(e);
-                    	//alert("ERROR "+ e);
-                        $("#matricule-error-msg").fadeOut();
+                        console.log(e);
+                    	alert("ERROR "+ e);
                     	$("#btnEnregistrer").attr("disabled", "disabled");
                     }
                 });

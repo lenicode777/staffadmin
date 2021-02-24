@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,16 +46,25 @@ public class SecurityController
 	public String goToProfile(HttpServletRequest request, Model model, @RequestParam(defaultValue = "0") Long idAgent)
 	{
 		String username = request.getUserPrincipal().getName();
+		System.out.println("Username = " + username);
 		User authUser = userDao.findByUsername(username);
+		System.out.println("Auth user : " + "ID = "+ authUser.getIdUser());
+		System.out.println("Auth user : " + "username = "+ authUser.getUsername());
 		User visitedUser = null ;
+		System.out.println("USername = "+username);
+		System.out.println("IdAgent = "+ idAgent);
 		if(idAgent==null || idAgent==0)
 		{
+			System.out.println("IdAgent is null");
 			visitedUser=authUser;
 		}
 		else
 		{
+			System.out.println("IdAgent is not null");
 			//Agent visitedAgent = agentDao.findById(idAgent).get();
 			visitedUser = userDao.findByAgentIdAgent(idAgent);
+			System.out.println("Visited user : " + "ID = "+ visitedUser.getIdUser());
+			System.out.println("Visited user : " + "username = "+ visitedUser.getUsername());
 			//visitedUser.setAgent(visitedAgent);
 		}
 		
@@ -103,5 +113,13 @@ public class SecurityController
 		}
 		
 		return "redirect:/staffadmin/logout";
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public String exceptionHandler(Exception e, Model model)
+	{
+		System.out.println(e.getMessage());
+		model.addAttribute("exceptionHandler", e.getMessage());
+		return "exceptions/500";
 	}
 }

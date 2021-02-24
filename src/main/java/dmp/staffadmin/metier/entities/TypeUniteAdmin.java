@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import dmp.staffadmin.security.userdetailsservice.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +23,7 @@ public class TypeUniteAdmin
 	private Long idTypeUniteAdmin;
 	private String nomTypeUniteAdmin;
 	private int administrativeLevel;
+
 	@OneToMany(mappedBy = "typeUniteAdmin", fetch = FetchType.LAZY)
 	private List<UniteAdmin> uniteAdmins;
 }

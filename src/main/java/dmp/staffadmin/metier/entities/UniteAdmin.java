@@ -105,7 +105,7 @@ public class UniteAdmin
 	@Override
 	public String toString()
 	{
-		return this.appellation + " - "+this.sigle + " - Id="+idUniteAdmin; 
+		return this.appellation + " ("+this.sigle + ")"; 
 	}
 	
 	public String generateTitreOfPostManager() 
