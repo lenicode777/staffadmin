@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	
     <style type="text/css">
         div.panel div.panel-heading 
         {
@@ -70,8 +71,25 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
         <script src="/lib/jquery/JQueryBolckUI.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="/staffadmin/js/agent/frm-agent.js"></script>
-       
+       	
+       	<script type="text/javascript">
+
+		function formatDropDownBoxToSelect2(idDropDown)
+		{
+         	$(document).ready(function() 
+            {
+                $('#'+idDropDown).select2();
+            });
+		}
+
+		formatDropDownBoxToSelect2("grade");
+		formatDropDownBoxToSelect2("emploi");
+		formatDropDownBoxToSelect2("fonction");
+		//formatDropDownBoxToSelect2("grade");
+
+       	</script>
     </div>
 </body>
 

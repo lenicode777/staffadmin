@@ -85,13 +85,21 @@ public class NominationController
 	@PostMapping(path = "/staffadmin/nominations/save")
 	public String saveNomination(Model model, @ModelAttribute Nomination nomination)
 	{
-		System.out.println("============================SAVE METHODE=========================");
-		  System.out.println("titre : "+nomination.getTitreNomination());
-		  System.out.println("Fonction : "+nomination.getFonctionNomination().
-		  getIdFonction());
-		  System.out.println("date : "+nomination.getDateNomination());
-		  System.out.println("Agent: "+nomination.getAgentNomme().toString());
-		 
+		System.out.println("============================NominationController SAVE METHODE=========================");
+		System.out.println("titre : "+nomination.getTitreNomination());
+		System.out.println("Fonction : "+nomination.getFonctionNomination().
+		getIdFonction());
+		System.out.println("date : "+nomination.getDateNomination());
+		System.out.println("Agent: "+nomination.getAgentNomme().toString()+"ID = "+nomination.getAgentNomme().getIdAgent());
+		  
+		  
+		Agent agentANommer = agentDao.findById(nomination.getAgentNomme().getIdAgent()).get();
+		Fonction fonctionDeNomFonction = fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get();
+		UniteAdmin uniteAdminDeNomination = uniteAdminDao.findById(nomination.getUniteAdminDeNomination().getIdUniteAdmin()).get();
+		
+		nomination.setAgentNomme(agentANommer);
+		nomination.setFonctionNomination(fonctionDeNomFonction);
+		nomination.setUniteAdminDeNomination(uniteAdminDeNomination);
 		
 		nomninationMetier.save(nomination);
 		return "redirect:/staffadmin/unites-admins/"+nomination.getUniteAdminDeNomination().getIdUniteAdmin();

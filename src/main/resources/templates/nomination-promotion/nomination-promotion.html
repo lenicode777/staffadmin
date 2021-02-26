@@ -70,7 +70,12 @@
         <div class="container-fluid">
         	<div class="col col-lg-12">
 	        	<div class="panel orange-panel">
-	        		<div class="panel-heading">Enregistrer une nouvelle nomination</div>
+	        		<div class="panel-heading">
+                        Enregistrer une nouvelle nomination
+                        
+                            <img style="height: 3%; width: 3%;" th:title="${agentANommer.nom + ' ' + agentANommer.prenom + ' ('+agentANommer.matricule + ')'}" th:src="@{'/staffadmin/agents/'+ ${agentANommer.idAgent}+'/photo'}" class="img-circle pull-right" height="80" width="80">
+                        
+                    </div>
 	        		<div class="panel-body">
 	        			<th:block th:replace="nomination-promotion/frm-nomination-frag.html::frm-nomination-frag"></th:block>
 	        		</div>

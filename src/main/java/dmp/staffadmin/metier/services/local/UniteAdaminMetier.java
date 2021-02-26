@@ -37,6 +37,9 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	public UniteAdmin save(UniteAdmin uniteAdmin) 
 	{
 		uniteAdminValidation.validate(uniteAdmin);
+		Post postOfManager = new Post(null, null, null, uniteAdmin, null);
+		postOfManager = postDao.save(postOfManager);
+		uniteAdmin.setPostManager(postOfManager);
 		UniteAdmin tutelleDirecte = uniteAdminDao.findById(uniteAdmin.getTutelleDirecte().getIdUniteAdmin()).get();
 		tutelleDirecte.ajouterUA(uniteAdmin);
 		//System.out.println(uniteAdmin);
@@ -136,18 +139,29 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	
 	private UniteAdmin nommerManager(UniteAdmin uniteAdmin, Agent agentANommer, Fonction fonctionDeNomination) 
 	{
+		agentANommer = agentDao.findById(agentANommer.getIdAgent()).get();
+		//Fonction fonctionDeNomFonction = fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get();
+		uniteAdmin = uniteAdminDao.findById(uniteAdmin.getIdUniteAdmin()).get();
+		
+		
+		System.out.println("===============================Nomination Top Manager===============================");
 		Post postOfManager = uniteAdmin.getPostManager();
 		
 		if(postOfManager == null)
 		{
+			System.out.println("===============================UA_METIER : Post Null===============================");
 			postOfManager = new Post(null,fonctionDeNomination, Nomination.getTitreNomination2(fonctionDeNomination, uniteAdmin), uniteAdmin, agentANommer);
 			postOfManager = postDao.save(postOfManager);
+			uniteAdmin.setPostManager(postOfManager);
+			uniteAdmin = uniteAdminDao.save(uniteAdmin);
 		}
 		else
 		{
+			System.out.println("===============================Post Non Null===============================");
 			Agent ancienManager = postOfManager.getAgent();
 			if(ancienManager!=null)
 			{
+				System.out.println("===============================Ancien Manager Existant===============================");
 				postMetier.demettreResponsable(postOfManager, ancienManager);
 			}
 		}
@@ -201,8 +215,6 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	@Override
 	public UniteAdmin nommerResponsable(UniteAdmin uniteAdmin, Agent agentANommer, Fonction fonctionDeNomination) 
 	{
-		System.out.println("FONCTION  = " + fonctionDeNomination.getNomFonction());
-		System.out.println("FONCTION TOP MANAGER = " + fonctionDeNomination.isFonctionTopManager());
 		if(fonctionDeNomination.isFonctionTopManager()) return nommerManager(uniteAdmin, agentANommer, fonctionDeNomination);
 		else return nommerAutreResponsable(uniteAdmin, agentANommer, fonctionDeNomination);
 

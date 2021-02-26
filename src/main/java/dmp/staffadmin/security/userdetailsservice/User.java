@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
+@Data @NoArgsConstructor @AllArgsConstructor
 public class User
 {
 	@Id @GeneratedValue
@@ -35,16 +35,24 @@ public class User
 	@Column(nullable = false)
 	private String password;
 	private String formPassword;
-	@ManyToMany @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name="ID_USER"), inverseJoinColumns = @JoinColumn(name="ID_ROLE"))
+	@ManyToMany(fetch = FetchType.EAGER) @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name="ID_USER"), inverseJoinColumns = @JoinColumn(name="ID_ROLE"))
 	private Collection<Role> roles= new ArrayList<Role>();;
 	@OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_AGENT")
 	private Agent agent; 
 	
 	private boolean active;
 	
+	@Override
+	public String toString()
+	{
+		return "Username = " + username + " ID = " + idUser;
+	}
+	
 	public boolean hasRole(Role role)
 	{
 		boolean hasRole = false;
+		System.out.println("ROLE A VERIFIER : "+role.getRole()+ " _ "+ role.getIdRole());
+		System.out.println("roles vide Oui ou Non = " + roles==null);
 		for(Role r:roles)
 		{
 			if(r.getIdRole() == role.getIdRole())

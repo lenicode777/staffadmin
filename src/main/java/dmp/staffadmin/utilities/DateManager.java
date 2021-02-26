@@ -14,14 +14,24 @@ public class DateManager
 {
 	public static Period getPeriod(Date dateDepart, Date dateArrivee)
 	{
+//		System.out.println("===================DateManager getPeriodMethod=================");
+//		System.out.println("Date de départ = " + dateDepart + " | Date arrivée = " + dateArrivee);
 		Calendar calendar1 = Calendar.getInstance();
 		Calendar calendar2 = Calendar.getInstance();
+//		System.out.println("AVANT setDateDepart");
 		calendar1.setTime(dateDepart);
 		calendar2.setTime(dateArrivee);
+//		System.out.println("APRES setDateDepart et Fin");
 		
-		LocalDate ld1 = LocalDate.of(calendar1.get(calendar1.YEAR),calendar1.get(calendar1.MONTH), calendar1.get(calendar1.DAY_OF_MONTH));
-		LocalDate ld2 = LocalDate.of(calendar2.get(calendar2.YEAR),calendar2.get(calendar2.MONTH), calendar2.get(calendar2.DAY_OF_MONTH));
+//		System.out.println("DAY 1 = " + calendar1.get(calendar1.DAY_OF_MONTH));
+//		System.out.println("Month 1 = " + calendar1.get( calendar1.MONTH));
+//		System.out.println("YEAR 1 = " + calendar1.get(calendar1.YEAR));
+
+//		System.out.println("AVANT setLocalDate");
+		LocalDate ld1 = LocalDate.of(calendar1.get(calendar1.YEAR),calendar1.get(calendar1.MONTH)+1, calendar1.get(calendar1.DAY_OF_MONTH));
+		LocalDate ld2 = LocalDate.of(calendar2.get(calendar2.YEAR),calendar2.get(calendar2.MONTH)+1, calendar2.get(calendar2.DAY_OF_MONTH));
 		Period period = Period.between(ld1, ld2);
+//		System.out.println("APRES setLocalDate");
 		return period;
 	}
 	
@@ -99,7 +109,7 @@ public class DateManager
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
-		Date dateNaissance = sdf.parse("06-04-1991");
+		Date dateNaissance = sdf.parse("01-01-2000");
 		System.out.println(dateNaissance);
 		System.out.println("Age = " +dateDiff(dateNaissance, new Date()));
 		System.out.println(addMinutes(new Date(), 20));

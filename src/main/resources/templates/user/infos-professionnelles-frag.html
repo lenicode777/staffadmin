@@ -14,12 +14,27 @@
 					    		<div class="panel-heading">
 					    			<h3 class="panel-title"><a href="#infos-professionnelles" data-toggle="collapse"> Informations professionnelles</a></h3>
 					    		</div>	
-					    		<div class="list-group panel-collapse collapse" id="infos-professionnelles" >			    	
-						    		<li class="list-group-item"> Structure :  <a class="pull-right" th:href="@{'/staffadmin/unites-admins/' + ${visitedUser.agent.tutelleDirecte.idUniteAdmin}}"><span class="badge" th:text="${visitedUser.agent.tutelleDirecte}"></span></a></li>
-						    		<li class="list-group-item"> Fonction : <span class="badge" th:text="${visitedUser.agent.fonction.nomFonction}"></span></li>
-						    		<li class="list-group-item"> Matricule : <span class="badge" th:text="${visitedUser.agent.matricule}"></span></li>
-						    		<li class="list-group-item"> Emploi : <span class="badge" th:text="${visitedUser.agent.emploi.nomEmploi}"></span></li>
-						    		<li class="list-group-item"> Grade : <span class="badge" th:text="${visitedUser.agent.grade.nomGrade}"></span></li>
+					    		<div class="list-group panel-collapse collapse in" id="infos-professionnelles" >			    	
+						    		<li class="list-group-item"> 
+						    			<b>	Structure : </b>
+						    			<a class="pull-right" th:href="@{'/staffadmin/unites-admins/' + ${visitedUser.agent.tutelleDirecte.idUniteAdmin}}"><span class="badge" th:text="${visitedUser.agent.tutelleDirecte}"></span></a>
+						    		</li>
+						    		<li class="list-group-item">
+						    			<b> Fonction : </b>
+						    			<span class="badge" th:text="${visitedUser.agent.fonction.nomFonction}"></span>
+						    		</li>
+						    		<li class="list-group-item">
+						    			<b>Matricule : </b>
+						    			<span class="badge" th:text="${visitedUser.agent.matricule}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>Emploi :</b> 
+						    			<span class="badge" th:text="${visitedUser.agent.emploi.nomEmploi}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>Grade :</b> 
+						    			<span class="badge" th:text="${visitedUser.agent.grade.nomGrade}"></span>
+						    		</li>
 					    		</div>
 					    	</div>	
 					    </div>

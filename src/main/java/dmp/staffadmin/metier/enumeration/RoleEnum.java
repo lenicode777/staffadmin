@@ -11,8 +11,9 @@ public enum RoleEnum
 	DIRECTEUR_GENERAL("DG"),
 	SOUS_DIRECTEUR("SD"),
 	RESPONSABLE("RESPONSABLE");
-	private String role="";
-	RoleEnum (String etatAvancement)
+	
+	private String role;
+	RoleEnum (String role)
 	{
 		this.role = role;
 	}

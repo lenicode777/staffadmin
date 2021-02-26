@@ -39,6 +39,7 @@ public class NominationMetier implements INominationMetier
 	public Nomination save(Nomination nomination) // Fonction très complexe
 	{
 		nominationValidation.validate(nomination);
+		System.out.println("===============================Validation OK===============================");
 		uniteAdminMetier.nommerResponsable(nomination.getUniteAdminDeNomination(), nomination.getAgentNomme(), nomination.getFonctionNomination());
 		
 		return nominationDao.save(nomination);

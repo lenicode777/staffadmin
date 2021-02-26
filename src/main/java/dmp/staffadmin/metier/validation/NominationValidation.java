@@ -35,8 +35,8 @@ public class NominationValidation implements INominationValidation
 		}
 		else
 		{
-			//if(n.getFonctionNomination().getTypeUniteAdmin()==null || n.getFonctionNomination().getIdFonction()==null) throw new RuntimeException("Informations sur le type de fonction non parvenues");
-			//if(n.getFonctionNomination().getRoleAssocie()==null) throw new RuntimeException("Informations sur le type de fonction non parvenues");
+			if(n.getFonctionNomination().getTypeUniteAdmin()==null || n.getFonctionNomination().getIdFonction()==null) throw new RuntimeException("Informations sur le type de fonction non parvenues");
+			if(n.getFonctionNomination().getRoleAssocie()==null) throw new RuntimeException("Informations sur le type de fonction non parvenues");
 			
 		}
 		//if(n.getPostNomination()==null) throw new RuntimeException("Informations sur le post non parvenues");

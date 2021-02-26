@@ -301,7 +301,7 @@ public class AgentController
 //			e.printStackTrace();
 			return "agent/frm/frm-agent";
 		}
-		return "redirect:/";
+		return "redirect:/staffadmin/frm-agent";
 	}
 	
 	@GetMapping(path="/photo-agent/{idAgent}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
@@ -319,7 +319,7 @@ public class AgentController
 		agentDao.save(agent);
 	}
 	
-	@ExceptionHandler(Exception.class)
+	//@ExceptionHandler(Exception.class)
 	public String exceptionHandler(Exception e, Model model)
 	{
 		System.out.println(e.getMessage());

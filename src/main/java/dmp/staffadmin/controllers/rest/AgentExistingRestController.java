@@ -15,6 +15,7 @@ public class AgentExistingRestController implements IAgentExistingRestController
 	@Override
 	public boolean existingEmail(@PathVariable String email) 
 	{
+		//System.out.println("Email = " + email);
 		return agentMetier.existingEmail(email);
 	}
 
@@ -22,6 +23,7 @@ public class AgentExistingRestController implements IAgentExistingRestController
 	@Override
 	public boolean existingTel(@PathVariable String tel) 
 	{
+		//System.out.println("Tel = " + tel);
 		return agentMetier.existingTel(tel);
 	}
 
@@ -36,6 +38,7 @@ public class AgentExistingRestController implements IAgentExistingRestController
 	@Override
 	public boolean existingMatricule(@PathVariable String matricule) 
 	{
+		//System.out.println("Matricule = " + matricule);
 		return agentMetier.existingMatricule(matricule);
 	}
 }

@@ -55,6 +55,9 @@ public class Agent
 	private String nomPere;
 	private String nomMere;
 	
+	
+	@Column(unique = true)
+	private String numBadge;
 	@Column(length = 20, unique = true)
 	private String matricule;
 	@ManyToOne(fetch = FetchType.EAGER)	@JoinColumn(name = "ID_FONCTION")

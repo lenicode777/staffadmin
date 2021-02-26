@@ -64,18 +64,21 @@ public class PostMetier implements IPostMetier
 		System.out.println("7.1============Poste Metier===========");
 		Fonction fonction = post.getFonction(); // Je recupère la fonction de nomination
 		UniteAdmin uniteAdmin = post.getUniteAdmin();//Je récupère l'unité admin
-		Role roleResponsable = roleDao.findByRole(RoleEnum.RESPONSABLE.toString());//Je récupère le role responsable
+		Role roleResponsable = roleDao.findById(9L).get();//Je récupère le role responsable
 		
 		System.out.println("7.2============Récupération fonction, post, role ok===========");
 		
 		agent.setTitre(Nomination.getTitreNomination2(fonction, uniteAdmin));//Je génère le titre de la nomination
-		System.out.println("7.3============Titre généré ok===========");
+		System.out.println("7.3============Titre généré ok===========" + agent.getTitre());
 		
 		agent.setPost(post);//Je met le post  en question sur l'agent
 		agent.setTutelleDirecte(post.getUniteAdmin());//Je défini la tutelleDirecte de l'agent
 		agent = agentDao.save(agent);//J'enregistre l'agent
+		System.out.println("7.3.1============Agent Enregistré===========");
 		User user = agent.getUser();//Je donne les rôles au user de l'agent
+		System.out.println("7.3.2============Avant ajout des roles===========" + agent.getTitre());
 		user = userMetier.addRoleToUser(user, fonction.getRoleAssocie());
+		System.out.println("ROLE RESPONSABLE = " + roleResponsable.getIdRole() + " " + roleResponsable.getRole());
 		user = userMetier.addRoleToUser(user, roleResponsable);
 		
 		post.setAgent(agent);//Je met l'agent au post en question
@@ -86,11 +89,16 @@ public class PostMetier implements IPostMetier
 	@Override
 	public Post demettreResponsable(Post post, Agent agent) 
 	{
+		System.out.println("==========================PostMetier demettreResponsable===========================");
 		Fonction fonction = post.getFonction();//Je recupère la fonction de nomination
-		Role roleResponsable = roleDao.findByRole(RoleEnum.RESPONSABLE.toString());//Je récupère le role responsable
+		Role roleResponsable = roleDao.findById(9L).get();//Je récupère le role responsable
+		System.out.println("roleSAf toString = " + RoleEnum.SAF.toString());
 		Role roleSAF = roleDao.findByRole(RoleEnum.SAF.toString());
 		UniteAdmin DGMP = uniteAdminDao.findById(1L).get();//Je récupère la DGMP
-		
+		System.out.println("Fonction = " + fonction.getIdFonction() + " NomFonction = " + fonction.getNomFonction() + " Roles = "+ fonction.getRoleAssocie());
+		System.out.println("RolesRespo = "+ roleResponsable.toString());
+		System.out.println("RolesSAF = "+ roleSAF.toString());
+		System.out.println("AGENT  = "+agent.toString());
 		agent.setTitre(null); //J'annule le titre
 		agent.setPost(null);//J'annule le post de l'agent
 		agent.setTutelleDirecte(DGMP);//Je met l'agent directement au niveau de la DGMP

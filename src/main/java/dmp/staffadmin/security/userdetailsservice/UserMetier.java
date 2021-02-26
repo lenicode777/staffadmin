@@ -3,6 +3,7 @@ package dmp.staffadmin.security.userdetailsservice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -114,4 +115,18 @@ public class UserMetier implements IUserMetier
 	{
 		return user.hasRole(role);
 	}
+	
+	//@Bean
+	public CommandLineRunner start(IAgentDao agentDao, IRoleDao roleDao)
+	{
+		return args->
+		{
+			User Leni = agentDao.findById(9L).get().getUser();
+			Role roleAgent = roleDao.findByRole("AGENT");
+			Role roleRespo = roleDao.findById(9L).get();
+			System.out.println("********************************//////////////////****************************");
+			System.out.println(this.hasRole(Leni, roleRespo));
+		};
+	}
+	
 }

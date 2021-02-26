@@ -14,14 +14,35 @@
 					    		<div class="panel-heading">
 					    			<h3 class="panel-title"><a href="#infos-personnelles" data-toggle="collapse">Informations personnelles</a></h3>
 					    		</div>
-					    		<div id = "infos-personnelles" class="list-group panel-collapse collapse">
-						    		<li class="list-group-item"> Nom : <span class="badge" th:text="${visitedUser.agent.nom}"></span></li>
-						    		<li class="list-group-item"> Prénom : <span class="badge" th:text="${visitedUser.agent.prenom}"></span></li>
-						    		<li class="list-group-item"> Sexe : <span class="badge" th:text="${visitedUser.agent.sexe}"></span></li>
-						    		<li class="list-group-item"> Date de naissance : <span class="badge" th:text="${visitedUser.agent.dateNaissance}"></span></li>
-						    		<li class="list-group-item"> Lieu de naissance : <span class="badge" th:text="${visitedUser.agent.lieuNaissance}"></span></li>
-						    		<li class="list-group-item"> E-mail : <span class="badge" th:text="${visitedUser.agent.email}"></span></li>
-						    		<li class="list-group-item"> Téléphone : <span class="badge" th:text="${visitedUser.agent.tel}"></span></li>
+					    		<div id = "infos-personnelles" class="list-group panel-collapse collapse in">
+						    		<li class="list-group-item"> 
+						    			<b>Nom :</b>
+						    			<span class="badge" th:text="${visitedUser.agent.nom}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>Prénom : </b>
+						    			<span class="badge" th:text="${visitedUser.agent.prenom}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b> Sexe :</b> 
+						    			<span class="badge" th:text="${visitedUser.agent.sexe}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>Date de naissance : </b>
+						    			<span class="badge" th:text="${visitedUser.agent.dateNaissance}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>Lieu de naissance :</b> 
+						    			<span class="badge" th:text="${visitedUser.agent.lieuNaissance}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>E-mail :</b> 
+						    			<span class="badge" th:text="${visitedUser.agent.email}"></span>
+						    		</li>
+						    		<li class="list-group-item"> 
+						    			<b>Téléphone : </b>
+						    			<span class="badge" th:text="${visitedUser.agent.tel}"></span>
+						    		</li>
 					    		</div>
 					    	</div>
 					    </div>
