@@ -165,6 +165,19 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 				postMetier.demettreResponsable(postOfManager, ancienManager);
 			}
 		}
+		
+		//Je recupère l'éventuel ancier post de l'agent à nommer
+		Post ancienPostDeAgentAgentANommer = agentANommer.getPost();
+		
+		//Si ce post est non null et est un post de responsabilité, alors on demet l'agent de ce post avant tout (Très important pour éviter les cumules de post et certains bug) 
+		if(ancienPostDeAgentAgentANommer!=null) 
+		{
+			if(ancienPostDeAgentAgentANommer.getFonction().isFonctionDeNomination() )
+			{
+				//On demet l'agent de son ancien post
+				postMetier.demettreResponsable(agentANommer.getPost(), agentANommer);
+			}
+		}
 		postMetier.nommerResponsable(postOfManager, agentANommer);
 			
 		return uniteAdmin;

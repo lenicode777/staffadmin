@@ -5,11 +5,9 @@
 		<th:block th:fragment="frm-nomination-frag">
             <form id="frm-unite-admin" th:object="${nomination}" th:action="@{/staffadmin/nominations/save}" method="post" enctype="multipart/form-data">
 				
-                <div class="col col-lg-offset-8 col-lg-4 profile-pic" th:if="${agentANommer}">
-
-                                  
-                     <input type="hidden" th:field="*{agentNomme.idAgent}" th:value="${agentANommer.idAgent}">
-               </div>
+                <div class="col col-lg-offset-8 col-lg-4 profile-pic" th:if="${agentANommer}">                           
+                	<input type="hidden" th:field="*{agentNomme.idAgent}" th:value="${agentANommer.idAgent}">
+               	</div>
 
                
 				<div class="col col-lg-6">
