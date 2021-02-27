@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-affectation-frag">
+        <div class="panel panel-default">
+            <div class="panel-heading"><a href="#frm-affectation" data-toggle="collapse">Informations liées à l'emploi</a></div>
+            <div class="panel-body panel-collapse collapse in" id="frm-affectation">
+                <form action="" method="post"></form>
+               <div class="form-group">
+                   <label for="uniteAdminDeDestination" class="control-label">Structure de destination</label>
+                    <select th:field="*{uniteAdmin}" name="uniteAdminDeDestination" id="uniteAdminDeDestination" class="form-control">
+                        <option value="">Choisir</option>
+                        <option th:each="ua:${unitesAdmins}" th:value="${ua}" th:text="${ua.appellation + ' ('+ua.sigle+')'}"></option>
+                    </select>
+               </div>   
+               <button type="submit" class="btn btn-success">Valider</button>
+
+
+            </div>
+        </div>
+    </th:block>
+</body>
+
+</html>
