@@ -48,10 +48,23 @@
 											Actions <span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu" role="menu">
-											<li><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><i
-													class="glyphicon glyphicon-eye-open"></i> Voire</a></li>
-											<li><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-edit"></i>
-													Modifier</a></li>
+											<li>
+												<a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}">
+													<i class="glyphicon glyphicon-eye-open"></i> Voire
+												</a>
+											</li>
+
+											<li>
+												<a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}">
+													<i class="glyphicon glyphicon-edit"></i> Modifier
+												</a>
+											</li>											
+											
+											<li>
+												<a th:href="@{'/staffadmin/affectations/'+${agent.idAgent}}">
+													<i class="glyphicon glyphicon-edit"></i> Affecter
+												</a>
+											</li>
 													
 											<li><a th:href="@{/staffadmin/nominations/form(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-trash">
 														Nomination</i></a></li>
@@ -60,8 +73,6 @@
 											<li class="divider"></li>
 											<li><a th:href="@{'/staffadmin/agents/'+${agent.idAgent}+'/archivage/'}">Separated link</a></li>
 											
-<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
-												<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
 										</ul>
 									</div>
 								</td>                                    

@@ -7,23 +7,40 @@
 
 <body>
     <th:block th:fragment="frm-affectation-frag">
-        <div class="panel panel-default">
-            <div class="panel-heading"><a href="#frm-affectation" data-toggle="collapse">Informations liées à l'emploi</a></div>
+        <div class="panel panel-default main-content-block-item">
+            <div class="panel-heading">
+                <b><a href="#frm-affectation" data-toggle="collapse">Nouvelle affectation</a></b>
+				<span>
+					<img th:title="${affectation.agent}" alt="photo de l'agent" th:src="@{'/staffadmin/agents/'+ ${affectation.agent.idAgent}+'/photo'}" class="img-circle pull-right" style="height: 3%; width: 3%";>
+				</span>
+            </div>
             <div class="panel-body panel-collapse collapse in" id="frm-affectation">
-                <form action="" method="post"></form>
-               <div class="form-group">
-                   <label for="uniteAdminDeDestination" class="control-label">Structure de destination</label>
-                    <select th:field="*{uniteAdmin}" name="uniteAdminDeDestination" id="uniteAdminDeDestination" class="form-control">
-                        <option value="">Choisir</option>
-                        <option th:each="ua:${unitesAdmins}" th:value="${ua}" th:text="${ua.appellation + ' ('+ua.sigle+')'}"></option>
-                    </select>
-               </div>   
-               <button type="submit" class="btn btn-success">Valider</button>
-
+                <form th:action="@{/staffadmin/affectations/confirmation}" method="post" th:object="${affectation}">
+                    <input type="hidden" th:field="*{agent.idAgent}" />
+                    <div class="col-md-8">
+	                    <div class="form-group">
+	                        <label for="uniteAdminDeDestination" class="control-label">Structure de destination</label>
+	                           
+	                        <select required="required" th:field="*{uaArrivee.idUniteAdmin}" id="uniteAdminDeDestination" class="form-control">
+	                        	<option value="">Choisir</option>
+	                            <option th:each="ua:${unitesAdmins}" th:value="${ua.idUniteAdmin}" th:text="${ua.appellation + ' ('+ua.sigle+')'}"></option>
+	                        </select>
+	                    </div> 
+	               	</div>
+	               	<div class="col-md-4">
+	               		<div class="form-group">
+	               			<label for="dateAffectation" class="control-label">Date d'affectation</label>
+	               			<input required="required" id="dateAffectation" type="date" class="form-control" th:field="*{dateAffectation}" />
+	               		</div>
+	               	</div>
+                      
+                    
+                    <button style="margin-left: 5px;" type="submit" class="btn btn-lg pull-right btn-success">Pourvuivre <i class="glyphicon glyphicon-hand-right"></i></button>
+                </form>
 
             </div>
         </div>
     </th:block>
 </body>
 
-</html>
+</html>-

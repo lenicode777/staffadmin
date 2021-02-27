@@ -48,6 +48,12 @@
 											<li><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-edit"></i>
 													Modifier</a></li>
 													
+											<li>
+												<a th:href="@{'/staffadmin/affectations/'+${agent.idAgent}}">
+													<i class="glyphicon glyphicon-edit"></i> Affecter
+												</a>
+											</li>													
+													
 											<li><a th:href="@{/staffadmin/nominations/form(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-trash">
 														Nomination</i></a></li>
 											<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
