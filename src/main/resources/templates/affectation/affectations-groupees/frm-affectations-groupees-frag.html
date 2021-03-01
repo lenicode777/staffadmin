@@ -14,9 +14,9 @@
 			</div>
 		</div>
 
-		<th:block th:if="${affectationGroupeeForm!=null}">
+		<th:block th:if="${affectationGroupeeForm}">
 			<form th:action="@{/staffadmin/confirmation/affectations-groupees}" method="post" th:object="${affectationGroupeeForm}">
-
+				<input type="hidden" th:field="*{authUserVisibilityId}" th:value="${affectationGroupeeForm.authUserVisibilityId}"/>
 				<div class="panel panel-default main-content-block-item">
 					<div class="panel-heading">
 						<b><a href="#frm-affectation" data-toggle="collapse">Nouvelles affectations</a></b>

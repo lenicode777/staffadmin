@@ -29,7 +29,7 @@ public class Affectation
 	private UniteAdmin uaArrivee;
 	@ManyToOne @JoinColumn(name="ID_AGENT")
 	private Agent agent;
-	private boolean vue;
+	//private boolean vue;
 	@Temporal(TemporalType.DATE) // Pour JPA. Signifie que dans la BD la date aura le type Date et non le type TimeStamp
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // Spring formate la date pour nous
 	private Date dateAffectation;

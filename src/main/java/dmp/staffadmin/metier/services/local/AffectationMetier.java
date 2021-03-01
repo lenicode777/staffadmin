@@ -37,17 +37,20 @@ public class AffectationMetier implements IAffectationMetier, ICrudMetier<Affect
 		Agent agentAAffecter = agentDao.findById(affectation.getAgent().getIdAgent()).get();
 		UniteAdmin uaArrivee = uniteAdminDao.findById(affectation.getUaArrivee().getIdUniteAdmin()).get();
 		UniteAdmin uaDepart = agentAAffecter.getTutelleDirecte();
-
-		agentAAffecter.setTutelleDirecte(uaArrivee);
-
-		affectation.setUaDepart(uaDepart);
-		affectation.setAgent(agentAAffecter);
-		affectation.setUaArrivee(uaArrivee);
-		
-		affectationValidation.validate(affectation);
-		
-		agentAAffecter = agentDao.save(agentAAffecter);
-		return affectationDao.save(affectation);
+		if(uaDepart.getIdUniteAdmin()!=uaArrivee.getIdUniteAdmin())
+		{
+			agentAAffecter.setTutelleDirecte(uaArrivee);
+	
+			affectation.setUaDepart(uaDepart);
+			affectation.setAgent(agentAAffecter);
+			affectation.setUaArrivee(uaArrivee);
+			
+			affectationValidation.validate(affectation);
+			
+			agentAAffecter = agentDao.save(agentAAffecter);
+			return affectationDao.save(affectation);
+		}
+		return null;
 	}
 
 	@Override
@@ -81,11 +84,7 @@ public class AffectationMetier implements IAffectationMetier, ICrudMetier<Affect
 		return affectationDao.findByUaArriveeIdUniteAdmin(ua.getIdUniteAdmin());
 	}
 
-	@Override
-	public List<Affectation> getAffectationByUaArriveeAndVueFalse(UniteAdmin ua)
-	{
-		return affectationDao.findByUaArriveeAndVueFalse(ua);
-	}
+
 
 	@Override
 	public List<Affectation> getAffectationByUaDepart(UniteAdmin ua) 
@@ -96,17 +95,4 @@ public class AffectationMetier implements IAffectationMetier, ICrudMetier<Affect
 	private List<Affectation> extracted(UniteAdmin ua) {
 		return affectationDao.findByUaDepartIdUniteAdmin(ua.getIdUniteAdmin());
 	}
-
-	@Override
-	public List<Affectation> getAffectationByUaDepartAndVueFalse(UniteAdmin ua) 
-	{
-		return affectationDao.findByUaDepartAndVueFalse(ua);
-	}
-
-	@Override
-	public void setAffectationVue(Affectation affectation) 
-	{
-		affectation.setVue(true);
-	}
-
 }

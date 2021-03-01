@@ -1,6 +1,5 @@
 package dmp.staffadmin.controllers;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +13,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,48 +100,52 @@ public class AffectationController
 				System.out.println(e.getMessage());
 			}
 		}
-		return "redirect:/staffadmin/profil?idAgent="+affectation.getAgent().getIdAgent();
+		return "redirect:/staffadmin/profil?idAgent="+affectation.getAgent().getIdAgent()+"&successMsg=Affectation effectuée avec succès!";
 	}
 	
-	@PreAuthorize("hasRole('SAF')")
+	@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
 	//@PreAuthorize("hasAuthority('ROLE_SAF')")
 	@GetMapping(path = "/staffadmin/frm-affectations-groupees/{idUaArrivee}")
 	public String goToFrmAffectationGroupee(HttpServletRequest request, Model model, @PathVariable Long idUaArrivee)
 	{
-		UniteAdmin authUserVisibility=null;
-		User authUser = userDao.findByUsername(request.getUserPrincipal().getName()); 
-		if(authUser.hasRole(RoleEnum.SAF.toString()))
-		{
-			authUserVisibility = uniteAdminDao.findBySigle("DGMP");
-		}
-		else if(authUser.hasRole(RoleEnum.DIRECTEUR.toString()) || authUser.hasRole(RoleEnum.SOUS_DIRECTEUR.toString()) )
-		{
-			authUserVisibility = authUser.getAgent().getTutelleDirecte();
-		}
-		else
-		{
-			throw new AuthorityException("Desolé! Vous ne disposez des droits pour acceder à cette ressource");
-		}
-		//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
-		UniteAdmin uaArrivee = null;
-		List<UniteAdmin> possibleDestinations = null;
-		if(idUaArrivee!=0)
-		{
-			uaArrivee = uniteAdminDao.findById(idUaArrivee).get();
-			possibleDestinations = null;
-		}
-		else
-		{
-			possibleDestinations = authUserVisibility.getSubAdminStream().collect(Collectors.toList());
-			uaArrivee = null;
-		}
 		String mode = "edition";
-		AffectationGroupeeForm affectationGroupeeForm = new AffectationGroupeeForm();
-		affectationGroupeeForm.setUaArrivee(uaArrivee);
-		affectationGroupeeForm.setPossibleDestinations(possibleDestinations);
-		
 		try
 		{
+			UniteAdmin authUserVisibility=null;
+			User authUser = userDao.findByUsername(request.getUserPrincipal().getName()); 
+			if(authUser.hasRole(RoleEnum.SAF.toString()))
+			{
+				authUserVisibility = uniteAdminDao.findBySigle("DGMP");
+			}
+			else if(authUser.hasRole(RoleEnum.DIRECTEUR.toString()) || authUser.hasRole(RoleEnum.SOUS_DIRECTEUR.toString()) )
+			{
+				authUserVisibility = authUser.getAgent().getTutelleDirecte();
+			}
+			else
+			{
+				throw new AuthorityException("Desolé! Vous ne disposez des droits pour acceder à cette ressource");
+			}
+			
+			//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
+			UniteAdmin uaArrivee = null;
+			List<UniteAdmin> possibleDestinations = null;
+			if(idUaArrivee!=0)
+			{
+				uaArrivee = uniteAdminDao.findById(idUaArrivee).get();
+				possibleDestinations = null;
+			}
+			else
+			{
+				possibleDestinations = authUserVisibility.getSubAdminStream().collect(Collectors.toList());
+				uaArrivee = null;
+			}
+			
+			AffectationGroupeeForm affectationGroupeeForm = new AffectationGroupeeForm();
+			affectationGroupeeForm.setAuthUserVisibilityId(authUserVisibility.getIdUniteAdmin());
+			affectationGroupeeForm.setUaArrivee(uaArrivee);
+			affectationGroupeeForm.setPossibleDestinations(possibleDestinations);
+		
+		
 			List<List<Agent>> listOfListagentsAffectables = authUserVisibility.getSubAdminStream()
 												.map(UniteAdmin::getPersonnel)
 												.collect(Collectors.toList());
@@ -155,49 +157,122 @@ public class AffectationController
 												.collect(Collectors.toList());
 											
 			affectationGroupeeForm.setListAgentsAffectables(agentsAffectables);
-			//model.addAttribute("agentsAffectables", agentsAffectables);
-			
-			//model.addAttribute("possibleDestinations", possibleDestinations);
 			model.addAttribute("affectationGroupeeForm",  affectationGroupeeForm);
 			model.addAttribute("mode", mode);
 		}
 		catch (Exception e)
 		{
-			//model.addAttribute("affectationGroupeeForm",  null);
 			model.addAttribute("mode", mode);
 			model.addAttribute("globalErrorMsg", "Aucun agent sous votre tutelle n'est susceptible de faire l'objet d'une affectation");
 		}
 		return "affectation/affectations-groupees/frm-affectations-groupees";
 	}
 	
-	@PreAuthorize("hasAuthority('SAF')")
+	@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
 	@PostMapping(path = "/staffadmin/confirmation/affectations-groupees")
 	public String goToConfirmationFrmAffectationGroupee(HttpServletRequest request, Model model, @ModelAttribute AffectationGroupeeForm affectationGroupeeForm)
 	{
+
 		//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
-		UniteAdmin uaDepart = uniteAdminDao.findById(affectationGroupeeForm.getUaDepart().getIdUniteAdmin()).get();
+		//UniteAdmin uaDepart = uniteAdminDao.findById(affectationGroupeeForm.getUaDepart().getIdUniteAdmin()).get();
 		UniteAdmin uaArrivee = uniteAdminDao.findById(affectationGroupeeForm.getUaArrivee().getIdUniteAdmin()).get();
 		
 		affectationGroupeeForm.getListIdsAgents().forEach(id->System.out.println("ID = " + id));
 		
 		List<Agent> listAgentsAAffecter = affectationGroupeeForm.getListIdsAgents().stream().map(id->agentDao.findById(id).get()).collect(Collectors.toList());
-		Date dateAffectation = affectationGroupeeForm.getDateAffectation();
+		//Date dateAffectation = affectationGroupeeForm.getDateAffectation();
 		
 		
-		affectationGroupeeForm.setUaDepart(uaDepart);
-		affectationGroupeeForm.setUaDepart(uaDepart);
-		affectationGroupeeForm.setDateAffectation(dateAffectation);
+		
+		//affectationGroupeeForm.setUaDepart(uaDepart);
+		//affectationGroupeeForm.setUaDepart(uaDepart);
+		//affectationGroupeeForm.setDateAffectation(dateAffectation);
 		affectationGroupeeForm.setListAgentsAAffecter(listAgentsAAffecter);
+		affectationGroupeeForm.setUaArrivee(uaArrivee);
 		
-		
+		try
+		{
+			if(affectationGroupeeForm.getListIdsAgents().size()<1)
+			{
+				throw new AffectationException("Veuillez choisir les agents à affecter");
+			}
+		}
+		catch (AffectationException e)
+		{
+			System.out.println("affectationGroupeeForm.getAuthUserVisibilityId() = " + affectationGroupeeForm.getAuthUserVisibilityId());
+			UniteAdmin authUserVisibility = uniteAdminDao.findById(affectationGroupeeForm.getAuthUserVisibilityId()).get();
+			List<UniteAdmin> possibleDestinations = authUserVisibility.getSubAdminStream().collect(Collectors.toList());
+			
+			List<List<Agent>> listOfListagentsAffectables = authUserVisibility.getSubAdminStream()
+					.map(UniteAdmin::getPersonnel)
+					.collect(Collectors.toList());
+
+			List<Agent> agentsAffectables = listOfListagentsAffectables
+					.stream()
+					.flatMap(List::stream)
+					.filter(Agent::isAffectable)
+					
+					.collect(Collectors.toList());
+			
+			affectationGroupeeForm.setPossibleDestinations(possibleDestinations);
+			affectationGroupeeForm.setListAgentsAffectables(agentsAffectables);
+			
+			model.addAttribute("globalErrorMsg", e.getMessage());
+			model.addAttribute("mode", "edition");
+			model.addAttribute("affectationGroupeeForm",  affectationGroupeeForm);
+			return "affectation/affectations-groupees/frm-affectations-groupees";
+		}
 		String mode = "confirmation";
 
-		
 		model.addAttribute("affectationGroupeeForm",  affectationGroupeeForm);
-		//model.addAttribute("unitesAdmins", uniteAdminDao.findAll());
 		model.addAttribute("mode", mode);
 		
 		return "affectation/affectations-groupees/frm-affectations-groupees";
+	}
+	
+	@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
+	@PostMapping(path="/staffadmin/affectations-groupees/save")
+	public String saveAffectationsGroupees(HttpServletRequest request, Model model, @ModelAttribute AffectationGroupeeForm affectationGroupeeForm)
+	{
+		UniteAdmin uaArrivee = affectationGroupeeForm.getUaArrivee();
+		List<Agent> agentsAAffecter = affectationGroupeeForm.getListIdsAgents().stream()
+									 .map(id->agentDao.findById(id).get())
+									 .collect(Collectors.toList());
+		Date dateAffectation = affectationGroupeeForm.getDateAffectation();
+		Affectation affectation = new Affectation();
+		try
+		{
+			for(Long idAgent:affectationGroupeeForm.getListIdsAgents())
+			{
+				Agent agent = new Agent(); //Je crée un agent 
+				agent.setIdAgent(idAgent); //Je lui passe seulement son identifiant (La fonction save de affectationMetier va récupérer toutes les infos de l'agent à partir de l'id)
+				affectation = new Affectation(); // je crée une nouvelle affectation
+				affectation.setAgent(agent);// Je lui passe l'agent
+				affectation.setUaArrivee(uaArrivee);//Je lui passe ua de destination
+				affectation.setDateAffectation(dateAffectation);//Je lui passe la date de l'affectation
+				affectationMetier.save(affectation);//La fonction save de affectationMetier fera le reste
+			}
+		}
+		catch(AffectationException e)
+		{
+			if(e instanceof AffectationException)
+			{
+				model.addAttribute("affectation", affectation);
+				model.addAttribute("mode", "confirmation");
+				model.addAttribute("globalErrorMsg", e.getMessage());
+				return "affectation/frm-affectation";
+			}
+			else
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		affectationGroupeeForm.getListIdsAgents().forEach(id->System.out.println("ID = "+id));
+		
+		System.out.println("Date affectation = " + affectationGroupeeForm.getDateAffectation());
+	
+		return "redirect:/staffadmin/unites-admins/"+uaArrivee.getIdUniteAdmin()+ "?successMsg="+affectationGroupeeForm.getListIdsAgents().size()+ " Affectation(s) effectuée(s) avec succès!";
 	}
 }
 
@@ -213,4 +288,5 @@ class AffectationGroupeeForm
 	private List<Long> listIdsAgents;
 	private List<Agent> listAgentsAAffecter;
 	private List<Agent> listAgentsAffectables;
+	private Long authUserVisibilityId; //ID de l'unite admin du authUser
 }

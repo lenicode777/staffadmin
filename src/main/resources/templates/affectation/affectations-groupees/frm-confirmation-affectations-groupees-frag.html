@@ -19,8 +19,8 @@
             	
             </div>
             <div class="panel-body panel-collapse collapse in" >
-                <form th:action="@{/staffadmin/affectations/save}" method="post" th:object="${affectationGroupeeForm}">
-                    <input type="hidden" th:field="*{uaDepart.idUniteAdmin}">
+                <form th:action="@{/staffadmin/affectations-groupees/save}" method="post" th:object="${affectationGroupeeForm}">
+                    
                     <input type="hidden" th:field="*{uaArrivee.idUniteAdmin}">
                     <input type="hidden" th:field="*{dateAffectation}">
                     <table id="tbl-agents-a-affecter" class="table table-striped" style="margin-bottom: 20px; border-bottom: 2px;">
@@ -46,12 +46,26 @@
                                         <img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/agents/'+ ${agent.idAgent}+'/photo'}" class="img-circle pull-right" style="height: 40px; width: 40px";>
                                     </span>
 								</th>
-								<td><input  type="checkbox" checked th:field="*{listIdsAgents}" th:value="${agent.idAgent}"/></td>
+								<td style="display: none;"><input  type="checkbox" checked th:field="*{listIdsAgents}" th:value="${agent.idAgent}"/></td>
 							</tr>				   
 						</tbody>
 					</table> 
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th class="text-success">Service de destination</th>
+                                <th class="text-danger" th:text="${affectationGroupeeForm.uaArrivee}"></th>
+                                <input type="hidden" th:field="*{uaArrivee.idUniteAdmin}">
+                                <th></th>
+
+                                <th class="text-success">Date d'affectation</th>
+                                <th class="text-danger" th:text="${affectationGroupeeForm.dateAffectation}"></th>
+                                <input type="hidden" th:field="*{dateAffectation}">
+                            </tr>
+                        </tbody>
+                    </table>
                     <button style="margin-left: 5px;" type="submit" class="btn btn-lg pull-right btn-success">Valider</button>
-                    <a class="btn btn-lg pull-right btn-default" th:href="@{'/staffadmin/frm-affectations-groupees/' + ${affectationGroupeeForm.uaDepart.idUniteAdmin}}"><i class="glyphicon glyphicon-hand-left"></i> Revenir</a>
+                    <a class="btn btn-lg pull-right btn-default" th:href="@{'/staffadmin/frm-affectations-groupees/' + ${affectationGroupeeForm.uaArrivee.idUniteAdmin}}"><i class="glyphicon glyphicon-hand-left"></i> Revenir</a>
                     
                 </form>
 

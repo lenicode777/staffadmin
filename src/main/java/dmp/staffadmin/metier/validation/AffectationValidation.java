@@ -32,6 +32,11 @@ public class AffectationValidation implements IValidation<Affectation>
 			throw new AffectationException("Informations sur l'agent non fournies");
 		}
 		
+/*		if(uaArrivee.getIdUniteAdmin() == uaDepart.getIdUniteAdmin())
+		{
+			throw new AffectationException("Service de d'origine et de destination identiques");
+		}*/
+		
 		if(affectation.getDateAffectation()==null)
 		{
 			throw new AffectationException("Date de l'affectation non fournies");
