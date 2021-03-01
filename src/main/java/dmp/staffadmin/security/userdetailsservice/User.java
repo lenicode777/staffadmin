@@ -51,8 +51,8 @@ public class User
 	public boolean hasRole(Role role)
 	{
 		boolean hasRole = false;
-		System.out.println("ROLE A VERIFIER : "+role.getRole()+ " _ "+ role.getIdRole());
-		System.out.println("roles vide Oui ou Non = " + roles==null);
+		//System.out.println("ROLE A VERIFIER : "+role.getRole()+ " _ "+ role.getIdRole());
+		//System.out.println("roles vide Oui ou Non = " + roles==null);
 		for(Role r:roles)
 		{
 			if(r.getIdRole() == role.getIdRole())
@@ -70,7 +70,7 @@ public class User
 		boolean hasRole = false;
 		for(Role r:roles)
 		{
-			if(r.getRole() == role)
+			if(r.getRole().equals(role))
 			{
 				hasRole = true;
 				break;
@@ -101,7 +101,7 @@ public class User
 
 	public void addRole(Role role)
 	{
-		if (hasRole(role))
+		if (!hasRole(role))
 		{
 			this.roles.add(role);
 		}

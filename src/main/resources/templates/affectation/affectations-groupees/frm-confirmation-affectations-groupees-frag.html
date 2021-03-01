@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-confirmation-affectations-groupees-frag">
+    	
+        <div  th:if="${globalErrorMsg}" class="alert alert-danger main-content-block-item">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Erreur!</strong> <span th:text="${globalErrorMsg}"></span>
+        </div>
+        
+        <div class="panel panel-default main-content-block-item">
+            <div class="panel-heading">
+            	<a data-toggle="collapse">Confirmez-vous les affectations suivantes ?</a>
+            	
+            </div>
+            <div class="panel-body panel-collapse collapse in" >
+                <form th:action="@{/staffadmin/affectations/save}" method="post" th:object="${affectationGroupeeForm}">
+                    <input type="hidden" th:field="*{uaDepart.idUniteAdmin}">
+                    <input type="hidden" th:field="*{uaArrivee.idUniteAdmin}">
+                    <input type="hidden" th:field="*{dateAffectation}">
+                    <table id="tbl-agents-a-affecter" class="table table-striped" style="margin-bottom: 20px; border-bottom: 2px;">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Matricule</th>
+								<th>Email</th>
+								<th>Photo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="agent:${affectationGroupeeForm.listAgentsAAffecter}">
+											
+								<td> <span th:text="${agent.nom}"></span></td>
+								<td><span th:text="${agent.prenom}"></span></td>
+								<td><span th:text="${agent.matricule}"></span></td>
+								<td><span th:text="${agent.email}"></span></td>
+								
+								<th>
+									<span>
+                                        <img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/agents/'+ ${agent.idAgent}+'/photo'}" class="img-circle pull-right" style="height: 40px; width: 40px";>
+                                    </span>
+								</th>
+								<td><input  type="checkbox" checked th:field="*{listIdsAgents}" th:value="${agent.idAgent}"/></td>
+							</tr>				   
+						</tbody>
+					</table> 
+                    <button style="margin-left: 5px;" type="submit" class="btn btn-lg pull-right btn-success">Valider</button>
+                    <a class="btn btn-lg pull-right btn-default" th:href="@{'/staffadmin/frm-affectations-groupees/' + ${affectationGroupeeForm.uaDepart.idUniteAdmin}}"><i class="glyphicon glyphicon-hand-left"></i> Revenir</a>
+                    
+                </form>
+
+            </div>
+        </div>
+    </th:block>
+</body>
+
+</html>

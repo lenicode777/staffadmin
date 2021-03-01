@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-affectations-groupees-frag">
+		<div class="main-content-block-item">
+			<div  th:if="${globalErrorMsg}" class="alert alert-danger main-content-block-item">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<strong>Erreur!</strong> <span th:text="${globalErrorMsg}"></span>
+			</div>
+		</div>
+
+		<th:block th:if="${affectationGroupeeForm!=null}">
+			<form th:action="@{/staffadmin/confirmation/affectations-groupees}" method="post" th:object="${affectationGroupeeForm}">
+
+				<div class="panel panel-default main-content-block-item">
+					<div class="panel-heading">
+						<b><a href="#frm-affectation" data-toggle="collapse">Nouvelles affectations</a></b>
+
+					</div>
+					<div class="panel-body panel-collapse collapse in" id="frm-affectation">
+							<div style="margin-bottom: 20px;" class="col-md-8" th:if="${affectationGroupeeForm.possibleDestinations!=null}">
+								<div class="form-group">
+									<label for="uniteAdminDeDestination" class="control-label">Service de destination</label>
+									
+									<select required="required" th:field="*{uaArrivee.idUniteAdmin}" id="uniteAdminDeDestination" class="form-control">
+										<option value="">Choisir</option>
+										<option th:each="ua:${affectationGroupeeForm.possibleDestinations}" th:value="${ua.idUniteAdmin}" th:text="${ua}"></option>
+									</select>
+								</div> 
+							</div>
+
+							<div style="margin-bottom: 20px;" class="col-md-8" th:if="${affectationGroupeeForm.possibleDestinations==null}">
+								<label for="uniteAdminDeDestination" class="control-label">Service de destination</label>
+								<input type="text" disabled="disabled"  class="form-control"  th:value="${affectationGroupeeForm.uaArrivee.toString()}" />
+								<input type="hidden" th:field="*{uaArrivee.idUniteAdmin}">
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="dateAffectation" class="control-label">Date d'affectation</label>
+									<input required="required" id="dateAffectation" type="date" class="form-control" th:field="*{dateAffectation}" />
+								</div>
+							</div>
+					</div>
+				</div>			
+				<div class="panel panel-default main-content-block-item">
+					<div class="panel-heading">
+						<a href="#agents-affectables" data-toggle="collapse">Choisir les agents à affecter</a>
+									
+					</div>
+					<div class="panel-body panel-collapse collapse in" id="agents-affectables">
+									
+						<table id="tbl-agents-affectables" class="table table-striped" style="margin-bottom: 20px; border-bottom: 2px;">
+							<thead>
+								<tr>
+									<th>Nom</th>
+									<th>Prénom</th>
+									<th>Matricule</th>
+									<th>Email</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody th:if="${affectationGroupeeForm.listAgentsAffectables!=null}">
+								<tr th:each="agent:${affectationGroupeeForm.listAgentsAffectables}">
+													
+									<td> <span th:text="${agent.nom}"></span></td>
+									<td><span th:text="${agent.prenom}"></span></td>
+									<td><span th:text="${agent.matricule}"></span></td>
+									<td><span th:text="${agent.email}"></span></td>
+									<th>
+										<input type="checkbox" th:field="*{listIdsAgents}" th:value="${agent.idAgent}"/>
+									</th>
+								</tr>				   
+							</tbody>
+						</table> 
+								
+					</div>
+					<button style="margin-left: 5px;" type="submit" class="btn btn-lg pull-right btn-success">Pourvuivre <i class="glyphicon glyphicon-hand-right"></i></button>
+				</div>
+					
+					
+			</form>
+		</th:block>
+    </th:block>
+</body>
+
+</html>-

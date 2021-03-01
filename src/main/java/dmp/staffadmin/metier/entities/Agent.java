@@ -15,11 +15,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.security.userdetailsservice.User;
 import dmp.staffadmin.utilities.DateManager;
 import lombok.AllArgsConstructor;
@@ -176,4 +179,15 @@ public class Agent
 	{
 		return this.nom + " " + this.prenom + " ("+this.matricule+ ")";
 	}
+	
+	public boolean isAffectable()
+	{
+		boolean isAffectable = false;
+		//Si l'agent n'occupe aucun post, on retourn vrai, sinon s'il occupe un post et que ce post n'est pas un post de nomination, on retourn vrai
+		isAffectable = (post == null ? true : post!=null && !post.getFonction().isFonctionDeNomination() ? true : false);
+	
+		
+		return isAffectable;
+	}
+	
 }

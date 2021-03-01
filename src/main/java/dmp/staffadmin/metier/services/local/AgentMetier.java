@@ -4,10 +4,11 @@ import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
-
-
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -210,4 +211,18 @@ public class AgentMetier implements IAgentMetier
 		return agentDao.findByStatutAgent(statutAgent);
 	}
 
+	//@Bean 
+	CommandLineRunner start(IAgentDao agentDao, IUniteAdminDao uaDao)
+	{
+		
+		return arg->
+		{
+			List<List<Agent>> listsAgents = uaDao.findBySigle("DGMP").getSubAdminStream().map(UniteAdmin::getPersonnel).collect(Collectors.toList());
+			List<Agent> agents = listsAgents.stream().flatMap(List::stream).filter(Agent::isAffectable).collect(Collectors.toList());
+			//System.out.println(zie);
+			agents.forEach(agent->System.out.println(agent + " est affectable ? " + agent.isAffectable()));
+			//System.out.println("Zie est il affectable ? " + zie.isAffectable());
+		};
+		
+	}
 }

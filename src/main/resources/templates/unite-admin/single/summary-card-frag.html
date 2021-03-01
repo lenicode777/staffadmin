@@ -86,7 +86,7 @@
 				<div class="col-md-12" style="align-content: center; align-items: center; text-align: center;">
 					<p>
 						<a th:href="@{'/staffadmin/unites-admins/update/' + ${visitedUniteAdmin.idUniteAdmin}}" class="btn btn-theme" ><i class="fa fa-edit"></i> Modifier</a>
-						<a class="btn btn-theme"><i class="fa fa-users"></i> Affecter du personnel</a>
+						<a th:href="@{'/staffadmin/frm-affectations-groupees/' + ${visitedUniteAdmin.idUniteAdmin}}" class="btn btn-theme"><i class="fa fa-users"></i> Affecter du personnel</a>
 						<a th:href="'/staffadmin/' + ${visitedUniteAdmin.idUniteAdmin} + '/nominations/form'" class="btn btn-theme"><i class="fa fa-edit"></i> Nommer un nouveau responsable</a>
 					</p>
 				</div>

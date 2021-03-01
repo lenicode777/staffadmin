@@ -28,7 +28,7 @@ public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long>
 	public List<UniteAdmin> findByLevel(int level);
 	public List<UniteAdmin> findByLevelGreaterThan(int level);
 	public List<UniteAdmin> findByLevelLessThan(int level);
-	public List<UniteAdmin> findBySigle(String sigle);
+	public UniteAdmin findBySigle(String sigle);
 	public List<UniteAdmin> findBySigleContains(String sigle);
 	public List<UniteAdmin> findBySituationGeo(String situationGeo);
 	public List<UniteAdmin> findBySituationGeoContains(String situationGeo);

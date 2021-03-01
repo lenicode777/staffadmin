@@ -132,4 +132,6 @@ public class UniteAdmin
 	{
 		return Stream.concat(Stream.of(this.getPostManager().getAgent().getIdAgent()), Stream.of(tutelleDirecte).filter(Objects::nonNull).flatMap(UniteAdmin::getIdResponsablesStream));
 	}
+	
+
 }

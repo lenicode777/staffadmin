@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout/layout}">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	
+    <style type="text/css">
+        div.panel div.panel-heading 
+        {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        
+        div.panel-default div.panel-heading,
+        div.panel-default div.panel-heading a 
+        {
+            /*color:#39B510;*/
+            color: #FF9008;
+        }
+        
+        form label {
+            font-size: 15px;
+            font-weight: bolder;
+            color: black;
+        }
+        
+        form .error-msg 
+        {
+            font-size: 10px;
+            font-weight: bolder;
+            color: red;
+            display: none;
+        }
+        
+        #btn-modal-trigger,
+        #btn-submit {
+            display: none;
+        }
+        
+        .form-group .error-msg 
+        {
+            position: relative;
+            margin-left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+    	<th:block th:if="${mode=='edition'}">
+    		<th:block th:replace="affectation/affectations-groupees/frm-affectations-groupees-frag.html::frm-affectations-groupees-frag"></th:block>
+    	</th:block>
+    	
+    	<th:block th:if="${mode=='confirmation'}">
+    		<th:block th:replace="affectation/affectations-groupees/frm-confirmation-affectations-groupees-frag.html::frm-confirmation-affectations-groupees-frag"></th:block>
+    	</th:block>    	
+    	
+        
+    </div>
+    <div layout:fragment="js-specifics-dependancies">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script src="/lib/jquery/JQueryBolckUI.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="/staffadmin/js/agent/frm-agent.js"></script>
+       	
+       	<script type="text/javascript">
+        	$(document).ready(function() 
+    	    {
+    	    	$('#tbl-agents-affectables').DataTable();
+    	    });
+    	    
+			function formatDropDownBoxToSelect2(idDropDown)
+			{
+	         	$(document).ready(function() 
+	            {
+	                $('#'+idDropDown).select2();
+	            });
+			}
+	
+			formatDropDownBoxToSelect2("uniteAdminDeDestination");
+			//formatDropDownBoxToSelect2("emploi");
+			//formatDropDownBoxToSelect2("fonction");
+			//formatDropDownBoxToSelect2("grade");
+
+       	</script>
+    </div>
+</body>
+
+</html>

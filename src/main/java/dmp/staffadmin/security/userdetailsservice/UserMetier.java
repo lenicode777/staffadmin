@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.enumeration.RoleEnum;
 import lombok.Data;
 
 @Service @Transactional
@@ -123,9 +124,21 @@ public class UserMetier implements IUserMetier
 		{
 			User Leni = agentDao.findById(9L).get().getUser();
 			Role roleAgent = roleDao.findByRole("AGENT");
-			Role roleRespo = roleDao.findById(9L).get();
+			roleAgent = roleDao.findById(roleAgent.getIdRole()).get();
+			Role roleRespo = roleDao.findByRole(RoleEnum.RESPONSABLE.toString());
+			Role roleSaf = roleDao.findByRole(RoleEnum.SAF.toString());
 			System.out.println("********************************//////////////////****************************");
-			System.out.println(this.hasRole(Leni, roleRespo));
+			System.out.println("Leni a le role Responsable ?" + Leni.hasRole(RoleEnum.RESPONSABLE.toString()));
+			System.out.println("Leni a le role SAF ?" + Leni.hasRole(roleSaf));
+			System.out.println("Les roles de LENI sont : ");
+			Leni.getRoles().forEach(r->System.out.println(r.getRole()));
+			
+			System.out.println("RoleRespo = "+ RoleEnum.RESPONSABLE.toString());
+			System.out.println("RoleSaf = "+ RoleEnum.SAF.toString());
+			addRoleToUser(Leni, roleAgent);
+			
+			System.out.println("Les roles de LENI sont : ");
+			Leni.getRoles().forEach(r->System.out.println(r.getRole()));
 		};
 	}
 	

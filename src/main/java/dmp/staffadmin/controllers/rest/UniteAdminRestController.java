@@ -28,8 +28,9 @@ public class UniteAdminRestController
 	@GetMapping(path = "/staffadmin/ajax/unites-admins")
 	public UniteAdmin getUnitesAdmins(Model model)
 	{
-		UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
-		return uniteAdminMetier.setSubAdminTree(DGBF);
+		//UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
+		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
+		return uniteAdminMetier.setSubAdminTree(DGMP);
 	}
 
 	@GetMapping(path = "/staffadmin/sur-admin/{administrativeLevel}")
@@ -98,9 +99,10 @@ public class UniteAdminRestController
 	@GetMapping(path = "/staffadmin/unites-admins/toString")
 	public ArrayList getUnitesAdminsTrees()
 	{
-		UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
-		setSubAdmin(DGBF);
-		return getUnitesAdminsTree(DGBF);
+		//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGBF");
+		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
+		setSubAdmin(DGMP);
+		return getUnitesAdminsTree(DGMP);
 	}
 	
 	private Map getUnitesAdminsTrees_Generic(UniteAdmin uniteAdmin)
