@@ -218,7 +218,7 @@ public class AgentController
 	
 	//@PreAuthorize("hasAuthority('SAF')")
 	@GetMapping(path ="/staffadmin/frm-agent")
-	public String goToFormAgent(Model model)
+	public String goToFormAgent(Model model, @RequestParam(defaultValue = "0") Long idAgent)
 	{
 		/*
 		String nomEmploi="";
@@ -250,21 +250,39 @@ public class AgentController
 		modelAttributes.put("emplois", emploiDao.findAll());
 		modelAttributes.put("fonctions", fonctionDao.findAll());
 		modelAttributes.put("grades", gradeDao.findAll());
-		model.addAllAttributes(modelAttributes);
-		return "agent/frm/frm-agent";
-		//return "test";
+		
+		
+		if(idAgent==0)
+		{
+			model.addAttribute("mode", "new");
+			model.addAllAttributes(modelAttributes);
+			return "agent/frm/frm-agent";
+			//return "test";
+		}
+		else
+		{
+			model.addAttribute("mode", "update");
+			agent = agentDao.findById(idAgent).get();
+			//agent.setIdAgent(idAgent);
+			modelAttributes.put("agent", agent);
+			model.addAllAttributes(modelAttributes);
+			return "agent/frm/frm-update-agent";
+		}
 	}
 	
 	@PostMapping(path = "/staffadmin/agents/save")
-	public String saveNewAgent(Model model, @ModelAttribute Agent agent, BindingResult bindingResult)
+	public String saveNewAgent(Model model, @ModelAttribute Agent agent, BindingResult bindingResult, @RequestParam String mode)
 	{
-		System.out.println("===================================Nom agent=============================== : " + agent.getNom());
-//		agent.setEmploi(emploiMetier.findByNom(nomEmploi));
-//		agent.setFonction(fonctionMetier.findByNom(nomFonction));
-//		agent.setGrade(gradeMetier.findByNom(nomGrade));
 		try
 		{
-			agentMetier.recruter(agent);
+			if(mode.equals("new"))
+			{
+				agentMetier.recruter(agent);
+			}
+			else if(mode.equals("update"))
+			{
+				agentMetier.update(agent.getIdAgent(), agent);
+			}
 		}
 		catch (RuntimeException e)
 		{
@@ -276,10 +294,6 @@ public class AgentController
 			List<Emploi> emplois = emploiDao.findAll();
 			List<Fonction> fonctions = fonctionDao.findAll();
 			List<Grade> grades = gradeDao.findAll();
-			
-//			nomEmploi = agent.getEmploi().getNomEmploi();
-//			nomFonction = agent.getFonction().getNomFonction();
-//			nomGrade = agent.getGrade().getNomGrade();
 
 			Map modelAttributes = new HashMap<>();
 			agent.setEmploi(new Emploi());
@@ -291,17 +305,22 @@ public class AgentController
 			modelAttributes.put("fonctions", fonctionDao.findAll());
 			modelAttributes.put("grades", gradeDao.findAll());
 			
-//			modelAttributes.put("nomEmploi", nomEmploi);
-//			modelAttributes.put("nomFonction", nomFonction);
-//			modelAttributes.put("nomGrade", nomGrade);
-			
 			model.addAllAttributes(modelAttributes);
 			model.addAttribute("errorMsg", e.getMessage());
 
-//			e.printStackTrace();
+			if(mode.equals("new"))
+			{
+				return "agent/frm/frm-agent";
+			}
+			else if(mode.equals("update"))
+			{
+				return "agent/frm/frm-update-agent";
+			}
+			
 			return "agent/frm/frm-agent";
 		}
-		return "redirect:/staffadmin/frm-agent";
+		return "redirect:/staffadmin/profil?idAgent="+agent.getIdAgent();
+		//return "redirect:/staffadmin/frm-agent";
 	}
 	
 	@GetMapping(path="/photo-agent/{idAgent}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})

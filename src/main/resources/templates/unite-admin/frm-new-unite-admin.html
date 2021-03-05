@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <style type="text/css">
+	<style type="text/css">
         div.panel div.panel-heading 
         {
             font-size: 20px;
@@ -68,33 +68,50 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="container-fluid">
-            <th:block th:replace="unite-admin/frm-unite-admin-frag.html::frm-unite-admin-frag"></th:block>
+        <div class="main-content-block-item">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading" >Création d'une nouvelle unité administrative</div>
+					<div class="panel-body">
+						
+						<form id="unite-admin-updateForm" th:action="@{/staffadmin/frm-new-unite-admin/confirmation}" th:object="${uniteAdmin}" method="post">
+							
+							<th:block th:replace="unite-admin/frm-unite-admin-frag.html::input-frm-unite-admin-frag"></th:block>
+							
+							<button type="submit" class="btn btn-lg btn-warning pull-right">Poursuivre <i class="glyphicon glyphicon-hand-right"></i> </button>
+							
+							<th:block th:replace="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-confirmation-dialog"></th:block>
+						</form>
 
-			<th:bloc th:replace="unite-admin/cabinet-frag.html::cabinet-frag"></th:bloc>
-            <th:bloc th:replace="unite-admin/list-services-rattaches-frag.html::list-services-rattaches-frag"></th:bloc>
-			<th:bloc th:replace="unite-admin/list-directions-frag.html::list-directions-frag"></th:bloc>
-			<th:bloc th:replace="unite-admin/list-directions-regionales-frag.html::list-directions-regionales-frag"></th:bloc> 
+					</div>
+
+				</div>
+				
+			</div>
+			
         </div>
     </div>
     <div layout:fragment="js-specifics-dependancies">
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
         <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
         <script src="/lib/jquery/JQueryBolckUI.js"></script>
-<!--         <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script> -->
+        <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
-          
-	    
-<!-- 	  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-	  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script>
-			$("#btn-submit-new").click(function(e)
+		
+		
+<!-- 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		
+		<script>
+
+			
+			$("#btn-submit-update").click(function(e)
 			{
-				confirmationDialog("frm-unite-admin", "dialog-confirm-new", "Confirmation des informations saisies", 600, 300);
+				confirmationDialog("unite-admin-updateForm", "dialog-confirm-update", "Confirmation des modifications", 600, 300);
 				//confirmationDialog location : /staffadmin/js/unite-admin/unite-admin.js
 			});
-
+			
 			function formatDropDownBoxToSelect2(idDropDown)
 			{
 	         	$(document).ready(function() 
@@ -103,6 +120,9 @@
 	            });
 			}
 
+			
+
+			
 			formatDropDownBoxToSelect2("idTutelleDirecte");
 			formatDropDownBoxToSelect2("idTypeUniteAdmin");
 

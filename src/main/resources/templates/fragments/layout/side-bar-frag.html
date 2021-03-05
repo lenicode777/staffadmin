@@ -16,7 +16,7 @@
               <!-- =======Lien tableau de bord======== -->
               <th:block th:if="${#request.userPrincipal.principal.agent.active}">
 	              <li class="mt">
-	                <a href="index.html">
+	                <a href="/">
 	                  <i class="fa fa-dashboard"></i>
 	                  <span>Dashboard</span>
 	                </a>
@@ -27,21 +27,29 @@
 	              <li class="sub-menu">
 	                <a href="#">
 	                  <i class="fa fa-users"></i>
-	                  <span>Mouvements du personnel</span>
+	                  <span>Gestion du personnel</span>
 	                </a>
 	                <ul class="sub">
 	                	<li><a th:href="@{/staffadmin/list-agents}">Liste du personnel</a></li>
 	                  	<li class="sub-menu">
-	                    	<a href="#">Recrutement</a>
-	                    	<ul class="sub">
-	                      		<li><a th:href="@{/staffadmin/frm-agent}">Enregistrer un nouvel agent</a> </li>
-	                      		<li><a  href="#">Liste des nouveaux agents</a></li>
-	                    	</ul>
+	                    	<a th:href="@{/staffadmin/frm-agent}">Enregistrer un nouvel agent</a>
 	                  	</li>
-	                  	<li><a>Gérer les départs</a></li>
-	                  	<li><a>Gérer les mouvements internes</a></li>
+	                  	<li><a th:href="@{/staffadmin/frm-affectations-groupees/0}">Gestion des mouvements internes</a></li>
+	                  	<li><a>Gestion des départs</a></li>
 	                </ul>
 	              </li>
+	              
+	              <li class="sub-menu">
+	                <a href="javascript:;">
+	                	<i class="fa fa-university" style="font-size:17px"></i>
+<!-- 		                <i class="fa fa-building" style="font-size:17px"></i> -->
+		                <span>Gestion des services</span>
+	                 </a>
+					 	<ul class="sub">
+		                  <li><a th:href="@{/staffadmin/unites-admins}">Liste des services</a></li>
+		                  <li><a href="/staffadmin/unites-admins/frm/0">Créer une unité administrative</a></li>
+	                	</ul>                 
+	              </li>	              
 	
 	              <li class="sub-menu">
 	                <a href="#">
@@ -53,6 +61,8 @@
 	   					<li><a>Certificat de présence</a></li>
 	   				</ul>
 	              </li>    
+	              
+	              
 	              
 	              <li class="sub-menu">
 	              	<a href="#">
@@ -67,7 +77,7 @@
 	   				</ul>
 	              </li>               
 	              
-	              <li class="sub-menu">
+<!-- 	              <li class="sub-menu">
 	                <a th:href="@{/mucab/projets/bassam/index}">
 	                  <i class="fa fa-users"></i>
 	                  <span>Promotions/Nominations</span>
@@ -76,34 +86,10 @@
 	   					<li><a>Promotions</a></li>
 	   					<li><a>Nominations</a></li>
 	   				</ul>
-	              </li>              
+	              </li>    -->           
 	                
-	              <li class="sub-menu">
-	                <a href="javascript:;">
-	                  <i class="fa fa-cogs"></i>
-	                  <span>Administration </span>
-	                 </a>
-					        <ul class="sub">
-	                  <li><a th:href="@{/staffadmin/unites-admins}">Liste SD/DR</a></li>
-	                  <li><a href="#">Créer une unité administrative</a></li>
-	                </ul>                 
-	              </li>
-	              
-	              <li class="sub-menu">
-	                <a href="javascript:;">
-	                  <i class="fa fa-cogs"></i>
-	                  <span>Commandes</span>
-	                 </a>
-					        <ul class="sub">
-	                  <li><a href="grids.html">Grids</a></li>
-	                  <li><a href="calendar.html">Calendar</a></li>
-	                  <li><a href="gallery.html">Gallery</a></li>
-	                  <li><a href="todo_list.html">Todo List</a></li>
-	                  <li><a href="dropzone.html">Dropzone File Upload</a></li>
-	                  <li><a href="inline_editor.html">Inline Editor</a></li>
-	                  <li><a href="file_upload.html">Multiple File Upload</a></li>
-	                </ul>                 
-	              </li>
+
+	 
 	                
 	                
 	              <li class="sub-menu">

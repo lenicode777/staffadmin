@@ -53,11 +53,22 @@ function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, error
     {
         const existingPromise = new Promise((resolve, reject) => 
         {
+            var compleUrl="";
+            
+            if($("#idAgent").val()==undefined)
+            {
+                compleUrl = agentExistingRestUrl + variant + checkedValue+"?idAgent=0"
+            }
+            else
+            {
+                compleUrl = agentExistingRestUrl + variant + checkedValue+"?idAgent="+$("#idAgent").val();
+            }
+            //alert(compleUrl);
         	$.blockUI();
                 $.ajax(
                 {
                     type: "get",
-                    url: agentExistingRestUrl + variant + checkedValue,
+                    url: compleUrl,
                     success: function(response) 
                     {
                         resolve(response);
@@ -65,8 +76,8 @@ function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, error
                     },
                     error: function(error) 
                     {
-                        alert(agentExistingRestUrl + variant + checkedValue);
-                        alert("An error occured! Please check your connexion");
+                        //alert(agentExistingRestUrl + variant + checkedValue);
+                        //alert("An error occured! Please check your connexion");
                         reject(error);
                         $.unblockUI();
                     }
@@ -94,9 +105,10 @@ function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, error
                 $("#btn-submit-modal").removeAttr("disabled");
             }
             switchOnOffBtnValider();
+            $.unblockUI();
         }).catch((value) => 
         {
-
+            $.unblockUI();
         });
     }
 }   
@@ -162,6 +174,7 @@ var dateNaissMax = new Date();
 var datePriseService1Min = new Date(); 
 var datePriseService1Max = new Date(); 
 var frmAgent = $("#frm-agent");
+var idAgent = $("#idAgent").val();
 var txtEmail = $("#email");
 var txtNumPiece = $("#numPiece");
 var txtTel = $("#tel");
@@ -248,6 +261,7 @@ $("#btn-valider").click(function(e) //Au click sur le bouton valider
 //Appel ajax pour vérification d'unicité
 txtEmail.blur(function(e) 
 {
+    
     unicityChecking("email/", txtEmail, e.target.value, $("#email-error-msg"), "*adresse email déjà utilisée");
 });
 

@@ -10,9 +10,9 @@
 					<div th:each="direction:${directions}" class="panel panel-success ml-20">
 						<div class="panel-heading">
 							<a th:href="${'#list-direction' + direction.idUniteAdmin}" data-toggle="collapse">
-								<span th:text="${direction.appellation + ' (' + direction.sigle + ')'}" class="sub-admin-3"></span>
+								<span th:text="${direction}" class="sub-admin-3"></span>
 							</a> 
-							<span th:if="${direction.postManager}" th:text="${direction.postManager.agent}" class="sub-admin-3"></span> 
+							
 							
 							<div class="btn-group pull-right">
 								<button type="button" class="btn btn-theme dropdown-toggle"
@@ -26,15 +26,15 @@
 										</a>
 									</li>
 									<li>
-										<a th:href="${'/staffadmin/unites-admins/update/' + direction.idUniteAdmin}">
+										<a th:href="${'/staffadmin/unites-admins/frm/' + direction.idUniteAdmin}">
 											<i class="glyphicon glyphicon-edit"></i> Modifier
 										</a>
 									</li>
 										  
 											
 									<li>
-										<a href="#">
-											<i class="glyphicon glyphicon-trash">Affecter du personnel</i>
+										<a th:href="${'/staffadmin/frm-affectations-groupees/' + direction.idUniteAdmin}">
+											<i class="fa fa-users">Affecter du personnel</i>
 										</a>
 									</li>
 									<li class="divider"></li>
@@ -66,8 +66,8 @@
 										<td th:text="${sd.dateCreation}">Date de creation</td>
 										<td>
 											<span th:if="${sd.postManager}">
-												<span th:text="${sd.postManager.agent} ? ${sd.postManager.agent.nom + ' ' + sd.postManager.agent.prenom} : 'Non defini'">
-
+												<span th:text="${sd.postManager.agent} ? ${sd.postManager.agent} : 'Non defini'">
+													<img th:src="@{'/staffadmin/agents/'+${sd.postManager.agent.idAgent}+'/photo'}" th:alt="${sd.postManager.agent}">
 												</span>
 											</span>
 										</td>
@@ -91,8 +91,8 @@
 														  
 															
 													<li>
-														<a href="#">
-															<i class="glyphicon glyphicon-trash">Affecter du personnel</i>
+														<a th:href="${'/staffadmin/frm-affectations-groupees/' + sd.idUniteAdmin}">
+															<i class="fa fa-users">Affecter du personnel</i>
 														</a>
 													</li>
 													<li class="divider"></li>

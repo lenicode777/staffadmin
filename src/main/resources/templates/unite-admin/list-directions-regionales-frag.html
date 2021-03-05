@@ -9,8 +9,8 @@
             <div  id="directionsRegionales" class="panel-collapse collapse">
                 <div th:each="dr:${directionsRegionales}" class="panel panel-success ml-20">
                 	<div class="panel-heading" >
-						<a th:href="${'#list-services-sd' + dr.idUniteAdmin}" data-toggle="collapse">
-							<span th:text="${dr.appellation + ' (' + dr.sigle + ')'}" class="sub-admin-3"></span>
+						<a th:href="@{'/staffadmin/unites-admins/'+${dr.idUniteAdmin}}" >
+							<span th:text="${dr}" class="sub-admin-3"></span>
 						</a> 
 
 						<div class="btn-group pull-right">
@@ -25,19 +25,18 @@
 									</a>
 								</li>
 								<li>
-									<a th:href="${'/staffadmin/unites-admins/update/' + dr.idUniteAdmin}">
+									<a th:href="${'/staffadmin/unites-admins/frm/' + dr.idUniteAdmin}">
 										<i class="glyphicon glyphicon-edit"></i>
 										Modifier
 									</a>
 								</li>
 										
 								<li>
-									<a href="#">
-										<i class="glyphicon glyphicon-trash"></i>Affecter des agents
+									<a th:href="${'/staffadmin/frm-affectations-groupees/' + dr.idUniteAdmin}">
+										<i class="fa fa-users"></i>Affecter du personnel
 									</a>
 								</li>
 								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
 								
 <!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
 									<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->

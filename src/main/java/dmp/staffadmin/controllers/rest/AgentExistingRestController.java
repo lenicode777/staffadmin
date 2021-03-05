@@ -3,42 +3,68 @@ package dmp.staffadmin.controllers.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dmp.staffadmin.metier.interfaces.IAgentExistingRestController;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
 @RestController
-public class AgentExistingRestController implements IAgentExistingRestController 
+public class AgentExistingRestController ///implements IAgentExistingRestController 
 {
 	@Autowired private IAgentMetier agentMetier;
 	@GetMapping("/staffadmin/exists/email/{email}")
-	@Override
-	public boolean existingEmail(@PathVariable String email) 
+	public boolean existingEmail(@PathVariable String email, @RequestParam(defaultValue = "0") Long idAgent) 
 	{
+		if(idAgent==0 || idAgent==null)
+		{
+			return agentMetier.existingEmail(email);
+		}
+		else
+		{
+			return agentMetier.existingEmail(email, idAgent);
+		}
 		//System.out.println("Email = " + email);
-		return agentMetier.existingEmail(email);
+		
 	}
 
 	@GetMapping("/staffadmin/exists/tel/{tel}")
-	@Override
-	public boolean existingTel(@PathVariable String tel) 
+	public boolean existingTel(@PathVariable String tel, @RequestParam(defaultValue = "0") Long idAgent) 
 	{
-		//System.out.println("Tel = " + tel);
-		return agentMetier.existingTel(tel);
+		if(idAgent==0 || idAgent==null)
+		{
+			return agentMetier.existingTel(tel);
+		}
+		else
+		{
+			return agentMetier.existingTel(tel, idAgent);
+		}
 	}
 
 	@GetMapping("/staffadmin/exists/numPiece/{numPiece}")
-	@Override
-	public boolean existingNumPiece(@PathVariable String numPiece) 
+	public boolean existingNumPiece(@PathVariable String numPiece, @RequestParam(defaultValue = "0") Long idAgent) 
 	{
-		return agentMetier.existingNumPiece(numPiece);
+		if(idAgent==0 || idAgent==null)
+		{
+			return agentMetier.existingNumPiece(numPiece);
+		}
+		else
+		{
+			return agentMetier.existingNumPiece(numPiece, idAgent);
+		}
+		
 	}
 
 	@GetMapping("/staffadmin/exists/matricule/{matricule}")
-	@Override
-	public boolean existingMatricule(@PathVariable String matricule) 
+	public boolean existingMatricule(@PathVariable String matricule, @RequestParam(defaultValue = "0") Long idAgent) 
 	{
-		//System.out.println("Matricule = " + matricule);
-		return agentMetier.existingMatricule(matricule);
+		if(idAgent==0 || idAgent==null)
+		{
+			return agentMetier.existingMatricule(matricule);
+		}
+		else
+		{
+			return agentMetier.existingMatricule(matricule, idAgent);
+		}
+		
 	}
 }

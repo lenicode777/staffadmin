@@ -14,27 +14,34 @@
 					    		<div class="panel-heading">
 					    			<h3 class="panel-title"><a href="#infos-professionnelles" data-toggle="collapse"> Informations professionnelles</a></h3>
 					    		</div>	
-					    		<div class="list-group panel-collapse collapse in" id="infos-professionnelles" >			    	
-						    		<li class="list-group-item"> 
-						    			<b>	Structure : </b>
-						    			<a class="pull-right" th:href="@{'/staffadmin/unites-admins/' + ${visitedUser.agent.tutelleDirecte.idUniteAdmin}}"><span class="badge" th:text="${visitedUser.agent.tutelleDirecte}"></span></a>
-						    		</li>
-						    		<li class="list-group-item">
-						    			<b> Fonction : </b>
-						    			<span class="badge" th:text="${visitedUser.agent.fonction.nomFonction}"></span>
-						    		</li>
-						    		<li class="list-group-item">
-						    			<b>Matricule : </b>
-						    			<span class="badge" th:text="${visitedUser.agent.matricule}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>Emploi :</b> 
-						    			<span class="badge" th:text="${visitedUser.agent.emploi.nomEmploi}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>Grade :</b> 
-						    			<span class="badge" th:text="${visitedUser.agent.grade.nomGrade}"></span>
-						    		</li>
+					    		<div class="panel-body panel-collapse collapse in" id="infos-professionnelles" >			    	
+						    		
+									<table class="table table-striped">
+										<tbody>
+											<tr style="height: 60px;">
+												<th class="text-success">Service: </th> 
+												<th >
+													<a  th:href="@{'/staffadmin/unites-admins/' + ${visitedUser.agent.tutelleDirecte.idUniteAdmin}}"><span th:text="${visitedUser.agent.tutelleDirecte}"></span></a>
+												</th>
+
+												<th style="width: 150px;"></th>
+												<th class="text-success"></th> <th ></th>
+												
+											</tr>
+	
+											<tr style="height: 60px;">
+												<th class="text-success">Matricule: </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.matricule}">Matricule </th>
+												<th style="width: 150px;"></th>
+												<th class="text-success">Fonction :</th><th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.fonction.nomFonction}">Matricule</th>
+											</tr>
+	
+											<tr style="height: 60px;">
+												<th class="text-success">Emploi : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.emploi.nomEmploi}">Emploi : </th>
+												<th style="width: 150px;"></th>
+												<th class="text-success">Grade : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.grade.nomGrade}">Grade : </th>
+											</tr>
+										</tbody>
+									</table>
 					    		</div>
 					    	</div>	
 					    </div>

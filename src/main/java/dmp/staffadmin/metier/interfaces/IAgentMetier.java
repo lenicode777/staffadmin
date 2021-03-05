@@ -18,4 +18,5 @@ public interface IAgentMetier extends IAgentExistingRestController, ICrudMetier<
 	
 	public Recrutement recruter(Agent agent);
 	
+	
 }

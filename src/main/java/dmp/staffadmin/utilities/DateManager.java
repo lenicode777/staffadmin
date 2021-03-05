@@ -106,7 +106,7 @@ public class DateManager
 	}
 	
 	public static void main(String[] args) throws ParseException
-	{
+	{		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		
 		Date dateNaissance = sdf.parse("01-01-2000");

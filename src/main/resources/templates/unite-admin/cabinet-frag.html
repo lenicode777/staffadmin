@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="cabinet-frag">            
+			<div class="panel panel-default">
+            	<div class="panel-heading">
+					<a th:href="@{'/staffadmin/unites-admins/' + ${cabinetDGMP.idUniteAdmin}}" >Cabnet DGMP</a>
+
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn-theme dropdown-toggle"
+							data-toggle="dropdown">
+							Actions <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a th:href="@{'/staffadmin/unites-admins/' + ${cabinetDGMP.idUniteAdmin}}">
+									<i class="glyphicon glyphicon-eye-open"></i> Voire
+								</a>
+							</li>
+							<li>
+								<a th:href="${'/staffadmin/unites-admins/frm/' + cabinetDGMP.idUniteAdmin}">
+									<i class="glyphicon glyphicon-edit"></i> Modifier
+								</a>
+							</li>
+									
+							<li>
+								<a th:href="${'/staffadmin/frm-affectations-groupees/' + cabinetDGMP.idUniteAdmin}">
+									<i class="fa fa-users"> Affecter du personnel</i>
+								</a>
+							</li>
+							
+							<li class="divider"></li>
+						
+	<!-- 												th:href="@{'/pathvars/single/' + ${item.id}}" -->
+								<!-- th:href="@{/pathvars/single/{id}(id = ${item.id})}"   (for single pathVariable)-->
+						</ul>
+					</div>
+				</div>
+
+				
+
+            </div>
+                  
+      	</th:block>
+    </body>
+</html>

@@ -111,7 +111,7 @@ public class NominationController
 		UniteAdmin uniteAdminDeNomination = uniteAdminDao.findById(nomination.getUniteAdminDeNomination().getIdUniteAdmin()).get();
 		Fonction fonctionNomination = fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get();
 		
-		System.out.println("FONCTION1111111 = "+fonctionNomination.getNomFonction());
+		//System.out.println("FONCTION1111111 = "+fonctionNomination.getNomFonction());
 		//fonctionNomination.setTypeUniteAdmin(typeUniteAdminDao.findById().get());
 		Agent agentANommer = agentDao.findByMatricule(nomination.getAgentNomme().getMatricule());
 		

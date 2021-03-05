@@ -8,7 +8,7 @@
             </div>
             <div  id="sces-rattaches" class="panel-collapse collapse">
                 <div th:each="sr:${scesRattaches}" class="panel panel-success ml-20" style="font-size: 10px; height: 35px;">
-                	<div class="panel-heading" ><span th:text="${sr.appellation + ' (' sr.sigle + ')'}" class="sub-admin-3"></span><button class="btn btn-subadmin pull-right orange-bg" >Voir</button></div>
+                	<div class="panel-heading" ><span th:title="${sr}" th:text="${sr.appellation + ' (' sr.sigle + ')'}" class="sub-admin-3"></span><button class="btn btn-subadmin pull-right orange-bg" >Voir</button></div>
                 </div>
             </div>
             

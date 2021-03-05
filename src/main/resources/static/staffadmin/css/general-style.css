@@ -3,3 +3,13 @@ body
 	font-size: 20px;
 	font-weight: bold;
 }
+
+.confirmation-table tbody tr
+{
+	height: 100px;
+}
+
+.confirmation-table tbody tr th .value
+{
+	color: red;
+}

@@ -13,6 +13,7 @@ import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Affectation;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.metier.exceptions.AffectationException;
 import dmp.staffadmin.metier.interfaces.IAffectationMetier;
 import dmp.staffadmin.metier.interfaces.ICrudMetier;
@@ -34,12 +35,20 @@ public class AffectationMetier implements IAffectationMetier, ICrudMetier<Affect
 	@Override
 	public Affectation save(Affectation affectation) throws AffectationException
 	{
+		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
+		UniteAdmin cabinetDGMP = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.CABINET_DG.toString()).get(0);
+		
 		Agent agentAAffecter = agentDao.findById(affectation.getAgent().getIdAgent()).get();
 		UniteAdmin uaArrivee = uniteAdminDao.findById(affectation.getUaArrivee().getIdUniteAdmin()).get();
 		UniteAdmin uaDepart = agentAAffecter.getTutelleDirecte();
 		if(uaDepart.getIdUniteAdmin()!=uaArrivee.getIdUniteAdmin())
 		{
+			if(uaArrivee.getIdUniteAdmin() == DGMP.getIdUniteAdmin())
+			{
+				uaArrivee=cabinetDGMP;
+			}
 			agentAAffecter.setTutelleDirecte(uaArrivee);
+			agentAAffecter.setAttenteAffectation(false);
 	
 			affectation.setUaDepart(uaDepart);
 			affectation.setAgent(agentAAffecter);

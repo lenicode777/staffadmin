@@ -37,7 +37,7 @@
 									<p>
 										<span th:if="${subAdmin.postManager}">
 											<a th:href="${subAdmin.postManager.agent} ? @{/staffadmin/profil(idAgent=${subAdmin.postManager.agent.idAgent})} : '#' ">
-												<img style="width: 50px; height: 50px;" alt="Photo" th:src="${subAdmin.postManager.agent} ? @{'/staffadmin/agents/'+${subAdmin.postManager.agent.idAgent}+'/photo'} : '#'" class="img-circle"/>
+												<img style="width: 50px; height: 50px;" th:title="${subAdmin.postManager.agent}" th:alt="${subAdmin.postManager.agent}" th:src="${subAdmin.postManager.agent} ? @{'/staffadmin/agents/'+${subAdmin.postManager.agent.idAgent}+'/photo'} : '#'" class="img-circle"/>
 											</a>
 										</span>
 									</p>
@@ -54,19 +54,18 @@
 												</a>
 											</li>
 											<li>
-												<a th:href="${'/staffadmin/unites-admins/update/' + subAdmin.idUniteAdmin}">
+												<a th:href="${'/staffadmin/unites-admins/frm/' + subAdmin.idUniteAdmin}">
 													<i class="glyphicon glyphicon-edit"></i>Modifier
 												</a>
 											</li>
 																	
 											<li>
-												<a href="#">
-													<i class="glyphicon glyphicon-trash">Affecter des agents</i>
+												<a th:href="'/staffadmin/frm-affectations-groupees/'+ ${subAdmin.idUniteAdmin}">
+													<i class="fa fa-users">Affecter du personnel</i>
 												</a>
 											</li>
 															
 											<li class="divider"></li>
-											<li><a href="#">Separated link</a></li>
 										</ul>
 									</div>
 								</td>		

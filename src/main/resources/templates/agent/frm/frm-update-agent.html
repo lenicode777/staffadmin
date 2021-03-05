@@ -51,6 +51,7 @@
     <div layout:fragment="content">
         <div class="container-fluid">
             <form id="frm-agent" th:action="@{/staffadmin/agents/save}" method="post" enctype="multipart/form-data" th:object="${agent}">
+                <input id="idAgent" type="hidden" th:field="*{idAgent}"/>
                 <input type="hidden" name="mode" th:value="${mode}" />
                 <div class="alert alert-danger col-lg-12 mb-3" th:if="${errorMsg}">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

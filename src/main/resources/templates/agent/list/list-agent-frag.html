@@ -37,8 +37,7 @@
 								<td th:text="${agent.fonction.nomFonction}"></td>
 								<td th:text="${agent.grade.nomGrade}"></td>
 								
-								<td>
-									
+								<td style="text-align: center; vertical-align: middle;">
 									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/agents/'+${agent.idAgent}+'/photo'}" class="img-circle" width="40" height="40"></a></p>
 								</td>
 								<td style="text-align: center; vertical-align: middle;">
@@ -55,23 +54,24 @@
 											</li>
 
 											<li>
-												<a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}">
+												<a th:href="@{/staffadmin/frm-agent(idAgent=${agent.idAgent})}">
 													<i class="glyphicon glyphicon-edit"></i> Modifier
 												</a>
 											</li>											
 											
 											<li>
 												<a th:href="@{'/staffadmin/affectations/'+${agent.idAgent}}">
-													<i class="glyphicon glyphicon-edit"></i> Affecter
+													<i class="glyphicon glyphicon-send"></i> Affecter
 												</a>
 											</li>
 													
-											<li><a th:href="@{/staffadmin/nominations/form(idAgent=${agent.idAgent})}"><i class="glyphicon glyphicon-trash">
-														Nomination</i></a></li>
+											<li><a th:href="@{/staffadmin/nominations/form(idAgent=${agent.idAgent})}">
+												<i class="fa fa-bullhorn"></i>
+												Nomination</i></a></li>
 											<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
 													Promotion</a></li>
 											<li class="divider"></li>
-											<li><a th:href="@{'/staffadmin/agents/'+${agent.idAgent}+'/archivage/'}">Separated link</a></li>
+<!-- 										<li><a th:href="@{'/staffadmin/agents/'+${agent.idAgent}+'/archivage/'}">Separated link</a></li> -->
 											
 										</ul>
 									</div>

@@ -40,13 +40,15 @@ public class PostMetier implements IPostMetier
 	}
 
 	@Override
-	public Post update(Post e) {
+	public Post update(Post e) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Post update(Long entityId, Post entityBody) {
+	public Post update(Long entityId, Post entityBody) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -61,6 +63,7 @@ public class PostMetier implements IPostMetier
 	@Override
 	public Post nommerResponsable(Post post, Agent agent) 
 	{
+		UniteAdmin SMGP = uniteAdminDao.findBySigle("SMGP");
 		System.out.println("7.1============Poste Metier===========");
 		Fonction fonction = post.getFonction(); // Je recupère la fonction de nomination
 		UniteAdmin uniteAdmin = post.getUniteAdmin();//Je récupère l'unité admin
@@ -73,13 +76,22 @@ public class PostMetier implements IPostMetier
 		
 		agent.setPost(post);//Je met le post  en question sur l'agent
 		agent.setTutelleDirecte(post.getUniteAdmin());//Je défini la tutelleDirecte de l'agent
+		agent.setAttenteAffectation(false);
 		agent = agentDao.save(agent);//J'enregistre l'agent
+		
 		System.out.println("7.3.1============Agent Enregistré===========");
 		User user = agent.getUser();//Je donne les rôles au user de l'agent
 		System.out.println("7.3.2============Avant ajout des roles===========" + agent.getTitre());
 		user = userMetier.addRoleToUser(user, fonction.getRoleAssocie());
+
 		System.out.println("ROLE RESPONSABLE = " + roleResponsable.getIdRole() + " " + roleResponsable.getRole());
 		user = userMetier.addRoleToUser(user, roleResponsable);
+		
+		//Si l'uniteAdmin est le SMGP, on lui octroie le role SAF
+		if(SMGP.getIdUniteAdmin() == uniteAdmin.getIdUniteAdmin())
+		{
+			user = userMetier.addRoleToUser(user, roleDao.findByRole(RoleEnum.SAF.toString()));
+		}
 		
 		post.setAgent(agent);//Je met l'agent au post en question
 		System.out.println("7.4============¨Presque fini ok===========");
@@ -102,6 +114,7 @@ public class PostMetier implements IPostMetier
 		agent.setTitre(null); //J'annule le titre
 		agent.setPost(null);//J'annule le post de l'agent
 		agent.setTutelleDirecte(DGMP);//Je met l'agent directement au niveau de la DGMP
+		agent.setAttenteAffectation(true);
 		agent = agentDao.save(agent);//J'enregistre les modifications sur l'agent
 		
 		User user = agent.getUser();//Je récupère le user de l'agent et je lui enlève tous les roles sau

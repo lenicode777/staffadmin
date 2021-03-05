@@ -21,6 +21,8 @@ public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long>
 	public List<UniteAdmin> findByTypeUniteAdminAdministrativeLevelLessThan(int level);
 	public List<UniteAdmin> findByTypeUniteAdminAdministrativeLevelGreaterThan(int level);
 	
+	public List<UniteAdmin> findByLevelAndTypeUniteAdminNomTypeUniteAdmin(int level, String nomTypeUniteAdmin);
+	
 	public List<UniteAdmin> findByAppellation(String appelation);
 	public List<UniteAdmin> findByDateCreation(Date dateCreation);
 	public List<UniteAdmin> findByDateCreationBefore(Date dateCreation);

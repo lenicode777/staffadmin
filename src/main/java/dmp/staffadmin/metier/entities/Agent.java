@@ -57,6 +57,7 @@ public class Agent
 	private String numPiece;
 	private String nomPere;
 	private String nomMere;
+	private boolean attenteAffectation;
 	
 	
 	@Column(unique = true)

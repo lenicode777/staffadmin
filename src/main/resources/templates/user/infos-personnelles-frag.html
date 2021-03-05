@@ -14,39 +14,38 @@
 					    		<div class="panel-heading">
 					    			<h3 class="panel-title"><a href="#infos-personnelles" data-toggle="collapse">Informations personnelles</a></h3>
 					    		</div>
-					    		<div id = "infos-personnelles" class="list-group panel-collapse collapse in">
-						    		<li class="list-group-item"> 
-						    			<b>Nom :</b>
-						    			<span class="badge" th:text="${visitedUser.agent.nom}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>Prénom : </b>
-						    			<span class="badge" th:text="${visitedUser.agent.prenom}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b> Sexe :</b> 
-						    			<span class="badge" th:text="${visitedUser.agent.sexe}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>Date de naissance : </b>
-						    			<span class="badge" th:text="${visitedUser.agent.dateNaissance}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>Lieu de naissance :</b> 
-						    			<span class="badge" th:text="${visitedUser.agent.lieuNaissance}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>E-mail :</b> 
-						    			<span class="badge" th:text="${visitedUser.agent.email}"></span>
-						    		</li>
-						    		<li class="list-group-item"> 
-						    			<b>Téléphone : </b>
-						    			<span class="badge" th:text="${visitedUser.agent.tel}"></span>
-						    		</li>
-					    		</div>
+								<div id="infos-personnelles" class="panel-body panel-collapse collapse in">
+									<table class="table table-striped">
+										<tbody>
+											<tr style="height: 60px;">
+												<th class="text-success">Nom : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.nom}">Nom : </th>
+												<th style="width: 150px;"></th>
+												<th class="text-success">Prenom : </th> <th style="color: rgb(3, 3, 59);"  th:text="${visitedUser.agent.prenom}"></th>
+												<th style="width: 150px;"></th>
+												<th class="text-success">Civilité : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.sexe=='F' ? 'Madame' : 'Monsieur'}"></th>
+											</tr>
+	
+											<tr style="height: 60px;">
+												<th class="text-success">Date de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.dateNaissance}">Nom : </th>
+												<th style="width: 150px;"></th>
+												<th class="text-success">Lieu de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.lieuNaissance}"></th>
+												<th style="width: 150px;"></th>
+												<th></th><th></th>
+												
+											</tr>
+	
+											<tr style="height: 60px;">
+												<th class="text-success">Email : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.email}">Nom : </th>
+												<th style="width: 150px;"></th>
+												<th class="text-success">Téléphone : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.tel}"></th>
+												<th style="width: 150px;"></th>
+												<th></th><th></th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 					    	</div>
-					    </div>
-			    		    			
+					    </div>			
 	</th:block>
 
 </body>

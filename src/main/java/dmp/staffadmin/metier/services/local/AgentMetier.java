@@ -47,6 +47,13 @@ public class AgentMetier implements IAgentMetier
 	{
 		return !agentDao.findByEmail(email).isEmpty();
 	}
+	
+	@Override
+	public boolean existingEmail(String email, Long idAgent) 
+	{
+		return (agentDao.findByEmail(email).isEmpty() ? false : 
+				agentDao.findByEmail(email).get(0).getIdAgent()==idAgent ? false : true);
+	}
 
 	@Override
 	public boolean existingTel(String tel) 
@@ -64,8 +71,28 @@ public class AgentMetier implements IAgentMetier
 	public boolean existingMatricule(String matricule) 
 	{
 		boolean res = !(agentDao.findByMatricule(matricule)==null);
-		System.out.println(res);
 		return res;
+	}
+	
+	@Override
+	public boolean existingTel(String tel, Long idAgent) 
+	{
+		return (agentDao.findByTel(tel).isEmpty() ? false : 
+				agentDao.findByTel(tel).get(0).getIdAgent()==idAgent ? false : true);
+	}
+
+	@Override
+	public boolean existingNumPiece(String numPiece, Long idAgent) 
+	{
+		return (agentDao.findByNumPiece(numPiece).isEmpty() ? false : 
+				agentDao.findByNumPiece(numPiece).get(0).getIdAgent()==idAgent ? false : true);
+	}
+
+	@Override
+	public boolean existingMatricule(String matricule, Long idAgent) 
+	{
+		return (agentDao.findByMatricule(matricule)==null ? false : 
+				agentDao.findByMatricule(matricule).getIdAgent()==idAgent ? false : true);
 	}
 
 	@Override
@@ -74,6 +101,7 @@ public class AgentMetier implements IAgentMetier
 		//saveFile(MultipartFile file, Agent agent, String typeFileDir, String setStaticPAthMethodeName)
 		agentValidation.validate(agent);
 		agent.setActive(false);
+		agent.setAttenteAffectation(true);
 		UniteAdmin DGMP = uniteAdminDao.findById(1L).get();
 		System.out.println(DGMP);
 		agent.setTutelleDirecte(DGMP);
@@ -99,6 +127,8 @@ public class AgentMetier implements IAgentMetier
 
 		return agent;
 	}
+	
+	
 
 	@Override
 	public Recrutement recruter(Agent agent)
@@ -132,11 +162,34 @@ public class AgentMetier implements IAgentMetier
 	}
 	
 	@Override
-	public Agent update(Long agentId, Agent agentBody)
+	public Agent update(Long agentId, Agent agentForm)
 	{
-		agentBody.setIdAgent(agentId);
-		save(agentBody);
-		return null;
+		Agent agentFromDataBAse = agentDao.findById(agentId).get();
+		
+		agentFromDataBAse.setNom(agentForm.getNom());
+		agentFromDataBAse.setPrenom(agentForm.getPrenom());
+		agentFromDataBAse.setDateNaissance(agentForm.getDateNaissance());
+		agentFromDataBAse.setSexe(agentForm.getSexe());
+		agentFromDataBAse.setEmail(agentForm.getEmail());
+		agentFromDataBAse.setLieuNaissance(agentForm.getLieuNaissance());
+		agentFromDataBAse.setFixeBureau(agentForm.getFixeBureau());
+		agentFromDataBAse.setTel(agentForm.getTel());
+		
+		agentFromDataBAse.setTypePiece(agentForm.getTypePiece());
+		agentFromDataBAse.setNumPiece(agentForm.getNumPiece());
+		agentFromDataBAse.setNomPere(agentForm.getNomPere());
+		agentFromDataBAse.setNomMere(agentForm.getNomMere());
+		
+		agentFromDataBAse.setFonction(agentForm.getFonction());
+		agentFromDataBAse.setEmploi(agentForm.getEmploi());
+		agentFromDataBAse.setMatricule(agentForm.getMatricule());
+		agentFromDataBAse.setDatePriseService1(agentForm.getDatePriseService1());
+		agentFromDataBAse.setGrade(agentForm.getGrade());
+		agentFromDataBAse.setStatutAgent(agentForm.getStatutAgent());
+		
+		//agentBody.setIdAgent(agentId);
+		
+		return save(agentFromDataBAse);
 	}
 
 	@Override

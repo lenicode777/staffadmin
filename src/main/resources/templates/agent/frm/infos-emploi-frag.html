@@ -66,8 +66,9 @@
                         <label for="statutAgent">Statut de l'agent</label>
                         <span class="error-msg text-danger" id="statutAgent-error-msg"></span>
                         <select name="statutAgent" id="statutAgent" class="form-control" required="required" th:field="*{statutAgent}">
-                                <option value="Fonctionnaire">Fonctionnaire</option>
-                                <option value="Contractuel">Contractuel</option>
+                            <option value="">Choisir</option>
+                            <option value="Fonctionnaire">Fonctionnaire</option>
+                            <option value="Contractuel">Contractuel</option>
                         </select>
                     </div>
                 </div>
