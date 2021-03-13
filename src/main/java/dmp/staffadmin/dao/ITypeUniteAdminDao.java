@@ -13,4 +13,6 @@ public interface ITypeUniteAdminDao extends JpaRepository<TypeUniteAdmin, Long>
 	public List<TypeUniteAdmin> findByAdministrativeLevelLessThan(int administrativeLevel);
 	public TypeUniteAdmin findByNomTypeUniteAdmin(String TypeUniteAdmin);
 	public List<TypeUniteAdmin> findByNomTypeUniteAdminContains(String TypeUniteAdmin);
+	
+	
 }

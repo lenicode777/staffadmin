@@ -16,4 +16,6 @@ public interface IFonctionDao extends JpaRepository<Fonction, Long>
 	public List<Fonction> findByFonctionTopManagerFalse();
 	public List<Fonction> findByTypeUniteAdmin(TypeUniteAdmin typeUniteAdmin);
 	public List<Fonction> findByTypeUniteAdminIdTypeUniteAdmin(Long idTypeUniteAdmin);
+	
+	public boolean existsByIdFonction(Long idFonction);
 }

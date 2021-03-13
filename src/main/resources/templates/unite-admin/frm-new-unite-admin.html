@@ -74,13 +74,13 @@
 					<div class="panel-heading" >Création d'une nouvelle unité administrative</div>
 					<div class="panel-body">
 						
-						<form id="unite-admin-updateForm" th:action="@{/staffadmin/frm-new-unite-admin/confirmation}" th:object="${uniteAdmin}" method="post">
+						<form id="unite-admin-newForm" th:action="@{/staffadmin/frm-new-unite-admin/confirmation}" th:object="${uniteAdmin}" method="post">
 							
 							<th:block th:replace="unite-admin/frm-unite-admin-frag.html::input-frm-unite-admin-frag"></th:block>
 							
 							<button type="submit" class="btn btn-lg btn-warning pull-right">Poursuivre <i class="glyphicon glyphicon-hand-right"></i> </button>
 							
-							<th:block th:replace="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-confirmation-dialog"></th:block>
+							
 						</form>
 
 					</div>
@@ -131,7 +131,7 @@
 						$.ajax
 					    ({
 					        type: "get",
-					        url: "http://localhost:8081/staffadmin/frm-uniteAdmin/ajax/onTypeUniteAdminChange/"+this.value,
+					        url: "http://localhost:8081/staffadmin/unitesAdmins/findBy-TypeUniteAdmin-AdministrativeLevel-LessThan/"+this.value,
 					        success: function (response) 
 					        {
 					            //alert("HELLO AJAX");

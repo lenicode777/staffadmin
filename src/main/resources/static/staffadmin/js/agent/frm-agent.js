@@ -13,7 +13,9 @@ function switchOnOffBtnValider() //
     if (
             $("#email-error-msg").css("display") != "none" || $("#numPiece-error-msg").css("display") != "none" ||
             $("#tel-error-msg").css("display") != "none" || $("#matricule-error-msg").css("display") != "none" ||
-            $("#dateNaissance-error-msg").css("display") != "none" || $("#datePriseService1-error-msg").css("display") != "none"
+            $("#dateNaissance-error-msg").css("display") != "none" || $("#datePriseService1-error-msg").css("display") != "none" ||
+            $("#datePriseServiceDGMP-error-msg").css("display") != "none" || $("#numBadge-error-msg").css("display") != "none" ||
+            $("#emailPro-error-msg").css("display") != "none"
         ) 
     {
         $("#btn-valider").attr("disabled", "disabled");
@@ -53,22 +55,22 @@ function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, error
     {
         const existingPromise = new Promise((resolve, reject) => 
         {
-            var compleUrl="";
+            var completeUrl="";
             
             if($("#idAgent").val()==undefined)
             {
-                compleUrl = agentExistingRestUrl + variant + checkedValue+"?idAgent=0"
+                completeUrl = agentExistingRestUrl + variant + checkedValue+"?idAgent=0"
             }
             else
             {
-                compleUrl = agentExistingRestUrl + variant + checkedValue+"?idAgent="+$("#idAgent").val();
+                completeUrl = agentExistingRestUrl + variant + checkedValue+"?idAgent="+$("#idAgent").val();
             }
             //alert(compleUrl);
         	$.blockUI();
                 $.ajax(
                 {
                     type: "get",
-                    url: compleUrl,
+                    url: completeUrl,
                     success: function(response) 
                     {
                         resolve(response);
@@ -83,11 +85,6 @@ function unicityChecking(variant, checkedElmt, checkedValue, errorMsgElmt, error
                     }
                 });
             
-        });
-    
-        txtEmail.blur(function(e) 
-        {
-            unicityChecking("email/", txtEmail, e.target.value, $("#email-error-msg"), "*adresse email déjà utilisée");
         });
         
         existingPromise.then((value) => 
@@ -171,14 +168,24 @@ $( function()
 var today = new Date();
 var dateNaissMin = new Date(); 
 var dateNaissMax = new Date(); 
+
 var datePriseService1Min = new Date(); 
 var datePriseService1Max = new Date(); 
+
+var datePriseServiceDGMPMin = new Date(); 
+var datePriseServiceDGMPMax = new Date(); 
+
 var frmAgent = $("#frm-agent");
 var idAgent = $("#idAgent").val();
 var txtEmail = $("#email");
 var txtNumPiece = $("#numPiece");
 var txtTel = $("#tel");
 var txtMatricule = $("#matricule");
+
+var txtDatePriseServiceDGMP = $("#datePriseServiceDGMP");
+var txtNumBadge = $("#numBadge");
+var txtEmailPro = $("#emailPro");
+
 var agentExistingRestUrl = "http://localhost:8081/staffadmin/exists/";
 var noteServiceDAAFInputFile = document.querySelector("#noteServiceDAAF");
 var docTypesTable = ["application/pdf", "image/jpeg","image/png"];
@@ -227,11 +234,15 @@ document.querySelector("#photo").addEventListener("blur", function()
 
 datePriseService1Min.setYear(today.getYear() - 50 + 1900);
 datePriseService1Max = today;
+datePriseServiceDGMPMin = datePriseService1Min;
+
 
 dateNaissMin.setYear(today.getYear() -80 +1900);
 dateNaissMax.setYear(today.getYear() -18 +1900);
 checkDate("dateNaissance", dateNaissMin, dateNaissMax, " * "+getDateDefaultFormat(dateNaissMin)+" < date < "+getDateDefaultFormat(dateNaissMax), "dateNaissance-error-msg");
 checkDate("datePriseService1", datePriseService1Min, datePriseService1Max, " * "+getDateDefaultFormat(datePriseService1Min)+" < date < "+getDateDefaultFormat(datePriseService1Max), "datePriseService1-error-msg");
+checkDate("datePriseServiceDGMP", datePriseServiceDGMPMin, datePriseServiceDGMPMax, " * "+getDateDefaultFormat(datePriseServiceDGMPMin)+" < date < "+getDateDefaultFormat(datePriseServiceDGMPMax), "datePriseServiceDGMP-error-msg");
+
 
 $("#btn-valider").click(function(e) //Au click sur le bouton valider
 {
@@ -261,7 +272,6 @@ $("#btn-valider").click(function(e) //Au click sur le bouton valider
 //Appel ajax pour vérification d'unicité
 txtEmail.blur(function(e) 
 {
-    
     unicityChecking("email/", txtEmail, e.target.value, $("#email-error-msg"), "*adresse email déjà utilisée");
 });
 
@@ -278,6 +288,16 @@ txtNumPiece.blur(function(e)
 txtTel.blur(function(e) 
 {
     unicityChecking("tel/", txtTel, e.target.value, $("#tel-error-msg"), "*Tel déjà utilisé");
+});
+
+txtNumBadge.blur(function(e) 
+{
+    unicityChecking("numBadge/", txtEmail, e.target.value, $("#numBadge-error-msg"), "*N° badge déjà attribué");
+});
+
+txtEmailPro.blur(function(e) 
+{
+    unicityChecking("emailPro/", txtEmail, e.target.value, $("#emailPro-error-msg"), "*adresse email déjà utilisée");
 });
 
 $("#btn-modal-trigger").click(function(e)

@@ -38,8 +38,10 @@ public class NominationMetier implements INominationMetier
 	@Override @Transactional
 	public Nomination save(Nomination nomination) // Fonction très complexe
 	{
+		nomination.getAgentNomme().setFonction(nomination.getFonctionNomination());
 		nominationValidation.validate(nomination);
 		System.out.println("===============================Validation OK===============================");
+		
 		uniteAdminMetier.nommerResponsable(nomination.getUniteAdminDeNomination(), nomination.getAgentNomme(), nomination.getFonctionNomination());
 		
 		return nominationDao.save(nomination);

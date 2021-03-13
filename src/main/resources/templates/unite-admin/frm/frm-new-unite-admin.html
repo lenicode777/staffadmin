@@ -70,7 +70,6 @@
     <div layout:fragment="content">
         <div class="main-content-block-item">
 			<div class="col-md-12">
-
 				<div th:if="${globalErrorMsg}">
 					<div class="alert alert-danger">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -79,26 +78,16 @@
 					</div>
 				</div>
 
-				<th:block th:if="${uniteAdmin}">
-					<div class="panel panel-default">
-					
-						<div class="panel-heading" > Modification d'un(e) <span th:text="${uniteAdmin.typeUniteAdmin.nomTypeUniteAdmin}"></span></div>
-						<div class="panel-body">
-							
-							<form id="unite-admin-updateForm" th:action="@{/staffadmin/unites-admins/update}" th:object="${uniteAdmin}" method="post">
-								<input type="hidden" th:field="*{idUniteAdmin}"/>
-								<th:block th:replace="unite-admin/frm-unite-admin-frag.html::input-frm-unite-admin-frag"></th:block>
-									
-								<button type="button" id="btn-submit-update" class="btn btn-lg btn-warning pull-right">Enregistrer les modifications</button>
-									
-								<th:block th:replace="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-confirmation-dialog"></th:block>
-							</form>
-						</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" >Création d'une nouvelle unité administrative</div>
+					<div class="panel-body">
+						<form id="unite-admin-newForm" th:action="@{/staffadmin/frm-unite-admin/confirmation}" th:object="${uniteAdmin}" method="post">
+							<input type="hidden" name="mode" value="new"/>
+							<th:block th:replace="unite-admin/frm/frm-unite-admin-frag.html::frm-unite-admin-frag"></th:block>
+						</form>
 					</div>
-				</th:block>
-				
+				</div>
 			</div>
-			
         </div>
     </div>
     <div layout:fragment="js-specifics-dependancies">

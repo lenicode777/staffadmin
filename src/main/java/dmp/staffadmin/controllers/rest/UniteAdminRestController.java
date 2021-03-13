@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
+import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.UniteAdminEnum;
 import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
 
 @RestController
@@ -25,11 +28,25 @@ public class UniteAdminRestController
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IUniteAdminMetier uniteAdminMetier;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
+	
+	@Autowired private IFonctionDao fonctionDao;
+	@GetMapping(path = "/staffadmin/rest/uniteAdmins/findBy-TypeUniteAdmin-IdFonction/{idFonction}")
+	public List<UniteAdmin> getUniteAdminsByTypeUniteAdminIdFonction(@PathVariable Long idFonction)
+	{
+		System.out.println("=============ID FONCTION===============");
+		System.out.println(idFonction);
+		System.out.println("============================");
+		Fonction fonction = fonctionDao.findById(idFonction).get();
+		TypeUniteAdmin typeUA = fonction.getTypeUniteAdmin();
+		List<UniteAdmin> uniteAdmins = uniteAdminDao.findByTypeUniteAdmin(typeUA);
+		return uniteAdmins;
+	}
+	
 	@GetMapping(path = "/staffadmin/ajax/unites-admins")
 	public UniteAdmin getUnitesAdmins(Model model)
 	{
 		//UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
-		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
+		UniteAdmin DGMP = uniteAdminDao.findBySigle(UniteAdminEnum.DGMP.toString());
 		return uniteAdminMetier.setSubAdminTree(DGMP);
 	}
 
@@ -52,8 +69,8 @@ public class UniteAdminRestController
 		return uniteAdminDao.findByTutelleDirecteIdUniteAdmin(idTutelleDirecte);
 	}
 	
-	@GetMapping(path = "/staffadmin/frm-uniteAdmin/ajax/onTypeUniteAdminChange/{idTypeUniteAdmin}")
-	public List<UniteAdmin> onTypeUniteAdminChange_ajax(@PathVariable Long idTypeUniteAdmin)
+	@GetMapping(path = "/staffadmin/unitesAdmins/findBy-TypeUniteAdmin-AdministrativeLevel-LessThan/{idTypeUniteAdmin}")
+	public List<UniteAdmin> findByTypeUniteAdminAdministrativeLevelLessThan(@PathVariable Long idTypeUniteAdmin)
 	{
 		System.out.println("ID_TYPE UNITE ADMIN = "+ idTypeUniteAdmin);
 		

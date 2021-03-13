@@ -1,5 +1,8 @@
 package dmp.staffadmin.security;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
 import dmp.staffadmin.security.userdetailsservice.IUserMetier;
@@ -68,6 +73,12 @@ public class SecurityController
 			//visitedUser.setAgent(visitedAgent);
 		}
 		
+		List<UniteAdmin> tutellesHierarchieTree = visitedUser.getAgent().getTutelleDirecte()
+																		.getPatrentsStream()
+																		.filter(ua->!ua.getTypeUniteAdmin().getNomTypeUniteAdmin().equals(TypeUniteAdminEnum.DIRECTION_GENERALE.toString()))
+																		.collect(Collectors.toList());
+		
+		model.addAttribute("tutellesHierarchieTree", tutellesHierarchieTree);
 		model.addAttribute("modelRoles", roleDao.findAll());
 		model.addAttribute("visitedUser", visitedUser);
 		model.addAttribute("authUser", authUser);

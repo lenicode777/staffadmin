@@ -23,6 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import dmp.staffadmin.dao.IUniteAdminDao;
 import lombok.AllArgsConstructor;
@@ -61,7 +62,6 @@ public class UniteAdmin
 	@JsonIgnore
 	private List<UniteAdmin> uniteAdminSousTutelle;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="ID_TYPE_UA")
-	@JsonIgnore
 	private TypeUniteAdmin typeUniteAdmin;
 	private String ficheTechPath;
 	@Transient

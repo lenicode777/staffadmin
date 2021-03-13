@@ -29,7 +29,8 @@ public class Nomination
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateNomination;
 	private String titreNomination;
-	private String acteNominationPath;
+	private String numActeNominaton;
+	private String nomActeNomination;
 	@ManyToOne @JoinColumn(name = "ID_FONCTION_NOMINATION")
 	private Fonction fonctionNomination; 
 	@OneToOne @JoinColumn(name = "ID_POST_NOMINATION")
@@ -82,7 +83,7 @@ public class Nomination
 		TypeUniteAdmin type1 = new TypeUniteAdmin(null, "Direction Générale", 1, null);
 		TypeUniteAdmin type2 = new TypeUniteAdmin(null, "Direction", 2, null);
 		TypeUniteAdmin type3 = new TypeUniteAdmin(null, "Service", 2, null);
-		TypeUniteAdmin type4 = new TypeUniteAdmin(null, "Service Rattaché", 2, null);
+		//TypeUniteAdmin type4 = new TypeUniteAdmin(null, "Service Rattaché", 2, null);
 		uniteAdmin1.setTypeUniteAdmin(type1);
 		uniteAdmin2.setTypeUniteAdmin(type2);
 		uniteAdmin3.setTypeUniteAdmin(type3);

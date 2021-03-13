@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-unite-admin-frag">						
+            
+                <th:block th:fragment="input-frm-unite-admin-frag">
+	                <div class="form-group">
+	                    <label for="appellation">Appelation</label>
+	                    <input required="required" th:field="*{appellation}" type="text" class="form-control" id="appellation" placeholder="Appellation">
+	                </div>
+	                               
+	                <div class="col-md-6" style="padding: 0px 10px 0px 0px;">
+	                    <div class="form-group">
+	                        <label for="sigle">Sigle</label>
+	                        <input th:field="*{sigle}" type="text" class="form-control" id="sigle" placeholder="Sigle">
+	                    </div>
+	                </div>
+
+	                <div class="col-md-6" style="padding: 0px 0px 0px 10px;">
+	                    <div class="form-group">
+	                        <label for="contacts">Contact</label>
+	                    	<input th:field="*{contacts}" type="text" class="form-control" id="contacts" placeholder="Contacts">
+	                    </div>
+	                </div>
+
+	                <div class="col-md-6" style="padding: 0px 10px 0px 0px;">
+	                    <div class="form-group">
+	                        <label for="idTypeUniteAdmin">Type unité admin</label>
+	                        <select required="required" th:field="*{typeUniteAdmin.idTypeUniteAdmin}" class="form-control" id="idTypeUniteAdmin" style="width: 100%;">
+	                            <option value=""></option>
+	                            <option th:each="typeUniteAdmin : ${typesUniteAdmins}" th:text="${typeUniteAdmin.nomTypeUniteAdmin}" th:value="${typeUniteAdmin.idTypeUniteAdmin}"></option>
+	                        </select>
+	                    </div>
+	                </div>  
+
+	                <div class="col-md-6" style="padding: 0px 0px 0px 10px;">
+	                    <div class="form-group">
+	                        <label for="dateCreation">Date de création</label>
+	                        <input type="date" required="required" class="form-control" th:field="*{dateCreation}" id="dateCreation" />
+	                    </div>   
+	                </div>       
+
+	                <div class="form-group">
+	                    <label for="idTutelleDirecte">Structure de tutelle directe</label>
+	                    <select required="required" th:field="*{tutelleDirecte.idUniteAdmin}" class="form-control" id="idTutelleDirecte" style="width: 100%;">
+	                        <option value="0"></option>
+	                        <option th:each="ua:${unitesAdmins}" th:value="${ua.idUniteAdmin}" th:text="${ua.appellation + ' ('+ ua.sigle + ')'}" th:selected="${ua.idUniteAdmin == uniteAdmin.tutelleDirecte.idUniteAdmin}"></option>
+	                    </select>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="situationGeo">Situation géographique</label>
+	                    <textarea required="required" th:field="*{situationGeo}"  class="form-control" id="situationGeo"></textarea>
+	                </div>
+	                               
+<!-- 	            <div class="form-group"> -->
+<!-- 	                  <label for="ficheTech">Fiche technique</label> -->
+<!-- 	                  <input name="ficheTechFile" th:value="*{ficheTechFile}"  type="file" class="form-control-file" id="ficheTech"> -->
+<!--				</div> -->	
+                </th:block>
+                <button type="submit" class="btn btn-lg btn-success pull-right" id="btn-submit-new">Poursuivre <i class="glyphicon glyphicon-hand-right"></i> </button>
+      	</th:block>
+    </body>
+</html>

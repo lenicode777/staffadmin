@@ -25,7 +25,7 @@ public class Post
 	private Long idPost;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_FONCTION")
 	private Fonction fonction;
-	@Column(unique = true)
+	
 	private String libellePost;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_UNITE_ADMIN")
 	private UniteAdmin uniteAdmin;

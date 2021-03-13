@@ -51,50 +51,75 @@ public class AgentMetier implements IAgentMetier
 	@Override
 	public boolean existingEmail(String email, Long idAgent) 
 	{
-		return (agentDao.findByEmail(email).isEmpty() ? false : 
+		return (!agentDao.existsByEmail(email) ? false : 
 				agentDao.findByEmail(email).get(0).getIdAgent()==idAgent ? false : true);
 	}
 
 	@Override
 	public boolean existingTel(String tel) 
 	{
-		return !agentDao.findByTel(tel).isEmpty();
+		return agentDao.existsByTel(tel);
 	}
 
 	@Override
 	public boolean existingNumPiece(String numPiece) 
 	{
-		return!agentDao.findByNumPiece(numPiece).isEmpty();
+		return !agentDao.findByNumPiece(numPiece).isEmpty();
 	}
 
 	@Override
 	public boolean existingMatricule(String matricule) 
 	{
-		boolean res = !(agentDao.findByMatricule(matricule)==null);
-		return res;
+		return agentDao.existsByMatricule(matricule);
 	}
 	
 	@Override
 	public boolean existingTel(String tel, Long idAgent) 
 	{
-		return (agentDao.findByTel(tel).isEmpty() ? false : 
+		return (!agentDao.existsByTel(tel) ? false : 
 				agentDao.findByTel(tel).get(0).getIdAgent()==idAgent ? false : true);
 	}
 
 	@Override
 	public boolean existingNumPiece(String numPiece, Long idAgent) 
 	{
-		return (agentDao.findByNumPiece(numPiece).isEmpty() ? false : 
+		return (!agentDao.existsByNumPiece(numPiece) ? false : 
 				agentDao.findByNumPiece(numPiece).get(0).getIdAgent()==idAgent ? false : true);
 	}
 
 	@Override
 	public boolean existingMatricule(String matricule, Long idAgent) 
 	{
-		return (agentDao.findByMatricule(matricule)==null ? false : 
+		return (!agentDao.existsByMatricule(matricule) ? false : 
 				agentDao.findByMatricule(matricule).getIdAgent()==idAgent ? false : true);
 	}
 
+	@Override
+	public boolean existingEmailPro(String emailPro) 
+	{
+		return agentDao.existsByEmailPro(emailPro);
+	}
+
+	@Override
+	public boolean existingEmailPro(String emailPro, Long idAgent) 
+	{
+		return (!agentDao.existsByEmailPro(emailPro) ? false : 
+			agentDao.findByEmailPro(emailPro).getIdAgent()==idAgent ? false : true);
+	}
+
+	@Override
+	public boolean existingNumBadge(String numBadge) 
+	{
+		return agentDao.existsByNumBadge(numBadge);
+	}
+
+	@Override
+	public boolean existingNumBadge(String numBadge, Long idAgent) 
+	{
+		return (!agentDao.existsByNumBadge(numBadge) ? false : 
+			agentDao.findByNumBadge(numBadge).getIdAgent()==idAgent ? false : true);
+	}
+	
 	@Override
 	public Agent save(Agent agent)
 	{
@@ -186,6 +211,10 @@ public class AgentMetier implements IAgentMetier
 		agentFromDataBAse.setDatePriseService1(agentForm.getDatePriseService1());
 		agentFromDataBAse.setGrade(agentForm.getGrade());
 		agentFromDataBAse.setStatutAgent(agentForm.getStatutAgent());
+		
+		agentFromDataBAse.setDatePriseServiceDGMP(agentForm.getDatePriseServiceDGMP());
+		agentFromDataBAse.setNumBadge(agentForm.getNumBadge());
+		agentFromDataBAse.setEmailPro(agentForm.getEmailPro());
 		
 		//agentBody.setIdAgent(agentId);
 		

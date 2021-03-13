@@ -53,6 +53,10 @@ public class User
 		boolean hasRole = false;
 		//System.out.println("ROLE A VERIFIER : "+role.getRole()+ " _ "+ role.getIdRole());
 		//System.out.println("roles vide Oui ou Non = " + roles==null);
+		if(role==null) return true;
+		if(roles==null) return false;
+		if(roles.isEmpty()) return false;
+		
 		for(Role r:roles)
 		{
 			if(r.getIdRole() == role.getIdRole())
@@ -68,6 +72,10 @@ public class User
 	public boolean hasRole(String role)
 	{
 		boolean hasRole = false;
+		if(role==null) return true;
+		if(roles==null) return false;
+		if(roles.isEmpty()) return false;
+		
 		for(Role r:roles)
 		{
 			if(r.getRole().equals(role))

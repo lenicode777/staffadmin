@@ -11,7 +11,13 @@
 		
 			<div class="row content-panel" style="margin-left: 0px; margin-right: 5px; margin-bottom:10px;">
 				<div class="row" style="align-content: center; align-items: center; text-align: center;">
-					<b class="logo"  style="font-size: 20px; color: darkred;" th:text="${visitedUniteAdmin.appellation + ' (' +visitedUniteAdmin.sigle +')'}"></b>
+					<b class="logo"  style="font-size: 20px; color: darkred;" th:text="${visitedUniteAdmin}"></b>
+<!-- 					<h6><span th:text="${hierarchie}"></span></h6> -->
+					<h6>
+						<span th:each="parent, status :${parentsHierarchie}">
+							<a th:href="'/staffadmin/unites-admins/' + ${parent.idUniteAdmin}" th:text="${status.last} ? ${parent.appellation} : ${parent.appellation + ' > '}"></a>
+						</span>
+					</h6>
 				</div>
 				<div class="col-md-3 profile-text mt mb centered">
 					<div class="hidden-sm hidden-xs">
@@ -38,13 +44,9 @@
 					
 					<table class="table table-striped">
 						<tbody>
+						
 							<tr>
-								<th style="width: 300px;">Encrage institutionnel :</th> <th th:text="${visitedUniteAdmin.typeUniteAdmin.nomTypeUniteAdmin}"></th>
-								
-								
-							</tr>
-							<tr>
-								<th>Tutelle : </th>
+								<th>Tutelle directe : </th>
 								<th> 
 									<a th:href="${visitedUniteAdmin.tutelleDirecte} ? @{'/staffadmin/unites-admins/'+ ${visitedUniteAdmin.tutelleDirecte.idUniteAdmin}} : '#'">
 										<span th:text="${visitedUniteAdmin.tutelleDirecte} ? ${visitedUniteAdmin.tutelleDirecte} : 'Non fourni'"></span>
@@ -52,7 +54,7 @@
 								</th>
 							</tr>
 							<tr>
-								<th>Localisation :</th> 
+								<th>Localisation géographique :</th> 
 								<th>
 									<span th:text="${visitedUniteAdmin.situationGeo} ? ${visitedUniteAdmin.situationGeo} : 'Non fourni'"></span>
 									
@@ -105,7 +107,7 @@
 						<a th:href="@{'/staffadmin/unites-admins/frm/' + ${visitedUniteAdmin.idUniteAdmin}}" class="btn btn-theme" ><i class="fa fa-edit"></i> Modifier</a>
 						<a th:href="@{'/staffadmin/frm-affectations-groupees/' + ${visitedUniteAdmin.idUniteAdmin}}" class="btn btn-theme"><i class="fa fa-users"></i> Affecter du personnel</a>
 						<a th:disabled="${visitedUniteAdmin.idUniteAdmin==cabinetDGMP.idUniteAdmin}" 
-						   th:href="${visitedUniteAdmin.idUniteAdmin!=cabinetDGMP.idUniteAdmin} ? '/staffadmin/' + ${visitedUniteAdmin.idUniteAdmin} + '/nominations/form' : '#'" class="btn btn-theme"><i class="fa fa-bullhorn"></i> Nommer un nouveau responsable</a>
+						   th:href="${visitedUniteAdmin.idUniteAdmin!=cabinetDGMP.idUniteAdmin} ? '/staffadmin/unites-admins/' + ${visitedUniteAdmin.idUniteAdmin} + '/nominations/form' : '#'" class="btn btn-theme"><i class="fa fa-bullhorn"></i> Nommination</a>
 					</p>
 				</div>
 				<!-- /col-md-4 -->

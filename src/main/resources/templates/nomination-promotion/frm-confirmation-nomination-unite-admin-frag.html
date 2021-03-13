@@ -7,44 +7,55 @@
 				<div class="panel panel-default main-content-block-item" >
                     <div class="panel-heading">
                     	Confirmation de la nommination
-                    	<span class="pull-right">
+                    	<span class="pull-right" th:title="${nomination.agentNomme}">
 							<img style="width: 35px; height: 35px;" id="photo-tag" th:src="@{'/staffadmin/agents/'+${nomination.agentNomme.idAgent}+'/photo'}" class="img-circle"/>
 						</span>
                     </div>
 
-                    <div class="list-group">
-                        <li class="list-group-item">
-                            <b>Nom et Prénom</b>
-                            <span class="badge" th:text="${nomination.agentNomme.nom + ' ' + nomination.agentNomme.prenom}"></span>
-                            <input type="hidden" th:field="*{agentNomme.idAgent}">
-                        </li>
+                    <div class="panel-body">
+						<input type="hidden" name="mode" th:value="${mode}" />
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Nom et Prénom</th>
+                                <th style="width: 25%;"></th>
+                                <th>
+                                    <span class="text-success" th:text="${nomination.agentNomme.nom + ' ' + nomination.agentNomme.prenom}"></span>
+                                    <input type="hidden" th:field="*{agentNomme.idAgent}">
+                                </th>
+                            </tr>
 
-                        <li class="list-group-item">
-                            <b>Matricule</b>
-                            <span class="badge" th:text="${nomination.agentNomme.matricule}"></span>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Structure</b>
-                            <span class="badge" th:text="${nomination.uniteAdminDeNomination.appellation}"></span>
-                            <input type="hidden" th:field="*{uniteAdminDeNomination.idUniteAdmin}">
-                        </li>
-                        <li class="list-group-item">
-                            <b>Titre</b>
-                            <span class="badge" th:text="${nomination.titreNomination}"></span>
-                            <input type="hidden" th:field="*{titreNomination}">
-                        </li>
-                        <li class="list-group-item">
-                            <b>Fonction</b>
-                            <span class="badge" th:text="${nomination.fonctionNomination.nomFonction}"></span>
-                            <input type="hidden" th:field="*{fonctionNomination.idFonction}">
-                        </li>
-                        <li class="list-group-item">
-                            <b>Date de nommination</b>
-                            <span class="badge" th:text="${nomination.dateNomination}"></span>
-                            <input type="hidden" th:field="*{dateNomination}">
-                        </li>
+                            <tr>
+                                <th>Matricule</th>
+                                <th style="width: 20%;"></th>
+                                <th class="text-success">
+                                    <span th:text="${nomination.agentNomme.matricule}"></span>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th th:text="${nomination.uniteAdminDeNomination.typeUniteAdmin.nomTypeUniteAdmin}">Structure</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${nomination.uniteAdminDeNomination}"></th>
+                                <input type="hidden" th:field="*{uniteAdminDeNomination.idUniteAdmin}">
+                            </tr>
+
+                            <tr>
+                                <th>Fonction</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${nomination.fonctionNomination.nomFonction}"></th>
+                                <input type="hidden" th:field="*{fonctionNomination.idFonction}">
+                            </tr>
+
+                            <tr>
+                                <th>Date de nomination</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${#dates.format(nomination.dateNomination, 'dd-MM-yyyy')}"></th>
+                                <input type="hidden" th:field="*{dateNomination}"/>
+                            </tr>
+                            
+                        </table>
+
                     </div>
-
 <!--                <div class="col col-lg-12">
                         <div class="form-group">
                             <label for="acteNominationFile">Acte de nomination</label>
@@ -54,10 +65,20 @@
                 </div>
 
                 <div class="main-content-block-item">
-                    <button id="btnEnregistrer" class="btn green-btn pull-right" style="margin: 5px;" type="submit">Enregistrer</button>
-	                <a th:href="${'/staffadmin/' + {nomination.uniteAdminDeNomination.idUniteAdmin} +'/nominations/form'}" class="btn btn-default pull-right" style="margin: 5px;" type="reset">
+                    <button id="btnEnregistrer" class="btn btn-lg green-btn pull-right" style="margin: 5px;" type="submit">Enregistrer</button>
+	                <a th:if="${mode=='from-unite-admin'}" 	th:href="'/staffadmin/unites-admins/' + ${nomination.uniteAdminDeNomination.idUniteAdmin} +'/nominations/form?matricule='+ ${nomination.agentNomme.matricule} + '&dateNomination='+${nomination.dateNomination} + '&numActeNominaton='+${nomination.numActeNominaton}  + '&idFonction=' + ${nomination.fonctionNomination.idFonction}" 
+	                	class="btn btn-lg btn-default pull-right" 
+	                	style="margin: 5px;" type="reset">
+	                	
                         <i class="glyphicon glyphicon-hand-left"></i> Revinir
-                    </a> 	                    
+                    </a> 
+                    
+                   <a th:if="${mode=='from-single-agent'}" 	th:href="'/staffadmin/nominations/form?idAgent=' + ${nomination.agentNomme.idAgent} + '&dateNomination='+${nomination.dateNomination} + '&numActeNominaton='+${nomination.numActeNominaton}  + '&idFonction=' + ${nomination.fonctionNomination.idFonction} + '&idUniteAdmin=' + ${nomination.uniteAdminDeNomination.idUniteAdmin}" 
+	                	class="btn btn-lg btn-default pull-right" 
+	                	style="margin: 5px;" type="reset">
+	                	
+                        <i class="glyphicon glyphicon-hand-left"></i> Revinir
+                    </a>	                    
 	           </div>  
             </form>
       	</th:block>

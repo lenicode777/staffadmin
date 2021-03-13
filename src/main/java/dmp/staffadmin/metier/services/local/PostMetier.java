@@ -15,6 +15,7 @@ import dmp.staffadmin.metier.entities.Nomination;
 import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.RoleEnum;
+import dmp.staffadmin.metier.enumeration.UniteAdminEnum;
 import dmp.staffadmin.metier.interfaces.IPostMetier;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
@@ -63,19 +64,23 @@ public class PostMetier implements IPostMetier
 	@Override
 	public Post nommerResponsable(Post post, Agent agent) 
 	{
-		UniteAdmin SMGP = uniteAdminDao.findBySigle("SMGP");
+		UniteAdmin SMGP = uniteAdminDao.findBySigle(UniteAdminEnum.SMGP.toString());
+		UniteAdmin DGMP = uniteAdminDao.findBySigle(UniteAdminEnum.DGMP.toString());
+		UniteAdmin CabDGMP = uniteAdminDao.findBySigle(UniteAdminEnum.CABINET_DGMP.toString());
 		System.out.println("7.1============Poste Metier===========");
 		Fonction fonction = post.getFonction(); // Je recupère la fonction de nomination
 		UniteAdmin uniteAdmin = post.getUniteAdmin();//Je récupère l'unité admin
-		Role roleResponsable = roleDao.findById(9L).get();//Je récupère le role responsable
+		System.out.println("===================PostMetier nommerResponsable Ligne 70 +-=============New UniteAdmin = "+ uniteAdmin);
+		Role roleResponsable = roleDao.findByRole(RoleEnum.RESPONSABLE.toString());//Je récupère le role responsable
 		
 		System.out.println("7.2============Récupération fonction, post, role ok===========");
 		
 		agent.setTitre(Nomination.getTitreNomination2(fonction, uniteAdmin));//Je génère le titre de la nomination
 		System.out.println("7.3============Titre généré ok===========" + agent.getTitre());
 		
+		
 		agent.setPost(post);//Je met le post  en question sur l'agent
-		agent.setTutelleDirecte(post.getUniteAdmin());//Je défini la tutelleDirecte de l'agent
+		agent.setTutelleDirecte(uniteAdmin.getIdUniteAdmin()!=DGMP.getIdUniteAdmin() ? uniteAdmin : CabDGMP );//Je défini la tutelleDirecte de l'agent
 		agent.setAttenteAffectation(false);
 		agent = agentDao.save(agent);//J'enregistre l'agent
 		
@@ -99,8 +104,9 @@ public class PostMetier implements IPostMetier
 	}
 
 	@Override
-	public Post demettreResponsable(Post post, Agent agent) 
+	public Post demettreResponsable(Post post, Agent agent) //******Rem
 	{
+		
 		System.out.println("==========================PostMetier demettreResponsable===========================");
 		Fonction fonction = post.getFonction();//Je recupère la fonction de nomination
 		Role roleResponsable = roleDao.findById(9L).get();//Je récupère le role responsable
@@ -111,6 +117,9 @@ public class PostMetier implements IPostMetier
 		System.out.println("RolesRespo = "+ roleResponsable.toString());
 		System.out.println("RolesSAF = "+ roleSAF.toString());
 		System.out.println("AGENT  = "+agent.toString());
+		
+		// TODO Remettre l'agent à sa fonction d'origine (=========Algorithme à déterminer========)
+		
 		agent.setTitre(null); //J'annule le titre
 		agent.setPost(null);//J'annule le post de l'agent
 		agent.setTutelleDirecte(DGMP);//Je met l'agent directement au niveau de la DGMP

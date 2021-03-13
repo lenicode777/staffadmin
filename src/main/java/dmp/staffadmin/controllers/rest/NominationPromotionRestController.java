@@ -20,13 +20,13 @@ public class NominationPromotionRestController
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
 	@Autowired private IFonctionDao fonctionDao;
-	@GetMapping(path = "/staffadmin/saf/frm-nomination/ajax/onFonctionDeNominationChange/{idFonction}")
+	@GetMapping(path = "/staffadmin/rest/frm-nomination/onFonctionDeNominationChange/{idFonction}")
 	public List<UniteAdmin> onFonctionDeNominationChange_ajax(@PathVariable Long idFonction)
 	{
 		System.out.println("=============ID FONCTION===============");
 		System.out.println(idFonction);
 		System.out.println("============================");
-		Fonction fonction = fonctionDao.getOne(idFonction);
+		Fonction fonction = fonctionDao.findById(idFonction).get();
 		TypeUniteAdmin typeUA = fonction.getTypeUniteAdmin();
 		List<UniteAdmin> uniteAdmins = uniteAdminDao.findByTypeUniteAdmin(typeUA);
 		return uniteAdmins;

@@ -1,5 +1,7 @@
 package dmp.staffadmin.metier.validation;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.UniteAdminEnum;
 import dmp.staffadmin.metier.exceptions.UniteAdminException;
 @Service
 public class UniteAdminValidation implements IUniteAdminValidation
@@ -20,37 +23,62 @@ public class UniteAdminValidation implements IUniteAdminValidation
 	}
 
 	@Override
-	public void validate(UniteAdmin uniteAdmin) 
+	public void validate(UniteAdmin uniteAdmin) throws UniteAdminException
 	{
+		if(uniteAdmin.getDateCreation().after(new Date())) throw new UniteAdminException("La date de création de l'unité d'administration ne peut être ultérieur à aujourd'hui");
 		if(uniteAdmin.getAppellation().equals("") || uniteAdmin.getAppellation()==null)
 		{
-			throw new RuntimeException("Le nom de l'unité d'administration est vide");
+			throw new UniteAdminException("Le nom de l'unité d'administration ne peut être vide");
 		}
 		if(uniteAdmin.getSigle().equals("") || uniteAdmin.getSigle()==null)
 		{
-			throw new RuntimeException("Le sigle de l'unité d'administration est vide");
+			throw new UniteAdminException("Le sigle de l'unité d'administration ne peut être vide");
 		}
-		if(uniteAdmin.getTypeUniteAdmin().equals("") || uniteAdmin.getTypeUniteAdmin()==null)
+		if( uniteAdmin.getTypeUniteAdmin()==null)
 		{
-			throw new RuntimeException("Le type de l'unité d'administration est vide");
+			throw new UniteAdminException("Le type de l'unité d'administration ne peut être vide");
 		}
 		if(uniteAdmin.getSituationGeo().equals("") || uniteAdmin.getSituationGeo()==null)
 		{
-			throw new RuntimeException("La situation géographique de l'unité d'administration est vide");
+			throw new RuntimeException("La situation géographique de l'unité d'administration ne peut être vide");
 		}
 	}
 
 	@Override
-	public void validateNoneExistence(UniteAdmin ua) 
+	public void validateNoneExistence(UniteAdmin ua, Long idUniteAdminChecked) throws UniteAdminException
 	{
-		if (uniteAdminDao.findBySigle(ua.getSigle())!=null)
+		if(idUniteAdminChecked==null) //Si idUniteAdminChecked est null alors il s'agit de la validation d'une nouvelle UA
 		{
-			throw new UniteAdminException("Ce sigle ("+ ua.getSigle()+ ") est déjà attribué à une autre unité administrative");
+			
+			if (uniteAdminDao.existsBySigle(ua.getSigle()))
+			{
+				throw new UniteAdminException("Ce sigle ("+ ua.getSigle()+ ") est déjà attribué à une autre unité administrative");
+			}
+		}
+		else //Sinon c'est un update et doit s'assurer que l'élément retrouvé ne soit pas celui que nous voulons modifier
+		{
+			
+			if (uniteAdminDao.existsBySigle(ua.getSigle()) && 
+				idUniteAdminChecked.longValue() != uniteAdminDao.findBySigle(ua.getSigle()).getIdUniteAdmin().longValue())
+			{
+				throw new UniteAdminException("Ce sigle ("+ ua.getSigle()+ ") est déjà attribué à une autre unité administrative");
+			}
 		}
 		
-		if (!uniteAdminDao.findByAppellation(ua.getAppellation()).isEmpty())
+		if(idUniteAdminChecked==null) //Si idUniteAdminChecked est null alors il s'agit de la validation d'une nouvelle UA
 		{
-			throw new UniteAdminException("Ce nom ("+ ua.getAppellation()+ ") est déjà attribué à une autre unité administrative");
+			if (uniteAdminDao.existsByAppellation(ua.getAppellation()))
+			{
+				throw new UniteAdminException("Ce nom ("+ ua.getAppellation()+ ") est déjà attribué à une autre unité administrative");
+			}
+		}
+		else
+		{
+			if (uniteAdminDao.existsByAppellation(ua.getAppellation()) && 
+				idUniteAdminChecked.longValue()!=uniteAdminDao.findByAppellation(ua.getAppellation()).getIdUniteAdmin().longValue())
+			{
+				throw new UniteAdminException("Ce nom ("+ ua.getAppellation()+ ") est déjà attribué à une autre unité administrative");
+			}
 		}
 	}
 	
@@ -62,9 +90,9 @@ public class UniteAdminValidation implements IUniteAdminValidation
 		return arg->
 		{
 			UniteAdmin ua = new UniteAdmin();
-			ua.setSigle("DMP");
+			ua.setSigle(UniteAdminEnum.DGMP.toString());
 			ua.setAppellation("Direction Générale des Marchés Publics");
-			uaValidation.validateNoneExistence(ua);
+			uaValidation.validateNoneExistence(ua, null);
 			System.out.println("=====Valide=====");
 		};
 	}

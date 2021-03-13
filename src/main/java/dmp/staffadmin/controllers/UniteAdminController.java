@@ -1,8 +1,11 @@
 package dmp.staffadmin.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,6 +36,7 @@ import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Nomination;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.ModeEnum;
 import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.metier.exceptions.AuthorityException;
 import dmp.staffadmin.metier.exceptions.UniteAdminException;
@@ -40,6 +44,7 @@ import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.IUniteAdminValidation;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
 import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.utilities.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -76,34 +81,101 @@ public class UniteAdminController
 		
 		return "unite-admin/unite-admin";
 	}
-	@PostMapping(path = "/staffadmin/frm-new-unite-admin/confirmation")
-	public String goToConfirmationNewUniteAdmin(Model model, UniteAdmin uniteAdmin)
+	
+	@PreAuthorize("hasRole('SAF')")
+	@PostMapping(path = "/staffadmin/frm-unite-admin/confirmation")
+	public String goToConfirmationUniteAdmin(Model model, 
+												UniteAdmin uniteAdmin, 
+												@RequestParam String mode)
 	{
+		TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.findById(uniteAdmin.getTypeUniteAdmin().getIdTypeUniteAdmin()).get();
+		UniteAdmin tutelleDirecte = uniteAdminDao.findById(uniteAdmin.getTutelleDirecte().getIdUniteAdmin()).get();
 		
-		return "";
+		uniteAdmin.setTutelleDirecte(tutelleDirecte);
+		uniteAdmin.setTypeUniteAdmin(typeUniteAdmin);
+		model.addAttribute("uniteAdmin", uniteAdmin);
+		model.addAttribute("mode", mode);
+		
+		try
+		{
+			uaValidation.validate(uniteAdmin);
+			if(mode.equals(ModeEnum.NEW.toString())) uaValidation.validateNoneExistence(uniteAdmin, null);
+			if(mode.equals(ModeEnum.UPDATE.toString())) uaValidation.validateNoneExistence(uniteAdmin, uniteAdmin.getIdUniteAdmin());
+			
+		}
+		catch (UniteAdminException e) 
+		{
+			List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(1);
+			List<UniteAdmin> unitesAdmins = uniteAdminDao.findByTypeUniteAdminAdministrativeLevelLessThan(uniteAdmin.getTypeUniteAdmin().getAdministrativeLevel());
+			model.addAttribute("typesUniteAdmins", typesUniteAdmins);
+			model.addAttribute("unitesAdmins", unitesAdmins);
+			model.addAttribute("globalErrorMsg", e.getMessage());
+			return mode.equals(ModeEnum.NEW.toString())? "unite-admin/frm/frm-new-unite-admin" : "unite-admin/frm/frm-update-unite-admin";
+		}
+	
+		return "unite-admin/frm/frm-confirmation-unite-admin";
 	}
-	@PostMapping(path = "/staffadmin/unite-admins/save")
-	public String saveUniteAdmin(Model model, UniteAdmin uniteAdmin)
+	@PostMapping(path = "/staffadmin/uniteAdmin/save")
+	public String saveUniteAdmin(Model model, UniteAdmin uniteAdmin, @RequestParam String mode)
 	{
-		//uniteAdmin.getSecretariat().setIdUniteAdmin(null);
-		System.out.println("ID="+uniteAdmin.getIdUniteAdmin());
-		uniteAdminMetier.save(uniteAdmin);
-		return "redirect:/staffadmin/unites-admins";
+		try
+		{
+			uniteAdmin = mode.equals(ModeEnum.NEW.toString()) ? uniteAdminMetier.save(uniteAdmin) : uniteAdminMetier.update(uniteAdmin);
+		}
+		catch (UniteAdminException e)
+		{
+			List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(1);
+			List<UniteAdmin> unitesAdmins = uniteAdminDao.findByTypeUniteAdminAdministrativeLevelLessThan(uniteAdmin.getTypeUniteAdmin().getAdministrativeLevel());
+			model.addAttribute("typesUniteAdmins", typesUniteAdmins);
+			model.addAttribute("unitesAdmins", unitesAdmins);
+			model.addAttribute("globalErrorMsg", e.getMessage());
+			return mode.equals(ModeEnum.NEW.toString())? "unite-admin/frm/frm-new-unite-admin" : "unite-admin/frm/frm-update-unite-admin";
+		}
+		
+		return "redirect:/staffadmin/unites-admins/"+uniteAdmin.getIdUniteAdmin();
 	}	
+	
 	
 	@PreAuthorize("hasRole('SAF')")
 	@GetMapping(path = "/staffadmin/unites-admins/frm/{idUniteAdmin}") // Path changé update->frm --Faire un refactoring
-	public String goToFrmUniteAdmin(HttpServletRequest request, Model model, @PathVariable(name = "idUniteAdmin") Long idUniteAdmin)
+	public String goToFrmUniteAdmin(HttpServletRequest request,
+									Model model ,
+									@PathVariable(name = "idUniteAdmin") Long idUniteAdmin,
+									@RequestParam(defaultValue = "") String appellation,
+									@RequestParam(defaultValue = "") String sigle,
+									@RequestParam(defaultValue = "") String dateCreation,
+									@RequestParam(defaultValue = "") String contacts,
+									@RequestParam(defaultValue = "") String situationGeo)
 	{
 		List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(1);
-		UniteAdmin uniteAdmin = new UniteAdmin();
+		UniteAdmin uniteAdmin =new UniteAdmin();
+		
+		
 
 		model.addAttribute("typesUniteAdmins", typesUniteAdmins);
 				
 		if(idUniteAdmin==0) // Si l'identifiant fournit dans le path == 0 alors on fait un forward vers le formulaire new UniteAdmin
 		{
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_FROM_HTML_INPUT, Locale.US);
+			
+			if(!appellation.equals("")) uniteAdmin.setAppellation(appellation);
+			if(!sigle.equals("")) uniteAdmin.setSigle(appellation);
+			if(!contacts.equals("")) uniteAdmin.setContacts(appellation);
+			if(!situationGeo.equals("")) uniteAdmin.setSituationGeo(situationGeo);
+			if(!dateCreation.equals(""))
+			{
+				try
+				{
+					uniteAdmin.setDateCreation(sdf.parse(dateCreation));
+				}
+				catch(Exception e)
+				{
+					model.addAttribute("globalErrorMsg", "Format de date incorrect");
+				}
+			}
+			
 			model.addAttribute("uniteAdmin", uniteAdmin);
-			return "unite-admin/frm-new-unite-admin";
+			return "unite-admin/frm/frm-new-unite-admin";
 		}
 		else // Si l'identifiant fournit dans le path != 0 alors on fait un forward vers le formulaire update UniteAdmin
 		{
@@ -113,34 +185,16 @@ public class UniteAdminController
 				model.addAttribute("uniteAdmin", uniteAdmin);
 				List<UniteAdmin> unitesAdmins = uniteAdminDao.findByTypeUniteAdminAdministrativeLevelLessThan(uniteAdmin.getTypeUniteAdmin().getAdministrativeLevel());
 				model.addAttribute("unitesAdmins", unitesAdmins);
-				return "unite-admin/frm-update-unite-admin";
+				return "unite-admin/frm/frm-update-unite-admin";
 			}
 			catch(NoSuchElementException e)
 			{
 				model.addAttribute("globalErrorMsg", "Impossible de charger les données de l'unité administrative");
-			
-				return "unite-admin/frm-update-unite-admin";
+				return "unite-admin/frm/frm-update-unite-admin";
 			}
 		}
 	}
 	
-	@PostMapping(path = "/staffadmin/unite-admin/frm-confirmation-new")
-	public String goToFrmConfirmation(HttpServletRequest request, Model model, 
-									  @ModelAttribute UniteAdmin uniteAdmin)
-	{
-		try
-		{
-			uaValidation.validate(uniteAdmin);
-			uaValidation.validateNoneExistence(uniteAdmin);
-			model.addAttribute("uniteAdmin", uniteAdmin);
-		}
-		catch (UniteAdminException e) 
-		{
-			model.addAttribute("globalErrorMsg", e.getMessage());
-		}
-		
-		return "unite-admin/frm-confirmation-new-unite-admin";
-	}
 	
 	@PostMapping(path = "/staffadmin/unites-admins/update")
 	public String updateUniteAdmin(Model model, @ModelAttribute UniteAdmin uniteAdmin)
@@ -196,9 +250,21 @@ public class UniteAdminController
 		UniteAdmin cabinetDGMP = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.CABINET_DG.toString()).get(0);
 		List<UniteAdmin> unitesAdminsSousTutelles = visitedUniteAdmin.getSubAdminStream().map(ua->ua.getUniteAdminSousTutelle()).flatMap(listUa->listUa.stream()).collect(Collectors.toList());
 		List<Agent> personnel = visitedUniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgents->listAgents.stream()).collect(Collectors.toList());
+		List<UniteAdmin> parentsHierarchie = visitedUniteAdmin.getPatrentsStream()
+															  .sorted((ua1, ua2)->{return Integer.compare(ua1.getLevel(), ua2.getLevel());})
+															  .collect(Collectors.toList());
+
+		StringBuilder hierarchie = new StringBuilder(parentsHierarchie.get(0).getAppellation() + " > ");
+		for(int i = 1 ; i<parentsHierarchie.size() ; i++)
+		{
+			hierarchie.append(parentsHierarchie.get(i).getAppellation()+" > ");
+			
+		}
 		
+		model.addAttribute("parentsHierarchie", parentsHierarchie);
+		model.addAttribute("hierarchie", hierarchie);
 		model.addAttribute("DGMP", DGMP);
-		model.addAttribute("cabinetDGMP", cabinetDGMP);
+		model.addAttribute("cabinetDGMP", cabinetDGMP); // J'envoie cabinetDGMP vers la vue pour éviter de faire une nomination sur lui
 		model.addAttribute("visitedUniteAdmin", visitedUniteAdmin);
 		model.addAttribute("unitesAdminsSousTutelles", unitesAdminsSousTutelles);
 		model.addAttribute("personnel", personnel);

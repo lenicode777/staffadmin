@@ -1,25 +1,23 @@
 package dmp.staffadmin.metier.services.local;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IPostDao;
+import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Nomination;
 import dmp.staffadmin.metier.entities.Post;
+import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.interfaces.IPostMetier;
 import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
@@ -32,18 +30,27 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IPostMetier postMetier;
 	@Autowired private IPostDao postDao;
+	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
 
 	@Override
 	public UniteAdmin save(UniteAdmin uniteAdmin) 
 	{
 		uniteAdminValidation.validate(uniteAdmin);
-		Post postOfManager = new Post(null, null, null, uniteAdmin, null);
-		postOfManager = postDao.save(postOfManager);
-		uniteAdmin.setPostManager(postOfManager);
-		UniteAdmin tutelleDirecte = uniteAdminDao.findById(uniteAdmin.getTutelleDirecte().getIdUniteAdmin()).get();
-		tutelleDirecte.ajouterUA(uniteAdmin);
-		//System.out.println(uniteAdmin);
 		
+		//TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.findById(uniteAdmin.getTypeUniteAdmin().getIdTypeUniteAdmin()).get();
+		//uniteAdmin.setTypeUniteAdmin(typeUniteAdmin);
+		
+		UniteAdmin tutelleDirecte = uniteAdminDao.findById(uniteAdmin.getTutelleDirecte().getIdUniteAdmin()).get();
+		uniteAdmin.setTutelleDirecte(tutelleDirecte);
+		tutelleDirecte.ajouterUA(uniteAdmin);
+		
+		
+		uniteAdminValidation.validate(uniteAdmin);
+		Post postOfManager = new Post(null, null, null, uniteAdmin, null);
+		postOfManager.setUniteAdmin(uniteAdmin);
+		postOfManager = postDao.save(postOfManager);
+		
+		uniteAdmin.setPostManager(postOfManager);
 		return uniteAdminDao.save(uniteAdmin);
 	}
 	@Override
@@ -91,8 +98,9 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	public List<Agent> getAllPersonnel(UniteAdmin uniteAdmin) 
 	{
 		setSubAdminTree(uniteAdmin);
-		List<Agent> allPersonnel = uniteAdmin.getSubAdminStream().map(ua->ua.getPersonnel()).flatMap(Collection::stream).collect(Collectors.toList());
-
+		List<Agent> allPersonnel = uniteAdmin.getSubAdminStream().map(ua->ua.getPersonnel())
+											 .flatMap(Collection::stream)
+											 .collect(Collectors.toList());
 		return allPersonnel;
 	}
 	
@@ -129,13 +137,6 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	{
 		return uniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgent->listAgent.stream()).filter(agent->agent.getSexe().equalsIgnoreCase("CONTRACTUEL")).count();
 	}
-	/*
-	 * @Bean CommandLineRunner start() { return arg-> { UniteAdmin SDSIC =
-	 * uniteAdminDao.findBySigle("SDREG").get(0);
-	 * //System.out.println(SDSIC.getPatrentsStream());
-	 * System.out.println(SDSIC.getPatrentsStream().peek(ua->System.out.println(ua.
-	 * getSigle())). map(ua->ua.getSigle()). collect(Collectors.toList())); }; }
-	 */
 	
 	private UniteAdmin nommerManager(UniteAdmin uniteAdmin, Agent agentANommer, Fonction fonctionDeNomination) 
 	{
@@ -166,16 +167,16 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 			}
 		}
 		
-		//Je recupère l'éventuel ancier post de l'agent à nommer
-		Post ancienPostDeAgentAgentANommer = agentANommer.getPost();
+		//Je recupère l'éventuel ancien post de l'agent à nommer
+		Post ancienPostDeAgentANommer = agentANommer.getPost();
 		
 		//Si ce post est non null et est un post de responsabilité, alors on demet l'agent de ce post avant tout (Très important pour éviter les cumules de post et certains bug) 
-		if(ancienPostDeAgentAgentANommer!=null) 
+		if(ancienPostDeAgentANommer!=null)
 		{
-			if(ancienPostDeAgentAgentANommer.getFonction().isFonctionDeNomination() )
-			{
+			if(ancienPostDeAgentANommer.getFonction().isFonctionDeNomination() )
+			{				
 				//On demet l'agent de son ancien post
-				postMetier.demettreResponsable(agentANommer.getPost(), agentANommer);
+				postMetier.demettreResponsable(ancienPostDeAgentANommer, agentANommer);
 			}
 		}
 		postMetier.nommerResponsable(postOfManager, agentANommer);

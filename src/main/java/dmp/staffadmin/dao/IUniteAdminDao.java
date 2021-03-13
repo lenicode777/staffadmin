@@ -23,7 +23,7 @@ public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long>
 	
 	public List<UniteAdmin> findByLevelAndTypeUniteAdminNomTypeUniteAdmin(int level, String nomTypeUniteAdmin);
 	
-	public List<UniteAdmin> findByAppellation(String appelation);
+	public UniteAdmin findByAppellation(String appelation);
 	public List<UniteAdmin> findByDateCreation(Date dateCreation);
 	public List<UniteAdmin> findByDateCreationBefore(Date dateCreation);
 	public List<UniteAdmin> findByDateCreationAfter(Date dateCreation);
@@ -35,4 +35,7 @@ public interface IUniteAdminDao extends JpaRepository<UniteAdmin, Long>
 	public List<UniteAdmin> findBySituationGeo(String situationGeo);
 	public List<UniteAdmin> findBySituationGeoContains(String situationGeo);
 	public List<UniteAdmin> findByTypeUniteAdminNomTypeUniteAdmin(String nomTypeUniteAdmin);
+	
+	public boolean existsBySigle(String sigle);
+	public boolean existsByAppellation(String appellation);
 }

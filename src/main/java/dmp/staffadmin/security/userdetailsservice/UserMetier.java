@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.enumeration.RoleEnum;
+import dmp.staffadmin.security.UserDetailsServiceException;
 import lombok.Data;
 
 @Service @Transactional
@@ -58,6 +59,8 @@ public class UserMetier implements IUserMetier
 	@Override
 	public User addRoleToUser(User user, Role role) 
 	{
+		if(role==null) return user;
+		if(!roleDao.existsById(role.getIdRole())) throw new UserDetailsServiceException("Role exitant");
 		user.addRole(role);
 		return userDao.save(user);
 	}

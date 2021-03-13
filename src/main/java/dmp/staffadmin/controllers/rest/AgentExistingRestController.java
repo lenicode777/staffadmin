@@ -22,9 +22,20 @@ public class AgentExistingRestController ///implements IAgentExistingRestControl
 		else
 		{
 			return agentMetier.existingEmail(email, idAgent);
+		}		
+	}
+	
+	@GetMapping("/staffadmin/exists/emailPro/{emailPro}")
+	public boolean existingEmailPro(@PathVariable String emailPro, @RequestParam(defaultValue = "0") Long idAgent) 
+	{
+		if(idAgent==0 || idAgent==null)
+		{
+			return agentMetier.existingEmailPro(emailPro);
 		}
-		//System.out.println("Email = " + email);
-		
+		else
+		{
+			return agentMetier.existingEmailPro(emailPro, idAgent);
+		}		
 	}
 
 	@GetMapping("/staffadmin/exists/tel/{tel}")
@@ -66,5 +77,18 @@ public class AgentExistingRestController ///implements IAgentExistingRestControl
 			return agentMetier.existingMatricule(matricule, idAgent);
 		}
 		
+	}
+	
+	@GetMapping("/staffadmin/exists/numBadge/{numBadge}")
+	public boolean existingNumBadge(@PathVariable String numBadge, @RequestParam(defaultValue = "0") Long idAgent) 
+	{
+		if(idAgent==0 || idAgent==null)
+		{
+			return agentMetier.existingNumBadge(numBadge);
+		}
+		else
+		{
+			return agentMetier.existingNumBadge(numBadge, idAgent);
+		}		
 	}
 }

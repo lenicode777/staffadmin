@@ -11,7 +11,7 @@
             <div class="panel-heading"><a href="#infos-emploi" data-toggle="collapse">Informations liées à l'emploi</a></div>
             <div class="panel-body panel-collapse collapse in" id="infos-emploi">
 
-                <div class="col col-lg-3">
+                <div class="col col-lg-4">
                     <div class="form-group">
                         <label for="fonction">Fonction</label>
                         <span class="error-msg text-danger" id="fonction-error-msg"></span>
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="col col-lg-5">
+                <div class="col col-lg-4">
                     <div class="form-group">
                         <label for="emploi">Emploi</label>
                         <span class="error-msg text-danger" id="emploi-error-msg"></span>
@@ -35,18 +35,19 @@
                     </div>
                 </div>  
                 
-                <div class="col col-lg-3">
+                <div class="col col-lg-4">
                     <div class="form-group">
                         <label for="matricule">Matricule</label> <span class="error-msg text-danger" id="matricule-error-msg"></span>
                         <input id="matricule" name="matricule" class="form-control" type="text" th:field="*{matricule}" />
                     </div>
                 </div>                
                 
-                <div class="col col-lg-3">
+                <div class="col col-lg-4">
                     <div class="form-group">
                         <label for="datePriseService1">1ère prise de service</label>
-                        <input type="date" class="form-control" id="datePriseService1" name="datePriseService1" th:field="*{datePriseService1}" />
                         <span class="error-msg text-danger" id="datePriseService1-error-msg"></span>
+                        <input type="date" class="form-control" id="datePriseService1" name="datePriseService1" th:field="*{datePriseService1}" />
+                        
                     </div>
                 </div>                              
                 
@@ -73,8 +74,30 @@
                     </div>
                 </div>
                                 
-
-
+                <div class="col col-lg-4">
+                    <div class="form-group">
+                        <label for="datePriseServiceDMP">Date de prise de service DMP</label>
+                        <span class="error-msg text-danger" id="datePriseServiceDGMP-error-msg"></span>
+                        <input required type="date" class="form-control" id="datePriseServiceDGMP" name="datePriseServiceDGMP" th:field="*{datePriseServiceDGMP}" />
+                        
+                    </div>
+                </div>                              
+                
+                <div class="col col-lg-4">
+                    <div class="form-group">
+                        <label for="numBadge">Numéro de badge</label>
+                        <span class="error-msg text-danger" id="numBadge-error-msg"></span>
+                        <input name="numBadge" id="numBadge" class="form-control" th:field="*{numBadge}" />
+                    </div>
+                </div>
+                
+                <div class="col col-lg-4">
+                    <div class="form-group">
+                        <label for="emailPro">Email professionnel</label>
+                        <span class="error-msg text-danger" id="emailPro-error-msg"></span>
+                        <input name="emailPro" type="email" id="emailPro" class="form-control" th:field="*{emailPro}" />
+                    </div>
+                </div>
 
             </div>
         </div>

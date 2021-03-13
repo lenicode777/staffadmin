@@ -19,6 +19,7 @@ public class Grade
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idGrade;
 	private String nomGrade;
+	private int rang; //D = 1 , C = 2 ,  B = 3 , A = 4
 	@OneToMany(mappedBy = "grade")
 	private Collection<Agent> listAgents;
 }

@@ -18,27 +18,31 @@
 						    		
 									<table class="table table-striped">
 										<tbody>
-											<tr style="height: 60px;">
-												<th class="text-success">Service: </th> 
-												<th >
-													<a  th:href="@{'/staffadmin/unites-admins/' + ${visitedUser.agent.tutelleDirecte.idUniteAdmin}}"><span th:text="${visitedUser.agent.tutelleDirecte}"></span></a>
+											<tr style="height: 60px;" th:each="tutelle, status:${tutellesHierarchieTree}">
+												
+												<th class="text-success" th:text="${status.first} ? 'Tutelle directe : ' : ${tutelle.typeUniteAdmin.nomTypeUniteAdmin + ' : '}"></th>
+												
+												
+												<th>
+													<a  th:href="@{'/staffadmin/unites-admins/' + ${tutelle.idUniteAdmin}}">
+														<span th:text="${tutelle}"></span>
+													</a>
 												</th>
-
-												<th style="width: 150px;"></th>
-												<th class="text-success"></th> <th ></th>
+												
+												<th ></th> <th ></th>
+											</tr>
+	
+											<tr style="height: 60px;">
+												<th class="text-success">Fonction :</th><th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.fonction.nomFonction}">Matricule</th>
+												
+												<th class="text-success">Grade : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.grade.nomGrade}">Grade : </th>
 												
 											</tr>
 	
 											<tr style="height: 60px;">
-												<th class="text-success">Matricule: </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.matricule}">Matricule </th>
-												<th style="width: 150px;"></th>
-												<th class="text-success">Fonction :</th><th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.fonction.nomFonction}">Matricule</th>
-											</tr>
-	
-											<tr style="height: 60px;">
 												<th class="text-success">Emploi : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.emploi.nomEmploi}">Emploi : </th>
-												<th style="width: 150px;"></th>
-												<th class="text-success">Grade : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.grade.nomGrade}">Grade : </th>
+											
+												<th class="text-success">Fixe de bureau: </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.fixeBureau}">FixeBureau </th>
 											</tr>
 										</tbody>
 									</table>

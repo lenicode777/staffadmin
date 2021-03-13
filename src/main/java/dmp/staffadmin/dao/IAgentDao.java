@@ -34,9 +34,9 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findByDatePriseService1Before(Date datePriseService1);
 	public List<Agent> findByDatePriseService1After(Date datePriseService1);
 	
-	public List<Agent> findByDatePriseServiceDMP(Date datePriseServiceDMP);
-	public List<Agent> findByDatePriseServiceDMPBefore(Date datePriseServiceDMP);
-	public List<Agent> findByDatePriseServiceDMPAfter(Date datePriseServiceDMP);
+	public List<Agent> findByDatePriseServiceDGMP(Date datePriseServiceDGMP);
+	public List<Agent> findByDatePriseServiceDGMPBefore(Date datePriseServiceDGMP);
+	public List<Agent> findByDatePriseServiceDGMPAfter(Date datePriseServiceDGMP);
 	
 	public List<Agent> findByEmploi(Emploi emploi);
 	public List<Agent> findByFonction(Fonction fonction);
@@ -57,5 +57,18 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findByStatutAgent(String statutAgent);
 	
 	public Agent findByUser(User user);
+	public Agent findByEmailPro(String emailPro);
+	public Agent findByNumBadge(String numBadge);
+	
+	
+	public boolean existsByUser(User user);
+	public boolean existsByUserIdUser(Long idUser);
+	public boolean existsByEmailPro(String emailPro);
+	public boolean existsByNumBadge(String numBadge);
+	public boolean existsById(Long id);
+	public boolean existsByMatricule(String matricule);
+	public boolean existsByEmail(String email);
+	public boolean existsByNumPiece(String numPiece);
+	public boolean existsByTel(String tel);
 	
 }

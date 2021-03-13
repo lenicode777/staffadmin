@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import dmp.staffadmin.security.userdetailsservice.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +28,6 @@ public class TypeUniteAdmin
 	private int administrativeLevel;
 
 	@OneToMany(mappedBy = "typeUniteAdmin", fetch = FetchType.LAZY)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<UniteAdmin> uniteAdmins;
 }

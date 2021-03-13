@@ -26,14 +26,14 @@
 	                                        <input th:field="*{sigle}" type="text" class="form-control" id="sigle" placeholder="Sigle">
 	                                    </div>
 	                                </div>
-	
+
 	                                <div class="col-md-6" style="padding: 0px 0px 0px 10px;">
 	                                    <div class="form-group">
 	                                        <label for="contact">Contact</label>
 	                                        <input th:field="*{contacts}" type="text" class="form-control" id="contacts" placeholder="Contacts">
 	                                    </div>
 	                                </div>
-	
+
 	                                <div class="col-md-6" style="padding: 0px 10px 0px 0px;">
 	                                    <div class="form-group">
 	                                        <label for="idTypeUniteAdmin">Type unité admin</label>
@@ -43,14 +43,14 @@
 	                                        </select>
 	                                    </div>
 	                                </div>  
-	
+
 	                                <div class="col-md-6" style="padding: 0px 0px 0px 10px;">
 	                                    <div class="form-group">
 	                                        <label for="dateCreation">Date de création</label>
 	                                        <input type="date" class="form-control" th:field="*{dateCreation}" id="date-creation" />
 	                                    </div>   
 	                                </div>       
-	                             
+
 	                                <div class="form-group">
 	                                    <label for="idTutelleDirecte">Structure de tutelle directe</label>
 	                                    <select required="required" th:field="*{tutelleDirecte.idUniteAdmin}" class="form-control" id="idTutelleDirecte" style="width: 100%;">
@@ -58,7 +58,7 @@
 	                                        <option th:each="ua:${unitesAdmins}" th:value="${ua.idUniteAdmin}" th:text="${ua.appellation + ' ('+ ua.sigle + ')'}" th:selected="${ua.idUniteAdmin == uniteAdmin.tutelleDirecte.idUniteAdmin}"></option>
 	                                    </select>
 	                                </div>
-	                                
+
 	                                <div class="form-group">
 	                                    <label for="situationGeo">Situation géographique</label>
 	                                    <textarea required="required" th:field="*{situationGeo}"  class="form-control" id="situation-geo"></textarea>
@@ -68,9 +68,9 @@
 <!-- 	                                    <label for="ficheTech">Fiche technique</label> -->
 <!-- 	                                    <input name="ficheTechFile" th:value="*{ficheTechFile}"  type="file" class="form-control-file" id="ficheTech"> -->
 <!-- 	                                </div> -->
-									<th:block th:insert="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-new-confirmation-dialog"></th:block>
-	                                
+									
                                 </th:block>
+                                <th:block th:insert="unite-admin/frm-unite-submit-confirmation-dialog.html::frm-unite-submit-new-confirmation-dialog"></th:block>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>

@@ -43,8 +43,13 @@ public class Agent
 	private String prenom;
 	@Column(length = 5)
 	private String sexe;
+	
 	@Column(length = 100, unique = true)
 	private String email;
+	
+	@Column(length = 100, unique = true)
+	private String emailPro;
+	
 	@Column(length = 20, unique = true)
 	private String tel;
 	private String fixeBureau;
@@ -82,7 +87,11 @@ public class Agent
 	@Temporal(TemporalType.DATE) // Pour JPA. Signifie que dans la BD la date aura le type Date et non le type TimeStamp
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // Spring formate la date pour nous
 	private Date datePriseService1;
-	private Date datePriseServiceDMP;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date datePriseServiceDGMP;
+	
 	@Transient
 	private Date dateDepartRetraite;
 	private String statutAgent; //Fonctionnaire, Contractuel

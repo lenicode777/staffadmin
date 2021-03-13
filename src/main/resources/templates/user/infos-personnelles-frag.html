@@ -19,26 +19,26 @@
 										<tbody>
 											<tr style="height: 60px;">
 												<th class="text-success">Nom : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.nom}">Nom : </th>
-												<th style="width: 150px;"></th>
+												<th style="width: 100px;"></th>
 												<th class="text-success">Prenom : </th> <th style="color: rgb(3, 3, 59);"  th:text="${visitedUser.agent.prenom}"></th>
-												<th style="width: 150px;"></th>
+												<th style="width: 100px;"></th>
 												<th class="text-success">Civilité : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.sexe=='F' ? 'Madame' : 'Monsieur'}"></th>
 											</tr>
 	
 											<tr style="height: 60px;">
 												<th class="text-success">Date de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.dateNaissance}">Nom : </th>
-												<th style="width: 150px;"></th>
+												<th style="width: 100px;"></th>
 												<th class="text-success">Lieu de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.lieuNaissance}"></th>
-												<th style="width: 150px;"></th>
-												<th></th><th></th>
+												<th style="width: 100px;"></th>
+												<th class="text-success">Matricule :</th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.matricule}"></th>
 												
 											</tr>
 	
 											<tr style="height: 60px;">
 												<th class="text-success">Email : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.email}">Nom : </th>
-												<th style="width: 150px;"></th>
+												<th style="width: 100px;"></th>
 												<th class="text-success">Téléphone : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.tel}"></th>
-												<th style="width: 150px;"></th>
+												<th style="width: 100px;"></th>
 												<th></th><th></th>
 											</tr>
 										</tbody>

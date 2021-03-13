@@ -3,65 +3,69 @@
     <head><meta charset="UTF-8"/></head>
     <body>
 		<th:block th:fragment="frm-nomination-unite-admin-frag">
+            
+            <div th:if="${globalErrorMsg}" class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Erreur!</strong> 
+                <span th:text="${globalErrorMsg}"></span>
+            </div>
+            
             <form id="frm-unite-admin" th:object="${nomination}" th:action="@{/staffadmin/nomination/confirmation}" method="post" enctype="multipart/form-data">
-				<div class="col col-lg-6">
+				<input type="hidden" name="mode" th:value="from-unite-admin"/>
+                <div class="col col-lg-6">
                     <div class="form-group ">
-                        <label for="titre">Matricule de l'agent</label> <span id="matricule-error-msg" class="error-msg">*Matricule inexistant</span>
+                        <span class="text-danger">*</span><label for="matricule">Matricule de l'agent</label> <span id="matricule-error-msg" class="error-msg">*Matricule inexistant</span>
                         <input required="required" th:field="*{agentNomme.matricule}" type="text" class="form-control" id="matricule" placeholder="Matricule">
                     </div>
                 </div>
 
                 <div class="col col-lg-6">
-                    <div class="form-group ">
-                        <label for="titre">Titre</label>
-                        <select required="required" th:field="*{titreNomination}" class="form-control">
-                        	<option value=""></option>
-                        	<option th:each="titre:${titres}" th:text="${titre}" th:value="${titre}"></option>
-                        </select>
-<!--                         <input required="required" th:field="*{titreNomination}" type="text" class="form-control" id="titre" placeholder="Titre"> -->
-                    </div>
-                </div>
-                              
-                <div class="col col-lg-6">
                     <div class="form-group">
-                        <label for="dateNomination">Date de nomination</label>
-                        <input required th:field="*{dateNomination}" type="date" class="form-control" id="dateNomination" placeholder="Date de nomination">
-                    </div>                                    
-                </div>
-
-
-                                  
-
-				<div class="col col-lg-6">
-                    <div class="form-group">
-                        <label for="idFonction">Fonction</label>
+                        <span class="text-danger">*</span><label for="idFonction">Fonction</label>
                         <select required="required" th:field="*{fonctionNomination.idFonction}" class="form-control" id="idFonction">
                             <option value=""></option>
                             <option th:each="fonction : ${fonctionsNomination}" th:text="${fonction.nomFonction}" th:value="${fonction.idFonction}"></option>
                         </select>
-                    </div>                                
+                    </div>   
+                </div>
+                              
+                <div class="col col-lg-6">
+                    <div class="form-group">
+                        <span class="text-danger">*</span><label for="dateNomination">Date de nomination</label>
+                        <input required th:field="*{dateNomination}" type="date" class="form-control" id="dateNomination" placeholder="Date de nomination">
+                    </div>                                    
                 </div>
 
-				<div class="col col-lg-8">               
+				<div class="col col-lg-6">
+                    <div style="padding: 0px 10px 0px 0px;" class="col-md-6">
+                        <div class="form-group">
+                            <label for="numActeNominaton">N° Acte de nomination</label>
+                            <input  th:field="*{numActeNominaton}" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div style="padding: 0px 0px 0px 10px;" class="col-md-6">
+                        <div class="form-group">
+                            <span class="text-danger">*</span><label for="acteNominationFile">Acte de nomination</label>
+                            <input id="acteNominationFile" type="file"  th:field="*{acteNominationFile}" class="form-control"/>
+                        </div>
+                    </div>
+                                          
+                </div>
+
+				<div class="col col-lg-6">               
                     <div class="form-group">
-                        <label for="idUniteAdminDeNomination">Unité administrative</label>
+                        <label for="idUniteAdminDeNomination" th:text="${nomination.uniteAdminDeNomination.typeUniteAdmin.nomTypeUniteAdmin}">Unité administrative</label>
                         <input disabled  th:value="${nomination.uniteAdminDeNomination.appellation + ' (' + nomination.uniteAdminDeNomination.sigle + ')'}" class="form-control"/>
                         <input  type="hidden"  th:field="*{uniteAdminDeNomination.idUniteAdmin}"  id="idUniteAdminDeNomination"/>
                     </div>
                 </div>
-                                               
-<!--                 <div class="col col-lg-4">
-                    <div class="form-group">
-                        <label for="acteNominationFile">Acte de nomination</label>
-                        <input th:field="*{acteNominationFile}"  type="file" class="form-control-file" id="acteNominationFile"/>
-                    </div>
-                </div>    -->
                 
                 <div class="col col-lg-offset-8 col-lg-4">
-                    <button id="btnEnregistrer" class="btn green-btn pull-right" style="margin: 5px;" type="submit">
+                    <button id="btnEnregistrer" class="btn btn-lg green-btn pull-right" style="margin: 5px;" type="submit">
                         Poursuivre <i class="glyphicon glyphicon-hand-right"></i>
                     </button>
-	                <button class="btn btn-default pull-right" style="margin: 5px;" type="reset">Annuler</button> 	                    
+	                <button class="btn btn-lg btn-default pull-right" style="margin: 5px;" type="reset">Annuler</button> 	                    
 	           </div>  
             </form>
       	</th:block>
