@@ -44,7 +44,6 @@ public class GestionRolesController
 				model.addAttribute("agent", agent);
 			} else
 			{
-				System.out.println("ERROR MSG = " + ErrorMsgEnum.GLOBAL_ERROR_MSG.toString());
 				model.addAttribute(ErrorMsgEnum.GLOBAL_ERROR_MSG.toString(), "Matricule introuvable");
 			}
 		}
