@@ -28,10 +28,9 @@
 											<tr style="height: 60px;">
 												<th class="text-success">Date de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.dateNaissance}">Nom : </th>
 												<th style="width: 100px;"></th>
-												<th class="text-success">Lieu de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.lieuNaissance}"></th>
+												<th class="text-success">Lieu de naissance : </th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.departementNaissance}!=null ?${visitedUser.agent.departementNaissance + '/'+ visitedUser.agent.lieuNaissance} : ${visitedUser.agent.lieuNaissance}"></th>
 												<th style="width: 100px;"></th>
-												<th class="text-success">Matricule :</th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.matricule}"></th>
-												
+												<th class="text-success">Matricule :</th> <th style="color: rgb(3, 3, 59);" th:text="${visitedUser.agent.matricule}"></th>	
 											</tr>
 	
 											<tr style="height: 60px;">

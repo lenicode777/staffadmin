@@ -20,6 +20,7 @@ import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.UniteAdminEnum;
+import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
 
 @RestController
@@ -28,6 +29,7 @@ public class UniteAdminRestController
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IUniteAdminMetier uniteAdminMetier;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
+	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
 	
 	@Autowired private IFonctionDao fonctionDao;
 	@GetMapping(path = "/staffadmin/rest/uniteAdmins/findBy-TypeUniteAdmin-IdFonction/{idFonction}")
@@ -46,26 +48,19 @@ public class UniteAdminRestController
 	public UniteAdmin getUnitesAdmins(Model model)
 	{
 		//UniteAdmin DGBF = uniteAdminDao.findBySigle("DGBF").get(0);
-		UniteAdmin DGMP = uniteAdminDao.findBySigle(UniteAdminEnum.DGMP.toString());
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
 		return uniteAdminMetier.setSubAdminTree(DGMP);
 	}
 
 	@GetMapping(path = "/staffadmin/sur-admin/{administrativeLevel}")
 	public List<UniteAdmin> getAllSurAdminByAdministrativeLevel(@PathVariable int administrativeLevel)
 	{
-		System.out.println("=============================================");
-		System.out.println("AdministrativeLevel = " + administrativeLevel);
-		System.out.println("=============================================");
 		return uniteAdminDao.findByTypeUniteAdminAdministrativeLevelGreaterThan(administrativeLevel);
-		//return null;
 	}
 	
 	@GetMapping(path = "/staffadmin/sub-admin/{idTutelleDirecte}")
 	public List<UniteAdmin> getSubAdminByTutelleDirect(@PathVariable Long idTutelleDirecte)
 	{
-		System.out.println("=============================================");
-		System.out.println(idTutelleDirecte);
-		System.out.println("=============================================");
 		return uniteAdminDao.findByTutelleDirecteIdUniteAdmin(idTutelleDirecte);
 	}
 	
@@ -117,7 +112,7 @@ public class UniteAdminRestController
 	public ArrayList getUnitesAdminsTrees()
 	{
 		//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGBF");
-		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
 		setSubAdmin(DGMP);
 		return getUnitesAdminsTree(DGMP);
 	}

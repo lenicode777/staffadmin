@@ -23,7 +23,7 @@ import dmp.staffadmin.metier.entities.UniteAdmin;
 
 import dmp.staffadmin.metier.enumeration.EtatRecrutement;
 import dmp.staffadmin.metier.interfaces.IAgentMetier;
-
+import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.metier.validation.IAgentValidation;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
@@ -42,6 +42,7 @@ public class AgentMetier implements IAgentMetier
 	@Autowired private IUserDao userDao;
 	@Autowired private IUserMetier userMetier;
 	@Autowired private IRoleDao roleDao;
+	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
 	@Override
 	public boolean existingEmail(String email) 
 	{
@@ -127,7 +128,7 @@ public class AgentMetier implements IAgentMetier
 		agentValidation.validate(agent);
 		agent.setActive(false);
 		agent.setAttenteAffectation(true);
-		UniteAdmin DGMP = uniteAdminDao.findById(1L).get();
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
 		System.out.println(DGMP);
 		agent.setTutelleDirecte(DGMP);
 		if(agent.getSexe().contains("F") || agent.getSexe().contains("f"))
@@ -197,6 +198,7 @@ public class AgentMetier implements IAgentMetier
 		agentFromDataBAse.setSexe(agentForm.getSexe());
 		agentFromDataBAse.setEmail(agentForm.getEmail());
 		agentFromDataBAse.setLieuNaissance(agentForm.getLieuNaissance());
+		agentFromDataBAse.setDepartementNaissance(agentForm.getDepartementNaissance());
 		agentFromDataBAse.setFixeBureau(agentForm.getFixeBureau());
 		agentFromDataBAse.setTel(agentForm.getTel());
 		
@@ -299,7 +301,7 @@ public class AgentMetier implements IAgentMetier
 		
 		return arg->
 		{
-			List<List<Agent>> listsAgents = uaDao.findBySigle("DGMP").getSubAdminStream().map(UniteAdmin::getPersonnel).collect(Collectors.toList());
+			List<List<Agent>> listsAgents = uniteAdminConfigService.getUniteAdminMere().getSubAdminStream().map(UniteAdmin::getPersonnel).collect(Collectors.toList());
 			List<Agent> agents = listsAgents.stream().flatMap(List::stream).filter(Agent::isAffectable).collect(Collectors.toList());
 			//System.out.println(zie);
 			agents.forEach(agent->System.out.println(agent + " est affectable ? " + agent.isAffectable()));

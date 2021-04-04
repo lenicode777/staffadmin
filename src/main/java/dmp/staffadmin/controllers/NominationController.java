@@ -52,22 +52,27 @@ public class NominationController
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
 	@Autowired private INominationValidation nominationValidation;
+	
 	@GetMapping(path = "/staffadmin/nominations/form")
 	public String goToNominationForm(Model model, HttpServletRequest request, 
-									 @RequestParam(name = "idAgent") Long idAgent,
+									 @RequestParam(name = "idAgent", defaultValue = "0") Long idAgent,
 									 @RequestParam(defaultValue = "0") Long idFonction,
+									 @RequestParam(defaultValue = "") String numActeNominaton,
 									 @RequestParam(defaultValue = "0") Long idUniteAdmin,
 									 @RequestParam(defaultValue = "") String dateNomination)
 	{
-		User user = userDao.findByUsername(request.getUserPrincipal().getName());
+		//User user = userDao.findByUsername(request.getUserPrincipal().getName());
 		Nomination nomination = new Nomination();
+		nomination.setNumActeNominaton(numActeNominaton);
 		Agent agentANommer = null;
 		try
 		{
-			agentANommer = agentDao.findById(idAgent).get();
-			System.out.println("Nomination Controller L67==========Agent Existe===============");
-			nomination.setAgentNomme(agentANommer);
-			
+			if(idAgent!=0)
+			{
+				agentANommer = agentDao.findById(idAgent).get();
+				System.out.println("Nomination Controller L67==========Agent Existe===============");
+				nomination.setAgentNomme(agentANommer);
+			}
 		}
 		catch(Exception e)
 		{
@@ -82,7 +87,6 @@ public class NominationController
 			if(fonctionDao.existsById(idFonction))
 			{
 				Fonction fonctionDeNomination  = fonctionDao.findById(idFonction).get();
-				//List<UniteAdmin> unitesAdmins = uniteAdminDao.findAll();
 				List<UniteAdmin> unitesAdmins = uniteAdminDao.findByTypeUniteAdmin(fonctionDeNomination.getTypeUniteAdmin());
 				model.addAttribute("unitesAdmins", unitesAdmins);
 				nomination.setFonctionNomination(fonctionDeNomination);
@@ -107,11 +111,12 @@ public class NominationController
 			catch(Exception e){}
 		}
 		
-		
+		model.addAttribute("cible","nomination");
+		//System.out.println("NOmination : " + nomination.getAgentNomme().getMatricule());
 		model.addAttribute("nomination", nomination);
 		model.addAttribute("fonctionsNomination", fonctionDao.findByFonctionDeNominationTrue());
 		
-		return "nomination-promotion/nomination-promotion";
+		return "nomination-promotion/nomination-promotion-tabs";
 	}
 	
 	@GetMapping(path = "/staffadmin/unites-admins/{idUniteAdmin}/nominations/form")
@@ -196,7 +201,7 @@ public class NominationController
 		
 		
 		//System.out.println("FONCTION1111111 = "+fonctionNomination.getNomFonction());
-
+		System.out.println("===================AV_MATRICULE : ==================" + nomination.getAgentNomme().getMatricule());
 		try
 		{
 			nominationValidation.validate(nomination);
@@ -228,7 +233,8 @@ public class NominationController
 		}
 		String matricule = nomination.getAgentNomme().getMatricule();
 		Long idAgent = nomination.getAgentNomme().getIdAgent();
-		
+		System.out.println("===================MATRICULE : ==================" + matricule);
+		System.out.println("===================IdAgent : ==================" + idAgent);
 		UniteAdmin uniteAdminDeNomination = uniteAdminDao.findById(nomination.getUniteAdminDeNomination().getIdUniteAdmin()).get();
 		Fonction fonctionNomination = fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get();
 		

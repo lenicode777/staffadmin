@@ -45,15 +45,24 @@
 	                        <input id="email" class="form-control" type="email" required="required" th:field="*{email}"/>
                         </div>
                     </div>
-                    <div class="col col-lg-4">
+                    <div class="col col-lg-2">
                         <div class="form-group">
-							<label for="lieuNaissance">Lieu de naissance</label> <span class="error-msg text-danger" id="lieuNaissance-error-msg"></span>
-	                        <select id="lieuNaissance" class="form-control" required="required" th:field="*{lieuNaissance}">
-	                        	<option value="ABIDJAN">ABIDJAN</option>
-	                        	<option value="GRAND-LAHOU">GRAND-LAHOU</option>
+							<label for="departementNaissance">Dept. naissance</label> <span class="error-msg text-danger" id="lieuNaissance-error-msg"></span>
+	                        <select id="departementNaissance" class="form-control" required="required" th:field="*{departementNaissance}">
+	                        	<option value="">--Choisir--</option>
+	                        	<option th:each="departement:${departements}" th:value="${departement.nom}" th:text="${departement.nom}">GRAND-LAHOU</option>
+	                        	<option value="AUTRE_EN_AFRIQUE">Autre en Afrique</option>
+	                        	<option value="AUTRE_HORS_AFRIQUE">Autre hors Afrique</option>
 	                        </select>
                         </div>                    
-                    </div>          
+                    </div>    
+                    
+                    <div class="col col-lg-2">
+                    	<div class="form-group">
+                    		<label for="lieuNaissance" class="control-label">Localité de naissance</label>
+                    		<input class="form-control" type="text" id="lieuNaissance" th:field="*{lieuNaissance}"/>
+                    	</div>
+                    </div>
                                
                     <div class="col col-lg-2">
                         <div class="form-group">

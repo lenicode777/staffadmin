@@ -17,6 +17,7 @@ import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.RoleEnum;
 import dmp.staffadmin.metier.enumeration.UniteAdminEnum;
 import dmp.staffadmin.metier.interfaces.IPostMetier;
+import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
 import dmp.staffadmin.security.userdetailsservice.IUserMetier;
@@ -32,6 +33,7 @@ public class PostMetier implements IPostMetier
 	@Autowired private IUserDao userDao;
 	@Autowired private IRoleDao roleDao;
 	@Autowired private IUniteAdminDao uniteAdminDao;
+	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
 
 	@Override
 	public Post save(Post e) 
@@ -64,9 +66,9 @@ public class PostMetier implements IPostMetier
 	@Override
 	public Post nommerResponsable(Post post, Agent agent) 
 	{
-		UniteAdmin SMGP = uniteAdminDao.findBySigle(UniteAdminEnum.SMGP.toString());
-		UniteAdmin DGMP = uniteAdminDao.findBySigle(UniteAdminEnum.DGMP.toString());
-		UniteAdmin CabDGMP = uniteAdminDao.findBySigle(UniteAdminEnum.CABINET_DGMP.toString());
+		UniteAdmin SMGP = uniteAdminConfigService.getDRH();
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
+		UniteAdmin CabDGMP = uniteAdminConfigService.getCabinetUniteAdminMere();
 		System.out.println("7.1============Poste Metier===========");
 		Fonction fonction = post.getFonction(); // Je recupère la fonction de nomination
 		UniteAdmin uniteAdmin = post.getUniteAdmin();//Je récupère l'unité admin
@@ -74,8 +76,8 @@ public class PostMetier implements IPostMetier
 		Role roleResponsable = roleDao.findByRole(RoleEnum.RESPONSABLE.toString());//Je récupère le role responsable
 		
 		System.out.println("7.2============Récupération fonction, post, role ok===========");
-		
-		agent.setTitre(Nomination.getTitreNomination2(fonction, uniteAdmin));//Je génère le titre de la nomination
+		String titreNomination = Nomination.getTitreNomination2(fonction, uniteAdmin);
+		agent.setTitre(titreNomination);//Je génère le titre de la nomination
 		System.out.println("7.3============Titre généré ok===========" + agent.getTitre());
 		
 		
@@ -99,6 +101,7 @@ public class PostMetier implements IPostMetier
 		}
 		
 		post.setAgent(agent);//Je met l'agent au post en question
+		post.setLibellePost(titreNomination);
 		System.out.println("7.4============¨Presque fini ok===========");
 		return postDao.save(post);
 	}
@@ -112,7 +115,7 @@ public class PostMetier implements IPostMetier
 		Role roleResponsable = roleDao.findById(9L).get();//Je récupère le role responsable
 		System.out.println("roleSAf toString = " + RoleEnum.SAF.toString());
 		Role roleSAF = roleDao.findByRole(RoleEnum.SAF.toString());
-		UniteAdmin DGMP = uniteAdminDao.findById(1L).get();//Je récupère la DGMP
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();//Je récupère la DGMP
 		System.out.println("Fonction = " + fonction.getIdFonction() + " NomFonction = " + fonction.getNomFonction() + " Roles = "+ fonction.getRoleAssocie());
 		System.out.println("RolesRespo = "+ roleResponsable.toString());
 		System.out.println("RolesSAF = "+ roleSAF.toString());

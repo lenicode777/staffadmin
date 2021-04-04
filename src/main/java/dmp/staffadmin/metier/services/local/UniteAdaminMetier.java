@@ -47,6 +47,7 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 		
 		uniteAdminValidation.validate(uniteAdmin);
 		Post postOfManager = new Post(null, null, null, uniteAdmin, null);
+	
 		postOfManager.setUniteAdmin(uniteAdmin);
 		postOfManager = postDao.save(postOfManager);
 		
@@ -158,6 +159,7 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 		}
 		else
 		{
+			
 			System.out.println("===============================Post Non Null===============================");
 			Agent ancienManager = postOfManager.getAgent();
 			if(ancienManager!=null)
@@ -165,6 +167,7 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 				System.out.println("===============================Ancien Manager Existant===============================");
 				postMetier.demettreResponsable(postOfManager, ancienManager);
 			}
+			postOfManager.setFonction(fonctionDeNomination);//J'initialise la fonction de nomination pour le Post
 		}
 		
 		//Je recupère l'éventuel ancien post de l'agent à nommer

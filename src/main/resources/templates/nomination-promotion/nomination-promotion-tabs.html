@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout/layout}">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style type="text/css">
+        div.panel div.panel-heading 
+        {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+        
+        div.panel-default div.panel-heading,
+        div.panel-default div.panel-heading a 
+        {
+            /*color:#39B510;*/
+            color: #FF9008;
+        }
+        
+        form label 
+        {
+            font-size: 15px;
+            font-weight: bolder;
+            color: black;
+        }
+        
+        form .error-msg 
+        {
+            font-size: 10px;
+            font-weight: bolder;
+            color: red;
+            display: none;
+        }
+        
+        #btn-modal-trigger,
+        #btn-submit 
+        {
+            display: none;
+        }
+        
+        .form-group .error-msg 
+        {
+            position: relative;
+            margin-left: 0px;
+        }
+        
+        .ml-20
+        {
+        	margin-left: 20px;
+        }
+        
+        .sub-admin-3
+        {
+        	font-size: 16px;
+        }
+        .btn-subadmin
+        {
+        	float: right;
+        	color: white;
+        	font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid">
+            
+            <div role="tabpanel">
+                <!-- Nav tabs -->
+                <ul style="margin-bottom: 10px;" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" th:class="${cible}=='nomination' ? 'active' : ''">
+                        <a id="nomination-tab-link" href="#nomination-tab" aria-controls="home" role="tab" data-toggle="tab">Nomination</a>
+                    </li>
+                    <li role="presentation" th:class="${cible}=='promotion' ? 'active' : ''">
+                        <a id="promotion-tab-link" href="#promotion-tab" aria-controls="tab" role="tab" data-toggle="tab">Promotion</a>
+                    </li>
+                </ul>
+            
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="nomination-tab">
+                        <div class="panel orange-panel">
+                            <div class="panel-heading">
+                                Enregistrer une nouvelle nomination
+                                <span th:if="${nomination}">
+                                	<img th:if="${nomination.agentNomme}" style="height: 3%; width: 3%;" th:title="${nomination.agentNomme}" th:src="@{'/staffadmin/agents/'+ ${nomination.agentNomme.idAgent}+'/photo'}" class="img-circle pull-right" height="80" width="80">
+                            	</span>
+                            </div>
+                            <div class="panel-body">
+                            	<span th:if="${nomination}">
+                                	<th:block th:replace="nomination-promotion/frm-nomination-frag.html::frm-nomination-frag"></th:block>
+                            	</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div role="tabpanel" class="tab-pane" id="promotion-tab">
+                        
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                	Enregistrer une nouvelle promotion
+                                	<span th:if="${promotion}">
+                                		<img th:if="${promotion.agentPromu}" style="height: 3%; width: 3%;" th:title="${promotion.agentPromu}" th:src="@{'/staffadmin/agents/'+ ${promotion.agentPromu.idAgent}+'/photo'}" class="img-circle pull-right" height="80" width="80">
+                            		</span>
+                                </div>
+                                <div class="panel-body">
+                                	<span th:if="${promotion}">
+                         				<th:block  th:replace="nomination-promotion/frm-promotion-frag.html::frm-promotion-frag"></th:block>
+                                	</span>
+                                </div>
+                            </div>  
+                        
+                    </div>
+                </div>
+            </div>
+            
+
+	        
+        	
+        	     	
+
+            
+            
+            
+        </div>
+    </div>
+    <div layout:fragment="js-specifics-dependancies">
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+        <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
+        <script src="/lib/jquery/JQueryBolckUI.js"></script>
+        <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+        <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
+        <script>
+
+
+            $("#idFonction").change(function (e) 
+            { 
+                var idFonction = this.value;
+                $.ajax(
+                {
+                    type: "GET",
+                    url: "http://localhost:8081/staffadmin/rest/uniteAdmins/findBy-TypeUniteAdmin-IdFonction/"+idFonction,
+                    success: function (response) 
+                    {
+                        $("#idUniteAdminDeNomination").children('option').remove();
+                        $('#idUniteAdminDeNomination').append($("<option value='0'></option>"));
+                        $("#idUniteAdminDeNomination-label").text(response[0].typeUniteAdmin.nomTypeUniteAdmin);
+                        $.each(response, function(key, value) 
+                        {
+                            $('#idUniteAdminDeNomination')
+                                .append($("<option></option>")
+                                .attr("value",value["idUniteAdmin"])
+                                .text(value["appellation"] + " - " + value["sigle"]));
+                        });                      
+                    }
+                });                
+                
+            });
+    
+               
+            
+            $(document).ready(function()
+            {
+                if($("#promotion-tab-link").parent().hasClass("active"))
+                {
+                    $("#nomination-tab-link").trigger("click");
+                    $("#promotion-tab-link").trigger("click");
+                }
+            });
+            $(document).ready(function() 
+            {
+            	$('#idUniteAdminDeNomination').select2();
+            });
+
+            $(document).ready(function() 
+            {
+            	$('#idFonction').select2();
+            });         
+
+            $(document).ready(function() 
+            {
+            	$('#idEmploi').select2();
+            });    
+
+            $(document).ready(function() 
+            {
+            	$('#idGrade').select2();
+            });            
+            
+        </script>
+    </div>
+</body>
+
+</html>

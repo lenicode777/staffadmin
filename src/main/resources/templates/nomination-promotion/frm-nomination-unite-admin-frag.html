@@ -6,7 +6,7 @@
             
             <div th:if="${globalErrorMsg}" class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>Erreur!</strong> 
+                <strong>Erreur!</strong>
                 <span th:text="${globalErrorMsg}"></span>
             </div>
             
@@ -26,9 +26,9 @@
                             <option value=""></option>
                             <option th:each="fonction : ${fonctionsNomination}" th:text="${fonction.nomFonction}" th:value="${fonction.idFonction}"></option>
                         </select>
-                    </div>   
+                    </div>
                 </div>
-                              
+
                 <div class="col col-lg-6">
                     <div class="form-group">
                         <span class="text-danger">*</span><label for="dateNomination">Date de nomination</label>

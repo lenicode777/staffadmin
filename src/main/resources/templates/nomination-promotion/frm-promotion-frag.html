@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-promotion-frag">							 
+            <form id="frm-unite-admin" th:object="${promotion}" th:action="@{/staffadmin/promotion/confirmation}" method="post" enctype="multipart/form-data">
+                <div th:if="${globalErrorMsg}" class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Erreur!</strong> <span th:text="${globalErrorMsg}"></span>
+                </div>
+                
+                <th:block th:if="${promotion.agentPromu}!=null">
+                    <div class="col col-lg-offset-8 col-lg-4 profile-pic">                           
+                        <input type="hidden" th:if="${promotion.agentPromu.idAgent!=null}" th:field="*{agentPromu.idAgent}" th:value="${promotion.agentPromu.idAgent}"/>
+                        <input type="hidden" th:if="${promotion.agentPromu.idAgent!=null}" th:field="*{agentPromu.matricule}" th:value="${promotion.agentPromu.matricule}"/>
+                        
+                    </div>
+					
+					<div class="col col-lg-4">
+						<div class="form-group">
+							<label for="matricule" class="control-label">Matricule</label>
+							<input name="matricule" id="matricule" class="form-control" th:field="*{agentPromu.matricule}" />
+						</div>
+					</div>
+
+                   <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="idFonction">Emploi</label><br/>
+                            <select required="required" th:field="*{newEmploi.idEmploi}" class="form-control" id="idEmploi" style="width: 100%;">
+                                <option value=""></option>
+                                <option th:each="emploi : ${emploisPromotion}" th:text="${emploi.nomEmploi}" th:value="${emploi.idEmploi}"></option>
+                            </select>
+                        </div>                                
+                    </div>					
+					
+                    <div class="col col-lg-2">
+                        <div class="form-group ">
+                            <label for="grade">Grade</label><br/>
+                            <select required="required" th:field="*{newGrade.idGrade}" class="form-control" id="idGrade" style="width: 100%;">
+                                <option value=""></option>
+                                <option th:each="grade : ${grades}" th:text="${grade.nomGrade}" th:value="${grade.idGrade}"></option>
+                            </select>
+                        </div>
+                    </div> 
+                    
+                    <div class="col col-lg-2">
+                        <div class="form-group ">
+                            <label for="numActePromotion">N° Acte de nomination</label>
+                            <input  th:field="*{numActePromotion}" class="form-control"/>
+                        </div>
+                    </div> 
+                                        
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="idFonction">Fonction</label><br/>
+                            <select required="required" th:field="*{newFonction.idFonction}" class="form-control" id="idFonction" style="width: 100%;">
+                                <option value=""></option>
+                                <option th:each="fonction : ${fonctionsPromotion}" th:text="${fonction.nomFonction}" th:value="${fonction.idFonction}"></option>
+                            </select>
+                        </div>                                
+                    </div>   
+                        
+                    <div class="col col-lg-4">  
+                            <div class="form-group">
+                                <label for="datePromotion">Date de promotion</label>
+                                <input th:field="*{datePromotion}" type="date" class="form-control" id="datePromotion" placeholder="Date de promotion">
+                            </div>           
+                    </div>
+
+
+                                                
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="acteNominationFile">Acte de promotion</label>
+                            <input th:field="*{actePromotionFile}"  type="file" class="form-control" id="actePromotionFile">
+                        </div>
+                    </div>   
+                    
+                    <div class="col col-lg-offset-8 col-lg-4">
+                        <button style="margin-left: 10px;" class="btn btn-lg btn-success pull-right" type="submit">Poursuivre<i class="glyphicon glyphicon-hand-right"></i></button> 
+                        <button class="btn btn-lg btn-default pull-right" type="reset">Annuler</button> 
+                    </div>
+                </th:block>  
+            </form>
+      	</th:block>
+    </body>
+</html>

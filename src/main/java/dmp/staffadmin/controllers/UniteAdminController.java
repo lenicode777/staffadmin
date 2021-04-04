@@ -40,6 +40,7 @@ import dmp.staffadmin.metier.enumeration.ModeEnum;
 import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.metier.exceptions.AuthorityException;
 import dmp.staffadmin.metier.exceptions.UniteAdminException;
+import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.IUniteAdminValidation;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
@@ -59,16 +60,18 @@ public class UniteAdminController
 	@Autowired private IFonctionDao fonctionDao;
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IUniteAdminValidation uaValidation;
+	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
+	
 	@GetMapping(path = "/staffadmin/unites-admins")
 	public String goToUniteAdmin(Model model)
 	{
 		//System.out.println("===================================CONTROLLER==========================0");
-		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
-		UniteAdmin cabinetDGMP = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.CABINET_DG.toString()).get(0);
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
+		UniteAdmin cabinetDGMP = uniteAdminConfigService.getUniteAdminMere();
 		System.out.println("Cabinet DGMP = " + cabinetDGMP);
 		List<UniteAdmin> scesRattaches = uniteAdminDao.findByLevelAndTypeUniteAdminNomTypeUniteAdmin(DGMP.getLevel()+1 ,TypeUniteAdminEnum.SERVICE.toString());
-		List<UniteAdmin> directions = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin("DIRECTION CENTRALE");
-		List<UniteAdmin> directionsRegionales = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin("DIRECTION REGIONALE");
+		List<UniteAdmin> directions = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.DIRECTION_CENTRALE.toString());
+		List<UniteAdmin> directionsRegionales = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.DIRECTION_REGIONALE.toString());
 		List<TypeUniteAdmin> typesUniteAdmins = typeUniteAdminDao.findByAdministrativeLevelGreaterThan(1);
 		
 		model.addAttribute("cabinetDGMP", cabinetDGMP);
@@ -246,8 +249,8 @@ public class UniteAdminController
 			}
 		}
 		
-		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
-		UniteAdmin cabinetDGMP = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.CABINET_DG.toString()).get(0);
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
+		UniteAdmin cabinetDGMP = uniteAdminConfigService.getCabinetUniteAdminMere();
 		List<UniteAdmin> unitesAdminsSousTutelles = visitedUniteAdmin.getSubAdminStream().map(ua->ua.getUniteAdminSousTutelle()).flatMap(listUa->listUa.stream()).collect(Collectors.toList());
 		List<Agent> personnel = visitedUniteAdmin.getSubAdminStream().map(UniteAdmin::getPersonnel).flatMap(listAgents->listAgents.stream()).collect(Collectors.toList());
 		List<UniteAdmin> parentsHierarchie = visitedUniteAdmin.getPatrentsStream()

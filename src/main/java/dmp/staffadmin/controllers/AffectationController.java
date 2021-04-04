@@ -28,6 +28,7 @@ import dmp.staffadmin.metier.enumeration.RoleEnum;
 import dmp.staffadmin.metier.exceptions.AffectationException;
 import dmp.staffadmin.metier.exceptions.AuthorityException;
 import dmp.staffadmin.metier.interfaces.IAffectationMetier;
+import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
 import dmp.staffadmin.security.userdetailsservice.IUserMetier;
 import dmp.staffadmin.security.userdetailsservice.User;
@@ -44,6 +45,7 @@ public class AffectationController
 	@Autowired private IAffectationMetier affectationMetier;
 	@Autowired private IUserDao userDao;
 	@Autowired private IUserMetier userMetier;
+	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
 	
 	//@PreAuthorize("hasAuthority('SAF')")
 	@GetMapping(path = "/staffadmin/affectations/{idAgent}")
@@ -115,7 +117,7 @@ public class AffectationController
 			User authUser = userDao.findByUsername(request.getUserPrincipal().getName()); 
 			if(authUser.hasRole(RoleEnum.SAF.toString()))
 			{
-				authUserVisibility = uniteAdminDao.findBySigle("DGMP");
+				authUserVisibility = uniteAdminConfigService.getUniteAdminMere();
 			}
 			else if(authUser.hasRole(RoleEnum.DIRECTEUR.toString()) || authUser.hasRole(RoleEnum.SOUS_DIRECTEUR.toString()) )
 			{
@@ -126,7 +128,6 @@ public class AffectationController
 				throw new AuthorityException("Desolé! Vous ne disposez des droits pour acceder à cette ressource");
 			}
 			
-			//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
 			UniteAdmin uaArrivee = null;
 			List<UniteAdmin> possibleDestinations = null;
 			if(idUaArrivee!=0)
@@ -172,21 +173,12 @@ public class AffectationController
 	@PostMapping(path = "/staffadmin/confirmation/affectations-groupees")
 	public String goToConfirmationFrmAffectationGroupee(HttpServletRequest request, Model model, @ModelAttribute AffectationGroupeeForm affectationGroupeeForm)
 	{
-
-		//UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
-		//UniteAdmin uaDepart = uniteAdminDao.findById(affectationGroupeeForm.getUaDepart().getIdUniteAdmin()).get();
 		UniteAdmin uaArrivee = uniteAdminDao.findById(affectationGroupeeForm.getUaArrivee().getIdUniteAdmin()).get();
 		
 		affectationGroupeeForm.getListIdsAgents().forEach(id->System.out.println("ID = " + id));
 		
 		List<Agent> listAgentsAAffecter = affectationGroupeeForm.getListIdsAgents().stream().map(id->agentDao.findById(id).get()).collect(Collectors.toList());
-		//Date dateAffectation = affectationGroupeeForm.getDateAffectation();
-		
-		
-		
-		//affectationGroupeeForm.setUaDepart(uaDepart);
-		//affectationGroupeeForm.setUaDepart(uaDepart);
-		//affectationGroupeeForm.setDateAffectation(dateAffectation);
+
 		affectationGroupeeForm.setListAgentsAAffecter(listAgentsAAffecter);
 		affectationGroupeeForm.setUaArrivee(uaArrivee);
 		

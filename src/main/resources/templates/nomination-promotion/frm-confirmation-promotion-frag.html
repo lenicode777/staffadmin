@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-confirmation-promotion-frag">
+            <form id="frm-unite-admin" th:object="${promotion}" th:action="@{/staffadmin/promotion/save}" method="POST" enctype="multipart/form-data">
+				<div class="panel panel-default main-content-block-item" >
+                    <div class="panel-heading">
+                    	Confirmation de la nommination
+                    	<span class="pull-right" th:title="${promotion.agentPromu}">
+							<img style="width: 35px; height: 35px;" id="photo-tag" th:src="@{'/staffadmin/agents/'+${promotion.agentPromu.idAgent}+'/photo'}" class="img-circle"/>
+						</span>
+                    </div>
+
+                    <div class="panel-body">
+						<input type="hidden" name="mode" th:value="${mode}" />
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Nom et Prénom</th>
+                                <th style="width: 25%;"></th>
+                                <th>
+                                    <span class="text-success" th:text="${promotion.agentPromu.nom + ' ' + promotion.agentPromu.prenom}"></span>
+                                    <input type="hidden" th:field="*{agentPromu.idAgent}">
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>Matricule</th>
+                                <th style="width: 20%;"></th>
+                                <th class="text-success">
+                                    <span th:text="${promotion.agentPromu.matricule}"></span>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th >Emploi</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${promotion.newEmploi.nomEmploi}"></th>
+                                <input type="hidden" th:field="*{newEmploi.idEmploi}">
+                            </tr>
+
+                            <tr>
+                                <th>Fonction</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${promotion.newFonction.nomFonction}"></th>
+                                <input type="hidden" th:field="*{newFonction.idFonction}">
+                            </tr>
+                            
+                            <tr>
+                                <th>Grade</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${promotion.newGrade.nomGrade}"></th>
+                                <input type="hidden" th:field="*{newGrade.idGrade}"/>
+                            </tr>                            
+
+							<tr>
+                                <th>Numéro de l'acte de promotion</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${promotion.numActePromotion}"></th>
+                                <input type="hidden" th:field="*{numActePromotion}"/>
+                            </tr>	
+
+                            <tr>
+                                <th>Date de promotion</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${#dates.format(promotion.datePromotion, 'dd-MM-yyyy')}"></th>
+                                <input type="hidden" th:field="*{datePromotion}"/>
+                            </tr>
+                            
+                        </table>
+
+                    </div>
+<!--                <div class="col col-lg-12">
+                        <div class="form-group">
+                            <label for="actepromotionFile">Acte de promotion</label>
+                            <input required th:field="*{actepromotionFile}"  type="file" class="form-control-file" id="actepromotionFile">
+                        </div>
+                    </div>  --> 
+                </div>
+
+                <div class="main-content-block-item">
+                    <button id="btnEnregistrer" class="btn btn-lg green-btn pull-right" style="margin: 5px;" type="submit">Enregistrer</button>
+	                <a	th:href="'/staffadmin/promotion/form?idAgent='+ ${promotion.agentPromu.idAgent} + '&datePromotion='+${promotion.datePromotion} + '&numActePromotion='+${promotion.numActePromotion}  + '&idFonction=' + ${promotion.newFonction.idFonction} + '&idEmploi=' + ${promotion.newEmploi.idEmploi}+ '&idGrade=' + ${promotion.newGrade.idGrade}" 
+	                	class="btn btn-lg btn-default pull-right" 
+	                	style="margin: 5px;">
+	                	
+                        <i class="glyphicon glyphicon-hand-left"></i> Revinir
+                    </a>	                    
+	           </div>  
+            </form>
+      	</th:block>
+    </body>
+</html>

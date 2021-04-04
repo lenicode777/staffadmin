@@ -29,6 +29,7 @@
                                 <th style="width: 20%;"></th>
                                 <th class="text-success">
                                     <span th:text="${nomination.agentNomme.matricule}"></span>
+<!--                                     <input th:field="*{agentNomme.matricule}"/> -->
                                 </th>
                             </tr>
 
@@ -45,6 +46,13 @@
                                 <th class="text-success" th:text="${nomination.fonctionNomination.nomFonction}"></th>
                                 <input type="hidden" th:field="*{fonctionNomination.idFonction}">
                             </tr>
+
+							<tr>
+                                <th>Numéro de l'acte de nomination</th>
+                                <th style="width: 10%;"></th>
+                                <th class="text-success" th:text="${nomination.numActeNominaton}"></th>
+                                <input type="hidden" th:field="*{numActeNominaton}"/>
+                            </tr>	
 
                             <tr>
                                 <th>Date de nomination</th>
@@ -73,7 +81,7 @@
                         <i class="glyphicon glyphicon-hand-left"></i> Revinir
                     </a> 
                     
-                   <a th:if="${mode=='from-single-agent'}" 	th:href="'/staffadmin/nominations/form?idAgent=' + ${nomination.agentNomme.idAgent} + '&dateNomination='+${nomination.dateNomination} + '&numActeNominaton='+${nomination.numActeNominaton}  + '&idFonction=' + ${nomination.fonctionNomination.idFonction} + '&idUniteAdmin=' + ${nomination.uniteAdminDeNomination.idUniteAdmin}" 
+                   <a th:if="${mode=='from-single-agent'}" 	th:href="'/staffadmin/nominations/form?idAgent=' + ${nomination.agentNomme.idAgent} + '&dateNomination='+${nomination.dateNomination} + '&idFonction=' + ${nomination.fonctionNomination.idFonction} + '&idUniteAdmin=' + ${nomination.uniteAdminDeNomination.idUniteAdmin} + '&numActeNomination=' + ${nomination.numActeNominaton}" 
 	                	class="btn btn-lg btn-default pull-right" 
 	                	style="margin: 5px;" type="reset">
 	                	

@@ -17,6 +17,7 @@ import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.metier.exceptions.AffectationException;
 import dmp.staffadmin.metier.interfaces.IAffectationMetier;
 import dmp.staffadmin.metier.interfaces.ICrudMetier;
+import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.metier.validation.IValidation;
 
 @Service @Transactional
@@ -26,6 +27,7 @@ public class AffectationMetier implements IAffectationMetier, ICrudMetier<Affect
 	@Autowired private IAgentDao agentDao;
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IValidation<Affectation> affectationValidation;
+	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
 	
 	public AffectationMetier(IAffectationDao affectationDao) 
 	{
@@ -35,8 +37,8 @@ public class AffectationMetier implements IAffectationMetier, ICrudMetier<Affect
 	@Override
 	public Affectation save(Affectation affectation) throws AffectationException
 	{
-		UniteAdmin DGMP = uniteAdminDao.findBySigle("DGMP");
-		UniteAdmin cabinetDGMP = uniteAdminDao.findByTypeUniteAdminNomTypeUniteAdmin(TypeUniteAdminEnum.CABINET_DG.toString()).get(0);
+		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
+		UniteAdmin cabinetDGMP = uniteAdminConfigService.getCabinetUniteAdminMere();
 		
 		Agent agentAAffecter = agentDao.findById(affectation.getAgent().getIdAgent()).get();
 		UniteAdmin uaArrivee = uniteAdminDao.findById(affectation.getUaArrivee().getIdUniteAdmin()).get();

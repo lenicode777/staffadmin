@@ -50,6 +50,7 @@
 						<a th:href="@{'/staffadmin/frm-agent?idAgent=' + ${visitedUser.agent.idAgent}}" class="btn btn-theme" ><i class="fa fa-edit"></i> Modifier</a>
 						<a th:href="@{'/staffadmin/affectations/'+${visitedUser.agent.idAgent}}" class="btn btn-theme"><i class="glyphicon glyphicon-send"></i> Affecter</a>
 						<a th:href="@{/staffadmin/nominations/form(idAgent=${visitedUser.agent.idAgent})}" class="btn btn-theme"><i class="fa fa-bullhorn"></i> Nomination</a>
+						<a th:href="@{/staffadmin/promotion/form(idAgent=${visitedUser.agent.idAgent})}" class="btn btn-theme"><i class="fa fa-bullhorn"></i> Promotion</a>
 					</p>
 				</div>				
 				<!-- /col-md-4 -->

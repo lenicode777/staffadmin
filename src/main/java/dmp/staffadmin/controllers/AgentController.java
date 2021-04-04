@@ -36,12 +36,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
+import dmp.staffadmin.dao.IDepartementDao;
 import dmp.staffadmin.dao.IEmploiDao;
 import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.IGradeDao;
 import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.Departement;
 import dmp.staffadmin.metier.entities.Emploi;
 import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
@@ -76,6 +78,7 @@ public class AgentController
 	@Autowired private IUserDao userDao;
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private ITypeUniteAdminDao typeUniteAdminDao;
+	@Autowired private IDepartementDao departementDao;
 	
 	//@PreAuthorize("hasRole('RESPONSABLE')")
 	//@PreAuthorize("#idUser == principal.idUser")
@@ -248,8 +251,9 @@ public class AgentController
 		Map modelAttributes = new HashMap<>();
 		modelAttributes.put("agent", agent);
 		modelAttributes.put("emplois", emploiDao.findAll());
-		modelAttributes.put("fonctions", fonctionDao.findAll());
+		modelAttributes.put("fonctions", fonctionDao.findByFonctionDeNominationFalse());
 		modelAttributes.put("grades", gradeDao.findAll());
+		modelAttributes.put("departements", departementDao.findAll());
 		
 		
 		if(idAgent==0)

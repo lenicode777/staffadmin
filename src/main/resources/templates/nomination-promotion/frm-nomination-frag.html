@@ -10,13 +10,19 @@
                     <strong>Erreur!</strong> <span th:text="${globalErrorMsg}"></span>
                 </div>
                 
-                <th:block th:if="${nomination.agentNomme!=null}">
+                <th:block>
                     <div class="col col-lg-offset-8 col-lg-4 profile-pic">                           
-                        <input type="hidden" th:field="*{agentNomme.idAgent}" th:value="${nomination.agentNomme.idAgent}"/>
-                        <input type="hidden" th:field="*{agentNomme.matricule}" th:value="${nomination.agentNomme.matricule}"/>
+                        <input th:if="${nomination.agentNomme!=null}" type="hidden" th:field="*{agentNomme.idAgent}" th:value="${nomination.agentNomme.idAgent}"/>
+<!--                         <input th:if="${nomination.agentNomme!=null}" type="hidden" th:field="*{agentNomme.matricule}" th:value="${nomination.agentNomme.matricule}"/> -->
                         <input type="hidden" name="mode"  th:value="from-single-agent"/>
                     </div>
 					
+                    <div class="col col-lg-4">
+                        <div class="form-group">
+                            <label for="matricule">Matricule</label>
+                            <input th:field="*{agentNomme.matricule}"  type="text" class="form-control" id="matricule">
+                        </div>
+                    </div>  
 					
                     <div class="col col-lg-4">
                         <div class="form-group">
@@ -43,7 +49,7 @@
                             </div>           
                     </div>
 
-                    <div class="col col-lg-6">               
+                    <div class="col col-lg-4">               
                         <div class="form-group">
                             <label for="idUniteAdminDeNomination" id="idUniteAdminDeNomination-label" th:text="${nomination.uniteAdminDeNomination}!=null ? ${nomination.uniteAdminDeNomination.typeUniteAdmin.nomTypeUniteAdmin} : 'Service'">Service</label> <br/>
                             <select required="required" th:field="*{uniteAdminDeNomination.idUniteAdmin}" class="form-control" id="idUniteAdminDeNomination" style="width: 100%;">
@@ -53,7 +59,7 @@
                         </div>
                     </div>
                                                 
-                    <div class="col col-lg-6">
+                    <div class="col col-lg-4">
                         <div class="form-group">
                             <label for="acteNominationFile">Acte de nomination</label>
                             <input th:field="*{acteNominationFile}"  type="file" class="form-control" id="acteNominationFile">

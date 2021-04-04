@@ -32,7 +32,7 @@ public class Nomination
 	private String numActeNominaton;
 	private String nomActeNomination;
 	@ManyToOne @JoinColumn(name = "ID_FONCTION_NOMINATION")
-	private Fonction fonctionNomination; 
+	private Fonction fonctionNomination;
 	@OneToOne @JoinColumn(name = "ID_POST_NOMINATION")
 	private Post postNomination;
 	@ManyToOne

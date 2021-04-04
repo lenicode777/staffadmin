@@ -68,8 +68,11 @@
 											<li><a th:href="@{/staffadmin/nominations/form(idAgent=${agent.idAgent})}">
 												<i class="fa fa-bullhorn"></i>
 												Nomination</i></a></li>
-											<li><a href="#"><i class="glyphicon glyphicon-eye"></i>
-													Promotion</a></li>
+											<li>
+												<a th:href="'/staffadmin/promotion/form?idAgent='+${agent.idAgent}"><i class="glyphicon glyphicon-eye"></i>
+													Promotion
+												</a>
+											</li>
 											<li class="divider"></li>
 <!-- 										<li><a th:href="@{'/staffadmin/agents/'+${agent.idAgent}+'/archivage/'}">Separated link</a></li> -->
 											

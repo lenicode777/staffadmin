@@ -2,6 +2,6 @@ package dmp.staffadmin.metier.validation;
 
 public interface IValidation<Entity> 
 {
-	public boolean isValide(Entity e);
-	public void validate(Entity e);
+	public boolean isValide(Entity e) ;
+	public void validate(Entity e) throws RuntimeException ;
 }

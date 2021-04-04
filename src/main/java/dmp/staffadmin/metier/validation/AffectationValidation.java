@@ -10,7 +10,7 @@ import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.exceptions.AffectationException;
 
 @Service
-public class AffectationValidation implements IValidation<Affectation> 
+public class AffectationValidation implements IAffectationValidation
 {
 
 	@Override

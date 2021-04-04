@@ -53,7 +53,8 @@ public class Agent
 	@Column(length = 20, unique = true)
 	private String tel;
 	private String fixeBureau;
-	private String lieuNaissance;
+	private String lieuNaissance; //Localité (Plus précis)
+	private String departementNaissance;
 	@Temporal(TemporalType.DATE) // Pour JPA. Signifie que dans la BD la date aura le type Date et non le type TimeStamp
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // Spring formate la date pour nous
 	private Date dateNaissance; 
@@ -70,14 +71,17 @@ public class Agent
 	@Column(length = 20, unique = true)
 	private String matricule;
 	@ManyToOne(fetch = FetchType.EAGER)	@JoinColumn(name = "ID_FONCTION")
-	private Fonction fonction = new Fonction();
+	private Fonction fonction;
+	@ManyToOne(fetch = FetchType.EAGER)	@JoinColumn(name = "ID_FONCTION_NOMINATION")
+	private Fonction fonctionNomination;
+	
 	@OneToOne @JoinColumn(name = "ID_POST")
 	@JsonIgnore
 	private Post post; 
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_EMPLOI") 
-	private Emploi emploi = new Emploi();
+	private Emploi emploi;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_GRADE")
-	private Grade grade = new Grade();
+	private Grade grade;
 	private String titre;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECT")
 	private UniteAdmin tutelleDirecte;
