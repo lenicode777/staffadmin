@@ -37,11 +37,14 @@
 	 			<div class="col-md-3 centered">
 					<div class="profile-pic">
 						<p><img id="photo-tag" th:src="@{'/staffadmin/agents/'+${visitedUser.agent.idAgent}+'/photo'}" class="img-circle"/></p>
-						<p>
-							<input type="file" id="photo" style="display: none;"/>
-							<button id="btn-choose-file" class="btn btn-theme"><i class="fa fa-check"></i> Choisir un fichier</button>
-							<button class="btn btn-theme02">Upload</button>
-						</p>
+						<div th:if="${authUser.idUser == visitedUser.idUser}">
+							<form th:action="'/staffadmin/uploadPhoto/'+${visitedUser.agent.idAgent}" method="post" enctype="multipart/form-data">
+															
+								<input type="file" name="photo" id="photo" style="display: none;"/>
+								<button type="button" id="btn-choose-file" class="btn btn-theme"><i class="fa fa-check"></i> Choisir un fichier</button>
+								<button type="submit" class="btn btn-theme02">Upload</button>
+							</form>
+						</div>
 					</div>
 				</div> 
 				

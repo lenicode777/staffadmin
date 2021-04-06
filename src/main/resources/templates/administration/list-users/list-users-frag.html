@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="list-users-frag">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					List des utilisateurs
+				</div>
+				<div class="panel-body">
+					<table id="tbl-list-users" class="table table-striped display" style="width:100%">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Login</th>
+								<th>Niveau de visibilité</th>
+								<th>Roles</th>
+								<th>Photo</th>
+								<th></th>
+							</tr>                        
+						</thead>
+						<tbody>
+							<tr th:each="user : ${listUsers}">
+								
+								<td style="vertical-align: middle;" th:text="${user.agent.nom}"></td>
+								<td style="vertical-align: middle;" th:text="${user.agent.prenom}"></td>
+								<td style="vertical-align: middle;" th:text="${user.username}"></td>
+								<td style="vertical-align: middle;" th:text="${user.idUaChampVisuel==null ? '' : user.uaChampVisuel}"></td>
+								<td style="vertical-align: middle;" ><span th:each="role, stat:${user.roles}" th:text="${stat.last ? role.role : role.role + ','}"></span></td>
+
+								<td style="text-align: center; vertical-align: middle;">
+									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/agents/'+${user.agent.idAgent}+'/photo'}" class="img-circle" width="40" height="40"></a></p>
+								</td>								
+								
+								<td style="vertical-align: middle;"> 
+																	
+									<div class="btn-group">
+										<button type="button" class="btn btn-theme dropdown-toggle"
+											data-toggle="dropdown">
+											Actions <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li>
+												<a th:href="'/staffadmin/administration/users/' + ${user.idUser}">
+													<i class="glyphicon glyphicon-eye-open"></i> Voire
+												</a>
+											</li>
+
+											<li>
+												<a th:href="'/staffadmin/administration/gestion-roles/form?matricule='+${user.agent.matricule}">
+													<i class="glyphicon glyphicon-edit"></i> Gérer les roles
+												</a>
+											</li>
+											<li class="divider"></li>								
+										</ul>
+									</div>
+								
+								</td>
+								
+
+								                                  
+							</tr>                              
+						</tbody>
+						<tfoot>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Login</th>
+								<th>Niveau de visibilité</th>
+								<th>Roles</th>
+								<th>Photo</th>
+								<th></th>
+								
+							</tr>                        
+						</tfoot>                              
+					</table> 
+				</div>
+			</div>			
+			
+      	</th:block>
+    </body>
+</html>

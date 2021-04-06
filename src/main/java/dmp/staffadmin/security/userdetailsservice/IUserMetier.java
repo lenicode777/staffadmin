@@ -1,6 +1,6 @@
 package dmp.staffadmin.security.userdetailsservice;
 
-import dmp.staffadmin.metier.interfaces.ICrudMetier;
+import dmp.staffadmin.metier.services.interfaces.ICrudMetier;
 
 public interface IUserMetier extends ICrudMetier<User>
 {

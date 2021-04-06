@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.entities.UniteAdmin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,9 +41,12 @@ public class User
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ID_AGENT")
 	private Agent agent;
-	private Long IdUaChampVisuel;
+	private Long idUaChampVisuel;
 
 	private boolean active;
+
+	@Transient
+	private UniteAdmin uaChampVisuel;
 
 	@Override
 	public String toString()

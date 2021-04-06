@@ -4,8 +4,8 @@
     <body>
         
 		<th:block th:fragment="pieces-jointes-frag">
-			<div class="col-sm-12">
-				
+		
+			<div th:if="${agent!=null}" class="col-sm-12">
 						<form  th:action="@{'/staffadmin/archivage/agents/'+${agent.idAgent}}" method="post" enctype="multipart/form-data">
 							
 							<div class="form-group">

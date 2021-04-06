@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import dmp.staffadmin.metier.interfaces.IAgentExistingRestController;
-import dmp.staffadmin.metier.interfaces.IAgentMetier;
+import dmp.staffadmin.metier.services.interfaces.IAgentExistingRestController;
+import dmp.staffadmin.metier.services.interfaces.IAgentMetier;
 @RestController
 public class AgentExistingRestController ///implements IAgentExistingRestController 
 {

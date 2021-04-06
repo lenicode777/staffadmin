@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dmp.staffadmin.dao.IAgentDao;
-import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
@@ -27,66 +26,61 @@ import dmp.staffadmin.security.userdetailsservice.User;
 import dmp.staffadmin.security.userdetailsservice.UserForm;
 
 @Controller
-public class SecurityController 
+public class SecurityController
 {
-	@Autowired private IUserMetier userMetier;
-	@Autowired private IUserDao userDao;
-	@Autowired private IRoleDao roleDao;
-	@Autowired private IAgentDao agentDao;
+	@Autowired
+	private IUserMetier userMetier;
+	@Autowired
+	private IUserDao userDao;
+	@Autowired
+	private IRoleDao roleDao;
+	@Autowired
+	private IAgentDao agentDao;
+
 	public String addRoleToUser(User user, Role role)
 	{
 		userMetier.addRoleToUser(user, role);
-		//user.addRole(role);
+		// user.addRole(role);
 		return null;
 	}
-	
+
 	@GetMapping(path = "/staffadmin/logout")
 	public String logout(HttpServletRequest request) throws ServletException
 	{
 		request.logout();
 		return "redirect:/login";
 	}
-	
+
 	@GetMapping(path = "/staffadmin/profil")
 	public String goToProfile(HttpServletRequest request, Model model, @RequestParam(defaultValue = "0") Long idAgent)
 	{
 		String username = request.getUserPrincipal().getName();
-		System.out.println("Username = " + username);
 		User authUser = userDao.findByUsername(username);
-		System.out.println("Auth user : " + "ID = "+ authUser.getIdUser());
-		System.out.println("Auth user : " + "username = "+ authUser.getUsername());
-		User visitedUser = null ;
-		System.out.println("USername = "+username);
-		System.out.println("IdAgent = "+ idAgent);
-		if(idAgent==null || idAgent==0)
+		System.out.println("AuthUser = " + authUser.getUsername() + authUser.getIdUser());
+		User visitedUser = null;
+		if (idAgent == null || idAgent == 0)
 		{
-			System.out.println("IdAgent is null");
-			visitedUser=authUser;
-		}
-		else
+			visitedUser = authUser;
+		} else
 		{
-			System.out.println("IdAgent is not null");
-			//Agent visitedAgent = agentDao.findById(idAgent).get();
 			visitedUser = userDao.findByAgentIdAgent(idAgent);
-			System.out.println("Visited user : " + "ID = "+ visitedUser.getIdUser());
-			System.out.println("Visited user : " + "username = "+ visitedUser.getUsername());
-			//visitedUser.setAgent(visitedAgent);
+			System.out.println("Visited user = " + visitedUser.getUsername() + visitedUser.getIdUser());
 		}
-		
-		List<UniteAdmin> tutellesHierarchieTree = visitedUser.getAgent().getTutelleDirecte()
-																		.getPatrentsStream()
-																		.filter(ua->!ua.getTypeUniteAdmin().getNomTypeUniteAdmin().equals(TypeUniteAdminEnum.DIRECTION_GENERALE.toString()))
-																		.collect(Collectors.toList());
-		
+
+		List<UniteAdmin> tutellesHierarchieTree = visitedUser
+				.getAgent().getTutelleDirecte().getPatrentsStream().filter(ua -> !ua.getTypeUniteAdmin()
+						.getNomTypeUniteAdmin().equals(TypeUniteAdminEnum.DIRECTION_GENERALE.toString()))
+				.collect(Collectors.toList());
+
 		model.addAttribute("tutellesHierarchieTree", tutellesHierarchieTree);
 		model.addAttribute("modelRoles", roleDao.findAll());
 		model.addAttribute("visitedUser", visitedUser);
 		model.addAttribute("authUser", authUser);
-		//model.addAttribute("userForm", new UserForm(user, "", "", ""));
-	
+		// model.addAttribute("userForm", new UserForm(user, "", "", ""));
+
 		return "user/profil";
 	}
-	
+
 	@GetMapping(path = "/staffadmin/change-password")
 	public String gotoChangePassword(HttpServletRequest request, Model model)
 	{
@@ -97,17 +91,17 @@ public class SecurityController
 		model.addAttribute("userForm", userForm);
 		model.addAttribute("formError", null);
 		model.addAttribute("displaySideMenu", authUser.getAgent().isActive());
-		
-		if(userForm.getUser().getAgent()==null)
+
+		if (userForm.getUser().getAgent() == null)
 		{
 			System.out.println("=========================NULL POINTER EXCEPTION======================");
 		}
 		System.out.println("Matricule = " + userForm.getUser().getAgent().getMatricule());
-		
+
 		model.addAttribute("userForm", userForm);
 		return "user/change-password";
 	}
-	
+
 	@PostMapping(path = "/staffadmin/change-password")
 	public String changePassword(Model model, @ModelAttribute UserForm userForm)
 	{
@@ -115,17 +109,16 @@ public class SecurityController
 		try
 		{
 			userMetier.changePassword(userForm);
-		}
-		catch (Exception e) 
+		} catch (Exception e)
 		{
-			model.addAttribute("formError",e.getMessage());
+			model.addAttribute("formError", e.getMessage());
 			System.out.println(e.getMessage());
 			return "user/change-password";
 		}
-		
+
 		return "redirect:/staffadmin/logout";
 	}
-	
+
 	@ExceptionHandler(Exception.class)
 	public String exceptionHandler(Exception e, Model model)
 	{

@@ -33,7 +33,7 @@ import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.ModeEnum;
 import dmp.staffadmin.metier.exceptions.NominationException;
-import dmp.staffadmin.metier.interfaces.INominationMetier;
+import dmp.staffadmin.metier.services.interfaces.INominationMetier;
 import dmp.staffadmin.metier.validation.INominationValidation;
 import dmp.staffadmin.metier.validation.NominationValidation;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;

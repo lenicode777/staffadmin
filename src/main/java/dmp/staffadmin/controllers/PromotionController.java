@@ -27,7 +27,7 @@ import dmp.staffadmin.metier.entities.Grade;
 import dmp.staffadmin.metier.entities.Promotion;
 import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.metier.exceptions.PromotionException;
-import dmp.staffadmin.metier.interfaces.IPromotionMetier;
+import dmp.staffadmin.metier.services.interfaces.IPromotionMetier;
 import dmp.staffadmin.metier.validation.IValidation;
 import dmp.staffadmin.metier.validation.PromotionValidation;
 import dmp.staffadmin.utilities.Constants;

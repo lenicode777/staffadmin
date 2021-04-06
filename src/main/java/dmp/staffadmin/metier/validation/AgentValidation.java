@@ -16,9 +16,9 @@ import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.IGradeDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Emploi;
-import dmp.staffadmin.metier.interfaces.IEmploiMetier;
-import dmp.staffadmin.metier.interfaces.IFonctionMetier;
-import dmp.staffadmin.metier.interfaces.IGradeMetier;
+import dmp.staffadmin.metier.services.interfaces.IEmploiMetier;
+import dmp.staffadmin.metier.services.interfaces.IFonctionMetier;
+import dmp.staffadmin.metier.services.interfaces.IGradeMetier;
 import dmp.staffadmin.utilities.DateManager;
 
 @Service

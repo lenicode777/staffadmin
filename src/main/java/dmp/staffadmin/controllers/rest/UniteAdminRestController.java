@@ -20,8 +20,8 @@ import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.UniteAdminEnum;
-import dmp.staffadmin.metier.interfaces.IUniteAdminConfigService;
-import dmp.staffadmin.metier.interfaces.IUniteAdminMetier;
+import dmp.staffadmin.metier.services.interfaces.IUniteAdminConfigService;
+import dmp.staffadmin.metier.services.interfaces.IUniteAdminMetier;
 
 @RestController
 public class UniteAdminRestController 
