@@ -2,63 +2,68 @@ package dmp.staffadmin.metier.services.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.primefaces.shaded.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import dmp.staffadmin.metier.entities.Agent;
+import dmp.staffadmin.metier.constants.ArchivageConstants;
+import dmp.staffadmin.metier.exceptions.ArchivageException;
 import dmp.staffadmin.metier.services.interfaces.IArchivageMetier;
+import dmp.staffadmin.utilities.FileManager;
 
 @Service
-public class ArchivageMetier implements IArchivageMetier 
+public class ArchivageMetier implements IArchivageMetier
 {
 	@Override
 	public String getFileExtension(MultipartFile file)
 	{
-		String type = file.getContentType();
-		return "." + type.substring(type.lastIndexOf("/") +1 );
+		return "." + FilenameUtils.getExtension(file.getOriginalFilename());
 	}
-	
+
 	@Override
-	public void uploadFile(MultipartFile file, String destinationPath) 
+	public void uploadFile(MultipartFile file, String destinationPath) throws RuntimeException
 	{
 		long fileSize = file.getSize();
-		
-		if(fileSize>1000)
+		List<String> authorizedTypes = ArchivageConstants.DOCUMENT_AUTHORIZED_TYPE;
+
+		if (fileSize > ArchivageConstants.UPLOAD_MAX_SIZE)
 		{
-			throw new RuntimeException("Taille de fichier > 1 Mo");
+			throw new ArchivageException("Taille de fichier > " + (ArchivageConstants.UPLOAD_MAX_SIZE / 1000) + " Mo");
 		}
-		try 
+
+		// Si l'extension du fichier n'est pas contenu dans la liste des types
+		// authorisés
+		if (!authorizedTypes.stream().anyMatch(type -> type.equalsIgnoreCase(FileManager.getFileExtension(file))))
 		{
-			Files.write(Paths.get(System.getProperty("user.home")+destinationPath), file.getBytes());
-		} 
-		catch (IOException e) 
+			throw new ArchivageException("Type de fichier non pris en charge");
+		}
+		try
+		{
+			Files.write(Paths.get(destinationPath), file.getBytes());
+		} catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new RuntimeException("Erreur de chargement du fichier");
+			throw new ArchivageException("Erreur de chargement du fichier");
 		}
 	}
 
 	@Override
-	public byte[] downloadFile(String filePAth) 
+	public byte[] downloadFile(String filePAth)
 	{
-		File file = new File(System.getProperty("user.home")+filePAth);
+		File file = new File(filePAth);
 		Path path = Paths.get(file.toURI());
-		try 
+		try
 		{
 			return Files.readAllBytes(path);
-		} 
-		catch (IOException e) 
+		} catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new RuntimeException("Erreur de téléchargement");
-			
+			throw new ArchivageException("Erreur de téléchargement");
 		}
 	}
-
 }

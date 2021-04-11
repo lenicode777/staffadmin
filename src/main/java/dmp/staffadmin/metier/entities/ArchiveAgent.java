@@ -24,8 +24,8 @@ public class ArchiveAgent
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String type;
-	private String nom;
+	private String numArchive;
+	private String description;
 	private String path;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private TypeArchive typeArchive;

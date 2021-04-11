@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dmp.staffadmin.dao.IAgentDao;
+import dmp.staffadmin.dao.IArchiveAgentDao;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.security.userdetailsservice.IRoleDao;
@@ -36,6 +37,7 @@ public class SecurityController
 	private IRoleDao roleDao;
 	@Autowired
 	private IAgentDao agentDao;
+	private @Autowired IArchiveAgentDao archiveAgentDao;
 
 	public String addRoleToUser(User user, Role role)
 	{
@@ -72,6 +74,8 @@ public class SecurityController
 						.getNomTypeUniteAdmin().equals(TypeUniteAdminEnum.DIRECTION_GENERALE.toString()))
 				.collect(Collectors.toList());
 
+		model.addAttribute("listArchivesAgent",
+				archiveAgentDao.findByAgentIdAgent(visitedUser.getAgent().getIdAgent()));
 		model.addAttribute("tutellesHierarchieTree", tutellesHierarchieTree);
 		model.addAttribute("modelRoles", roleDao.findAll());
 		model.addAttribute("visitedUser", visitedUser);

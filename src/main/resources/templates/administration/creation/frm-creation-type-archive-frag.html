@@ -7,22 +7,28 @@
 
 <body>
     <th:block th:fragment="frm-creation-type-archive-frag">
-	 	<div th:if="${globalErrorMsg}" class="col-md-12">
-			
-			<div class="alert alert-danger">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<strong>Erreur!</strong> <span th:text="${globalErrorMsg}"></span>
-			</div>
-			
-		</div>   
+  
 		<div style="margin-bottom: 10px;">
 			<div class="panel panel-default">
 				<div class="panel-heading">Création d'un nouveau type d'archive</div>
 
 				<div class="panel-body">
 				
+					<div th:if="${typeArchiveErrorMsg}">
+						<div class="alert alert-danger">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							<span th:text="${typeArchiveErrorMsg}"></span>
+						</div>
+					</div> 					
+				
 					<div class="panel panel-default">
+					
+				
+					
 						<div class="panel-heading">
+						
+						
+						
 							<form method="post" th:object="${typeArchive}" class="form-inline" th:action="@{/staffadmin/administration/creation/typeArchive/save}">
 								<div class="form-group">
 									<input type="hidden" name="mode" th:value="${mode}"/>
@@ -35,24 +41,40 @@
 						</div>
 					</div>
 					
-					<table id="tbl-typeArchive" class="table table-condensed">
-						<thead>
-							<tr>
-								<th>Type d'archive</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="typeArch:${listTypeArchive}">
-								<td  th:text="${typeArch.nom}"></td>
-								<td>
-									<a class="btn btn-orange" th:href="'/staffadmin/administration/creation/typeArchive/form?mode=update&&idTypeArchive='+${typeArch.id}">
-										<i class="glyphicon glyphicon-edit"></i> Modifier
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a data-toggle="collapse" href="#tbl-tbl-typeArchive">Liste des Type d'archive</a> 
+						</div>
+						<div class="panel-body panel-collapse collapse in" id="tbl-tbl-typeArchive">
+							<table id="tbl-typeArchive" class="table table-condensed">
+								<thead>
+									<tr>
+										<th>Type d'archive</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="typeArch:${listTypeArchive}">
+										<td  th:text="${typeArch.nom}"></td>
+										<td>
+											<a class="btn btn-orange" th:href="'/staffadmin/administration/creation/typeArchive/form?mode=update&&idTypeArchive='+${typeArch.id}">
+												<i class="glyphicon glyphicon-edit"></i> Modifier
+											</a>
+										</td>
+										
+										<td>
+											<a class="btn btn-orange" th:href="'/staffadmin/administration/creation/typeArchive/delete/'+${typeArch.id}">
+												<i class="glyphicon glyphicon-trash"></i> Supprimer
+											</a>
+										</td>										
+									</tr>
+								</tbody>
+							</table>						
+						</div>
+					
+					</div>
+							
 				
 				</div>			
 			

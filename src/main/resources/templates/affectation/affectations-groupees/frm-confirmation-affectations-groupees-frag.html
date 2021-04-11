@@ -59,7 +59,8 @@
                                 <th></th>
 
                                 <th class="text-success">Date d'affectation</th>
-                                <th class="text-danger" th:text="${affectationGroupeeForm.dateAffectation}"></th>
+                                <th class="text-danger" th:text="${#dates.format(affectationGroupeeForm.dateAffectation, 'dd-MM-yyyy')}"></th>
+                                
                                 <input type="hidden" th:field="*{dateAffectation}">
                             </tr>
                         </tbody>

@@ -22,10 +22,6 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findByActiveTrue();
 	public List<Agent> findByActiveFalse();
 	
-	//public List<Agent> findByDateDepartRetraite(Date dateDepartRetraite);
-	//public List<Agent> findByDateDepartRetraiteBefore(Date dateDepartRetraite);
-	//public List<Agent> findByDateDepartRetraiteAfter(Date dateDepartRetraite);
-
 	public List<Agent> findByDateNaissance(Date dateNaissance);
 	public List<Agent> findByDateNaissanceBefore(Date dateNaissance);
 	public List<Agent> findByDateNaissanceAfter(Date dateNaissance);

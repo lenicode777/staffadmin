@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<th:block th:fragment="search-bar-frag">
+                    <div class="panel panel-default">
+                    	<div class="panel-heading">
+                    		<form  class="form-inline" action="/staffadmin/archivage/agents">
+	                    		<div class="form-group">
+	                    			<label for="matricule" class="control-label">Matricule</label>
+	                    			<input placeholder="matricule" class="form-control" name="matricule" id="matricule"/>
+	                    			<button type="submit" class="btn btn-primary">
+	                    				<i class="glyphicon glyphicon-search"></i>
+	                    			</button>
+	                    		</div>
+                    		</form>
+                    	</div>
+                    </div>
+	</th:block>
+</body>
+</html>

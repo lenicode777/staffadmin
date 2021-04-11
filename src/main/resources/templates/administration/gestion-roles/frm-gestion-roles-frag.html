@@ -15,7 +15,7 @@
 			</div>
 			
 		</div>   
-		<div class="col-md-12 main-content-block-item" style="margin-bottom: 10px;">
+		<div class="col-md-12" style="margin-bottom: 10px;">
 			<form class="form-inline" action="/staffadmin/administration/gestion-roles/form">
 				<div class="form-group">
 					<label class="control-label" for="matricule">Matricule</label>
@@ -25,7 +25,7 @@
 			</form>
 		</div>
 		
-		<div class="col-md-12 main-content-block-item" style="margin-bottom: 10px;">
+		<div class="col-md-12" style="margin-bottom: 10px;">
 			<div class="panel panel-default">
 				<div class="panel-heading">Gestion des roles</div>
 				<div class="panel-body">
@@ -43,7 +43,7 @@
 									    <th style="width: 50%; vertical-align: middle;" ></th>
 									    <td style="width: 50%; vertical-align: middle;" >
 												<span class="pull-right" th:if="${agent!=null}">
-													<img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/agents/'+ ${agent.idAgent}+'/photo'}" class="img-circle pull-right" style="height: 35px; width: 35px";>
+													<img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/photo-agent/'+ ${agent.idAgent}}" class="img-circle pull-right" style="height: 35px; width: 35px";>
 												</span>					    
 									    </td>
 								  	</tr>

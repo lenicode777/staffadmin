@@ -11,11 +11,9 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
+import dmp.staffadmin.dao.ITypeArchiveDao;
 import dmp.staffadmin.metier.entities.Agent;
-import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.metier.services.interfaces.IArchivageMetier;
 
 @Controller
@@ -34,56 +32,7 @@ public class ArchivageController
 	private IAgentDao agentDao;
 	@Autowired
 	private IArchivageMetier archivageMetier;
-
-	// @PreAuthorize("hasRole('DRH')")
-	@GetMapping(path = "/staffadmin/archivage/agents")
-	public String goToArchivageAgent(@RequestParam(defaultValue = "", name = "matricule") String matricule, Model model)
-	{
-		Agent agent;
-		if (matricule.equals(""))
-		{
-			agent = null;
-		} else
-		{
-			if (agentDao.existsByMatricule(matricule))
-			{
-				agent = agentDao.findByMatricule(matricule);
-			} else
-			{
-				model.addAttribute(ErrorMsgEnum.ERROR_MSG.toString(), "Matricule inexistant!");
-				agent = null;
-			}
-		}
-
-		model.addAttribute("agent", agent);
-		model.addAttribute("typeFile", "");
-		return "archivage/agent/archivage-agent";
-	}
-
-	@GetMapping(path = "/staffadmin/agents/{idAgent}/{typeFichier}", produces = { MediaType.IMAGE_JPEG_VALUE,
-			MediaType.IMAGE_PNG_VALUE })
-	public @ResponseBody byte[] getAgentFile(@PathVariable(name = "idAgent") Long idAgent,
-			@PathVariable(name = "typeFichier") String typeFichier)
-	{
-		Agent agent = agentDao.findById(idAgent).get();
-		String fileName;
-		try
-		{
-
-			Class classAgent = Class.forName("dmp.staffadmin.metier.entities.Agent");
-			Method agentGetFileNameMethod = classAgent.getMethod("getNom" + StringUtils.capitalize(typeFichier));
-			fileName = (String) agentGetFileNameMethod.invoke(agent);
-			String destinationPath = System.getProperty("user.home")
-					+ "/workspace/cefive/staffadmin/docs/uploads/agent/" + typeFichier + "/" + fileName;
-			File file = new File(destinationPath);
-			Path path = Paths.get(file.toURI());
-			return Files.readAllBytes(path);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			throw new RuntimeException("Erreur de téléchargement");
-		}
-	}
+	private @Autowired ITypeArchiveDao typeArchiveDao;
 
 	// @GetMapping(path = "/staffadmin/agents/{idAgent}/photo", produces =
 	// {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
@@ -95,49 +44,6 @@ public class ArchivageController
 				System.getProperty("user.home") + "/workspace/cefive/staffadmin/docs/uploads/agent/photo/" + nomPhoto);
 		Path path = Paths.get(file.toURI());
 		return Files.readAllBytes(path);
-	}
-
-	@PostMapping(path = "/staffadmin/archivage/agents/{idAgent}/{typeFichier}")
-	@Transactional
-	public String uploadFile(Model model, @RequestParam MultipartFile file, @PathVariable Long idAgent,
-			@PathVariable String typeFichier) throws IOException, ClassNotFoundException, NoSuchMethodException,
-			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
-	{
-		System.out.println("========================");
-		System.out.println("Extension : " + archivageMetier.getFileExtension(file));
-		System.out.println(idAgent);
-		System.out.println("========================");
-
-		long fileSize = file.getSize();
-		String fileExtension = archivageMetier.getFileExtension(file);
-		try
-		{
-			if (fileSize > 1000000)
-				throw new RuntimeException("Taille de fichier > 1 Mo");
-			if (!Arrays.asList(".jpeg", ".jpg", ".png", ".pdf").contains(fileExtension.toLowerCase()))
-				throw new RuntimeException("Type de fichier non pris en charge");
-		} catch (Exception e)
-		{
-			model.addAttribute("errorMsg", e.getMessage());
-		}
-
-		Class classAgent = Class.forName("dmp.staffadmin.metier.entities.Agent");
-		Method agentSetFileNameMethod = classAgent.getMethod("setNom" + StringUtils.capitalize(typeFichier),
-				String.class);
-		Method agentSetFileMethod = classAgent.getMethod("set" + StringUtils.capitalize(typeFichier) + "File",
-				MultipartFile.class);
-		Method agentGetFileNameMethod = classAgent.getMethod("getNom" + StringUtils.capitalize(typeFichier));
-		Method agentGetFileMethod = classAgent.getMethod("get" + StringUtils.capitalize(typeFichier) + "File");
-		Agent agent = agentDao.findById(idAgent).get();
-		agentSetFileNameMethod.invoke(agent, typeFichier + "_" + agent.getIdAgent() + fileExtension);
-		agentSetFileMethod.invoke(agent, file);
-		// agent.setPhotoPath(typeFichier + "_" + idAgent + ".jpeg");
-		// MultipartFile file = (MultipartFile)agentGetFileMethod.invoke(agent);
-		agentDao.save(agent);
-		Files.write(Paths.get(System.getProperty("user.home") + "/workspace/cefive/staffadmin/docs/uploads/agent/"
-				+ typeFichier + "/" + agentGetFileNameMethod.invoke(agent)), file.getBytes());
-		model.addAttribute("agent", agent);
-		return "archivage/agent/archivage-agent.html";
 	}
 
 	@PostMapping(path = "/staffadmin/archivage/agents/{idAgent}")

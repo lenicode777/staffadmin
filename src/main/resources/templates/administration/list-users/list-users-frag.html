@@ -31,7 +31,7 @@
 								<td style="vertical-align: middle;" ><span th:each="role, stat:${user.roles}" th:text="${stat.last ? role.role : role.role + ','}"></span></td>
 
 								<td style="text-align: center; vertical-align: middle;">
-									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/agents/'+${user.agent.idAgent}+'/photo'}" class="img-circle" width="40" height="40"></a></p>
+									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/photo-agent/'+${user.agent.idAgent}}" class="img-circle" width="40" height="40"></a></p>
 								</td>								
 								
 								<td style="vertical-align: middle;"> 

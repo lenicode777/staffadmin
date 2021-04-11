@@ -57,7 +57,7 @@
                             <tr>
                                 <th class="text-success">DATE :</th>
                                 <th>
-                                    <span th:title="${affectation.dateAffectation}" class="text-danger" th:text="#dates.format(${affectation.dateAffectation})"></span>
+                                    <span th:title="${affectation.dateAffectation}" class="text-danger" th:text="${#dates.format(affectation.dateAffectation, 'dd-MM-yyyy')}"></span>
                                     <input type="hidden" th:field="*{dateAffectation}" />
                                 </th>
                                 <th></th>

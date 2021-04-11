@@ -9,16 +9,43 @@
 
 	<th:block th:fragment="docs-admins-frag">
 			    		
-                        <div class="main-content-block-item">
-					    	<div  class="panel panel-primary">
-					    		<div class="panel-heading">
-					    			<h3 class="panel-title"><a href="#docs-admins" data-toggle="collapse">Documents administratifs</a></h3>
-					    		</div>	
-					    		<div class="panel-body panel-collapse collapse" id="docs-admins" >			    	
-						    		
-					    		</div>
-					    	</div>	
-					    </div>	
+    	<div class="main-content-block-item">
+			<div  class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"><a href="#docs-admins" data-toggle="collapse">Documents administratifs</a></h3>
+				</div>	
+				<div class="panel-body panel-collapse collapse in" id="docs-admins" >			    	
+					<table id="tbl-typeArchive" class="table table-condensed">
+						<thead>
+							<tr>
+								<th>Type d'archive</th>
+								<th>N° Act</th>
+								<td>Description</td>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="archiveAgent:${listArchivesAgent}">
+								<td  th:text="${archiveAgent.typeArchive.nom}"></td>
+								<td th:text="${archiveAgent.numArchive}"></td>
+								<td th:text="${archiveAgent.description}"></td>		
+								<td>
+									<a title="Télécharger" class="btn btn-orange" th:href="@{'/staffadmin/archiveAgent/download/'+${archiveAgent.id}}">
+												<i style="color: green;" class="glyphicon glyphicon-download-alt"></i>
+									</a>
+								</td>
+								
+								<td>
+									<a title="Supprimer" class="btn btn-orange" th:href="@{'/staffadmin/archiveAgent/delete/'+${archiveAgent.id}+'?idAgent='+${archiveAgent.agent.idAgent}}">
+										<i style="color: red;" class="glyphicon glyphicon-trash"></i>
+									</a>
+								</td>																		
+							</tr>
+						</tbody>
+					</table>						    		
+				</div>
+			</div>	
+		</div>	
 	</th:block>
 
 </body>

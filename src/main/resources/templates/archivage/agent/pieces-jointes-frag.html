@@ -2,33 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head><meta charset="UTF-8"/></head>
     <body>
-        
 		<th:block th:fragment="pieces-jointes-frag">
-		
-			<div th:if="${agent!=null}" class="col-sm-12">
-						<form  th:action="@{'/staffadmin/archivage/agents/'+${agent.idAgent}}" method="post" enctype="multipart/form-data">
-							
+			<div th:if="${agent!=null}" class="jumbotron" style="padding: 20px 10px;">
+				<div class="container">
+					<form th:object="${archiveAgent}" th:action="@{/staffadmin/archivage/agent/upload}" method="post" enctype="multipart/form-data">
+						<input type="hidden" th:field="*{agent.idAgent}" />
+						<div class="col-md-4">
 							<div class="form-group">
-								<label>Choisir le type de fichier</label>
-								<select class="form-control" name="typeFile" id="typeFile" th:value="${typeFile}">
+								<label for="typeFile">Choisir le type de fichier</label>
+								<select th:field="*{typeArchive.id}" required="required" class="form-control" name="typeFile" id="typeFile" th:value="${typeFile}">
 									<option value=""></option>
-									<option value="noteServiceDAAF">Note de service de la DAAF</option>
-								    <option value="noteServiceDGBF">Note de service de la DGBF</option>
-								    <option value="certificatService1">Certificat de première prise de service</option>
-								    <option value="arreteNomination">Arrêté de nomination</option>
-								    <option value="decisionAttente">Décision d'attente</option>
-								    <option value="cv">CV</option>
-								  	<option value="photo">Photo</option>
+									<option th:each="typeArchive:${typesArchive}" th:value="${typeArchive.id}" th:text="${typeArchive.nom}"></option>
 								</select>
-								
-								<input style="margin: 20px 0px;" type="file" class="form-control" id="noteServiceDAAF" name="file" required="required"/>
-								<button class="btn btn-success" id="btnUpload" disabled="disabled">Upload</button>
-							</div>	
-													
-						</form>
-			
-			</div>
-
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label class="control-label" for="numArchive">Numéro de l'act</label>
+								<input id="numArchive" class="form-control" type="text" th:field="*{numArchive}">
+							</div>
+						</div>			
+						<div class="col-md-4">
+							<div class="form-group">
+								<label class="control-label" for="file">Choisir le fichier</label>
+								<input th:field="*{file}"  type="file" class="form-control" id="file" required="required"/>
+							</div>
+						</div>	
+						<div class="col-md-12">
+							<div class="form-group">
+								<label class="control-label" for="description">Description</label>
+								<textarea th:field="*{description}"  class="form-control" id="description"></textarea>
+							</div>							
+						</div>
+						
+						<div class="col-md-12">
+							<button id="btnUpload" type="submit" disabled="disabled" class="pull-right btn btn-success btn-lg">Upload</button>
+						</div>
+					</form>
+				</div>
+			</div>		
       	</th:block>
     </body>
 </html>

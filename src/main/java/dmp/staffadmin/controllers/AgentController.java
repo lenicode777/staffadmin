@@ -1,5 +1,6 @@
 package dmp.staffadmin.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import dmp.staffadmin.dao.IAgentDao;
@@ -33,13 +35,16 @@ import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.IGradeDao;
 import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
+import dmp.staffadmin.metier.constants.ArchivageConstants;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Emploi;
 import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
+import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
+import dmp.staffadmin.metier.exceptions.ArchivageException;
 import dmp.staffadmin.metier.services.interfaces.IAgentMetier;
 import dmp.staffadmin.metier.services.interfaces.IArchivageMetier;
 import dmp.staffadmin.metier.services.interfaces.IEmploiMetier;
@@ -239,25 +244,6 @@ public class AgentController
 	@GetMapping(path = "/staffadmin/frm-agent")
 	public String goToFormAgent(Model model, @RequestParam(defaultValue = "0") Long idAgent)
 	{
-		/*
-		 * String nomEmploi=""; String nomFonction=""; String nomGrade="";
-		 * 
-		 * List<Emploi> emplois = emploiDao.findAll(); List<Fonction> fonctions =
-		 * fonctionDao.findAll(); List<Grade> grades = gradeDao.findAll();
-		 * 
-		 * Map modelAttributes = new HashMap<>(); Agent agent = new Agent();
-		 * agent.setEmploi(new Emploi()); agent.setFonction(new Fonction());
-		 * agent.setGrade(new Grade());
-		 * 
-		 * modelAttributes.put("agent", agent); modelAttributes.put("emplois",
-		 * emploiDao.findAll()); modelAttributes.put("fonctions",
-		 * fonctionDao.findAll()); modelAttributes.put("grades", gradeDao.findAll());
-		 * modelAttributes.put("nomEmploi", nomEmploi);
-		 * modelAttributes.put("nomFonction", nomFonction);
-		 * modelAttributes.put("nomGrade", nomGrade);
-		 * model.addAllAttributes(modelAttributes);
-		 */
-
 		Agent agent = new Agent();
 		Map modelAttributes = new HashMap<>();
 		modelAttributes.put("agent", agent);
@@ -271,12 +257,10 @@ public class AgentController
 			model.addAttribute("mode", "new");
 			model.addAllAttributes(modelAttributes);
 			return "agent/frm/frm-agent";
-			// return "test";
 		} else
 		{
 			model.addAttribute("mode", "update");
 			agent = agentDao.findById(idAgent).get();
-			// agent.setIdAgent(idAgent);
 			modelAttributes.put("agent", agent);
 			model.addAllAttributes(modelAttributes);
 			return "agent/frm/frm-update-agent";
@@ -334,17 +318,21 @@ public class AgentController
 		// return "redirect:/staffadmin/frm-agent";
 	}
 
-	@GetMapping(path = "/photo-agent/{idAgent}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
-	public byte[] getPhoto(@PathVariable("idAgent") Long idAgent) throws IOException
+	@GetMapping(path = "/staffadmin/photo-agent/{idAgent}", produces = { MediaType.IMAGE_PNG_VALUE,
+			MediaType.IMAGE_JPEG_VALUE })
+	public @ResponseBody byte[] getPhoto(@PathVariable("idAgent") Long idAgent) throws IOException
 	{
 		Agent agent = agentDao.findById(idAgent).get();
-		return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/ecom/products/" + agent.getNomPhoto()));
+		return Files.readAllBytes(
+				Paths.get(new File(ArchivageConstants.AGENT_UPLOADS_DIR + "/photo/" + agent.getNomPhoto()).toURI()));
 	}
 
 	@PostMapping(path = "/staffadmin/uploadPhoto/{idAgent}")
 	public String uploadPhoto(Model model, HttpServletRequest request, @RequestParam(name = "photo") MultipartFile file,
 			@PathVariable Long idAgent) throws IOException
 	{
+		long maxSize = ArchivageConstants.UPLOAD_MAX_SIZE;
+		List<String> authorizedTypes = ArchivageConstants.PHOTO_AUTHORIZED_TYPE;
 
 		if (file.isEmpty())
 		{
@@ -354,19 +342,19 @@ public class AgentController
 		String fileExtension = archivageMetier.getFileExtension(file);
 		try
 		{
-			if (fileSize > 1000000)
-				throw new RuntimeException("Taille de fichier > 1 Mo");
-			if (!Arrays.asList(".jpeg", ".jpg", ".png", ".pdf").contains(fileExtension.toLowerCase()))
-				throw new RuntimeException("Type de fichier non pris en charge");
+			if (fileSize > maxSize)
+				throw new ArchivageException("Taille de fichier > " + (maxSize / 1048576) + "Mo");
+
+			if (!authorizedTypes.stream().anyMatch(type -> type.equalsIgnoreCase(fileExtension)))
+				throw new ArchivageException("Type de fichier non pris en charge");
 		} catch (Exception e)
 		{
-			model.addAttribute("errorMsg", e.getMessage());
+			model.addAttribute(ErrorMsgEnum.ERROR_MSG.toString(), e.getMessage());
 		}
 		Agent agent = agentDao.findById(idAgent).get();
 		agent.setNomPhoto(idAgent + fileExtension);
 
-		Files.write(Paths.get(System.getProperty("user.home") + "/workspace/cefive/staffadmin/docs/uploads/agent/photo/"
-				+ agent.getNomPhoto()), file.getBytes());
+		Files.write(Paths.get(ArchivageConstants.AGENT_UPLOADS_DIR + "/photo/" + agent.getNomPhoto()), file.getBytes());
 
 		agentDao.save(agent);
 

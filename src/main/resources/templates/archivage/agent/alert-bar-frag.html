@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<th:block th:fragment="alert-bar-frag">
+    	<div class="alert alert-danger col-lg-12 mb-3" th:if="${errorMsg}">
+        	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Erreur de saisie : </strong> 
+            <span th:text="${errorMsg}"></span>
+        </div>
+	</th:block>
+</body>
+</html>

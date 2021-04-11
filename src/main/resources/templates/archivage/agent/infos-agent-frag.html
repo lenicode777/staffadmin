@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<th:block th:fragment="infos-agent-frag">
+		<!-- WEATHER-2 PANEL -->
+		
+		<table style="margin-top: 10px;" th:if="${agent!=null}" class="table table-striped">
+			<tr style="height: 40px;">
+				<th style="vertical-align: middle;">Nom</th>
+				<td style="vertical-align: middle;" th:text="${agent.nom}"></td>
+									    
+				<td style="width: 15%;"></td>
+									    
+				<th style="vertical-align: middle;">Prénom</th>
+				<td style="vertical-align: middle;" th:text="${agent.prenom}"></td>
+			</tr>
+								  	
+			<tr style="height: 40px;">
+				<th style="vertical-align: middle;">Matricule</th>
+				<td style="vertical-align: middle;" th:text="${agent.matricule}"></td>
+								  	
+				<td></td>
+								  	
+				<th style="vertical-align: middle;">Post</th>
+				<td style="vertical-align: middle;" th:text="${agent.fixeBureau}"></td>
+			</tr>					  	
+								  	
+								  	
+			<tr style="height: 40px;">
+				<th style="vertical-align: middle;">Fonction</th>
+				<td style="vertical-align: middle;" th:text="${agent.fonction.nomFonction}"></td>
+									    
+				<td></td>
+									    
+				<th style="vertical-align: middle;">Emploi</th>
+				<td style="vertical-align: middle;" th:text="${agent.emploi.nomEmploi}"></td>
+			</tr>								  	
+								  								  	
+								  	
+			<tr style="height: 40px;">
+				<th style="vertical-align: middle;">Grade</th>
+				<td style="vertical-align: middle;" th:text="${agent.grade.nomGrade}"></td>
+								  	
+				<td></td>
+								  	
+				<th style="vertical-align: middle;">Service</th>
+				<td style="ertical-align: middle;" th:text="${agent.tutelleDirecte}"></td>
+			</tr>	
+								  	
+			<tr style="height: 40px;">
+				<th style="vertical-align: middle;">Email Professionnel</th>
+				<td style="vertical-align: middle;" th:text="${agent.emailPro}"></td>
+								  	
+				<td></td>
+								  	
+				<th style="vertical-align: middle;">Email</th>
+				<td style="vertical-align: middle;" th:text="${agent.email}"></td>
+			</tr>		  						  	
+		</table>
+	</th:block>
+</body>
+</html>

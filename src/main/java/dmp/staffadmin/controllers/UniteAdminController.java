@@ -24,6 +24,7 @@ import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.ITypeUniteAdminDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
+import dmp.staffadmin.metier.constants.DateFormatConstants;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
@@ -36,7 +37,6 @@ import dmp.staffadmin.metier.services.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.IUniteAdminValidation;
 import dmp.staffadmin.security.userdetailsservice.IUserDao;
 import dmp.staffadmin.security.userdetailsservice.User;
-import dmp.staffadmin.utilities.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -160,7 +160,7 @@ public class UniteAdminController
 		if (idUniteAdmin == 0) // Si l'identifiant fournit dans le path == 0 alors on fait un forward vers le
 								// formulaire new UniteAdmin
 		{
-			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_FROM_HTML_INPUT, Locale.US);
+			SimpleDateFormat sdf = new SimpleDateFormat(DateFormatConstants.DATE_FORMAT_FROM_HTML_INPUT, Locale.US);
 
 			if (!appellation.equals(""))
 				uniteAdmin.setAppellation(appellation);

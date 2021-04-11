@@ -56,35 +56,24 @@
 
     <body>
         <div layout:fragment="content">
-                
-                    <div class="alert alert-danger col-lg-12 mb-3" th:if="${errorMsg}">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <strong>Erreur de saisie : </strong> 
-                        <span th:text="${errorMsg}"></span>
-                    </div>
-                    
-                    <div class="panel panel-default">
-                    	<div class="panel-heading">
-                    		<form  class="form-inline" action="/staffadmin/archivage/agents">
-	                    		<div class="form-group">
-	                    			<label for="matricule" class="control-label">Matricule</label>
-	                    			<input placeholder="matricule" class="form-control" name="matricule" id="matricule"/>
-	                    			<button type="submit" class="btn btn-primary">
-	                    				<i class="glyphicon glyphicon-search"></i>
-	                    			</button>
-	                    		</div>
-                    		</form>
-                    	</div>
-                    </div>                    
-
-                    <th:block th:fragment="pieces-jointes-frag">
-						<form enctype="multipart/form-data" method="post" id="archivage-form" th:action=" ${agent}!=null ? '/staffadmin/archivage/agents/'+${agent.idAgent} : '#'">                               
-                   			<th:block th:replace="archivage/agent/agent-profile-card-frag.html::agent-profile-card-frag"></th:block>
-                 		</form>
-                    </th:block>
-   
-
-
+			<th:block th:replace="archivage/agent/alert-bar-frag.html::alert-bar-frag"></th:block>
+			<th:block th:replace="archivage/agent/search-bar-frag.html::search-bar-frag"></th:block>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Archivage
+					<span class="pull-right">
+						<span class="pull-right" th:if="${agent!=null}">
+							<img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/photo-agent/'+ ${agent.idAgent}}" class="img-circle pull-right" style="height: 35px; width: 35px";>
+						</span>	
+					</span>
+				</div>	
+				<div  class="panel-body" >
+					<th:block th:if="${agent!=null}" th:replace="archivage/agent/infos-agent-frag.html::infos-agent-frag"></th:block>
+					<th:block th:if="${agent!=null}" th:replace="archivage/agent/pieces-jointes-frag.html::pieces-jointes-frag"></th:block>
+				</div>
+			</div>
+			  
         </div>
         <div layout:fragment="js-specifics-dependancies">
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

@@ -9,7 +9,7 @@
             <ul class="sidebar-menu" id="nav-accordion">
               <!-- =======Photo de l'utilisateur======== --> 
 <!--               <span th:text="${#request.userPrincipal.principal.agent.nom + ' ' + #request.userPrincipal.principal.agent.prenom}"></span> -->
-              <p class="centered"><a th:href="@{/staffadmin/profil}"><img th:src="@{'/staffadmin/agents/'+${#request.userPrincipal.principal.agent.idAgent}+'/photo'}" class="img-circle" height="80" width="80"></a></p>
+              <p class="centered"><a th:href="@{/staffadmin/profil}"><img th:src="@{'/staffadmin/photo-agent/'+${#request.userPrincipal.principal.agent.idAgent}}" class="img-circle" height="80" width="80"></a></p>
               <h5 class="centered"><span th:text="${#request.userPrincipal.principal.agent.nom + ' ' + #request.userPrincipal.principal.agent.prenom}"></span></h5>
               <!-- =======Fin Photo de l'utilisateur======== --> 
                 

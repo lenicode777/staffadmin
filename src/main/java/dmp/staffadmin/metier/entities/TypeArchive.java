@@ -21,7 +21,7 @@ public class TypeArchive
 	private Long id;
 	private String nom;
 	private String typeArchiveDir;
-
+	private String typeArchivePath;
 	@Transient
 	private Object entity;
 }
