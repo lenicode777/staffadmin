@@ -73,7 +73,7 @@
 								<p>
 									<b>Le Responsable</b>
 									<a th:href="@{/staffadmin/profil(idAgent=${visitedUniteAdmin.postManager.agent.idAgent})}">
-										<img alt="Photo" th:title="${visitedUniteAdmin.postManager.agent}" th:src="@{'/staffadmin/agents/'+${visitedUniteAdmin.postManager.agent.idAgent}+'/photo'}" class="img-circle"/>
+										<img alt="Photo" th:title="${visitedUniteAdmin.postManager.agent}" th:src="@{'/staffadmin/photo-agent/'+${visitedUniteAdmin.postManager.agent.idAgent}}" class="img-circle"/>
 									</a> <br/>
 									<b th:text="${visitedUniteAdmin.postManager.agent}"></b>
 									

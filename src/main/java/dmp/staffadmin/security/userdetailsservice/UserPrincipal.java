@@ -3,6 +3,7 @@ package dmp.staffadmin.security.userdetailsservice;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,67 +16,63 @@ import lombok.Data;
 public class UserPrincipal implements UserDetails
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private User user;
-	//@Autowired private IRoleDao roleDao;
-	
-	public UserPrincipal(User user) 
+
+	public UserPrincipal(User user)
 	{
 		this.user = user;
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() 
+	public Collection<? extends GrantedAuthority> getAuthorities()
 	{
-		/*user.getRoles().forEach(role->
-		{
-			System.out.println(role.getIdRole());
-		});*/
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		//List<Role> roles = roleDao.findByUsers_Username(user.getUsername());
-		user.getRoles().forEach(role->
-		{
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
-		});
+		authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+				.collect(Collectors.toList());
+		/*
+		 * user.getRoles().forEach(role -> { authorities.add(new
+		 * SimpleGrantedAuthority("ROLE_" + role.getRole())); });
+		 */
 		return authorities;
 	}
 
 	@Override
-	public String getPassword() 
+	public String getPassword()
 	{
 		return user.getPassword();
 	}
 
 	@Override
-	public String getUsername() 
+	public String getUsername()
 	{
 		return user.getUsername();
 	}
 
 	@Override
-	public boolean isAccountNonExpired() 
+	public boolean isAccountNonExpired()
 	{
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked() 
+	public boolean isAccountNonLocked()
 	{
 		return true;
 	}
 
 	@Override
-	public boolean isCredentialsNonExpired() 
+	public boolean isCredentialsNonExpired()
 	{
 		return true;
 	}
 
 	@Override
-	public boolean isEnabled() 
+	public boolean isEnabled()
 	{
 		return user.isActive();
 	}
-	
+
 	public Agent getAgent()
 	{
 		return user.getAgent();

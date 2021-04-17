@@ -34,7 +34,7 @@
 								<td th:text="${agent.grade.nomGrade}"></td>
 								<td th:text="${agent.tutelleDirecte}"></td>
 								<td>
-									<p class="centered"><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><img th:title="${agent}" th:src="@{'/staffadmin/agents/'+${agent.idAgent}+'/photo'}" class="img-circle" width="40" height="40"></a></p>
+									<p class="centered"><a th:href="@{/staffadmin/profil(idAgent=${agent.idAgent})}"><img th:title="${agent}" th:src="@{'/staffadmin/photo-agent/'+${agent.idAgent}}" class="img-circle" width="40" height="40"></a></p>
 								</td>
 								<td style="text-align: center; vertical-align: middle;">
 									<div class="btn-group pull-right">

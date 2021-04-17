@@ -87,7 +87,7 @@
                             <div class="panel-heading">
                                 Enregistrer une nouvelle nomination
                                 <span th:if="${nomination}">
-                                	<img th:if="${nomination.agentNomme}" style="height: 3%; width: 3%;" th:title="${nomination.agentNomme}" th:src="@{'/staffadmin/agents/'+ ${nomination.agentNomme.idAgent}+'/photo'}" class="img-circle pull-right" height="80" width="80">
+                                	<img th:if="${nomination.agentNomme}" style="height: 3%; width: 3%;" th:title="${nomination.agentNomme}" th:src="@{'/staffadmin/photo-agent/'+ ${nomination.agentNomme.idAgent}}" class="img-circle pull-right" height="80" width="80">
                             	</span>
                             </div>
                             <div class="panel-body">
@@ -105,7 +105,7 @@
                                 <div class="panel-heading">
                                 	Enregistrer une nouvelle promotion
                                 	<span th:if="${promotion}">
-                                		<img th:if="${promotion.agentPromu}" style="height: 3%; width: 3%;" th:title="${promotion.agentPromu}" th:src="@{'/staffadmin/agents/'+ ${promotion.agentPromu.idAgent}+'/photo'}" class="img-circle pull-right" height="80" width="80">
+                                		<img th:if="${promotion.agentPromu}" style="height: 3%; width: 3%;" th:title="${promotion.agentPromu}" th:src="@{'/staffadmin/photo-agent/'+ ${promotion.agentPromu.idAgent}}" class="img-circle pull-right" height="80" width="80">
                             		</span>
                                 </div>
                                 <div class="panel-body">
