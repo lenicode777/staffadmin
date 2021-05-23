@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +30,9 @@ import dmp.staffadmin.metier.exceptions.AffectationException;
 import dmp.staffadmin.metier.exceptions.AuthorityException;
 import dmp.staffadmin.metier.services.interfaces.IAffectationMetier;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminConfigService;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
-import dmp.staffadmin.security.userdetailsservice.IUserMetier;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.dao.AppUserDao;
+import dmp.staffadmin.security.model.AppUser;
+import dmp.staffadmin.security.services.IUserMetier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,7 +44,7 @@ public class AffectationController
 	@Autowired private IAffectationDao affectationDao;
 	@Autowired private IUniteAdminDao uniteAdminDao;
 	@Autowired private IAffectationMetier affectationMetier;
-	@Autowired private IUserDao userDao;
+	@Autowired private AppUserDao userDao;
 	@Autowired private IUserMetier userMetier;
 	@Autowired private IUniteAdminConfigService uniteAdminConfigService;
 	
@@ -105,7 +106,7 @@ public class AffectationController
 		return "redirect:/staffadmin/profil?idAgent="+affectation.getAgent().getIdAgent()+"&successMsg=Affectation effectuée avec succès!";
 	}
 	
-	@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
+	//@PreAuthorize("hasRole('DIRECTEUR DES RESSOURCES HUMAINES') or hasRole('D') or hasRole('SD')")
 	//@PreAuthorize("hasAuthority('ROLE_SAF')")
 	@GetMapping(path = "/staffadmin/frm-affectations-groupees/{idUaArrivee}")
 	public String goToFrmAffectationGroupee(HttpServletRequest request, Model model, @PathVariable Long idUaArrivee)
@@ -114,7 +115,7 @@ public class AffectationController
 		try
 		{
 			UniteAdmin authUserVisibility=null;
-			User authUser = userDao.findByUsername(request.getUserPrincipal().getName()); 
+			AppUser authUser = userDao.findByUsername(request.getUserPrincipal().getName()).orElseThrow(()->new UsernameNotFoundException("Username introuvable")); 
 			if(authUser.hasRole(RoleEnum.SAF.toString()))
 			{
 				authUserVisibility = uniteAdminConfigService.getUniteAdminMere();

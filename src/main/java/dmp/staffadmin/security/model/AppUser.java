@@ -1,8 +1,10 @@
-package dmp.staffadmin.security.userdetailsservice;
+package dmp.staffadmin.security.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
@@ -25,7 +35,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User
+//@Deprecated
+public class AppUser
 {
 	@Id
 	@GeneratedValue
@@ -37,24 +48,39 @@ public class User
 	private String formPassword;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "ID_USER"), inverseJoinColumns = @JoinColumn(name = "ID_ROLE"))
-	private Collection<Role> roles = new ArrayList<Role>();;
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private Collection<AppRole> roles = new ArrayList<AppRole>();;
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ID_AGENT")
 	private Agent agent;
 	private Long idUaChampVisuel;
+	private Long defaultRoleId;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private List<UsersRevokedPrivileges> usersRevokedPrivileges;
+
+	//@ManyToMany(fetch = FetchType.EAGER, mappedBy = "revokedUsers")
+	//@Fetch(value = FetchMode.SUBSELECT)
+	//private List<AppPrivilege> desactivatedPrivileges;
 
 	private boolean active;
 
 	@Transient
 	private UniteAdmin uaChampVisuel;
 
+	@Transient
+	private AppRole defaultRoleRole;
+
 	@Override
 	public String toString()
 	{
 		return "Username = " + username + " ID = " + idUser;
 	}
-
-	public boolean hasRole(Role role)
+	
+	public boolean hasRole(AppRole role)
 	{
 		boolean hasRole = false;
 		// System.out.println("ROLE A VERIFIER : "+role.getRole()+ " _ "+
@@ -67,9 +93,9 @@ public class User
 		if (roles.isEmpty())
 			return false;
 
-		for (Role r : roles)
+		for (AppRole r : roles)
 		{
-			if (r.getIdRole() == role.getIdRole())
+			if (r.getIdRole().longValue() == role.getIdRole().longValue())
 			{
 				hasRole = true;
 				break;
@@ -89,9 +115,9 @@ public class User
 		if (roles.isEmpty())
 			return false;
 
-		for (Role r : roles)
+		for (AppRole r : roles)
 		{
-			if (r.getRole().equals(role))
+			if (r.getRoleName().equals(role))
 			{
 				hasRole = true;
 				break;
@@ -121,7 +147,7 @@ public class User
 		return passwordStringBuilder.toString();
 	}
 
-	public void addRole(Role role)
+	public void addRole(AppRole role)
 	{
 		if (!hasRole(role))
 		{
@@ -129,11 +155,11 @@ public class User
 		}
 	}
 
-	public void removeRoleToUser(Role role)
+	public void removeRoleToUser(AppRole role)
 	{
 		if (role == null)
 			return;
-		for (Role r : roles)
+		for (AppRole r : roles)
 		{
 			if (r.getIdRole() == role.getIdRole())
 			{
@@ -142,4 +168,26 @@ public class User
 			}
 		}
 	}
+
+	/*public boolean hasPrivilegeByIdPrivilege(long idPrivilege)
+	{
+		boolean hasPrivilege = roles.stream().map(AppRole::getPrivileges).flatMap(Collection::stream)
+				.map(p -> p.getIdPrivilege().longValue()).collect(Collectors.toList()).contains(idPrivilege);
+
+		boolean isDesactivated = desactivatedPrivileges.stream().map(p -> p.getIdPrivilege())
+				.collect(Collectors.toList()).contains(idPrivilege);
+
+		return hasPrivilege && isDesactivated;
+	}
+
+	public boolean hasPrivilegeByNomPrivilege(String nomPrivilege)
+	{
+		boolean hasPrivilege = roles.stream()
+				.map(AppRole::getPrivileges).flatMap(Collection::stream)
+				.map(p -> p.getPrivilegeName()).collect(Collectors.toList()).contains(nomPrivilege);
+
+		boolean isDesactivated = desactivatedPrivileges.stream().map(p -> p.getPrivilegeName())
+				.collect(Collectors.toList()).contains(nomPrivilege);
+		return hasPrivilege && isDesactivated;
+	}*/
 }

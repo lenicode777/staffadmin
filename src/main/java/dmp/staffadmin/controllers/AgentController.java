@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +45,7 @@ import dmp.staffadmin.metier.entities.Grade;
 import dmp.staffadmin.metier.entities.TypeUniteAdmin;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
+import dmp.staffadmin.metier.enumeration.RoleEnum;
 import dmp.staffadmin.metier.enumeration.TypeUniteAdminEnum;
 import dmp.staffadmin.metier.exceptions.ArchivageException;
 import dmp.staffadmin.metier.services.interfaces.IAgentMetier;
@@ -51,8 +54,9 @@ import dmp.staffadmin.metier.services.interfaces.IEmploiMetier;
 import dmp.staffadmin.metier.services.interfaces.IFonctionMetier;
 import dmp.staffadmin.metier.services.interfaces.IGradeMetier;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminMetier;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
+import dmp.staffadmin.security.dao.AppUserDao;
+import dmp.staffadmin.security.model.AppUser;
 
 @Controller
 public class AgentController
@@ -82,7 +86,7 @@ public class AgentController
 	private IArchivageMetier archivageMetier;
 
 	@Autowired
-	private IUserDao userDao;
+	private AppUserDao userDao;
 	@Autowired
 	private IUniteAdminDao uniteAdminDao;
 	@Autowired
@@ -90,18 +94,19 @@ public class AgentController
 	@Autowired
 	private IDepartementDao departementDao;
 
-	// @PreAuthorize("hasRole('RESPONSABLE')")
+	@PreAuthorize("hasAuthority('Directeur des Ressources Humaines')")
 	// @PreAuthorize("#idUser == principal.idUser")
 	@GetMapping(path = "/staffadmin/list-agents")
+	@AuthoritiesDtoAnnotation
 	public String goToListAgent(Model model, HttpServletRequest request)
 	{
 		List<Agent> listAgents = new ArrayList<>();
-		User authUser = userDao.findByUsername(request.getUserPrincipal().getName());
+		AppUser authUser = userDao.findByUsername(request.getUserPrincipal().getName()).orElseThrow(()->new UsernameNotFoundException("Username introuvable"));;
 
-		List<String> roles = authUser.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+		List<String> roles = authUser.getRoles().stream().map(r -> r.getRoleName().toUpperCase()).collect(Collectors.toList());
 		System.out.println("AgentController-->L93");
 		roles.forEach(r -> System.out.println(r));
-		if (!roles.contains("RESPONSABLE"))
+		if (!roles.contains(RoleEnum.RESPONSABLE.toString().toUpperCase()))
 		{
 			throw new RuntimeException("Accès réfusé");
 		} else
@@ -135,7 +140,7 @@ public class AgentController
 	public String search(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") long idDc,
 			@RequestParam(defaultValue = "0") long idSd, @RequestParam(defaultValue = "0") long idService)
 	{
-		User authUser = userDao.findByUsername(request.getUserPrincipal().getName()); // Recupération de l'utilisateur
+		AppUser authUser = userDao.findByUsername(request.getUserPrincipal().getName()).orElseThrow(()->new UsernameNotFoundException("Username introuvable")); // Recupération de l'utilisateur
 																						// authentifié
 		List<Agent> listAgentsVisibles = new ArrayList<>();
 		UniteAdmin dc = null;
@@ -177,7 +182,7 @@ public class AgentController
 			model.addAttribute("listServices", listServices);
 		}
 
-		List<String> roles = authUser.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+		List<String> roles = authUser.getRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toList());
 		if (!roles.contains("RESPONSABLE"))
 		{
 			throw new RuntimeException("Accès réfusé");

@@ -166,7 +166,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                 <li>
+                                <li>
                                     <a href="index.html#">
                                         <div class="task-info">
                                             <div class="col col-lg-12" style="padding: 0px; margin: 0px;">
@@ -185,12 +185,42 @@
                     </ul>
                     <!--======================  notification end ==========================-->
                 </div>
+                
+            	
+            	<div class="nav notify-row pull-right" id="top_menu" style="margin-right: 50px; min-width: 200px;">
+            		<ul class="nav navbar-nav top-menu" >
+                        <li  id="header_inbox_bar" class="dropdown" title="Demandes d'absence">
+                            <a data-toggle="dropdown" href="index.html#">
+                                 <b style="color: black;" class="logo" th:text="${authoritiesDto.securityUser.user.username}"></b><i class="caret"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                              <div class="notify-arrow notify-arrow-green"></div>
+                              <li>
+                              	<a th:href="@{/staffadmin/logout}">
+                                	<i class="glyphicon glyphicon-off"></i> Déconnexion
+                                </a>
+                              </li>
+                              <li>
+                                    <a href="index.html#">
+                                    	<span class="glyphicon glyphicon-user" style="color: gray; font-size: 15px;"></span>  Profile
+                                    </a>
+                              </li>
+                              <li>
+                             		<a href="/staffadmin/administration/select-role-form">
+                                    	Changer le rôle par défaut                                 
+                                    </a>
+                              </li>
+
+                                <li>
+                                    <a href="index.html#">Voir toutes les demandes d'absence</a>
+                                </li>
+                            </ul>
+                        </li>
+					</ul>
+				</div>
+            
             
                 
-                <div class="top-menu">
-                    <ul class="nav pull-right top-menu">
-                        <li><a class="logout" th:href="@{/staffadmin/logout}">Logout</a></li>
-                    </ul>
-                </div>
+
         </header>
 </html>

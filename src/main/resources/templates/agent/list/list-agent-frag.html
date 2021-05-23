@@ -3,7 +3,9 @@
     <head><meta charset="UTF-8"/></head>
     <body>
 		<th:block th:fragment="list-agent-frag">
-
+			<select >
+				<option th:each="authority:${authoritiesDto.roles}" th:text="${authority.roleName}"></option>
+			</select>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Liste du personnel

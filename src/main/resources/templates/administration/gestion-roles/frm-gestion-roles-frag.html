@@ -29,102 +29,24 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Gestion des roles</div>
 				<div class="panel-body">
-				
-					<div class="col col-md-6">
-						<div  class="panel panel-default" >
-							<div class="panel-heading">
-								<b><a href="#agent" data-toggle="collapse">Informations sur l'agent</a></b>
-
-							</div>
-							<div style="padding: 10px 0px;" class="panel-body panel-collapse collapse in" id="agent">
-								<table th:if="${agent!=null}" class="table table-striped">
-
-								 	<tr style="height: 50px;">
-									    <th style="width: 50%; vertical-align: middle;" ></th>
-									    <td style="width: 50%; vertical-align: middle;" >
-												<span class="pull-right" th:if="${agent!=null}">
-													<img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/photo-agent/'+ ${agent.idAgent}}" class="img-circle pull-right" style="height: 35px; width: 35px";>
-												</span>					    
-									    </td>
-								  	</tr>
-
-								 	<tr style="height: 50px;">
-									    <th style="width: 50%; vertical-align: middle;" >Matricule</th>
-									    <td style="width: 50%; vertical-align: middle;" th:text="${agent.matricule}"></td>
-								  	</tr>
-								  	<tr style="height: 50px;">
-									    <th style="width: 50%; vertical-align: middle;">Nom</th>
-									    <td style="width: 50%; vertical-align: middle;" th:text="${agent.nom}"></td>
-								  	</tr>
-								  	
-								  	<tr style="height: 50px;">
-									    <th style="width: 50%; vertical-align: middle;">Prénom</th>
-									    <td style="width: 50%; vertical-align: middle;" th:text="${agent.prenom}"></td>
-								  	</tr>					  	
-								  	
-								  	<tr style="height: 50px;">
-									    <th style="width: 50%; vertical-align: middle;">Login</th>
-									    <td style="width: 50%; vertical-align: middle;" th:text="${agent.user.username}"></td>
-								  	</tr>
-								  	
-								  	<tr style="height: 50px;">
-									    <th style="width: 50%; vertical-align: middle;">Roles</th>
-									    <td style="width: 50%; vertical-align: middle;"><span th:each="role, stat:${agent.user.roles}" th:text="${stat.last ? role.role : role.role + ', '}"><span ></td>
-								  	</tr>					  						  	
-								</table>
-			
-				
-							</div>
-						</div>
-					</div>
-			
-			
-					<div class="col-md-6" style="margin-left: 0px;">
-						<div class="panel panel-default" >
-							<div class="panel-heading">
-								<b><a href="#roles" data-toggle="collapse">Ajout / Suppression de roles</a></b>
-							</div>
-							
-							<div class="panel-body panel-collapse collapse in" id="roles">
-								<form id="setRolesForm" action="/staffadmin/administration/gestion-roles/setRoles">
-
-									<div th:if="${agent!=null}" class="col-md-10">
-										<div class="form-group">
-											<label style="margin-bottom: 12px;" for="visibilite">Visibilité</label><br>
-											<select class="form-control" id="visibilite" name="visibilite">
-												<option value=""></option>
- 												<option th:value="${ua.idUniteAdmin}" th:each="ua:${visibilitePossible}" th:selected="${agent.user.idUaChampVisuel == ua.idUniteAdmin }" th:text="${ua}"></option>
-											</select>
-										</div>
-									</div>
-									<div th:if="${agent!=null}" class="col-md-2">
-										
-										<label id="active-label" style="display:block;" class="control-label" for="active">Active</label> 
-										<label class="switch" >
-										  <input th:checked="${agent.user.active}" type="checkbox" name="active" id="active">
-										  <span class="slider round"></span>
-										</label>
-																		
-									</div>
-									
-									<div class="col-md-12">
-										<select size="7" th:if="${agent!=null}" id="roles-selection" multiple="multiple" name="idRoles">
-										
-											<option  style="font-weight: bolder;" th:each="role:${roles}" th:selected="${agent.user.hasRole(role)}"  th:value="${role.idRole}" th:text="${role.role}">Alderaan</option>
-										
-										</select>
-									</div>
-
-											
-									<input th:if="${agent!=null}" type="hidden" name="idUser" th:value="${agent.user.idUser}">
-								</form>
-							</div>
-								
-						</div>
-					</div>
 					
+						<div class="col col-md-12" th:if="${agent}">
+							<th:block th:replace="administration/gestion-roles/frm-gestion-roles-user-infos-frag.html::frm-gestion-roles-user-infos-frag"></th:block>
+						</div>
+						
+					<form method="post"  id="setRolesForm" th:action="@{/staffadmin/administration/gestion-roles/setRoles}">
+						<input id="idUser" type="hidden" th:value="${agent.user.idUser}"  name="idUser"/>
+						
+						<div class="col col-md-6" th:if="${agent}">
+							<th:block th:replace="administration/gestion-roles/frm-gestion-roles-roles-managing-frag.html::frm-gestion-roles-roles-managing-frag"></th:block>
+						</div>
+				
+						<div class="col-md-6" style="margin-left: 0px;" th:if="${agent}">
+							<th:block th:replace="administration/gestion-roles/frm-gestion-roles-privileges-managing-frag.html::frm-gestion-roles-privileges-managing-frag"></th:block>
+						</div>
+						<button id="btnSetRolesForm" class="btn btn-lg btn-success pull-right" style="margin: 10px 18px;" type="submit">Validate</button>
+					</form>
 				</div>
-				<button id="btnSetRolesForm" class="btn btn-lg btn-success pull-right" style="margin: 10px 18px;" type="button">Validate</button>
 			</div>
 			
 		</div>
@@ -132,4 +54,4 @@
     </th:block>
 </body>
 
-</html>-
+</html>

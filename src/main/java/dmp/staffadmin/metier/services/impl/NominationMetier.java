@@ -6,19 +6,12 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import dmp.staffadmin.dao.IAgentDao;
-import dmp.staffadmin.dao.IFonctionDao;
 import dmp.staffadmin.dao.INominationDao;
-import dmp.staffadmin.dao.IPostDao;
-import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Nomination;
 import dmp.staffadmin.metier.services.interfaces.INominationMetier;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.INominationValidation;
-import dmp.staffadmin.security.userdetailsservice.IRoleDao;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
 @Service @Transactional
 public class NominationMetier implements INominationMetier 
 {

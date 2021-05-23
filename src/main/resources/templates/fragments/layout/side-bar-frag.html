@@ -9,6 +9,9 @@
             <ul class="sidebar-menu" id="nav-accordion">
               <!-- =======Photo de l'utilisateur======== --> 
 <!--               <span th:text="${#request.userPrincipal.principal.agent.nom + ' ' + #request.userPrincipal.principal.agent.prenom}"></span> -->
+              
+              <p class="centered"><b style="color: rgb(243, 231, 137); font-size: 12px;" class="logo" th:text="${authoritiesDto.defaultRole.roleName}"></b></p>
+              
               <p class="centered"><a th:href="@{/staffadmin/profil}"><img th:src="@{'/staffadmin/photo-agent/'+${#request.userPrincipal.principal.agent.idAgent}}" class="img-circle" height="80" width="80"></a></p>
               <h5 class="centered"><span th:text="${#request.userPrincipal.principal.agent.nom + ' ' + #request.userPrincipal.principal.agent.prenom}"></span></h5>
               <!-- =======Fin Photo de l'utilisateur======== --> 
@@ -30,12 +33,12 @@
 	                  <span>Gestion du personnel</span>
 	                </a>
 	                <ul class="sub">
-	                	<li><a th:href="@{/staffadmin/list-agents}">Liste du personnel</a></li>
+	                	<li><a th:href="@{/staffadmin/list-agents}">Le personnel</a></li>
 	                  	<li class="sub-menu">
-	                    	<a th:href="@{/staffadmin/frm-agent}">Enregistrer un nouvel agent</a>
+	                    	<a th:href="@{/staffadmin/frm-agent}">Nouvel agent</a>
 	                  	</li>
-	                  	<li><a th:href="@{/staffadmin/frm-affectations-groupees/0}">Gestion des mouvements internes</a></li>
-	                  	<li><a>Gestion des départs</a></li>
+	                  	<li><a th:href="@{/staffadmin/frm-affectations-groupees/0}">Mouvements internes</a></li>
+	                  	<li><a>Départs</a></li>
 	                </ul>
 	              </li>
 	              
@@ -47,7 +50,7 @@
 	                 </a>
 					 	<ul class="sub">
 		                  <li><a th:href="@{/staffadmin/unites-admins}">Liste des services</a></li>
-		                  <li><a href="/staffadmin/unites-admins/frm/0">Créer une unité administrative</a></li>
+		                  <li><a href="/staffadmin/unites-admins/frm/0">Nouveau service</a></li>
 	                	</ul>                 
 	              </li>	              
 	

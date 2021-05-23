@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-gestion-roles-user-infos-frag">
+	 	
+
+						<div  class="panel panel-default" >
+							<div class="panel-heading">
+								<b><a href="#agent" data-toggle="collapse">Informations sur l'agent</a></b>
+									<span class="pull-right" th:if="${agent!=null}">
+										<img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/photo-agent/'+ ${agent.idAgent}}" class="img-circle pull-right" style="height: 35px; width: 35px";>
+									</span>	
+							</div>
+							<div style="padding: 10px 0px;" class="panel-body panel-collapse collapse in" id="agent">
+								<table th:if="${agent!=null}" class="table table-striped">
+
+								 	<tr style="height: 50px;">
+									    <th style="vertical-align: middle;" >Nom</th>
+									    <td style="vertical-align: middle;" th:text="${agent.nom}"></td>
+									    
+									    <td style="width: 25%"></td>
+									    
+									    <th style="vertical-align: middle;" >Prénom</th>
+									    <td style="vertical-align: middle;" th:text="${agent.prenom}"></td>
+								  	</tr>
+								  	<tr style="height: 50px;">
+								  		<th style="vertical-align: middle;" >Matricule</th>
+									    <td style="vertical-align: middle;" th:text="${agent.matricule}"></td>
+									    
+									    <td style="width: 25%"></td>
+									    
+									    <th style="vertical-align: middle;">Login</th>
+									    <td style="vertical-align: middle;" th:text="${agent.user.username}"></td>
+								  	</tr>
+						
+								  	
+								  	<tr style="height: 50px;">
+									    <th style="vertical-align: middle;">Roles</th>
+									    <td></td>
+									    <td></td>
+									    <td></td>
+									    <td style="vertical-align: middle;"><span th:each="role, stat:${agent.user.roles}" th:text="${stat.last ? role.roleName : role.roleName + ', '}"><span ></td>
+								  		
+								  	</tr>					  						  	
+								</table>
+							</div>
+						</div>
+    </th:block>
+</body>
+
+</html>-

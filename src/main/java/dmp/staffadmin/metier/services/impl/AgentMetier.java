@@ -16,14 +16,15 @@ import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.Recrutement;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.EtatRecrutement;
+import dmp.staffadmin.metier.enumeration.RoleEnum;
 import dmp.staffadmin.metier.services.interfaces.IAgentMetier;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.metier.validation.IAgentValidation;
-import dmp.staffadmin.security.userdetailsservice.IRoleDao;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
-import dmp.staffadmin.security.userdetailsservice.IUserMetier;
-import dmp.staffadmin.security.userdetailsservice.Role;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.dao.AppRoleDao;
+import dmp.staffadmin.security.dao.AppUserDao;
+import dmp.staffadmin.security.model.AppRole;
+import dmp.staffadmin.security.model.AppUser;
+import dmp.staffadmin.security.services.IUserMetier;
 
 @Service
 @Transactional
@@ -38,11 +39,11 @@ public class AgentMetier implements IAgentMetier
 	@Autowired
 	private IRecrutementDao recrutementDao;
 	@Autowired
-	private IUserDao userDao;
+	private AppUserDao userDao;
 	@Autowired
 	private IUserMetier userMetier;
 	@Autowired
-	private IRoleDao roleDao;
+	private AppRoleDao roleDao;
 	@Autowired
 	private IUniteAdminConfigService uniteAdminConfigService;
 
@@ -149,13 +150,13 @@ public class AgentMetier implements IAgentMetier
 	{
 		Recrutement recrutement = new Recrutement();
 		// save(agent);
-		User user = new User();
+		AppUser user = new AppUser();
 		user.setAgent(agent);
 		user.setActive(true);
 		user.setUsername(agent.getNom() + "_" + agent.getMatricule());
 		user.setPassword(agent.getMatricule());
 
-		Role roleAgent = roleDao.findByRole("AGENT");
+		AppRole roleAgent = roleDao.findByRoleName(RoleEnum.AGENT.toString());
 		user.addRole(roleAgent);
 
 		user = userMetier.save(user);

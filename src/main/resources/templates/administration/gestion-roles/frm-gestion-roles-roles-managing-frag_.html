@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-gestion-roles-roles-managing-frag">
+		<div class="panel panel-default" >
+							<div class="panel-heading">
+								<b><a href="#roles" data-toggle="collapse">Ajout / Suppression de roles</a></b>
+							</div>
+							
+							<div class="panel-body panel-collapse collapse in" id="roles">
+								
+									<div th:if="${agent!=null}" class="col-md-10">
+										<div class="form-group">
+											<label style="margin-bottom: 12px;" for="visibilite">Visibilité</label><br>
+											<select class="form-control" id="visibilite" th:field="*{idUaChampVisuel}">
+												
+ 												<option th:value="${ua.idUniteAdmin}" th:each="ua:${visibilitePossible}" th:selected="${agent.user.idUaChampVisuel == ua.idUniteAdmin }" th:text="${ua}"></option>
+											</select>
+										</div>
+									</div>
+									<div th:if="${agent!=null}" class="col-md-2">
+										
+										<label id="active-label" style="display:block;" class="control-label" for="active">Active</label> 
+										<label class="switch" >
+										  <input th:checked="${agent.user.active}" type="checkbox" th:field="*{active}" id="active">
+										  <span class="slider round"></span>
+										</label>
+																		
+									</div>
+									
+									<div class="col-md-12">
+										<select size="7" th:if="${agent!=null}" id="roles-selection" multiple="multiple" th:field="*{rolesIds}">
+											
+											<option  style="font-weight: bolder;" th:each="role:${roles}" th:selected="${@userAuthoritiesDetailsService.hasRole(agent.user.username, role)}"  th:value="${role.idRole}" th:text="${role.roleName}">Alderaan</option>
+										
+										</select>
+									</div>
+									<input th:if="${agent!=null}" type="hidden" name="idUser" th:field="*{idUser}">
+							</div>
+								
+		</div>
+    </th:block>
+</body>
+</html>

@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import dmp.staffadmin.security.userdetailsservice.Role;
+import dmp.staffadmin.security.model.AppRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class Fonction
 	private Long idFonction;
 	private String nomFonction;
 	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_ROLE")
-	private Role roleAssocie;
+	private AppRole roleAssocie;
 	private boolean fonctionDeNomination;
 	private boolean fonctionTopManager;
 	@OneToMany(mappedBy = "fonction")

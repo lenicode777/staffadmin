@@ -1,5 +1,6 @@
 package dmp.staffadmin.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -13,36 +14,59 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dmp.staffadmin.controllers.dto.SelectRoleDto;
 import dmp.staffadmin.dao.IAgentDao;
 import dmp.staffadmin.dao.IUniteAdminDao;
 import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
-import dmp.staffadmin.security.userdetailsservice.IRoleDao;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
-import dmp.staffadmin.security.userdetailsservice.Role;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
+import dmp.staffadmin.security.dao.AppRoleDao;
+import dmp.staffadmin.security.dao.AppUserDao;
+import dmp.staffadmin.security.dto.PrivilegeAccessDto;
+import dmp.staffadmin.security.dto.UserAccessDto;
+import dmp.staffadmin.security.dto.factory.IUserAccessDtoFactory;
+import dmp.staffadmin.security.dto.factory.UserAccessDtoFactory;
+import dmp.staffadmin.security.dto.services.IUserAccessDtoManager;
+import dmp.staffadmin.security.dto.services.UserAccessDtoManager;
+import dmp.staffadmin.security.model.AppPrivilege;
+import dmp.staffadmin.security.model.AppRole;
+import dmp.staffadmin.security.model.AppUser;
+import dmp.staffadmin.security.services.IUserAuthoritiesDetailsService;
+import dmp.staffadmin.security.services.UserAuthoritiesDetailsService;
+import dmp.staffadmin.security.utilities.ISecurityContextManager;
 
 @Controller
+@RequestMapping(path = "/staffadmin/administration")
 public class AdministrationController
 {
 	@Autowired
 	private IAgentDao agentDao;
 
 	@Autowired
-	private IUserDao userDao;
+	private AppUserDao userDao;
 
 	@Autowired
-	private IRoleDao roleDao;
+	private AppRoleDao roleDao;
+	
+	@Autowired private IUserAccessDtoFactory userAccessDtoFactory;
+	@Autowired private IUserAccessDtoManager userAccessDtoManager;
 
 	@Autowired
 	private IUniteAdminDao uniteAdminDao;
+	@Autowired private IUserAuthoritiesDetailsService userAuthoritiesDetailsService;
+	@Autowired private ISecurityContextManager securityContextManager;
 
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
 	{
@@ -51,7 +75,8 @@ public class AdministrationController
 	}
 
 	// @PreAuthorize("hasRole('SAF')")
-	@GetMapping(path = "/staffadmin/administration/gestion-roles/form")
+	@GetMapping(path = "/gestion-roles/form")
+	@AuthoritiesDtoAnnotation
 	public String goToGestionRolesForm(Model model, HttpServletRequest request,
 			@RequestParam(defaultValue = "") String matricule)
 	{
@@ -61,47 +86,47 @@ public class AdministrationController
 			if (agentDao.existsByMatricule(matricule))
 			{
 				agent = agentDao.findByMatricule(matricule);
+				
 				UniteAdmin userTutelleDirecte = agent.getTutelleDirecte();
-				System.out.println("AdministrationController-->goToGestionRolesForm L55");
-				List<UniteAdmin> tutelleDirecteParents = userTutelleDirecte.getPatrentsStream()
-						.collect(Collectors.toList());
-				System.out.println("AdministrationController-->goToGestionRolesForm L58");
-				List<UniteAdmin> tutelleDirecteChildren = userTutelleDirecte.getSubAdminStream()
-						.collect(Collectors.toList());
 
-				System.out.println("AdministrationController-->goToGestionRolesForm L62");
 				List<UniteAdmin> visibilitePossible = Stream
-						.concat(tutelleDirecteParents.stream(), tutelleDirecteChildren.stream())
+						.concat(userTutelleDirecte.getPatrentsStream(), userTutelleDirecte.getSubAdminStream())
+						.filter(distinctByKey(UniteAdmin::getIdUniteAdmin))
+						.sorted(Comparator.comparingInt(UniteAdmin::getLevel))
 						.collect(Collectors.toList());
-				System.out.println("AdministrationController-->goToGestionRolesForm L65");
-
-				visibilitePossible = visibilitePossible.stream().filter(distinctByKey(UniteAdmin::getIdUniteAdmin))
-						.sorted(Comparator.comparingInt(UniteAdmin::getLevel)).collect(Collectors.toList());
-
-				model.addAttribute("visibilitePossible", visibilitePossible);
-
-				System.out.println("==============visibilitePossible=============");
-				visibilitePossible.forEach(ua -> System.out.println(ua));
+				
+				List<AppPrivilege> usersPrivileges = userAuthoritiesDetailsService.getPrivileges(agent.getUser().getUsername());
+				List<AppPrivilege> privileges = userAuthoritiesDetailsService.getPrivilegesOfRoles(agent.getUser().getRoles());
+				
+				UserAccessDto userAccessDto = userAccessDtoFactory.createUserAccessDto(agent, privileges); //new UserAccessDto();
+				
+				//userAccessDto = userAccessDtoManager.setGlobalsAccessParams(userAccessDto);
+						
 				model.addAttribute("agent", agent);
-			} else
+				model.addAttribute("privileges", privileges);
+				model.addAttribute("userAccessDto", userAccessDto);
+				model.addAttribute("visibilitePossible", visibilitePossible);
+				model.addAttribute("roles", roleDao.findAll());
+			} 
+			else
 			{
 				model.addAttribute(ErrorMsgEnum.GLOBAL_ERROR_MSG.toString(), "Matricule introuvable");
 			}
 		}
-
-		model.addAttribute("roles", roleDao.findAll());
 		return "administration/gestion-roles/frm-gestion-roles";
 	}
 
-	@GetMapping(path = "/staffadmin/administration/gestion-roles/setRoles")
+	@GetMapping(path = "/gestion-roles/setRoles")
 	@Transactional
-	public String setRoles(Model model, @RequestParam(defaultValue = "0") Long idUser,
+	@AuthoritiesDtoAnnotation
+	@Deprecated
+	public String setRoles0(HttpServletRequest request, Model model, @RequestParam(defaultValue = "0") Long idUser,
 			@RequestParam(defaultValue = "") String idRoles, @RequestParam(defaultValue = "0") Long visibilite,
 			boolean active)
 	{
-		User user = userDao.findById(idUser).get();
-		List<Role> roles = Arrays.asList(idRoles.replace(" ", "").split(",")).stream()
-				.map(id -> new Role(Long.parseLong(id), null, null)).collect(Collectors.toList());
+		AppUser user = userDao.findById(idUser).get();
+		 List<AppRole> roles = Arrays.asList(idRoles.replace(" ","").split(",")).stream()
+		 .map(id -> new AppRole(Long.parseLong(id), null, null, null, null)).collect(Collectors.toList());
 
 		user.setRoles(roles);
 		user.setIdUaChampVisuel(visibilite);
@@ -113,11 +138,36 @@ public class AdministrationController
 
 		return "redirect:/staffadmin/administration/gestion-roles/form?matricule=" + user.getAgent().getMatricule();
 	}
+	
+	@PostMapping(path = "/gestion-roles/setRoles")
+	@Transactional
+	@AuthoritiesDtoAnnotation
+	public String setRoles(HttpServletRequest request, Model model, 
+							@RequestParam(defaultValue = "0") Long idUser,
+							@RequestParam(defaultValue = "") String idRoles, 
+							@RequestParam(defaultValue = "0") Long idUaChampVisuel,
+							boolean active,
+							@RequestParam(defaultValue = "") String notRevokedPrivilegeIds,
+							@RequestParam(defaultValue = "") String privilegeIds)
+	{
+		AppUser user = userDao.findById(idUser).get();
+		
+		System.out.println("idUser = " + idUser);
+		System.out.println("idRoles = " + idRoles);
+		System.out.println("idUaChampVisuel = " + idUaChampVisuel);
+		System.out.println("active = " + active);
+		System.out.println("notRevokedPrivilegeIds = " + notRevokedPrivilegeIds);
+		System.out.println("privilegeIds = " + privilegeIds);
+		UserAccessDto userAccessDto = userAccessDtoFactory.createUserAccessDto(idUser, idRoles, idUaChampVisuel, active, notRevokedPrivilegeIds, privilegeIds);
+		userAccessDtoManager.setGlobalsAccessParams(userAccessDto);
+		return "redirect:/staffadmin/administration/gestion-roles/form?matricule=" + user.getAgent().getMatricule();
+	}
 
-	@GetMapping(path = "/staffadmin/administration/list-users")
+	@GetMapping(path = "/list-users")
+	@AuthoritiesDtoAnnotation
 	public String goToListUsers(Model model)
 	{
-		List<User> listUsers = userDao.findAll();
+		List<AppUser> listUsers = userDao.findAll();
 		listUsers.forEach(user ->
 		{
 			if (user.getIdUaChampVisuel() != null)
@@ -130,4 +180,30 @@ public class AdministrationController
 
 		return "administration/list-users/list-users";
 	}
+	
+	@GetMapping(path = "/select-role-form")
+	@AuthoritiesDtoAnnotation
+	public String goToSelectRoleForm(HttpServletRequest request, Model model)
+	{
+		SelectRoleDto selectRoleDto = new SelectRoleDto();
+		String username = request.getUserPrincipal().getName();
+		AppUser user = userDao.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Utilisateur introuvable"));
+		model.addAttribute("selectRoleDto", selectRoleDto);
+		model.addAttribute("roles", user.getRoles());
+		return "administration/gestion-roles/frm-select-role";
+	}
+	
+	@PostMapping(path = "/select-role")
+	public String setRoleAsDefault(HttpServletRequest request, Model model, @ModelAttribute SelectRoleDto roleDto, SecurityContextHolder securityContextHolder)
+	{
+		String username = request.getUserPrincipal().getName();
+		AppUser user = userDao.findByUsername(username).get();
+		
+		user.setDefaultRoleId(roleDto.getSelectedRoleId());
+		userDao.save(user);
+		securityContextManager.refreshSecurityContext(user, securityContextHolder);
+		return "redirect:/";
+	}
+	
+	
 }

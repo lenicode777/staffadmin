@@ -11,7 +11,7 @@ import dmp.staffadmin.metier.entities.Fonction;
 import dmp.staffadmin.metier.entities.Grade;
 import dmp.staffadmin.metier.entities.Post;
 import dmp.staffadmin.metier.entities.UniteAdmin;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.model.AppUser;
 
 public interface IAgentDao extends JpaRepository<Agent, Long> 
 {
@@ -52,12 +52,12 @@ public interface IAgentDao extends JpaRepository<Agent, Long>
 	public List<Agent> findByTutelleDirecte(UniteAdmin tutelleDirecte);
 	public List<Agent> findByStatutAgent(String statutAgent);
 	
-	public Agent findByUser(User user);
+	public Agent findByUser(AppUser user);
 	public Agent findByEmailPro(String emailPro);
 	public Agent findByNumBadge(String numBadge);
 	
 	
-	public boolean existsByUser(User user);
+	public boolean existsByUser(AppUser user);
 	public boolean existsByUserIdUser(Long idUser);
 	public boolean existsByEmailPro(String emailPro);
 	public boolean existsByNumBadge(String numBadge);

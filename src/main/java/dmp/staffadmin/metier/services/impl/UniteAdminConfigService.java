@@ -13,36 +13,33 @@ import dmp.staffadmin.metier.services.interfaces.IUniteAdminConfigService;
 
 @Service
 @Transactional
-public class UniteAdminConfigService implements IUniteAdminConfigService
-{
+public class UniteAdminConfigService implements IUniteAdminConfigService {
 	@Autowired
 	private IUniteAdminConfigDao uniteAdminConfigDao;
 	@Autowired
 	private IUniteAdminDao uniteAdminDao;
 
 	@Override
-	public UniteAdmin getUniteAdminMere()
-	{
-		return uniteAdminDao.findById(uniteAdminConfigDao.findById(1L).get().getIdUniteAdminMere()).get();
+	public UniteAdmin getUniteAdminMere() {
+		return uniteAdminDao
+				.findById(uniteAdminConfigDao
+						.findById(1L).get()
+						.getIdUniteAdminMere()).get();
 	}
 
 	@Override
-	public UniteAdmin getCabinetUniteAdminMere()
-	{
+	public UniteAdmin getCabinetUniteAdminMere() {
 		return uniteAdminDao.findById(uniteAdminConfigDao.findById(1L).get().getIdCabinetUniteAdminMere()).get();
 	}
 
 	@Override
-	public UniteAdmin getDRH()
-	{
+	public UniteAdmin getDRH() {
 		return uniteAdminDao.findById(uniteAdminConfigDao.findById(1L).get().getIdDrh()).get();
 	}
 
 	@Bean
-	CommandLineRunner testUAConfigService(IUniteAdminConfigService uaConfig)
-	{
-		return args ->
-		{
+	CommandLineRunner testUAConfigService(IUniteAdminConfigService uaConfig) {
+		return args -> {
 			UniteAdmin DGMP = uaConfig.getUniteAdminMere();
 			UniteAdmin cabDGMP = uaConfig.getCabinetUniteAdminMere();
 			UniteAdmin DRH = uaConfig.getDRH();

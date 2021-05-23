@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import dmp.staffadmin.dao.IAgentDao;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.model.AppUser;
 import dmp.staffadmin.utilities.DateManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -103,7 +103,7 @@ public class Agent
 	private String etatRecrutement; // En service, En attente de première affectation, En attente d'affectation dans une SD, En attente d'affectation dans un service 
 	private boolean active;
 	@OneToOne(fetch = FetchType.EAGER)
-	private User user;
+	private AppUser user;
 	@Column(length = 255, unique = true)
 	private String nomPhoto;
 	@Transient private MultipartFile photoFile;

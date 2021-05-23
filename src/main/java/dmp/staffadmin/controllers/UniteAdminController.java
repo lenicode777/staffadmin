@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,9 @@ import dmp.staffadmin.metier.exceptions.UniteAdminException;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminConfigService;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.metier.validation.IUniteAdminValidation;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
+import dmp.staffadmin.security.dao.AppUserDao;
+import dmp.staffadmin.security.model.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,7 +53,7 @@ public class UniteAdminController
 	@Autowired
 	private ITypeUniteAdminDao typeUniteAdminDao;
 	@Autowired
-	private IUserDao userDao;
+	private AppUserDao userDao;
 	@Autowired
 	private IFonctionDao fonctionDao;
 	@Autowired
@@ -62,6 +64,7 @@ public class UniteAdminController
 	private IUniteAdminConfigService uniteAdminConfigService;
 
 	@GetMapping(path = "/staffadmin/unites-admins")
+	@AuthoritiesDtoAnnotation
 	public String goToUniteAdmin(Model model)
 	{
 		// System.out.println("===================================CONTROLLER==========================0");
@@ -89,6 +92,7 @@ public class UniteAdminController
 
 	@PreAuthorize("hasRole('SAF')")
 	@PostMapping(path = "/staffadmin/frm-unite-admin/confirmation")
+	@AuthoritiesDtoAnnotation
 	public String goToConfirmationUniteAdmin(Model model, UniteAdmin uniteAdmin, @RequestParam String mode)
 	{
 		TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.findById(uniteAdmin.getTypeUniteAdmin().getIdTypeUniteAdmin())
@@ -145,7 +149,8 @@ public class UniteAdminController
 		return "redirect:/staffadmin/unites-admins/" + uniteAdmin.getIdUniteAdmin();
 	}
 
-	@PreAuthorize("hasRole('SAF')")
+	//@PreAuthorize("hasAuthority('Directeur des Ressources Humaines')")
+	@AuthoritiesDtoAnnotation
 	@GetMapping(path = "/staffadmin/unites-admins/frm/{idUniteAdmin}") // Path changé update->frm --Faire un refactoring
 	public String goToFrmUniteAdmin(HttpServletRequest request, Model model,
 			@PathVariable(name = "idUniteAdmin") Long idUniteAdmin, @RequestParam(defaultValue = "") String appellation,
@@ -210,13 +215,14 @@ public class UniteAdminController
 	}
 
 	@GetMapping(path = "/staffadmin/unites-admins/{idUniteAdmin}")
+	@AuthoritiesDtoAnnotation
 	public String goToSingleUniteAdmin(Model model, HttpServletRequest request, @PathVariable Long idUniteAdmin)
 	{
-		User authUser = userDao.findByUsername(request.getUserPrincipal().getName());
+		AppUser authUser = userDao.findByUsername(request.getUserPrincipal().getName()).orElseThrow(()->new UsernameNotFoundException("Username introuvable"));
 		UniteAdmin visitedUniteAdmin = uniteAdminDao.findById(idUniteAdmin).get();
 		List<Long> idResponsablesTutelles = new ArrayList<>();
 
-		List<String> roles = authUser.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+		List<String> roles = authUser.getRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toList());
 		if (visitedUniteAdmin.getPostManager() != null)
 		{
 			List<Optional<Long>> optionalIdResponsablesTutelles = visitedUniteAdmin.getPatrentsStream()

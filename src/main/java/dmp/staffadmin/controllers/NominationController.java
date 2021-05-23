@@ -32,7 +32,7 @@ import dmp.staffadmin.metier.enumeration.ModeEnum;
 import dmp.staffadmin.metier.exceptions.NominationException;
 import dmp.staffadmin.metier.services.interfaces.INominationMetier;
 import dmp.staffadmin.metier.validation.INominationValidation;
-import dmp.staffadmin.security.userdetailsservice.IUserDao;
+import dmp.staffadmin.security.dao.AppUserDao;
 
 @Controller
 public class NominationController
@@ -46,7 +46,7 @@ public class NominationController
 	@Autowired
 	private IPostDao postDao;
 	@Autowired
-	private IUserDao userDao;
+	private AppUserDao userDao;
 	@Autowired
 	private INominationDao nominationDao;
 	@Autowired

@@ -133,12 +133,10 @@
 					        url: "http://localhost:8081/staffadmin/unitesAdmins/findBy-TypeUniteAdmin-AdministrativeLevel-LessThan/"+this.value,
 					        success: function (response) 
 					        {
-					            //alert("HELLO AJAX");
 					            $("#idTutelleDirecte").children('option').remove();
 					            $('#idTutelleDirecte').append($("<option></option>"));
 					            $.each(response, function(key, value) 
 					            {
-					            	//alert(value["sigle"]);
 					                $('#idTutelleDirecte')
 					                    .append($("<option></option>")
 					                    .attr("value",value["idUniteAdmin"])

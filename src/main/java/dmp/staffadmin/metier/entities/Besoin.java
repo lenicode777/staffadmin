@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import dmp.staffadmin.security.userdetailsservice.User;
+import dmp.staffadmin.security.model.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +22,5 @@ public class Besoin
 	@ManyToOne
 	private Profil profil;
 	@OneToOne @JoinColumn(name = "ID_USER")
-	private User emetteur;
+	private AppUser emetteur;
 }
