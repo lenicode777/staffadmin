@@ -140,6 +140,20 @@ public class AgentMetier implements IAgentMetier
 		{
 			agent.setNomPhoto("inconnu.jpg");
 		}
+		if(agent.getNumBadge()!=null)
+		{
+			if(agent.getNumBadge().equals(""))
+			{
+				agent.setNumBadge(null);
+			}
+		}
+		if(agent.getEmailPro()!=null)
+		{
+			if(agent.getEmailPro().equals(""))
+			{
+				agent.setEmailPro(null);
+			}
+		}
 		agent = agentDao.save(agent);
 
 		return agent;
@@ -180,37 +194,43 @@ public class AgentMetier implements IAgentMetier
 	@Override
 	public Agent update(Long agentId, Agent agentForm)
 	{
-		Agent agentFromDataBAse = agentDao.findById(agentId).get();
+		Agent agentFromDataBase = agentDao.findById(agentId).get();
+		
+		agentFromDataBase.setNom(agentForm.getNom());
+		agentFromDataBase.setPrenom(agentForm.getPrenom());
+		agentFromDataBase.setDateNaissance(agentForm.getDateNaissance());
+		agentFromDataBase.setSexe(agentForm.getSexe());
+		agentFromDataBase.setEmail(agentForm.getEmail());
+		agentFromDataBase.setLieuNaissance(agentForm.getLieuNaissance());
+		agentFromDataBase.setDepartementNaissance(agentForm.getDepartementNaissance());
+		agentFromDataBase.setFixeBureau(agentForm.getFixeBureau());
+		agentFromDataBase.setTel(agentForm.getTel());
 
-		agentFromDataBAse.setNom(agentForm.getNom());
-		agentFromDataBAse.setPrenom(agentForm.getPrenom());
-		agentFromDataBAse.setDateNaissance(agentForm.getDateNaissance());
-		agentFromDataBAse.setSexe(agentForm.getSexe());
-		agentFromDataBAse.setEmail(agentForm.getEmail());
-		agentFromDataBAse.setLieuNaissance(agentForm.getLieuNaissance());
-		agentFromDataBAse.setDepartementNaissance(agentForm.getDepartementNaissance());
-		agentFromDataBAse.setFixeBureau(agentForm.getFixeBureau());
-		agentFromDataBAse.setTel(agentForm.getTel());
+		agentFromDataBase.setTypePiece(agentForm.getTypePiece());
+		agentFromDataBase.setNumPiece(agentForm.getNumPiece());
+		agentFromDataBase.setNomPere(agentForm.getNomPere());
+		agentFromDataBase.setNomMere(agentForm.getNomMere());
 
-		agentFromDataBAse.setTypePiece(agentForm.getTypePiece());
-		agentFromDataBAse.setNumPiece(agentForm.getNumPiece());
-		agentFromDataBAse.setNomPere(agentForm.getNomPere());
-		agentFromDataBAse.setNomMere(agentForm.getNomMere());
+		agentFromDataBase.setFonction(agentForm.getFonction());
+		agentFromDataBase.setEmploi(agentForm.getEmploi());
+		agentFromDataBase.setMatricule(agentForm.getMatricule());
+		agentFromDataBase.setDatePriseService1(agentForm.getDatePriseService1());
+		agentFromDataBase.setGrade(agentForm.getGrade());
+		agentFromDataBase.setStatutAgent(agentForm.getStatutAgent());
 
-		agentFromDataBAse.setFonction(agentForm.getFonction());
-		agentFromDataBAse.setEmploi(agentForm.getEmploi());
-		agentFromDataBAse.setMatricule(agentForm.getMatricule());
-		agentFromDataBAse.setDatePriseService1(agentForm.getDatePriseService1());
-		agentFromDataBAse.setGrade(agentForm.getGrade());
-		agentFromDataBAse.setStatutAgent(agentForm.getStatutAgent());
-
-		agentFromDataBAse.setDatePriseServiceDGMP(agentForm.getDatePriseServiceDGMP());
-		agentFromDataBAse.setNumBadge(agentForm.getNumBadge());
-		agentFromDataBAse.setEmailPro(agentForm.getEmailPro());
+		agentFromDataBase.setDatePriseServiceDGMP(agentForm.getDatePriseServiceDGMP());
+		if(!agentForm.getNumBadge().equals(""))
+		{
+			agentFromDataBase.setNumBadge(agentForm.getNumBadge());
+		}
+		if(!agentForm.getEmailPro().equals(""))
+		{
+			agentFromDataBase.setEmailPro(agentForm.getEmailPro());
+		}
 
 		// agentBody.setIdAgent(agentId);
 
-		return save(agentFromDataBAse);
+		return save(agentFromDataBase);
 	}
 
 	@Override

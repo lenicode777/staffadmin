@@ -44,30 +44,30 @@ public class UniteAdmin
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateCreation;
-	@OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_POST_MANAGER")
+	@OneToOne @JoinColumn(name = "ID_POST_MANAGER")
 	@JsonIgnore
 	private Post postManager;
-	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "tutelleDirecte")
 	@JsonIgnore
 	private List<Agent> personnel;
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECTE")
+	@ManyToOne @JoinColumn(name = "ID_TUTELLE_DIRECTE")
 	@JsonIgnore
 	private UniteAdmin tutelleDirecte;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JsonIgnore
 	private UniteAdmin secretariat;
 	
-	@OneToMany(mappedBy = "tutelleDirecte", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "tutelleDirecte")
 	@JsonIgnore
 	private List<UniteAdmin> uniteAdminSousTutelle;
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name="ID_TYPE_UA")
+	@ManyToOne @JoinColumn(name="ID_TYPE_UA")
 	private TypeUniteAdmin typeUniteAdmin;
 	private String ficheTechPath;
 	@Transient
 	private MultipartFile ficheTechFile;
 	
-	@OneToMany(mappedBy = "uniteAdmin", fetch = FetchType.EAGER) @JsonIgnore
+	@OneToMany(mappedBy = "uniteAdmin") @JsonIgnore
 	private List<Post> postesDeResponsabilites;
 	
 	public UniteAdmin ajouterUA(UniteAdmin ua)

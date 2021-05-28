@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
 		<meta charset="utf-8">
 	</head>
@@ -27,14 +29,14 @@
 	              <!-- =======Fin Lien tableau de bord======== -->
 	                
 	                
-	              <li class="sub-menu">
+	              <li sec:authorize="hasAuthority('Gérer le personnel')" class="sub-menu">
 	                <a href="#">
 	                  <i class="fa fa-users"></i>
 	                  <span>Gestion du personnel</span>
 	                </a>
 	                <ul class="sub">
 	                	<li><a th:href="@{/staffadmin/list-agents}">Le personnel</a></li>
-	                  	<li class="sub-menu">
+	                  	<li class="sub-menu" sec:authorize="hasAuthority('Enregistrer le personnel')">
 	                    	<a th:href="@{/staffadmin/frm-agent}">Nouvel agent</a>
 	                  	</li>
 	                  	<li><a th:href="@{/staffadmin/frm-affectations-groupees/0}">Mouvements internes</a></li>
@@ -42,7 +44,7 @@
 	                </ul>
 	              </li>
 	              
-	              <li class="sub-menu">
+	              <li class="sub-menu" sec:authorize="hasAuthority('Responsable')">
 	                <a href="javascript:;">
 	                	<i class="fa fa-university" style="font-size:17px"></i>
 <!-- 		                <i class="fa fa-building" style="font-size:17px"></i> -->
@@ -50,7 +52,7 @@
 	                 </a>
 					 	<ul class="sub">
 		                  <li><a th:href="@{/staffadmin/unites-admins}">Liste des services</a></li>
-		                  <li><a href="/staffadmin/unites-admins/frm/0">Nouveau service</a></li>
+		                  <li sec:authorize="hasAuthority('Créer les nouveaux services')"><a href="/staffadmin/unites-admins/frm/0">Nouveau service</a></li>
 	                	</ul>                 
 	              </li>	              
 	
@@ -65,8 +67,6 @@
 	   				</ul>
 	              </li>    
 	              
-	              
-	              
 	              <li class="sub-menu">
 	              	<a href="#">
 	                	<i class="fa fa-users"></i>
@@ -80,21 +80,21 @@
 	   				</ul>
 	              </li>        
 	              
-	              <li class="sub-menu">
+	              <li class="sub-menu" sec:authorize="hasAuthority('Enregistrer les nominations')">
 	                <a href="/staffadmin/nominations/form">
 	                  <i class="fa fa-users"></i>
 	                  <span>Nomination</span>
 	                </a>
 	              </li> 
 	              
-	              <li class="sub-menu">
+	              <li class="sub-menu" sec:authorize="hasAuthority('Enregistrer les promotions')">
 	                <a href="/staffadmin/promotion/form">
 	                  <i class="fa fa-users"></i>
 	                  <span>Promotion</span>
 	                </a>
 	              </li> 	              	                     
 	              
-	              <li class="sub-menu">
+	              <li class="sub-menu" sec:authorize="hasAuthority('Gérer les utilisateurs')">
 	              	<a href="#">
 	                	<i class="fa fa-users"></i>
 	                  	<span>Administration</span>
@@ -102,19 +102,19 @@
 	   				<ul class="sub">
 	   					<li><a href="/staffadmin/administration/list-users">Liste des utilisateurs</a></li>
 	   					<li><a href="/staffadmin/administration/gestion-roles/form">Gestion des roles </a></li>
+	   					<li><a href="/staffadmin/administration/role-privileges-assignation/form">Assignation privilèges </a></li>
 	   					<li><a href="/staffadmin/administration/creation/forms">Création </a></li>
 	   				</ul>
 	              </li>	 
 	                
-	                
-	              <li class="sub-menu">
+	              <li class="sub-menu" sec:authorize="hasAuthority('Archiver les documents sur le personnel')">
 	                <a href="/staffadmin/archivage/agents">
 	                  <i class="fa fa-book"></i>
 	                  <span>Archivage</span>
 	                 </a>
 	              </li>
 	              
-	              <li class="sub-menu">
+	              <li class="sub-menu" sec:authorize="hasAuthority('Consulter l''annuaire')">
 	                <a href="/staffadmin/annuaire">
 	                  <i class="fa fa-users"></i>
 	                  <span>Annuaire</span>

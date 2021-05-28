@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -51,7 +52,7 @@ public class SecurityController
 
 	@GetMapping(path = "/staffadmin/logout")
 	public String logout(HttpServletRequest request) throws ServletException
-	{
+	{ 
 		request.logout();
 		return "redirect:/login";
 	}
@@ -134,5 +135,11 @@ public class SecurityController
 		System.out.println(e.getMessage());
 		model.addAttribute("exceptionHandler", e.getMessage());
 		return "exceptions/500";
+	}
+	
+	@GetMapping(path = "/staffadmin/access-denied")
+	public String onAccessDenied(Model model, HttpServletRequest request, HttpServletResponse response)
+	{
+		return "exceptions/access-denied";
 	}
 }

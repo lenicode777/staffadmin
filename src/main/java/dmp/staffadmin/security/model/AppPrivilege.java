@@ -30,13 +30,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 //@Deprecated
 public class AppPrivilege
-{
+{	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPrivilege;
 	@Column(unique = true) 
 	private String privilegeName;
-
+	
 	@OneToMany(mappedBy = "revokedPrivilege")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private List<UsersRevokedPrivileges> usersRevokedPrivileges;
@@ -51,5 +51,5 @@ public class AppPrivilege
 	//@Fetch(FetchMode.SUBSELECT)
 	//@JsonProperty(access = Access.WRITE_ONLY)
 	//private List<AppUser> revokedUsers;
-
-}
+}	
+	

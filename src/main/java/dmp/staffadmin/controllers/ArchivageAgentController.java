@@ -2,6 +2,7 @@ package dmp.staffadmin.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.shaded.commons.io.FilenameUtils;
@@ -25,6 +26,7 @@ import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.metier.services.interfaces.IArchivageAgentMetier;
 import dmp.staffadmin.metier.services.interfaces.IArchivageMetier;
 import dmp.staffadmin.metier.validation.IValidation;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
 
 @Controller
 public class ArchivageAgentController
@@ -38,7 +40,8 @@ public class ArchivageAgentController
 
 	// @PreAuthorize("hasRole('DRH')")
 	@GetMapping(path = "/staffadmin/archivage/agents")
-	public String goToArchivageAgentForm(Model model,
+	@AuthoritiesDtoAnnotation
+	public String goToArchivageAgentForm(Model model, HttpServletRequest request,
 			@RequestParam(defaultValue = "", name = "matricule") String matricule)
 	{
 		ArchiveAgent archiveAgent = new ArchiveAgent();
@@ -72,7 +75,7 @@ public class ArchivageAgentController
 	}
 
 	@PostMapping(path = "/staffadmin/archivage/agent/upload")
-	public String saveArchiveAgent(Model model, @ModelAttribute ArchiveAgent archiveAgent)
+	public String saveArchiveAgent(Model model,HttpServletRequest request ,@ModelAttribute ArchiveAgent archiveAgent)
 	{
 		Agent agent;
 		try
@@ -82,7 +85,7 @@ public class ArchivageAgentController
 		{
 			agent = agentDao.findById(archiveAgent.getAgent().getIdAgent()).get();
 			model.addAttribute(ErrorMsgEnum.ERROR_MSG.toString(), e.getMessage());
-			return goToArchivageAgentForm(model, agent.getMatricule());
+			return goToArchivageAgentForm(model, request, agent.getMatricule());
 		}
 
 		return "redirect:/staffadmin/profil?idAgent=" + archiveAgent.getAgent().getIdAgent();
@@ -108,7 +111,8 @@ public class ArchivageAgentController
 	}
 
 	@GetMapping(path = "/staffadmin/archiveAgent/delete/{idArchiveAgent}")
-	public String deleteArchiveAgent(Model model, @PathVariable("idArchiveAgent") Long idArchiveAgent,
+	@AuthoritiesDtoAnnotation
+	public String deleteArchiveAgent(Model model, HttpServletRequest request, @PathVariable("idArchiveAgent") Long idArchiveAgent,
 			@RequestParam Long idAgent)
 	{
 		archivageAgentMetier.deleteArchiveAgent(idArchiveAgent);

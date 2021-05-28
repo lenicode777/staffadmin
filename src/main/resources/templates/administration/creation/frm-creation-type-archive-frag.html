@@ -64,9 +64,10 @@
 										</td>
 										
 										<td>
-											<a class="btn btn-orange" th:href="'/staffadmin/administration/creation/typeArchive/delete/'+${typeArch.id}">
-												<i class="glyphicon glyphicon-trash"></i> Supprimer
+											<a th:if="${@typeArchiveMetier.isRemovable(typeArch.id)}" class="btn btn-orange" th:href="'/staffadmin/administration/creation/typeArchive/delete/'+${typeArch.id}">
+												<i class="glyphicon glyphicon-trash text-danger"></i>
 											</a>
+											<span th:if="${!@typeArchiveMetier.isRemovable(typeArch.id)}">-</span>
 										</td>										
 									</tr>
 								</tbody>

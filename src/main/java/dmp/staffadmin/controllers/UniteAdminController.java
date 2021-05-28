@@ -65,7 +65,7 @@ public class UniteAdminController
 
 	@GetMapping(path = "/staffadmin/unites-admins")
 	@AuthoritiesDtoAnnotation
-	public String goToUniteAdmin(Model model)
+	public String goToUniteAdmin(Model model, HttpServletRequest request)
 	{
 		// System.out.println("===================================CONTROLLER==========================0");
 		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
@@ -90,10 +90,10 @@ public class UniteAdminController
 		return "unite-admin/unite-admin";
 	}
 
-	@PreAuthorize("hasRole('SAF')")
+	//@PreAuthorize("hasRole('SAF')")
 	@PostMapping(path = "/staffadmin/frm-unite-admin/confirmation")
 	@AuthoritiesDtoAnnotation
-	public String goToConfirmationUniteAdmin(Model model, UniteAdmin uniteAdmin, @RequestParam String mode)
+	public String goToConfirmationUniteAdmin(Model model, HttpServletRequest request, UniteAdmin uniteAdmin, @RequestParam String mode)
 	{
 		TypeUniteAdmin typeUniteAdmin = typeUniteAdminDao.findById(uniteAdmin.getTypeUniteAdmin().getIdTypeUniteAdmin())
 				.get();
@@ -222,38 +222,6 @@ public class UniteAdminController
 		UniteAdmin visitedUniteAdmin = uniteAdminDao.findById(idUniteAdmin).get();
 		List<Long> idResponsablesTutelles = new ArrayList<>();
 
-		List<String> roles = authUser.getRoles().stream().map(r -> r.getRoleName()).collect(Collectors.toList());
-		if (visitedUniteAdmin.getPostManager() != null)
-		{
-			List<Optional<Long>> optionalIdResponsablesTutelles = visitedUniteAdmin.getPatrentsStream()
-					.filter(ua -> ua.getPostManager() != null).peek(ua -> System.out.println(ua.getAppellation()))
-					.filter(ua -> ua.getPostManager().getAgent() != null)
-					.map(ua -> Optional.ofNullable(ua.getPostManager().getAgent().getIdAgent()))
-					.collect(Collectors.toList());
-
-			for (Optional<Long> ol : optionalIdResponsablesTutelles)
-			{
-				ol.ifPresent(l -> idResponsablesTutelles.add(l));
-			}
-
-		}
-
-		if (!roles.contains("SAF"))
-		{
-			if (idResponsablesTutelles == null || idResponsablesTutelles.size() == 0)
-			{
-				throw new AuthorityException("Accès réfusé");
-			} else if (!roles.contains("RESPONSABLE"))
-			{
-				throw new AuthorityException("Accès réfusé");
-			} else
-			{
-				if (!idResponsablesTutelles.contains(authUser.getAgent().getIdAgent()))
-				{
-					throw new AuthorityException("Accès réfusé");
-				}
-			}
-		}
 
 		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
 		UniteAdmin cabinetDGMP = uniteAdminConfigService.getCabinetUniteAdminMere();

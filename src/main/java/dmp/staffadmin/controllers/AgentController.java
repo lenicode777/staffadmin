@@ -57,6 +57,7 @@ import dmp.staffadmin.metier.services.interfaces.IUniteAdminMetier;
 import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
 import dmp.staffadmin.security.dao.AppUserDao;
 import dmp.staffadmin.security.model.AppUser;
+import dmp.staffadmin.security.utilities.PrivilegeConstants;
 
 @Controller
 public class AgentController
@@ -94,8 +95,7 @@ public class AgentController
 	@Autowired
 	private IDepartementDao departementDao;
 
-	@PreAuthorize("hasAuthority('Directeur des Ressources Humaines')")
-	// @PreAuthorize("#idUser == principal.idUser")
+	@PreAuthorize("hasAuthority('"+ PrivilegeConstants.CONSULTER_LISTE_PERSONNEL + "')")
 	@GetMapping(path = "/staffadmin/list-agents")
 	@AuthoritiesDtoAnnotation
 	public String goToListAgent(Model model, HttpServletRequest request)
@@ -103,23 +103,16 @@ public class AgentController
 		List<Agent> listAgents = new ArrayList<>();
 		AppUser authUser = userDao.findByUsername(request.getUserPrincipal().getName()).orElseThrow(()->new UsernameNotFoundException("Username introuvable"));;
 
-		List<String> roles = authUser.getRoles().stream().map(r -> r.getRoleName().toUpperCase()).collect(Collectors.toList());
-		System.out.println("AgentController-->L93");
-		roles.forEach(r -> System.out.println(r));
-		if (!roles.contains(RoleEnum.RESPONSABLE.toString().toUpperCase()))
+	
+		if (authUser.getIdUaChampVisuel() == null)
 		{
-			throw new RuntimeException("Accès réfusé");
-		} else
+			listAgents = new ArrayList<>();
+		} 
+		else
 		{
-			if (authUser.getIdUaChampVisuel() == null)
-			{
-				listAgents = new ArrayList<>();
-			} else
-			{
-				UniteAdmin visibilite = uniteAdminDao.findById(authUser.getIdUaChampVisuel()).get();
-				listAgents = uniteAdminMetier.getAllPersonnel(visibilite);
-				model.addAttribute("visibilite", visibilite);
-			}
+			UniteAdmin visibilite = uniteAdminDao.findById(authUser.getIdUaChampVisuel()).get();
+			listAgents = uniteAdminMetier.getAllPersonnel(visibilite);
+			model.addAttribute("visibilite", visibilite);
 		}
 		TypeUniteAdmin typeUA = typeUniteAdminDao
 				.findByNomTypeUniteAdmin(TypeUniteAdminEnum.DIRECTION_CENTRALE.toString());
@@ -137,6 +130,7 @@ public class AgentController
 	}
 
 	@GetMapping(path = "/staffadmin/agents/search")
+	@AuthoritiesDtoAnnotation
 	public String search(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") long idDc,
 			@RequestParam(defaultValue = "0") long idSd, @RequestParam(defaultValue = "0") long idService)
 	{
@@ -247,7 +241,8 @@ public class AgentController
 
 	// @PreAuthorize("hasAuthority('SAF')")
 	@GetMapping(path = "/staffadmin/frm-agent")
-	public String goToFormAgent(Model model, @RequestParam(defaultValue = "0") Long idAgent)
+	@AuthoritiesDtoAnnotation
+	public String goToFormAgent(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") Long idAgent)
 	{
 		Agent agent = new Agent();
 		Map modelAttributes = new HashMap<>();
@@ -273,7 +268,8 @@ public class AgentController
 	}
 
 	@PostMapping(path = "/staffadmin/agents/save")
-	public String saveNewAgent(Model model, @ModelAttribute Agent agent, BindingResult bindingResult,
+	@AuthoritiesDtoAnnotation
+	public String saveNewAgent(Model model, HttpServletRequest request, @ModelAttribute Agent agent, BindingResult bindingResult,
 			@RequestParam String mode)
 	{
 		try
@@ -320,7 +316,6 @@ public class AgentController
 			return "agent/frm/frm-agent";
 		}
 		return "redirect:/staffadmin/profil?idAgent=" + agent.getIdAgent();
-		// return "redirect:/staffadmin/frm-agent";
 	}
 
 	@GetMapping(path = "/staffadmin/photo-agent/{idAgent}", produces = { MediaType.IMAGE_PNG_VALUE,

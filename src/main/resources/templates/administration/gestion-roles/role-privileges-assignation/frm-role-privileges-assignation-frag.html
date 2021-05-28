@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-role-privileges-assignation-frag">
+		<form method="post" th:action="@{/staffadmin/administration/role-privileges-assignation/save}" th:object="${privilegeAssignationDto}">
+			<div  class="panel panel-default" >
+				<div class="panel-heading">
+					<div class="form-group">
+						<label for="idRole">Choisir le role</label><br>
+						<select class="form-control" id="roleId" name="roleId">
+							<option value=""></option>
+							<option th:value="${role.idRole}" th:each="role:${roles}"  th:text="${role.roleName}"></option>
+						</select>
+					</div>				
+				</div>
+			</div>
+	
+			<div  class="panel panel-default" >
+				<div class="panel-heading">
+					<b><a href="#privileges" data-toggle="collapse">Privilèges</a></b>
+				</div>
+				<div style="padding: 10px 0px;" class="panel-body panel-collapse collapse in" id="privileges">
+					<table id="tbl-privileges" class="table table-striped table-condensed table-hover">
+						<thead>
+							<tr>
+								<th>Privilèges</th>
+								<th>Activer</th>
+							</tr>
+						</thead>
+						<tbody id="tbl-privileges-body">
+							<tr th:each="privilege:${privileges}">
+								<th style="vertical-align: middle;" th:text="${privilege.privilegeName}">Privilèges</th>
+								<td style="vertical-align: middle;" >
+									<input type="checkbox" th:value="${privilege.idPrivilege}" name="privilegeIds" >
+	<!-- 							<input type="checkbox" th:value="${privilegeAccessDto.idPrivilege}"  th:checked="${@userAuthoritiesDetailsService.hasPrivilege(agent.user.username, privilegeAccessDto.idPrivilege)}" name="notRevokedPrivilegeIds"> -->
+									<input type="hidden" th:value="${privilege.idPrivilege}" />
+								</td>
+							</tr>
+						</tbody>				  	
+					</table>
+					<button type="submit" class="btn btn-success btn-lg pull-right" style="margin-right:10px;">Valider</button>
+				</div>
+				
+			</div>
+			
+		</form>
+    </th:block>
+</body>
+
+</html>-

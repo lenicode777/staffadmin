@@ -16,6 +16,8 @@ import dmp.staffadmin.security.dao.AppRoleDao;
 import dmp.staffadmin.security.model.AppPrivilege;
 import dmp.staffadmin.security.model.AppRole;
 import dmp.staffadmin.security.model.AppUser;
+import dmp.staffadmin.security.model.UsersRevokedPrivileges;
+import dmp.staffadmin.security.utilities.Comparators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -27,6 +29,8 @@ public class SecurityUser implements UserDetails
 	
 	
 	
+
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() 
 	{
@@ -34,8 +38,21 @@ public class SecurityUser implements UserDetails
 		
 		if(defaultRole!=null)
 		{
-			authorities = Stream.concat(Stream.of(defaultRole.getRoleName()), defaultRole.getPrivileges().stream().map(AppPrivilege::getPrivilegeName))
-								.map(auth->new SimpleGrantedAuthority(auth)).collect(Collectors.toList());
+			authorities = Stream.concat(
+											Stream.of(defaultRole.getRoleName()),
+											defaultRole.getPrivileges().stream()
+											.filter
+											(
+											 	//Je filtre pour retirer de la liste tous les privilèges désactiviés (Revoqués)
+											 	privilege->!user.getUsersRevokedPrivileges().stream()
+											 	.map(UsersRevokedPrivileges::getRevokedPrivilege)
+											 	.map(rp->rp.getIdPrivilege())
+											 	.anyMatch(rp->rp.longValue()==privilege.getIdPrivilege().longValue())
+											)
+											.map(AppPrivilege::getPrivilegeName)
+									   )
+										.map(auth->new SimpleGrantedAuthority(auth))
+										.collect(Collectors.toList());
 		}
 		else
 		{
@@ -46,6 +63,15 @@ public class SecurityUser implements UserDetails
 			Stream<String> privilegeStream = user.getRoles()
 												 .stream().map(AppRole::getPrivileges)
 												 .flatMap(privilegesList->privilegesList.stream())
+												 .filter
+												 (
+													 //Je filtre pour retirer de la liste tous les privilèges désactiviés (Revoqués)
+													 privilege->!user.getUsersRevokedPrivileges().stream()
+													 .map(UsersRevokedPrivileges::getRevokedPrivilege)
+													 .map(rp->rp.getIdPrivilege())
+													 .anyMatch(rp->rp.longValue()==privilege.getIdPrivilege().longValue())
+												 )
+												 .filter(Comparators.distinctByKey(privilege->privilege.getIdPrivilege().longValue()))
 												 .map(AppPrivilege::getPrivilegeName);
 
 			authorities = Stream.concat(rolesStream, privilegeStream)

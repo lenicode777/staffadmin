@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dmp.staffadmin.dao.IArchiveAgentDao;
 import dmp.staffadmin.dao.ITypeArchiveDao;
 import dmp.staffadmin.metier.constants.ArchivageConstants;
 import dmp.staffadmin.metier.entities.TypeArchive;
@@ -21,6 +22,7 @@ public class TypeArchiveMetier implements ITypeArchiveMetier
 
 	@Autowired
 	private ITypeArchiveDao typeArchiveDao;
+	@Autowired private IArchiveAgentDao archiveAgentDao;
 
 	private @Autowired TypeArchiveValidation typeArchiveValidation;
 
@@ -45,6 +47,18 @@ public class TypeArchiveMetier implements ITypeArchiveMetier
 		}
 		typeArchive.setTypeArchivePath(typeArchiveDirectory.getPath());
 		return typeArchiveDao.save(typeArchive);
+	}
+
+	@Override
+	public boolean isRemovable(TypeArchive typeArchive) 
+	{
+		return !archiveAgentDao.existsByTypeArchive(typeArchive);
+	}
+	
+	@Override
+	public boolean isRemovable(Long  idTypeArchive) 
+	{
+		return !archiveAgentDao.existsByTypeArchiveId(idTypeArchive);
 	}
 
 }

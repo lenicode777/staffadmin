@@ -11,7 +11,7 @@
             <div class="panel-heading">
                 <b><a href="#frm-affectation" data-toggle="collapse">Nouvelle affectation</a></b>
 				<span>
-					<img th:title="${affectation.agent}" alt="photo de l'agent" th:src="@{'/staffadmin/agents/'+ ${affectation.agent.idAgent}+'/photo'}" class="img-circle pull-right" style="height: 3%; width: 3%";>
+					<img th:title="${affectation.agent}" alt="photo de l'agent" th:src="@{'/staffadmin/photo-agent/'+${affectation.agent.idAgent}}" class="img-circle pull-right" style="height: 3%; width: 3%";>
 				</span>
             </div>
             <div class="panel-body panel-collapse collapse in" id="frm-affectation">
@@ -23,7 +23,7 @@
 	                           
 	                        <select required="required" th:field="*{uaArrivee.idUniteAdmin}" id="uniteAdminDeDestination" class="form-control">
 	                        	<option value="">Choisir</option>
-	                            <option th:each="ua:${unitesAdmins}" th:value="${ua.idUniteAdmin}" th:text="${ua.appellation + ' ('+ua.sigle+')'}"></option>
+	                            <option th:select="${uaArrivee==null? 'false' : ua.idUniteAdmin==uaArrivee.idUniteAdmin}" th:each="ua:${unitesAdmins}" th:value="${ua.idUniteAdmin}" th:text="${ua.appellation + ' ('+ua.sigle+')'}"></option>
 	                        </select>
 	                    </div> 
 	               	</div>
@@ -33,8 +33,6 @@
 	               			<input required="required" id="dateAffectation" type="date" class="form-control" th:field="*{dateAffectation}" />
 	               		</div>
 	               	</div>
-                      
-                    
                     <button style="margin-left: 5px;" type="submit" class="btn btn-lg pull-right btn-success">Pourvuivre <i class="glyphicon glyphicon-hand-right"></i></button>
                 </form>
 

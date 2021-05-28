@@ -70,20 +70,20 @@ public class Agent
 	private String numBadge;
 	@Column(length = 20, unique = true)
 	private String matricule;
-	@ManyToOne(fetch = FetchType.EAGER)	@JoinColumn(name = "ID_FONCTION")
+	@ManyToOne	@JoinColumn(name = "ID_FONCTION")
 	private Fonction fonction;
-	@ManyToOne(fetch = FetchType.EAGER)	@JoinColumn(name = "ID_FONCTION_NOMINATION")
+	@ManyToOne	@JoinColumn(name = "ID_FONCTION_NOMINATION")
 	private Fonction fonctionNomination;
 	
 	@OneToOne @JoinColumn(name = "ID_POST")
 	@JsonIgnore
 	private Post post; 
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_EMPLOI") 
+	@ManyToOne @JoinColumn(name = "ID_EMPLOI") 
 	private Emploi emploi;
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_GRADE")
+	@ManyToOne @JoinColumn(name = "ID_GRADE")
 	private Grade grade;
 	private String titre;
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TUTELLE_DIRECT")
+	@ManyToOne @JoinColumn(name = "ID_TUTELLE_DIRECT")
 	private UniteAdmin tutelleDirecte;
 	
 	@Column(length = 15)
@@ -108,48 +108,8 @@ public class Agent
 	private String nomPhoto;
 	@Transient private MultipartFile photoFile;
 	
-	//@OneToOne @JoinColumn(name = "ID_RECRUTEMENT")
-	//private Recrutement recrutement;
 	
-
-	/*
-	@Column(length = 255, unique = true)
-	private String noteServiceDAAFPath;
-	@Column(length = 255, unique = true)
-	private String noteServiceDGBFPath;
-	@Column(length = 255, unique = true)
-	private String certificatService1Path;
-	@Column(length = 255, unique = true)
-	private String arreteNominationPath;
-	@Column(length = 255, unique = true)
-	private String decisionAttentePath;
-	@Column(length = 255, unique = true)
-	private String cvPath;
-	@Column(length = 255, unique = true)
-	private String pieceIdentitePath;
-
-	
-	
-	
-	@Transient private MultipartFile noteServiceDAAFFile;
-
-	@Transient private MultipartFile noteServiceDGBFFile;
-
-	@Transient private MultipartFile certificatService1File;
-
-	@Transient private MultipartFile arreteNominationFile;
-
-	@Transient private MultipartFile decisionAttenteFile;
-
-	@Transient private MultipartFile cvFile;
-
-	@Transient private MultipartFile pieceIdentiteFile;
-
-	
-	*/
 	@Transient private long age;
-	//@Transient private String tempsTravailRestant;
-	
 	public long getAge()
 	{
 		return DateManager.dateDiff(dateNaissance, new Date());

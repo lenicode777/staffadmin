@@ -22,6 +22,7 @@ import dmp.staffadmin.security.model.AppPrivilege;
 import dmp.staffadmin.security.model.AppRole;
 import dmp.staffadmin.security.model.AppUser;
 import dmp.staffadmin.security.model.UsersRevokedPrivileges;
+import dmp.staffadmin.security.utilities.Comparators;
 
 @Service
 public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsService 
@@ -30,12 +31,7 @@ public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsSer
 	@Autowired private AppRoleDao roleDao;
 	@Autowired private AppPrivilegeDao privilegeDao;
 	
-	public static <T> Predicate<T> distinctByKey(
-		    Function<? super T, ?> keyExtractor) {
-		  
-		    Map<Object, Boolean> seen = new ConcurrentHashMap<>(); 
-		    return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null; 
-		}
+
 	
 	@Override
 	public boolean hasRole(AppUser user, AppRole role) 
@@ -51,7 +47,7 @@ public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsSer
 		AppUser user = userDao.findById(idUser).get();
 		return hasRole(user, role);
 	}
-	
+	 
 	@Override
 	public boolean hasRole(String username, AppRole role) 
 	{
@@ -92,7 +88,7 @@ public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsSer
 		return user.getRoles().stream()
 							  .map(AppRole::getPrivileges)
 							  .flatMap(Collection::stream)
-							  .filter(distinctByKey(p -> p.getIdPrivilege().longValue()))
+							  .filter(Comparators.distinctByKey(p -> p.getIdPrivilege().longValue()))
 							  .filter
 							  (//Je filtre pour retirer de la liste tous les privilèges désactiviés (Revoqués)
 								p->!user.getUsersRevokedPrivileges().stream()
@@ -106,7 +102,8 @@ public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsSer
 	@Override
 	public List<AppPrivilege> getPrivileges(String username) 
 	{
-		AppUser user = userDao.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Utilisateur introuvable"));
+		AppUser user = userDao.findByUsername(username)
+							  .orElseThrow(()->new UsernameNotFoundException("Utilisateur introuvable"));
 		return getPrivileges(user);
 	}
 
@@ -126,7 +123,7 @@ public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsSer
 		return rolesId.stream().map(idRole->roleDao.findById(idRole).get())
 											.map(AppRole::getPrivileges)
 											.flatMap(Collection::stream)
-											.filter(distinctByKey(p -> p.getIdPrivilege()))
+											.filter(Comparators.distinctByKey(p -> p.getIdPrivilege()))
 											.collect(Collectors.toList());
 	}
 
@@ -135,7 +132,7 @@ public class UserAuthoritiesDetailsService implements IUserAuthoritiesDetailsSer
 	{
 		return roles.stream().map(AppRole::getPrivileges)
 							 .flatMap(Collection::stream)
-							 .filter(distinctByKey(p -> p.getIdPrivilege()))
+							 .filter(Comparators.distinctByKey(p -> p.getIdPrivilege()))
 							 .collect(Collectors.toList());
 	}
 

@@ -32,6 +32,7 @@ import dmp.staffadmin.metier.enumeration.ModeEnum;
 import dmp.staffadmin.metier.exceptions.NominationException;
 import dmp.staffadmin.metier.services.interfaces.INominationMetier;
 import dmp.staffadmin.metier.validation.INominationValidation;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
 import dmp.staffadmin.security.dao.AppUserDao;
 
 @Controller
@@ -57,6 +58,7 @@ public class NominationController
 	private INominationValidation nominationValidation;
 
 	@GetMapping(path = "/staffadmin/nominations/form")
+	@AuthoritiesDtoAnnotation
 	public String goToNominationForm(Model model, HttpServletRequest request,
 			@RequestParam(name = "idAgent", defaultValue = "0") Long idAgent,
 			@RequestParam(defaultValue = "0") Long idFonction, @RequestParam(defaultValue = "") String numActeNominaton,
@@ -123,6 +125,7 @@ public class NominationController
 	}
 
 	@GetMapping(path = "/staffadmin/unites-admins/{idUniteAdmin}/nominations/form")
+	@AuthoritiesDtoAnnotation
 	public String goToNominationForm2(Model model, HttpServletRequest request, @PathVariable Long idUniteAdmin,
 			@RequestParam(defaultValue = "") String matricule, @RequestParam(defaultValue = "") String numActeNominaton,
 			@RequestParam(defaultValue = "0") long idFonction, @RequestParam(defaultValue = "") String dateNomination)
@@ -196,6 +199,7 @@ public class NominationController
 	}
 
 	@PostMapping(path = "/staffadmin/nomination/confirmation")
+	@AuthoritiesDtoAnnotation
 	public String goToConfirmationNomination(Model model, HttpServletRequest request,
 			@ModelAttribute Nomination nomination, @RequestParam(name = "mode") String mode)
 	{

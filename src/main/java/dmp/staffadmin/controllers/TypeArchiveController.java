@@ -2,6 +2,8 @@ package dmp.staffadmin.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import dmp.staffadmin.metier.entities.TypeArchive;
 import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.metier.exceptions.TypeArchiveException;
 import dmp.staffadmin.metier.services.interfaces.ITypeArchiveMetier;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
 
 @Controller
 public class TypeArchiveController
@@ -26,15 +29,17 @@ public class TypeArchiveController
 	private ITypeArchiveMetier typeArchiveMetier;
 
 	@GetMapping(path = "/staffadmin/administration/creation/forms")
-	public String goToCreationForms(Model model, @RequestParam(defaultValue = "new") String mode,
+	@AuthoritiesDtoAnnotation
+	public String goToCreationForms(Model model, HttpServletRequest request, @RequestParam(defaultValue = "new") String mode,
 			@RequestParam(defaultValue = "0") Long idTypeArchive)
 	{
-		goToTypeArchiveForm(model, "new", 0L);
+		goToTypeArchiveForm(model, request, "new", 0L);
 		return "administration/creation/frm-creation";
 	}
 
 	@GetMapping(path = "/staffadmin/administration/creation/typeArchive/form")
-	public String goToTypeArchiveForm(Model model, @RequestParam(defaultValue = "new") String mode,
+	@AuthoritiesDtoAnnotation
+	public String goToTypeArchiveForm(Model model, HttpServletRequest request, @RequestParam(defaultValue = "new") String mode,
 			@RequestParam(defaultValue = "0") Long idTypeArchive)
 	{
 		TypeArchive typeArchive = new TypeArchive();

@@ -30,6 +30,7 @@ import dmp.staffadmin.metier.exceptions.AffectationException;
 import dmp.staffadmin.metier.exceptions.AuthorityException;
 import dmp.staffadmin.metier.services.interfaces.IAffectationMetier;
 import dmp.staffadmin.metier.services.interfaces.IUniteAdminConfigService;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
 import dmp.staffadmin.security.dao.AppUserDao;
 import dmp.staffadmin.security.model.AppUser;
 import dmp.staffadmin.security.services.IUserMetier;
@@ -50,6 +51,7 @@ public class AffectationController
 	
 	//@PreAuthorize("hasAuthority('SAF')")
 	@GetMapping(path = "/staffadmin/affectations/{idAgent}")
+	@AuthoritiesDtoAnnotation
 	public String goToFrmSingleAffectation(Model model, HttpServletRequest request, @PathVariable Long idAgent)
 	{
 		String mode = "edition";
@@ -65,6 +67,7 @@ public class AffectationController
 	
 	//@PreAuthorize("hasAuthority('SAF')")
 	@PostMapping(path = "/staffadmin/affectations/confirmation")
+	@AuthoritiesDtoAnnotation
 	public String goToConfirmationSingleAffectation(Model model, HttpServletRequest request, @ModelAttribute Affectation affectation)
 	{
 		String mode = "confirmation";
@@ -109,38 +112,31 @@ public class AffectationController
 	//@PreAuthorize("hasRole('DIRECTEUR DES RESSOURCES HUMAINES') or hasRole('D') or hasRole('SD')")
 	//@PreAuthorize("hasAuthority('ROLE_SAF')")
 	@GetMapping(path = "/staffadmin/frm-affectations-groupees/{idUaArrivee}")
+	@AuthoritiesDtoAnnotation
 	public String goToFrmAffectationGroupee(HttpServletRequest request, Model model, @PathVariable Long idUaArrivee)
 	{
 		String mode = "edition";
 		try
 		{
-			UniteAdmin authUserVisibility=null;
+			//UniteAdmin authUserVisibility=null;
 			AppUser authUser = userDao.findByUsername(request.getUserPrincipal().getName()).orElseThrow(()->new UsernameNotFoundException("Username introuvable")); 
-			if(authUser.hasRole(RoleEnum.SAF.toString()))
-			{
-				authUserVisibility = uniteAdminConfigService.getUniteAdminMere();
-			}
-			else if(authUser.hasRole(RoleEnum.DIRECTEUR.toString()) || authUser.hasRole(RoleEnum.SOUS_DIRECTEUR.toString()) )
-			{
-				authUserVisibility = authUser.getAgent().getTutelleDirecte();
-			}
-			else
-			{
-				throw new AuthorityException("Desolé! Vous ne disposez des droits pour acceder à cette ressource");
-			}
-			
+			UniteAdmin authUserVisibility = uniteAdminDao.findById(authUser.getIdUaChampVisuel()).get();
+				
 			UniteAdmin uaArrivee = null;
 			List<UniteAdmin> possibleDestinations = null;
 			if(idUaArrivee!=0)
 			{
 				uaArrivee = uniteAdminDao.findById(idUaArrivee).get();
-				possibleDestinations = null;
+				//possibleDestinations = null;
 			}
 			else
 			{
-				possibleDestinations = authUserVisibility.getSubAdminStream().collect(Collectors.toList());
 				uaArrivee = null;
 			}
+			
+			possibleDestinations = authUserVisibility
+					.getSubAdminStream()
+					.collect(Collectors.toList());
 			
 			AffectationGroupeeForm affectationGroupeeForm = new AffectationGroupeeForm();
 			affectationGroupeeForm.setAuthUserVisibilityId(authUserVisibility.getIdUniteAdmin());
@@ -164,14 +160,16 @@ public class AffectationController
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			model.addAttribute("mode", mode);
 			model.addAttribute("globalErrorMsg", "Aucun agent sous votre tutelle n'est susceptible de faire l'objet d'une affectation");
 		}
 		return "affectation/affectations-groupees/frm-affectations-groupees";
 	}
 	
-	@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
+	///@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
 	@PostMapping(path = "/staffadmin/confirmation/affectations-groupees")
+	@AuthoritiesDtoAnnotation
 	public String goToConfirmationFrmAffectationGroupee(HttpServletRequest request, Model model, @ModelAttribute AffectationGroupeeForm affectationGroupeeForm)
 	{
 		UniteAdmin uaArrivee = uniteAdminDao.findById(affectationGroupeeForm.getUaArrivee().getIdUniteAdmin()).get();
@@ -223,14 +221,14 @@ public class AffectationController
 		return "affectation/affectations-groupees/frm-affectations-groupees";
 	}
 	
-	@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
+	//@PreAuthorize("hasRole('SAF') or hasRole('D') or hasRole('SD')")
 	@PostMapping(path="/staffadmin/affectations-groupees/save")
 	public String saveAffectationsGroupees(HttpServletRequest request, Model model, @ModelAttribute AffectationGroupeeForm affectationGroupeeForm)
 	{
 		UniteAdmin uaArrivee = affectationGroupeeForm.getUaArrivee();
-		List<Agent> agentsAAffecter = affectationGroupeeForm.getListIdsAgents().stream()
+		/*List<Agent> agentsAAffecter = affectationGroupeeForm.getListIdsAgents().stream()
 									 .map(id->agentDao.findById(id).get())
-									 .collect(Collectors.toList());
+									 .collect(Collectors.toList());*/
 		Date dateAffectation = affectationGroupeeForm.getDateAffectation();
 		Affectation affectation = new Affectation();
 		try

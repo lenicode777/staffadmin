@@ -27,7 +27,7 @@ public class ArchiveAgent
 	private String numArchive;
 	private String description;
 	private String path;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private TypeArchive typeArchive;
 	@ManyToOne
 	@JoinColumn(name = "ID_AGENT")

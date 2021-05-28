@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -32,9 +33,11 @@ import dmp.staffadmin.metier.entities.Agent;
 import dmp.staffadmin.metier.entities.UniteAdmin;
 import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
+import dmp.staffadmin.security.dao.AppPrivilegeDao;
 import dmp.staffadmin.security.dao.AppRoleDao;
 import dmp.staffadmin.security.dao.AppUserDao;
 import dmp.staffadmin.security.dto.PrivilegeAccessDto;
+import dmp.staffadmin.security.dto.RolePrivilegeAssignationDto;
 import dmp.staffadmin.security.dto.UserAccessDto;
 import dmp.staffadmin.security.dto.factory.IUserAccessDtoFactory;
 import dmp.staffadmin.security.dto.factory.UserAccessDtoFactory;
@@ -68,6 +71,8 @@ public class AdministrationController
 	@Autowired private IUserAuthoritiesDetailsService userAuthoritiesDetailsService;
 	@Autowired private ISecurityContextManager securityContextManager;
 
+	@Autowired private AppPrivilegeDao privilegeDao;
+
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor)
 	{
 		Set<Object> seen = ConcurrentHashMap.newKeySet();
@@ -86,6 +91,7 @@ public class AdministrationController
 			if (agentDao.existsByMatricule(matricule))
 			{
 				agent = agentDao.findByMatricule(matricule);
+				//agent.setUser(userDao.findByAgentIdAgent(agent.getIdAgent()).get());
 				
 				UniteAdmin userTutelleDirecte = agent.getTutelleDirecte();
 
@@ -165,7 +171,7 @@ public class AdministrationController
 
 	@GetMapping(path = "/list-users")
 	@AuthoritiesDtoAnnotation
-	public String goToListUsers(Model model)
+	public String goToListUsers(Model model, HttpServletRequest request)
 	{
 		List<AppUser> listUsers = userDao.findAll();
 		listUsers.forEach(user ->
@@ -205,5 +211,40 @@ public class AdministrationController
 		return "redirect:/";
 	}
 	
+	@GetMapping(path = "/role-privileges-assignation/form")
+	@AuthoritiesDtoAnnotation
+	public String goToRolePrivilegesAssignation(Model model, HttpServletRequest request)
+	{
+		model.addAttribute("roles", roleDao.findAll());
+		model.addAttribute("privileges", privilegeDao.findAll());
+		
+		RolePrivilegeAssignationDto privilegeAssignationDto = new RolePrivilegeAssignationDto();
+		model.addAttribute("privilegeAssignationDto", privilegeAssignationDto);
+		
+		return "administration/gestion-roles/role-privileges-assignation/frm-role-privileges-assignation";
+	}
+	
+	@PostMapping(path = "/role-privileges-assignation/save")
+	@AuthoritiesDtoAnnotation
+	public String saveRolePrivilegesAssignation(Model model, 
+			HttpServletRequest request,
+			@RequestParam long roleId,
+			@RequestParam String privilegeIds)
+	{
+		System.out.println("========RoleIds========" + roleId);
+		System.out.println("========PrivilegeIds========" +privilegeIds);
+		
+		AppRole role = roleDao.findById(roleId).get();
+		
+		List<AppPrivilege> privileges = Arrays.asList(privilegeIds.split(","))
+										.stream()
+										.map(id->privilegeDao.findById(Long.parseLong(id)).get())
+										.collect(Collectors.toList());
+		
+		role.setPrivileges(privileges);
+		roleDao.save(role);
+		
+		return "redirect:/staffadmin/administration/role-privileges-assignation/form";
+	}
 	
 }

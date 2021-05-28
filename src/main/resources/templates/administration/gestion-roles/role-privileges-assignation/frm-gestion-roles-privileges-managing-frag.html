@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <th:block th:fragment="frm-gestion-roles-privileges-managing-frag">
+	 	<div  class="panel panel-default" >
+			<div class="panel-heading">
+				<b><a href="#privileges-panel" data-toggle="collapse">Gestion des privilèges</a></b>
+			</div>
+			<div style="padding: 10px 0px;" class="panel-body panel-collapse collapse in" id="privileges-panel">
+					<table th:if="${agent!=null}" id="tbl-privileges" class="table table-striped">
+						<thead>
+							<tr>
+								<th>Privilèges</th>
+								<th>Activer</th>
+							</tr>
+						</thead>
+						<tbody id="tbl-privileges-body">
+							<tr th:each="privilegeAccessDto:${userAccessDto.privilegeAccessDtos}">
+								<th style="vertical-align: middle;" th:text="${privilegeAccessDto.privilegeName}">Privilèges</th>
+								<td style="vertical-align: middle;" >
+									<input type="checkbox" th:value="${privilegeAccessDto.idPrivilege}"  th:checked="${privilegeAccessDto.notRevoked}" name="notRevokedPrivilegeIds">
+<!-- 								<input type="checkbox" th:value="${privilegeAccessDto.idPrivilege}"  th:checked="${@userAuthoritiesDetailsService.hasPrivilege(agent.user.username, privilegeAccessDto.idPrivilege)}" name="notRevokedPrivilegeIds"> -->
+									<input type="hidden" th:value="${privilegeAccessDto.idPrivilege}" name="privilegeIds" />
+								</td>
+							</tr>
+						</tbody>				  	
+					</table>
+			</div>
+		</div>
+    </th:block>
+</body>
+
+</html>

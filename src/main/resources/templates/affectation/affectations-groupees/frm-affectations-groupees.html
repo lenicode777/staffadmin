@@ -71,7 +71,12 @@
        	<script type="text/javascript">
         	$(document).ready(function() 
     	    {
-    	    	$('#tbl-agents-affectables').DataTable();
+    	    	$('#tbl-agents-affectables').DataTable
+    	    	({
+    	    		"scrollY":"300px",
+				    "scrollCollapse":true,
+				    "paging":false
+        	    });
     	    });
     	    
 			function formatDropDownBoxToSelect2(idDropDown)

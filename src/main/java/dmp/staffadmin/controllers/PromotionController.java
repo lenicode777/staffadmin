@@ -30,6 +30,7 @@ import dmp.staffadmin.metier.enumeration.ErrorMsgEnum;
 import dmp.staffadmin.metier.exceptions.PromotionException;
 import dmp.staffadmin.metier.services.interfaces.IPromotionMetier;
 import dmp.staffadmin.metier.validation.IValidation;
+import dmp.staffadmin.security.aspects.AuthoritiesDtoAnnotation;
 
 @Controller
 public class PromotionController
@@ -47,8 +48,9 @@ public class PromotionController
 	@Autowired
 	private IValidation<Promotion> promotionValidation;
 
-	@PreAuthorize("hasRole('SAF')")
+	//@PreAuthorize("hasRole('SAF')")
 	@GetMapping(path = "/staffadmin/promotion/form")
+	@AuthoritiesDtoAnnotation
 	public String goToFrmPromotion(Model model, HttpServletRequest request,
 			@RequestParam(name = "idAgent", defaultValue = "0") Long idAgent,
 			@RequestParam(defaultValue = "0") Long idFonction, @RequestParam(defaultValue = "0") Long idEmploi,
@@ -130,7 +132,8 @@ public class PromotionController
 	}
 
 	@PostMapping(path = "/staffadmin/promotion/confirmation")
-	@PreAuthorize("hasRole('SAF')")
+	//@PreAuthorize("hasRole('SAF')")
+	@AuthoritiesDtoAnnotation
 	public String goToFrmConfirmationPromotion(Model model, HttpServletRequest request,
 			@ModelAttribute Promotion promotion)
 	{

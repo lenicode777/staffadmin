@@ -23,12 +23,12 @@ public class Fonction
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idFonction;
 	private String nomFonction;
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_ROLE")
+	@ManyToOne @JoinColumn(name = "ID_ROLE")
 	private AppRole roleAssocie;
 	private boolean fonctionDeNomination;
 	private boolean fonctionTopManager;
 	@OneToMany(mappedBy = "fonction")
 	private Collection<Agent> listAgents; 
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_TYPE_UNITE_ADMIN") //Plusieurs Fonction peuvent correspondrent à un même type d'unité admin 
+	@ManyToOne @JoinColumn(name = "ID_TYPE_UNITE_ADMIN") //Plusieurs Fonction peuvent correspondrent à un même type d'unité admin 
 	private TypeUniteAdmin typeUniteAdmin; // Exemple : Directeur Général, Directeur Général Adjoint et Assistant DG correspondent tous à DG
 }

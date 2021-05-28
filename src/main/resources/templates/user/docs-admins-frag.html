@@ -29,17 +29,38 @@
 								<td  th:text="${archiveAgent.typeArchive.nom}"></td>
 								<td th:text="${archiveAgent.numArchive}"></td>
 								<td th:text="${archiveAgent.description}"></td>		
+																
 								<td>
 									<a title="Télécharger" class="btn btn-orange" th:href="@{'/staffadmin/archiveAgent/download/'+${archiveAgent.id}}">
-												<i style="color: green;" class="glyphicon glyphicon-download-alt"></i>
+										<i style="color: green;" class="glyphicon glyphicon-download-alt"></i>
 									</a>
-								</td>
-								
-								<td>
-									<a title="Supprimer" class="btn btn-orange" th:href="@{'/staffadmin/archiveAgent/delete/'+${archiveAgent.id}+'?idAgent='+${archiveAgent.agent.idAgent}}">
+									
+									<a title="Supprimer" class="btn btn-orange" data-toggle="modal" th:href="'#modal' + ${archiveAgent.id}" th:attr="data-bs-target='#modal' + ${archiveAgent.id}" id="modal-trigger">
 										<i style="color: red;" class="glyphicon glyphicon-trash"></i>
 									</a>
-								</td>																		
+									
+								</td>	
+								
+								<div class="modal fade" th:id="'modal' + ${archiveAgent.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								 	<div class="modal-dialog">
+									    <div class="modal-content">
+									     	<div class="modal-header">
+										        
+										        <button type="button" class="close btn pull-right" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">X</button>
+									     		<h4 class="modal-title" id="exampleModalLabel">Confirmation de la suppression</h4>
+									     	</div>
+									     	<div class="modal-body">
+									        	Voulez-vous vraiment supprimer le document?
+									     	</div>
+									      	<div class="modal-footer">
+									        	<button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
+									      
+									        	<a th:href="@{'/staffadmin/archiveAgent/delete/'+${archiveAgent.id}+'?idAgent='+${archiveAgent.agent.idAgent}}" id="btn-delete" type="button" class="btn btn-primary">Delete</a>
+									      	</div>
+									    </div>
+								 	</div>
+								</div>
+																									
 							</tr>
 						</tbody>
 					</table>						    		

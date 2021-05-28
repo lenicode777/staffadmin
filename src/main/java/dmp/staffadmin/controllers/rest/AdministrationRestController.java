@@ -6,11 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import dmp.staffadmin.security.dao.AppPrivilegeDao;
 import dmp.staffadmin.security.dto.PrivilegeAccessDto;
+import dmp.staffadmin.security.dto.RolePrivilegeAssignationDto;
 import dmp.staffadmin.security.model.AppPrivilege;
 import dmp.staffadmin.security.services.IUserAuthoritiesDetailsService;
 
@@ -19,6 +20,7 @@ import dmp.staffadmin.security.services.IUserAuthoritiesDetailsService;
 public class AdministrationRestController 
 {
 	@Autowired private IUserAuthoritiesDetailsService userAuthoritiesDetailsService;
+	@Autowired private AppPrivilegeDao privilegeDao;
 	
 	@GetMapping(path = "/staffadmin/administration/getPrivilegesOfRoles")
 	public List<AppPrivilege> getPrivilegeOfRoles(@RequestParam String idRoles)
@@ -59,6 +61,27 @@ public class AdministrationRestController
 										 userAuthoritiesDetailsService.hasPrivilege(idUser, p))
 								 )
 						 .collect(Collectors.toList());
+	}
+	
+	@GetMapping(path="/staffadmin/administration/getRolePrivilegesAssignationDto")
+	public List<RolePrivilegeAssignationDto> getRolePrivilegeAssignationDtos(@RequestParam long roleId)
+	{
+		List<AppPrivilege> allPrivileges = privilegeDao.findAll();
+		List<AppPrivilege> privileges = privilegeDao.findByRoles_idRole(roleId);
+		
+		List<RolePrivilegeAssignationDto> privilegeAssignationDtos = 
+		allPrivileges.stream()
+	    .map
+	    (
+	    	priv->new RolePrivilegeAssignationDto
+	    	(
+	    		roleId, 
+	    		priv, 
+	    		privileges.stream().anyMatch(p->p.getIdPrivilege().longValue()==priv.getIdPrivilege().longValue())
+	    	)
+	    ).collect(Collectors.toList());
+		
+		return privilegeAssignationDtos;
 	}
 	
 }

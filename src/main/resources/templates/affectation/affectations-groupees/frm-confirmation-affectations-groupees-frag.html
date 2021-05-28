@@ -43,7 +43,7 @@
 								
 								<th>
 									<span>
-                                        <img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/agents/'+ ${agent.idAgent}+'/photo'}" class="img-circle pull-right" style="height: 40px; width: 40px";>
+                                        <img th:title="${agent}" alt="photo de l'agent" th:src="@{'/staffadmin/photo-agent/'+${agent.idAgent}}" class="img-circle pull-right" style="height: 40px; width: 40px";>
                                     </span>
 								</th>
 								<td style="display: none;"><input  type="checkbox" checked th:field="*{listIdsAgents}" th:value="${agent.idAgent}"/></td>

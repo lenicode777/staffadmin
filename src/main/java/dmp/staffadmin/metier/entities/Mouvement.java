@@ -22,9 +22,9 @@ public class Mouvement
 	@Id @GeneratedValue
 	private Long idMouvement;
 	private String acteMouvementPath;
-	@ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_AGENT")
+	@ManyToOne @JoinColumn(name = "ID_AGENT")
 	private Agent agent;
-	@OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "ID_DMDE")
+	@OneToOne @JoinColumn(name = "ID_DMDE")
 	private DmdeMouvement dmdeMouvement;
 	@Transient
 	private MultipartFile acteMouvementFile;

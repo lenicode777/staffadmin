@@ -25,7 +25,6 @@ public class AuthoritiesDtoAspect
 	@Around(value = "@annotation(AuthoritiesDtoAnnotation)", argNames = "joinPoint")
 	public String injectAuthoritiesDtoToViewModel(ProceedingJoinPoint joinPoint) throws Throwable
 	{
-		System.out.println("Aspect exécution!!!");
 		HttpServletRequest request = null;
 		Model model = null;
 		Object [] args= joinPoint.getArgs();

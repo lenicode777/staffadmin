@@ -54,7 +54,7 @@
 
 <body>
     <div layout:fragment="content">
-    	<th:block th:replace="administration/gestion-roles/frm-gestion-roles-frag.html::frm-gestion-roles-frag"></th:block>
+    	<th:block th:replace="administration/gestion-roles/role-privileges-assignation/frm-role-privileges-assignation-frag.html::frm-role-privileges-assignation-frag"></th:block>
     </div>
     <div layout:fragment="js-specifics-dependancies">
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -74,7 +74,7 @@
 	    $(document).ready(function()
 	   	{
 		   	formatToDataTable("tbl-privileges");
-		   	$('#idUaChampVisuel').select2();
+		   	$("#roleId").select2();
 	   	});
 
 			function formatToDataTable(idTable)
@@ -84,7 +84,7 @@
 				   	$('#'+idTable).DataTable
 					(
 						{
-							"scrollY":"200px",
+							"scrollY":"250px",
 						    "scrollCollapse":true,
 						    "paging":false
 						}
@@ -94,28 +94,14 @@
 	    </script>
        	
         <script>
-        	formatDropDownBoxToSelect2("visibilite");
-            var demo1 = $('#roles-selection').bootstrapDualListbox
-            (
-            	{
-            		preserveSelectionOnMove: 'moved',
-            		moveOnSelect: false
-            	}
-            );
-
-            $("#roles-selection").change(function(e)
-            {
-                var listRoles = $("#roles-selection > option:selected");
-                var idUser = $("#idUser").val();
-            	var list="";
-            	listRoles.each(function(index)
-                {
-					list += $( this ).val()+",";
-                });
+            $("#roleId").change(function(e)
+            {  
+                var roleId = $("#roleId").val();
+            
                 	$.ajax
 				    ({
 				        type: "get",
-				        url: "http://localhost:8081/staffadmin/administration/getPrivilegeAccessDtoFromRolesIdsAndUserId?idUser="+idUser+"&idRoles="+list,
+				        url: "http://localhost:8081/staffadmin/administration/getRolePrivilegesAssignationDto?roleId="+roleId,
 				        success: function (response) 
 				        {
 				            $("#tbl-privileges-body").children('tr').remove();
@@ -123,7 +109,7 @@
 				            $.each(response, function(key, value) 
 				            {
 					            var checked = "";
-					            if(value.notRevoked)
+					            if(value.active)
 						        {
 						            checked = "checked";
 						        }
@@ -134,43 +120,18 @@
 					            $('#tbl-privileges-body').append
 					            	((
 							            	"<tr>"
-							            		+"<td>" + value.privilegeName+  "<td/>"
+							            		+"<td>" + value.privilege.privilegeName+  "<td/>"
 							            		+"<td>"
-							            			+"<input type='checkbox' name='notRevokedPrivilegeIds' value="+value.idPrivilege+ " "+checked+ " />" 
-							            			+"<input value=" + value.idPrivilege + " type='hidden' name='privilegeIds' />"
+							            			+"<input type='checkbox' name='privilegeIds' value="+value.privilege.idPrivilege+ " "+checked+ " />" 
+							            			
 							            		+"<td/>"+
 									        "</tr>"
 							         ));
-					            
 					         });
-				            //formatToDataTable("tbl-privileges");
 				        }
 				    });
             });
 
-            $("#btnSetRolesForm").click(function(e)
-            {
-                $("#setRolesForm").submit();
-            });
-
-			function switchingCheckBox()
-			{
-            	if($("#active").is(':checked'))
-	            {
-	                $("#active-label").text("Désactiver")
-	            }
-	            else
-	            {
-	            	$("#active-label").text("Activer")
-	            } 
-			}
-            
-            $("#active").click(function(e)
-            {
-            	switchingCheckBox();
-            });
-
-            switchingCheckBox();
         </script>
     </div>
 </body>

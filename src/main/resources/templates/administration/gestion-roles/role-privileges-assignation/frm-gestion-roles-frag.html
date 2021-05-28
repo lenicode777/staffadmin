@@ -30,9 +30,9 @@
 				<div class="panel-heading">Gestion des roles</div>
 				<div class="panel-body">
 					
-						<div class="col col-md-12" th:if="${agent}">
-							<th:block th:replace="administration/gestion-roles/frm-gestion-roles-user-infos-frag.html::frm-gestion-roles-user-infos-frag"></th:block>
-						</div>
+					<div class="col col-md-12" th:if="${agent}">
+						<th:block th:replace="administration/gestion-roles/frm-gestion-roles-user-infos-frag.html::frm-gestion-roles-user-infos-frag"></th:block>
+					</div>
 						
 					<form th:if="${agent}" method="post"  id="setRolesForm" th:action="@{/staffadmin/administration/gestion-roles/setRoles}">
 						<input id="idUser" type="hidden" th:value="${agent.user.idUser}"  name="idUser"/>
@@ -40,7 +40,7 @@
 						<div class="col col-md-6" >
 							<th:block th:replace="administration/gestion-roles/frm-gestion-roles-roles-managing-frag.html::frm-gestion-roles-roles-managing-frag"></th:block>
 						</div>
-				
+						
 						<div class="col-md-6" style="margin-left: 0px;">
 							<th:block th:replace="administration/gestion-roles/frm-gestion-roles-privileges-managing-frag.html::frm-gestion-roles-privileges-managing-frag"></th:block>
 						</div>

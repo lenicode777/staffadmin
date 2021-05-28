@@ -32,11 +32,11 @@ public class Post
 	private Fonction fonction;
 
 	private String libellePost;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "ID_UNITE_ADMIN")
 	// @JsonProperty(access = Access.WRITE_ONLY)
 	private UniteAdmin uniteAdmin;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name = "ID_AGENT")
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Agent agent;
