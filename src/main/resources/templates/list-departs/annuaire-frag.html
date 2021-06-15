@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="annuaire-frag">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Annuaire téléphonique de la Direction Générale des Marchés Publics
+				</div>
+				<div class="panel-body">
+					<table id="tbl-annuaire" class="table table-striped display" style="width:100%">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Service</th>
+								<th>Fonction</th>
+								<th>Post</th>
+								<th>Mobile</th>
+								<th>Photo</th>
+							</tr>                        
+						</thead>
+						<tbody>
+							<tr th:each="agent : ${listAgents}">
+								
+								<td style="vertical-align: middle;" th:text="${agent.nom}"></td>
+								<td style="vertical-align: middle;" th:text="${agent.prenom}"></td>
+								<td style="vertical-align: middle;" th:text="${agent.tutelleDirecte}"></td>
+								<td style="vertical-align: middle;" th:text="${agent.fonction.nomFonction}"></td>
+								<td style="vertical-align: middle;" th:text="${agent.fixeBureau}"></td>
+								<td style="vertical-align: middle;" th:text="${agent.tel}"></td>
+								
+								<td style="text-align: center; vertical-align: middle;">
+									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/photo-agent/'+${agent.idAgent}}" class="img-circle" width="40" height="40"></a></p>
+								</td>
+																                                  
+							</tr>                              
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Service</th>
+								<th>Fonction</th>
+								<th>Post</th>
+								<th>Mobile</th>
+								<th>Photo</th>
+							</tr>                        
+						</tfoot>                              
+					</table> 
+				</div>
+			</div>			
+			
+      	</th:block>
+    </body>
+</html>

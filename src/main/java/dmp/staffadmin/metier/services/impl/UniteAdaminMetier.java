@@ -151,16 +151,13 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	private UniteAdmin nommerManager(UniteAdmin uniteAdmin, Agent agentANommer, Fonction fonctionDeNomination)
 	{
 		agentANommer = agentDao.findById(agentANommer.getIdAgent()).get();
-		// Fonction fonctionDeNomFonction =
-		// fonctionDao.findById(nomination.getFonctionNomination().getIdFonction()).get();
 		uniteAdmin = uniteAdminDao.findById(uniteAdmin.getIdUniteAdmin()).get();
 
-		System.out.println("===============================Nomination Top Manager===============================");
+		
 		Post postOfManager = uniteAdmin.getPostManager();
 
 		if (postOfManager == null)
 		{
-			System.out.println("===============================UA_METIER : Post Null===============================");
 			postOfManager = new Post(null, fonctionDeNomination,
 					Nomination.getTitreNomination2(fonctionDeNomination, uniteAdmin), uniteAdmin, agentANommer);
 			postOfManager = postDao.save(postOfManager);
@@ -168,29 +165,20 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 			uniteAdmin = uniteAdminDao.save(uniteAdmin);
 		} else
 		{
-
-			System.out.println("===============================Post Non Null===============================");
 			Agent ancienManager = postOfManager.getAgent();
 			if (ancienManager != null)
 			{
-				System.out.println(
-						"===============================Ancien Manager Existant===============================");
 				postMetier.demettreResponsable(postOfManager, ancienManager);
 			}
 			postOfManager.setFonction(fonctionDeNomination);// J'initialise la fonction de nomination pour le Post
 		}
 
-		// Je recupère l'éventuel ancien post de l'agent à nommer
 		Post ancienPostDeAgentANommer = agentANommer.getPost();
 
-		// Si ce post est non null et est un post de responsabilité, alors on demet
-		// l'agent de ce post avant tout (Très important pour éviter les cumules de post
-		// et certains bug)
 		if (ancienPostDeAgentANommer != null)
 		{
 			if (ancienPostDeAgentANommer.getFonction().isFonctionDeNomination())
 			{
-				// On demet l'agent de son ancien post
 				postMetier.demettreResponsable(ancienPostDeAgentANommer, agentANommer);
 			}
 		}
@@ -202,7 +190,6 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 	private UniteAdmin nommerAutreResponsable(UniteAdmin uniteAdminDeNomination, Agent agentANommer,
 			Fonction fonctionDeNomination)
 	{
-		System.out.println("3============Autre Fonction de responsabilité===========");
 		Optional<Post> postResponsable = Optional.empty(); // On recherche un éventuel post de responsabilité vide pour
 															// la même fonction au sein de L'UA de nomination
 		try
@@ -223,28 +210,23 @@ public class UniteAdaminMetier implements IUniteAdminMetier
 
 		if (!postResponsable.isPresent()) // Si ce post n'existe pas, on le crée
 		{
-			System.out.println("6============Aucun poste de responsabilité vide trouvé===========");
 			postDeNomination = new Post(null, fonctionDeNomination,
 					Nomination.getTitreNomination2(fonctionDeNomination, uniteAdminDeNomination),
 					uniteAdminDeNomination, agentANommer);
-			postDeNomination.setUniteAdmin(uniteAdminDeNomination); // On lui défini l'UA de nomination comme unite
-																	// admin
-			postDeNomination.setAgent(agentANommer); // On occupe le poste avec l'agentANommer
-			postDeNomination = postDao.save(postDeNomination);// J'enregistre le poste
-			// nomination.setPostNomination(post); // Je définis ce post comme étant le post
-			// de la nomination en cours
-		} else // Si un tel post existe (Vide et de même fonction que celle de la nomination)
+			postDeNomination.setUniteAdmin(uniteAdminDeNomination);
+																	
+			postDeNomination.setAgent(agentANommer);
+			postDeNomination = postDao.save(postDeNomination);
+		} 
+		else
 		{
-			System.out.println("7============Poste vide trouvé===========");
 			postDeNomination = postResponsable.get(); // On le récupère
 			postDeNomination.setUniteAdmin(uniteAdminDeNomination);// On lui défini l'UA de nomination comme unite admin
 			postDeNomination.setAgent(agentANommer); // On met l'agentANommer à ce post
 			postDeNomination = postDao.save(postDeNomination); // On l'enregistre
-			// nomination.setPostNomination(post); //On Défini ce post comme post de
-			// nomination pour notre nomination
+
 		}
 		postDeNomination = postMetier.nommerResponsable(postDeNomination, agentANommer);
-		System.out.println("8============Poste de nomination enregistré===========");
 		return postDeNomination.getUniteAdmin();
 	}
 

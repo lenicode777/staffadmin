@@ -33,4 +33,9 @@ public class Affectation
 	@Temporal(TemporalType.DATE) // Pour JPA. Signifie que dans la BD la date aura le type Date et non le type TimeStamp
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // Spring formate la date pour nous
 	private Date dateAffectation;
+
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateCreation;
+	private Date dateDerniereModif;
 }

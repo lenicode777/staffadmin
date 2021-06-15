@@ -14,4 +14,6 @@ public class ArchivageConstants
 	public static final List<String> PHOTO_AUTHORIZED_TYPE = Arrays.asList(".jpeg", ".jpg", ".png");
 	public static final List<String> DOCUMENT_AUTHORIZED_TYPE = Arrays.asList(".jpeg", ".jpg", ".png", ".pdf", ".doc",
 			".docx", ".docs", ".vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+	public static final String CODE_TYPE_ARCHIVE = "TYPE_ARCH";
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-depart-frag"> 
+		 	<div th:if="${globalErrorMsg}" class="col-md-12">
+				<div class="alert alert-danger">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<strong>Erreur!</strong> <span th:text="${globalErrorMsg}"></span>
+				</div>
+			</div>   
+			<div class="col-md-12" style="margin-bottom: 10px;">
+				<form class="form-inline" th:action="">
+					<div class="form-group">
+						<label class="control-label" for="matricule">Matricule</label>
+						<input type="text" name="matricule" class="form-control" id="matricule" placeholder="matricule"/>							
+						<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>					
+					</div>
+				</form>
+			</div>    
+
+      	</th:block>
+    </body>
+</html>

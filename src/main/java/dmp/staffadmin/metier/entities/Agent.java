@@ -70,6 +70,11 @@ public class Agent
 	private String numBadge;
 	@Column(length = 20, unique = true)
 	private String matricule;
+	private String situationMatrimonial;
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateCreation;
+	private Date dateDerniereModif;
 	@ManyToOne	@JoinColumn(name = "ID_FONCTION")
 	private Fonction fonction;
 	@ManyToOne	@JoinColumn(name = "ID_FONCTION_NOMINATION")
@@ -86,7 +91,7 @@ public class Agent
 	@ManyToOne @JoinColumn(name = "ID_TUTELLE_DIRECT")
 	private UniteAdmin tutelleDirecte;
 	
-	@Column(length = 15)
+
 	private String situationPresence;
 	@Temporal(TemporalType.DATE) // Pour JPA. Signifie que dans la BD la date aura le type Date et non le type TimeStamp
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // Spring formate la date pour nous
@@ -159,8 +164,7 @@ public class Agent
 		boolean isAffectable = false;
 		//Si l'agent n'occupe aucun post, on retourn vrai, sinon s'il occupe un post et que ce post n'est pas un post de nomination, on retourn vrai
 		isAffectable = (post == null ? true : post!=null && !post.getFonction().isFonctionDeNomination() ? true : false);
-	
-		
+
 		return isAffectable;
 	}
 	

@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class DmdeActe extends Dmde
 {
-	@ManyToOne @JoinColumn(name = "ID_NATURE_ABSENCE")
+	@ManyToOne @JoinColumn(name = "ID_NATURE_ACTE")
 	private NatureActe natureActe;
 }

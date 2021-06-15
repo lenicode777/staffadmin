@@ -39,6 +39,12 @@ public class Nomination
 	private UniteAdmin uniteAdminDeNomination;
 	@OneToOne @JoinColumn(name = "ID_AGENT_NOMME")
 	private Agent agentNomme;
+
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateCreation;
+	private Date dateDerniereModif;
+
 	@Transient
 	private MultipartFile acteNominationFile;
 	

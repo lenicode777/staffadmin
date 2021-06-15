@@ -46,6 +46,7 @@ public class TypeArchiveMetier implements ITypeArchiveMetier
 			typeArchiveDirectory.mkdir();
 		}
 		typeArchive.setTypeArchivePath(typeArchiveDirectory.getPath());
+		typeArchive.setCodeType(generateTypeCode());
 		return typeArchiveDao.save(typeArchive);
 	}
 
@@ -61,4 +62,8 @@ public class TypeArchiveMetier implements ITypeArchiveMetier
 		return !archiveAgentDao.existsByTypeArchiveId(idTypeArchive);
 	}
 
+	private String generateTypeCode()
+	{
+		return ArchivageConstants.CODE_TYPE_ARCHIVE+ (typeArchiveDao.count()+1);
+	}
 }

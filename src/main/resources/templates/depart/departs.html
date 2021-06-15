@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{fragments/layout/layout}">    
+    
+	<head>		
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/staffadmin/css/general-style.css">
+	</head>
+	<body>
+        <div layout:fragment="content">
+            <div class="container-fluid">
+                <div class="col-md-6">
+                    <th:block th:replace="depart/form/frm-depart-frag.html::frm-depart-frag"></th:block>
+                </div>
+                <div class="col-md-6">
+                    <th:block th:replace="depart/lists/list-departs-frag.html::list-departs-frag"></th:block>
+                </div>
+            </div>
+        </div>
+
+        <div layout:fragment="js-specifics-dependancies">
+
+        	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+            <script type="text/javascript">
+
+		        $(document).ready(function() 
+		    	{
+		            $('#tbl-departs').DataTable();
+		            $(".typeDepart").select2();
+		        });
+	        </script>
+
+        </div>
+    </body>
+</html>

@@ -15,10 +15,10 @@ public class FonctionMetier implements IFonctionMetier
 	@Autowired private IFonctionDao fonctionDao;
 
 	@Override
-	public Fonction save(Fonction f) 
+	public Fonction save(Fonction fonction)
 	{
-		f.setNomFonction(f.getNomFonction().toUpperCase());
-		return fonctionDao.save(f);
+		fonction.setNomFonction(fonction.getNomFonction().toUpperCase());
+		return fonctionDao.save(fonction);
 	}
 
 	@Override

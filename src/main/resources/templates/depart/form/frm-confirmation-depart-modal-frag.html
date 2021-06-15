@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-confirmation-depart-modal-frag">
+            <button data-toggle="modal" href="#confirmation-depart-modal-frag" type="button" class="btn btn-success pull-right btn-lg">Enregistrer</button>
+
+            <div class="modal fade" id="confirmation-depart-modal-frag" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                            <button type="button" class="close btn pull-right" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">X</button>
+                            <h4 class="modal-title">Confirmation du départ</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped" style="margin-bottom: 20px; border-bottom: 2px; font-size: medium">
+                                <tbody>
+                                <tr>
+                                    <th class="text-success">Nom & Prénom</th>
+                                    <th>
+                                        <span class="text-danger" th:text="${depart.agent.nom +' '+depart.agent.prenom}"></span>
+                                        <!--<input type="hidden" th:field="*{agent.idAgent}">-->
+                                    </th>
+                                    <td></td>
+                                    <td></td>
+                                    <th class="text-success">Matricule</th>
+                                    <th>
+                                        <span class="text-danger" th:text="${depart.agent.matricule}"></span>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-success">Type de départ</th>
+                                    <th>
+                                        <span th:title="${depart.typeDepart.nomType}" class="text-danger" th:text="${depart.typeDepart.nomType}"></span>
+                                        <!--<input type="hidden" th:field="*{typeDepart.id}" />-->
+                                    </th>
+                                    <td style="width: 15%;"></td>
+                                    <td></td>
+                                    <th class="text-success">Date départ</th>
+                                    <th>
+                                        <span th:title="${depart.dateDepart}" class="text-danger" th:text="${#dates.format(depart.dateDepart, 'dd-MM-yyyy')}"></span>
+                                        <!--<input type="hidden" th:field="*{dateDepart}">-->
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-success">Motif :</th>
+                                    <th>
+                                        <span class="text-danger" th:text="${depart.motif}"></span>
+                                        <!--<input type="hidden" th:field="*{motif}" />-->
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
+
+                            <button type="submit" class="btn btn-primary">Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      	</th:block>
+    </body>
+</html>

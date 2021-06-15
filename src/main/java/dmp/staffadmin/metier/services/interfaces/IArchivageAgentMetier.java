@@ -6,7 +6,7 @@ import dmp.staffadmin.metier.entities.ArchiveAgent;
 
 public interface IArchivageAgentMetier
 {
-	public void uploadArchiveAgent(ArchiveAgent archive);
+	public ArchiveAgent uploadArchiveAgent(ArchiveAgent archive);
 
 	public String getArchiveAgentCompletePath(ArchiveAgent archive);
 

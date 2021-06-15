@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="list-departs-frag">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<a href="#tbl-list-depart" data-toggle="collapse">
+						<span th:if="${titreTableau==null}" th:text="'Liste des agents partis de la DGMP'"></span>
+						<span th:if="${titreTableau!=null}" th:text="${titreTableau}"></span>
+					</a>
+				</div>
+				<div class="panel-body panel-collapse collapse in" id="tbl-list-depart">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<form class="form-inline" th:action="@{/staffadmin/departs}">
+								<select name="nomTypeDepart"  class="typeDepart" style="width: 400px;" >
+									<option  value="" ></option>
+									<option th:selected="${typeDepart.nomType==param.nomTypeDepart}" th:each="typeDepart:${typeDeparts}" th:value="${typeDepart.nomType}" th:text="${typeDepart.nomType}"></option>
+								</select>
+								<button type="submit" class="btn btn-primary">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</form>
+
+						</div>
+					</div>
+
+					<table id="tbl-departs" class="table table-striped display" style="font-size: small;">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Matricule</th>
+								<th>Nature</th>
+								<th>Motif</th>
+								<th>Date</th>
+								<th>Photo</th>
+							</tr>                        
+						</thead>
+						<tbody>
+							<tr th:each="depart : ${departs}">
+								
+								<td style="vertical-align: middle;" th:text="${depart.agent.nom}"></td>
+								<td style="vertical-align: middle;" th:text="${depart.agent.prenom}"></td>
+								<td style="vertical-align: middle;" th:text="${depart.agent.matricule}"></td>
+								<td style="vertical-align: middle;" th:text="${depart.typeDepart.nomType}"></td>
+								<td style="vertical-align: middle;" th:text="${depart.motif}"></td>
+								<td style="vertical-align: middle;" th:text="${depart.dateDepart}"></td>
+								
+								<!--<td style="text-align: center; vertical-align: middle;">
+									<p class="centered"><a th:href="'/staffadmin/profil?idAgent='+${depart.agent.idAgent}"><img th:src="@{'/staffadmin/photo-agent/'+${depart.agent.idAgent}}" class="img-circle" width="40" height="40"></a></p>
+								</td>-->
+
+								<td>
+									<a th:if="${depart.archiveAgent}" title="Télécharger" class="btn btn-orange" th:href="@{'/staffadmin/archiveAgent/download/'+${depart.archiveAgent.id}}">
+										<i style="color: green;" class="glyphicon glyphicon-download-alt"></i>
+									</a>
+								</td>
+																                                  
+							</tr>                              
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Nom</th>
+								<th>Prénom</th>
+								<th>Matricule</th>
+								<th>Nature</th>
+								<th>Motif</th>
+								<th>Date</th>
+								<th>Photo</th>
+							</tr>                        
+						</tfoot>                              
+					</table> 
+				</div>
+			</div>			
+			
+      	</th:block>
+    </body>
+</html>

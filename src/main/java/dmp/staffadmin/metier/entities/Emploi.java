@@ -20,5 +20,6 @@ public class Emploi
 	private Long idEmploi;
 	private String nomEmploi;
 	@OneToMany(mappedBy = "emploi")
-	private Collection<Agent> listAgents; 
+	private Collection<Agent> listAgents;
+
 }

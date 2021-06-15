@@ -59,11 +59,12 @@ public class SecurityController
 
 	@GetMapping(path = "/staffadmin/profil")
 	@AuthoritiesDtoAnnotation
-	public String goToProfile(HttpServletRequest request, Model model, @RequestParam(defaultValue = "0") Long idAgent)
+	public String goToProfile(HttpServletRequest request, Model model, 
+							  @RequestParam(defaultValue = "0") Long idAgent)
 	{
 		String username = request.getUserPrincipal().getName();
 		AppUser authUser = userDao.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("Nom d'utilisateur introuvable"));
-		System.out.println("AuthUser = " + authUser.getUsername() + authUser.getIdUser());
+
 		AppUser visitedUser = null;
 		if (idAgent == null || idAgent == 0)
 		{
@@ -71,7 +72,6 @@ public class SecurityController
 		} else
 		{
 			visitedUser = userDao.findByAgentIdAgent(idAgent).orElseThrow(()->new UsernameNotFoundException("Aucun utilisateur trouvé pour un agent"));
-			System.out.println("Visited user = " + visitedUser.getUsername() + visitedUser.getIdUser());
 		}
 
 		List<UniteAdmin> tutellesHierarchieTree = visitedUser
@@ -85,8 +85,13 @@ public class SecurityController
 		model.addAttribute("modelRoles", roleDao.findAll());
 		model.addAttribute("visitedUser", visitedUser);
 		model.addAttribute("authUser", authUser);
-		// model.addAttribute("userForm", new UserForm(user, "", "", ""));
-
+		
+		/**
+		 * Récupérer l'historique de l'agent à le transmettre par le model
+		 * 
+		 * 
+		 */
+		
 		return "user/profil";
 	}
 

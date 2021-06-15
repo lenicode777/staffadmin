@@ -122,30 +122,4 @@ public class UserMetier implements IUserMetier
 	{
 		return user.hasRole(role);
 	}
-
-	// @Bean
-	public CommandLineRunner start(IAgentDao agentDao, AppRoleDao roleDao)
-	{
-		return args ->
-		{
-			AppUser Leni = agentDao.findById(9L).get().getUser();
-			AppRole roleAgent = roleDao.findByRoleName(RoleEnum.AGENT.toString());
-			roleAgent = roleDao.findById(roleAgent.getIdRole()).get();
-			AppRole roleRespo = roleDao.findByRoleName(RoleEnum.RESPONSABLE.toString());
-			AppRole roleSaf = roleDao.findByRoleName(RoleEnum.SAF.toString());
-			System.out.println("********************************//////////////////****************************");
-			System.out.println("Leni a le role Responsable ?" + Leni.hasRole(RoleEnum.RESPONSABLE.toString()));
-			System.out.println("Leni a le role SAF ?" + Leni.hasRole(roleSaf));
-			System.out.println("Les roles de LENI sont : ");
-			Leni.getRoles().forEach(r -> System.out.println(r.getRoleName()));
-
-			System.out.println("RoleRespo = " + RoleEnum.RESPONSABLE.toString());
-			System.out.println("RoleSaf = " + RoleEnum.SAF.toString());
-			addRoleToUser(Leni, roleAgent);
-
-			System.out.println("Les roles de LENI sont : ");
-			Leni.getRoles().forEach(r -> System.out.println(r.getRoleName()));
-		};
-	}
-
 }

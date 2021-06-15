@@ -32,7 +32,7 @@
 								<td style="vertical-align: middle;" th:text="${agent.tel}"></td>
 								
 								<td style="text-align: center; vertical-align: middle;">
-									<p class="centered"><a href="profile.html"><img th:src="@{'/staffadmin/photo-agent/'+${agent.idAgent}}" class="img-circle" width="40" height="40"></a></p>
+									<p class="centered"><a th:href="'/staffadmin/profil?idAgent='+${agent.idAgent}"><img th:src="@{'/staffadmin/photo-agent/'+${agent.idAgent}}" class="img-circle" width="40" height="40"></a></p>
 								</td>
 																                                  
 							</tr>                              

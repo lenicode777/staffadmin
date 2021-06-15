@@ -11,4 +11,6 @@ public interface ITypeArchiveDao extends JpaRepository<TypeArchive, Long>
 	public boolean existsByNomIgnoreCase(String nom);
 
 	public boolean existsByTypeArchiveDirIgnoreCase(String typeArchiveDir);
+
+	TypeArchive findByCodeType(String codeType);
 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2021-06-05T13:56:31 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AttestationTravail" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a6db0b34-85f1-4f05-abae-c7e6622adb28">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="civilite" class="java.lang.String"/>
+	<field name="nom" class="java.lang.String"/>
+	<field name="prenom" class="java.lang.String"/>
+	<field name="emploi" class="java.lang.String"/>
+	<field name="matricule" class="java.lang.String"/>
+	<field name="datePriseServiceDgmp" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="614" splitType="Stretch">
+			<image>
+				<reportElement x="101" y="135" width="87" height="40" uuid="9e498a0c-ce3f-41df-814d-19bef61199af"/>
+				<imageExpression><![CDATA["file:/D:/INFORMATIQUE/Dev/workspace/projets/stage/staffadmin/src/main/resources/static/staffadmin/images/logos/dgmp.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="19" y="79" width="271" height="79" uuid="53f29b23-4355-4a42-907b-00cec215b43a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MINISTERE AUPRES DU PREMIER MINISTRE,
+CHARGE DU BUDGET ET DU PORTEFEUILLE DE L’ETAT
+----------------------
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="180" width="270" height="119" uuid="c021ddc8-bbc9-4056-a620-846d717e2ac9"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECTION GENERALE DES MARCHES PUBLICS
+----------------------
+LE DIRECTEUR GENERAL
+----------------------
+
+N° /2020/MPMBPE/DGBF/DMP/14-MY
+]]></text>
+			</staticText>
+			<image>
+				<reportElement x="288" y="99" width="52" height="50" uuid="9a2e4007-20b9-4e23-8eef-70f31450cf53"/>
+				<imageExpression><![CDATA["file:/D:/INFORMATIQUE/Dev/workspace/projets/stage/staffadmin/src/main/resources/static/staffadmin/images/logos/armoiries_CI.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="340" y="79" width="200" height="79" uuid="fce9214a-8160-4d9d-a300-daabf69ee466"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPUBLIQUE DE COTE D’IVOIRE
+        Union – Discipline – Travail
+            ----------------------
+
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="266" width="102" height="30" uuid="4a0b4564-f715-4654-875f-945977bde15d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Abidjan, le ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="415" width="520" height="103" uuid="2b62a1b6-ecca-4c77-a84c-b2dcc6af257e"/>
+				<textElement textAlignment="Justified">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Le Directeur des Marchés Publics, soussigné atteste que " + $F{civilite} + "  " + $F{nom} + " "+$F{prenom}+", "+ $F{emploi} + ", matricule " + $F{matricule} + " est en service à la Direction des Marchés Publics, Ministère auprès du Premier Ministre, chargé du Budget et du Portefeuille de l’Etat depuis le " + $F{datePriseServiceDgmp} + ". \nEn foi de quoi, la présente attestation est établie pour servir et valoir ce que de droit."]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="84" y="338" width="411" height="50" backcolor="#878484" uuid="33c59a10-0879-4608-a894-558fd0aa0652"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="75" y="328" width="411" height="50" uuid="16149679-3b7d-42c6-86bd-09358c3061eb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="75" y="328" width="410" height="50" uuid="ddc747f1-eff5-4fdb-b7b8-0a060d836306"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ATTESTATION DE TRAVAIL]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+</jasperReport>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head><meta charset="UTF-8"/></head>
+    <body>
+		<th:block th:fragment="frm-confirmation-depart-frag">
+		 	<div th:if="${errorMsg}" class="col-md-12">
+				<div class="alert alert-danger">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<strong>Erreur!</strong> <span th:text="$errorMsg"></span>
+				</div>
+			</div>   
+			<div style="margin: 10px 0px;">
+				<form class="form-inline" action="/staffadmin/frm-nouveau-depart">
+					<div class="form-group">
+						<label class="control-label" for="matricule">Matricule</label>
+						<input type="text" name="matricule" class="form-control" id="matricule" placeholder="matricule"/>							
+						<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>					
+					</div>
+				</form>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">Nouveau départ</div>
+			<div class="panel-body">
+
+
+				<form method="post" th:object="${depart}" th:action="@{/staffadmin/departs/save}">
+
+					<table class="table table-striped" style="margin-bottom: 20px; border-bottom: 2px;">
+                        <tbody>
+                            <tr>
+                                <th class="text-success">NOM & PRENOM</th>
+                                <th>
+                                    <span class="text-danger" th:text="${depart.agent.nom +' '+depart.agent.prenom}"></span>
+                                    <input type="hidden" th:field="*{agent.idAgent}">
+                                </th>
+                                <td></td>
+                                <td></td>
+                                <th class="text-success">MATRICULE</th>
+                                <th>
+                                    <span class="text-danger" th:text="${depart.agent.matricule}"></span>
+                                </th>
+                            </tr>
+                            
+                            <tr>
+                                <th class="text-success">Type de départ</th>
+                                <th>
+                                    <span th:title="${depart.typeDepart.nomType}" class="text-danger" th:text="${depart.typeDepart.nomType}"></span>
+                                    <input type="hidden" th:field="*{typeDepart.id}" />
+                                </th>
+                                <td style="width: 15%;"></td>
+                                <td></td>
+                                <th class="text-success">Date départ</th>
+                                <th>
+                                    <span th:title="${depart.dateDepart}" class="text-danger" th:text="${#dates.format(depart.dateDepart, 'dd-MM-yyyy')}"></span>
+                                	<input type="hidden" th:field="*{dateDepart}">
+                                </th>
+                            </tr> 
+                            
+                            <tr>
+                                <th class="text-success">Motif :</th>
+                                <th>
+                                    <span class="text-danger" th:text="${depart.motif}"></span>
+                                    <input type="hidden" th:field="*{motif}" />
+                                </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>                            
+                                                       
+                        </tbody>
+                    </table> 
+                    <button type="submit" class="btn btn-success pull-right btn-lg" style="margin-left: 5px;">
+                    	Enregistrer 
+                    	<i class="glyphicon glyphicon-save"></i>
+                    </button>
+                    
+                    <a class="btn btn-lg pull-right btn-default" 
+                       th:href="@{'/staffadmin/frm-nouveau-depart?matricule='+${depart.agent.matricule} + '&motif='+${depart.motif}+ '&idTypeDepart='+${depart.typeDepart.id}+ '&dateDepart='+${depart.dateDepart}}">
+                       <i class="glyphicon glyphicon-hand-left"></i> Revenir
+                    </a>
+				</form>
+			</div>
+		</div>						
+		            
+      	</th:block>
+    </body>
+</html>

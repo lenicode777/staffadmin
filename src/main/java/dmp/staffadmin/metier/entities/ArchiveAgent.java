@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,6 +34,12 @@ public class ArchiveAgent
 	@ManyToOne
 	@JoinColumn(name = "ID_AGENT")
 	private Agent agent;
+
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateCreation;
+	private Date dateDerniereModif;
+
 	@Transient
 	private MultipartFile file;
 }

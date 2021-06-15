@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{fragments/layout/layout}">    
+    
+	<head>		
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="/staffadmin/css/general-style.css">
+
+	</head>
+	<body>
+        <div layout:fragment="content">
+            <div class="container-fluid">
+                <th:block th:replace="list-departs/annuaire-frag.html::annuaire-frag"></th:block>
+            </div>
+        </div>
+
+        <div layout:fragment="js-specifics-dependancies">
+
+        	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	        <script type="text/javascript">
+		        $(document).ready(function() 
+		    	{
+		            $('#tbl-annuaire').DataTable();
+		        });
+	        </script>
+
+        </div>
+    </body>
+</html>

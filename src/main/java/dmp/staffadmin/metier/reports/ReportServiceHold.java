@@ -23,8 +23,9 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
-@Service
-public class ReportService 
+//@Service
+@Deprecated
+public class ReportServiceHold
 {
 	/*
 	@Autowired

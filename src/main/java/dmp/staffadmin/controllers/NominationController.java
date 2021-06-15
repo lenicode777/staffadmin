@@ -73,14 +73,13 @@ public class NominationController
 			if (idAgent != 0)
 			{
 				agentANommer = agentDao.findById(idAgent).get();
-				System.out.println("Nomination Controller L67==========Agent Existe===============");
 				nomination.setAgentNomme(agentANommer);
 			}
 		} catch (Exception e)
 		{
 			if (e instanceof NoSuchElementException)
 			{
-				model.addAttribute("globalErrorMsg", "Références incorrectes");
+				model.addAttribute("globalErrorMsg", "Impossible de retrouver la référence à l'agent");
 			}
 		}
 

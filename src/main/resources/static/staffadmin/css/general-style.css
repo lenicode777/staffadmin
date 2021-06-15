@@ -13,3 +13,59 @@ body
 {
 	color: red;
 }
+
+div.panel div.panel-heading 
+{
+	font-size: 20px;
+    font-weight: bolder;
+}
+        
+div.panel-default div.panel-heading,
+div.panel-default div.panel-heading a 
+{
+    /*color:#39B510;*/
+    color: #FF9008;
+}
+        
+form label 
+{
+   font-size: 15px;
+   font-weight: bolder;
+   color: black;
+}
+        
+form .error-msg 
+{
+   font-size: 10px;
+   font-weight: bolder;
+   color: red;
+   display: none;
+}
+        
+#btn-modal-trigger,
+#btn-submit 
+{
+   display: none;
+}
+        
+.form-group .error-msg 
+{
+	position: relative;
+    margin-left: 0px;
+}
+        
+.ml-20
+{
+	margin-left: 20px;
+}
+        
+.sub-admin-3
+{
+   font-size: 16px;
+}
+.btn-subadmin
+{
+	/* float: right; */
+	color: white;
+   	font-weight: bolder;
+}

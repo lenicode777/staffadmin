@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout/layout}">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/staffadmin/css/general-style.css">
+    
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid">
+            <th:bloc th:replace="depart/form/frm-depart-frag.html::frm-depart-frag"></th:bloc>
+        </div>
+    </div>
+    <div layout:fragment="js-specifics-dependancies">
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+        <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script> -->
+        <script src="/lib/jquery/JQueryBolckUI.js"></script>
+<!--         <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script> -->
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="/staffadmin/js/unite-admin/unite-admin.js"></script>
+          
+	    
+<!-- 	  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+	  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+			$("#btn-submit-new").click(function(e)
+			{
+				confirmationDialog("frm-unite-admin", "dialog-confirm-new", "Confirmation des informations saisies", 600, 300);
+				//confirmationDialog location : /staffadmin/js/unite-admin/unite-admin.js
+			});
+
+			function formatDropDownBoxToSelect2(idDropDown)
+			{
+	         	$(document).ready(function() 
+	            {
+	                $('#'+idDropDown).select2();
+	            });
+			}
+
+			formatDropDownBoxToSelect2("typeDepart");
+
+			$("#idTypeUniteAdmin").change(function (e) 
+			{ 
+						$.ajax
+					    ({
+					        type: "get",
+					        url: "http://localhost:8081/staffadmin/frm-uniteAdmin/ajax/onTypeUniteAdminChange/"+this.value,
+					        success: function (response) 
+					        {
+					            //alert("HELLO AJAX");
+					            $("#idTutelleDirecte").children('option').remove();
+					            $('#idTutelleDirecte').append($("<option></option>"));
+					            $.each(response, function(key, value) 
+					            {
+					            	//alert(value["sigle"]);
+					                $('#idTutelleDirecte')
+					                    .append($("<option></option>")
+					                    .attr("value",value["idUniteAdmin"])
+					                    .text(value["appellation"] + ' ('+ value["sigle"]+ ')'  ));
+					            });
+					        }
+					    });  
+			});
+
+			
+		</script>
+		<script>
+			//dropBoxChangeAjaxRequest("idTypeUniteAdmin", "idTutelleDirecte", "typeUniteAdmin.administrativeLevel");
+			function dropBoxChangeAjaxRequest(idDropBoxSource, idDropBoxTarget, targetAttribute)
+			{
+				$("#"+idDropBoxSource).change(function (e)
+				{ 						    
+				    //alert('Hello value = ' +this.value);
+					$.ajax
+					({
+						type: "get",
+						url: "http://localhost:8081/staffadmin/sur-admin/"+this.value,
+						success: function (response) 
+						{
+					            //alert("HELLO AJAX Value = "+ this.value);
+					   		$("#"+idDropBoxTarget).children('option').remove();
+					        $('#'+idDropBoxTarget).append($("<option></option>").attr("value", "0"));
+					        $.each(response, function(key, value) 
+					        {
+					            	//alert(value["sigle"]);
+					        	$('#'+idDropBoxTarget)
+					                    .append($("<option></option>")
+					                    .attr("value",value[targetAttribute])
+					                    .text(value["sigle"]));
+					            });
+					        },
+					    	error:function(err)
+					    	{
+					    		alert("ERROR AJAX Value = "+ this.value);
+					        }
+					    });  
+					});
+			}
+            
+        </script>
+    </div>
+</body>
+
+</html>

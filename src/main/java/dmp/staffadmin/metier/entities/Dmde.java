@@ -31,4 +31,9 @@ public abstract class Dmde
 	private Agent demandeur;
 	@OneToMany(mappedBy = "demande")
 	private Collection<Decision> decision;
+
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateCreation;
+	private Date dateDerniereModif;
 }

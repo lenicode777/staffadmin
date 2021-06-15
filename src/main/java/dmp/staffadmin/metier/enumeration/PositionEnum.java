@@ -1,13 +1,14 @@
 package dmp.staffadmin.metier.enumeration;
 
-public enum Position 
+public enum PositionEnum
 {
 	ACTIVITE("EN ACTIVITE A LA DGMP"),
 	DETACHEMENT("EN DETACHEMENT"),
 	DISPONIBILITE("EN DISPONIBILITE"),
-	DRAPEAUX("SOUS LES DRAPEAUX");
+	DRAPEAUX("SOUS LES DRAPEAUX"),
+	PARTI("Parti de la DGMP");
 	
-	Position(String position)
+	PositionEnum(String position)
 	{
 		this.position = position;
 	}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{fragments/layout/layout}">    
+    
+	<head>		
+		<meta charset="utf-8">
+			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+			<link rel="stylesheet" href="/staffadmin/css/timeline.css"/>
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <style type="text/css">
+			.clickable
+			{
+				cursor: pointer;
+			}
+			tfoot input 
+			{
+		        width: 100%;
+		        padding: 3px;
+		        box-sizing: border-box;
+	    	}
+			div.panel div.panel-heading
+			{
+				font-size: 20px;
+				font-weight: bolder;
+			}
+			
+			div.panel-default div.panel-heading, div.panel-default div.panel-heading a
+			{
+				/*color:#39B510;*/
+				color: #FF9008;
+			}
+			
+		</style>
+	</head>
+	<body>
+        <div layout:fragment="content">
+            <div class="container-fluid">
+                <th:block th:replace="agent/historique/historique-agent-frag.html::historique-agent-frag"></th:block>
+            </div>
+            
+        </div>
+        <div layout:fragment="js-specifics-dependancies">
+<!--         	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+        	<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<!--    <script type="text/javascript" src="/staffadmin/js/agent/list-agent.js"></script> -->
+	<!--    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> -->
+	        <script src="/lib/jquery/JQueryBolckUI.js"></script>
+	        <script src="/staffadmin/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+<!-- 			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> -->
+
+			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        </div>
+    </body>
+</html>

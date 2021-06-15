@@ -76,68 +76,40 @@ public class PostMetier implements IPostMetier
 		UniteAdmin SMGP = uniteAdminConfigService.getDRH();
 		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();
 		UniteAdmin CabDGMP = uniteAdminConfigService.getCabinetUniteAdminMere();
-		System.out.println("7.1============Poste Metier===========");
-		Fonction fonction = post.getFonction(); // Je recupère la fonction de nomination
-		UniteAdmin uniteAdmin = post.getUniteAdmin();// Je récupère l'unité admin
-		System.out.println("===================PostMetier nommerResponsable Ligne 70 +-=============New UniteAdmin = "
-				+ uniteAdmin);
-		AppRole roleResponsable = roleDao.findByRoleName(RoleEnum.RESPONSABLE.toString());// Je récupère le role
-																						// responsable
-
-		System.out.println("7.2============Récupération fonction, post, role ok===========");
+		
+		Fonction fonction = post.getFonction();
+		UniteAdmin uniteAdmin = post.getUniteAdmin();
 		String titreNomination = Nomination.getTitreNomination2(fonction, uniteAdmin);
-		agent.setTitre(titreNomination);// Je génère le titre de la nomination
-		System.out.println("7.3============Titre généré ok===========" + agent.getTitre());
-
-		agent.setPost(post);// Je met le post en question sur l'agent
-		agent.setTutelleDirecte(uniteAdmin.getIdUniteAdmin() != DGMP.getIdUniteAdmin() ? uniteAdmin : CabDGMP);// Je
-																												// défini
-																												// la
-																												// tutelleDirecte
-																												// de
-																												// l'agent
+		
+		agent.setFonctionNomination(fonction);
+		agent.setTutelleDirecte(uniteAdmin.getIdUniteAdmin() != DGMP.getIdUniteAdmin() ? uniteAdmin : CabDGMP);
+		agent.setTitre(titreNomination);
+		agent.setPost(post);															
 		agent.setAttenteAffectation(false);
-		agent = agentDao.save(agent);// J'enregistre l'agent
-
-		System.out.println("7.3.1============Agent Enregistré===========");
-		AppUser user = agent.getUser();// Je donne les rôles au user de l'agent
-		System.out.println("7.3.2============Avant ajout des roles===========" + agent.getTitre());
+		agent = agentDao.save(agent);
+		
+		AppRole roleResponsable = roleDao.findByRoleName(RoleEnum.RESPONSABLE.toString());
+		AppUser user = agent.getUser();
 		user = userMetier.addRoleToUser(user, fonction.getRoleAssocie());
-
-		System.out.println("ROLE RESPONSABLE = " + roleResponsable.getIdRole() + " " + roleResponsable.getRoleName());
 		user = userMetier.addRoleToUser(user, roleResponsable);
-
-		// Si l'uniteAdmin est le SMGP, on lui octroie le role SAF
 		if (SMGP.getIdUniteAdmin() == uniteAdmin.getIdUniteAdmin())
 		{
-			user = userMetier.addRoleToUser(user, roleDao.findByRoleName(RoleEnum.SAF.toString()));
+			user = userMetier.addRoleToUser(user, roleDao.findByRoleName(RoleEnum.DRH.toString()));
 		}
 
-		post.setAgent(agent);// Je met l'agent au post en question
+		post.setAgent(agent);
 		post.setLibellePost(titreNomination);
-		System.out.println("7.4============¨Presque fini ok===========");
 		return postDao.save(post);
 	}
 
 	@Override
 	public Post demettreResponsable(Post post, Agent agent) // ******Rem
 	{
-
-		System.out.println("==========================PostMetier demettreResponsable===========================");
 		Fonction fonction = post.getFonction();// Je recupère la fonction de nomination
-		AppRole roleResponsable = roleDao.findById(9L).get();// Je récupère le role responsable
-		System.out.println("roleSAf toString = " + RoleEnum.SAF.toString());
-		AppRole roleSAF = roleDao.findByRoleName(RoleEnum.SAF.toString());
+		AppRole roleResponsable = roleDao.findByRoleSigle(RoleEnum.RESPONSABLE.toString());// Je récupère le role responsable
 		UniteAdmin DGMP = uniteAdminConfigService.getUniteAdminMere();// Je récupère la DGMP
-		System.out.println("Fonction = " + fonction.getIdFonction() + " NomFonction = " + fonction.getNomFonction()
-				+ " Roles = " + fonction.getRoleAssocie());
-		System.out.println("RolesRespo = " + roleResponsable.toString());
-		System.out.println("RolesSAF = " + roleSAF.toString());
-		System.out.println("AGENT  = " + agent.toString());
 
-		// TODO Remettre l'agent à sa fonction d'origine (=========Algorithme à
-		// déterminer========)
-
+		agent.setFonctionNomination(null);
 		agent.setTitre(null); // J'annule le titre
 		agent.setPost(null);// J'annule le post de l'agent
 		agent.setTutelleDirecte(DGMP);// Je met l'agent directement au niveau de la DGMP
@@ -147,10 +119,10 @@ public class PostMetier implements IPostMetier
 		AppUser user = agent.getUser();// Je récupère le user de l'agent et je lui enlève tous les roles sau
 		user = userMetier.removeRoleToUser(user, fonction.getRoleAssocie());
 		user = userMetier.removeRoleToUser(user, roleResponsable);
-		user = userMetier.removeRoleToUser(user, roleSAF);
+		user.setIdUaChampVisuel(null);
+		userDao.save(user);
 
 		post.setAgent(null);
-
 		return postDao.save(post);
 	}
 

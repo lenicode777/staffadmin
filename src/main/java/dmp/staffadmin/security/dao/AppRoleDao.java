@@ -8,7 +8,8 @@ import dmp.staffadmin.security.model.AppRole;
 
 public interface AppRoleDao extends JpaRepository<AppRole, Long> 
 {
-	public AppRole findByRoleName(String role);
+	AppRole findByRoleName(String role);
+	AppRole findByRoleSigle(String roleSigle);
+	List<AppRole> findByUsers_Username(String username);
 
-	public List<AppRole> findByUsers_Username(String username);
 }

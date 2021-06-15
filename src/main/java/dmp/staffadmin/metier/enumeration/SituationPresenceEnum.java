@@ -1,6 +1,6 @@
 package dmp.staffadmin.metier.enumeration;
 
-public enum SituationPresence 
+public enum SituationPresenceEnum
 {
 	PRESENT("PRESENT"),
 	ABSENT("ABSENT"),
@@ -14,7 +14,7 @@ public enum SituationPresence
 	DECEDE("DECEDE"),
 	PARTI("PARTI DE LA DGMP");
 	
-	SituationPresence(String situationPresence)
+	SituationPresenceEnum(String situationPresence)
 	{
 		this.situationPresence = situationPresence;
 	}

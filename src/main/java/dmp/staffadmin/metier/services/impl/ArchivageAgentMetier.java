@@ -35,7 +35,7 @@ public class ArchivageAgentMetier implements IArchivageAgentMetier
 	private @Autowired IValidation<ArchiveAgent> archiveValidation;
 
 	@Override
-	public void uploadArchiveAgent(ArchiveAgent archiveAgent) throws ArchivageAgentException
+	public ArchiveAgent uploadArchiveAgent(ArchiveAgent archiveAgent) throws ArchivageAgentException
 	{
 		archiveValidation.validate(archiveAgent);
 		Agent agent = agentDao.findById(archiveAgent.getAgent().getIdAgent()).get();
@@ -48,6 +48,7 @@ public class ArchivageAgentMetier implements IArchivageAgentMetier
 
 		archivageMetier.uploadFile(archiveAgent.getFile(), completePath);
 		archiveAgentDao.save(archiveAgent);
+		return archiveAgent;
 	}
 
 	@Override

@@ -46,6 +46,11 @@ public class Promotion
 	private Emploi holdEmploi;
 	@ManyToOne @JoinColumn(name = "ID_HOLD_GRADE")
 	private Grade holdGrade;
+
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateCreation;
+	private Date dateDerniereModif;
 	
 	@Transient
 	private MultipartFile actePromotionFile;

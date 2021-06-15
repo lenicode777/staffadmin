@@ -15,56 +15,57 @@ import dmp.staffadmin.security.model.AppUser;
 
 public interface IAgentDao extends JpaRepository<Agent, Long> 
 {
-	public List<Agent> findByEmail(String email);
-	public List<Agent> findByTel(String tel);
-	public List<Agent> findByNumPiece(String numPiece);
-	public Agent findByMatricule(String matricule);
-	public List<Agent> findByActiveTrue();
-	public List<Agent> findByActiveFalse();
+	List<Agent> findByEmail(String email);
+	List<Agent> findByTel(String tel);
+	List<Agent> findByNumPiece(String numPiece);
+	Agent findByMatricule(String matricule);
+	List<Agent> findByActiveTrue();
+	List<Agent> findByActiveFalse();
+
+
+
+	List<Agent> findByDateNaissance(Date dateNaissance);
+	List<Agent> findByDateNaissanceBefore(Date dateNaissance);
+	List<Agent> findByDateNaissanceAfter(Date dateNaissance);
 	
-	public List<Agent> findByDateNaissance(Date dateNaissance);
-	public List<Agent> findByDateNaissanceBefore(Date dateNaissance);
-	public List<Agent> findByDateNaissanceAfter(Date dateNaissance);
+	List<Agent> findByDatePriseService1(Date datePriseService1);
+	List<Agent> findByDatePriseService1Before(Date datePriseService1);
+	List<Agent> findByDatePriseService1After(Date datePriseService1);
 	
-	public List<Agent> findByDatePriseService1(Date datePriseService1);
-	public List<Agent> findByDatePriseService1Before(Date datePriseService1);
-	public List<Agent> findByDatePriseService1After(Date datePriseService1);
+	List<Agent> findByDatePriseServiceDGMP(Date datePriseServiceDGMP);
+	List<Agent> findByDatePriseServiceDGMPBefore(Date datePriseServiceDGMP);
+	List<Agent> findByDatePriseServiceDGMPAfter(Date datePriseServiceDGMP);
 	
-	public List<Agent> findByDatePriseServiceDGMP(Date datePriseServiceDGMP);
-	public List<Agent> findByDatePriseServiceDGMPBefore(Date datePriseServiceDGMP);
-	public List<Agent> findByDatePriseServiceDGMPAfter(Date datePriseServiceDGMP);
+	List<Agent> findByEmploi(Emploi emploi);
+	List<Agent> findByFonction(Fonction fonction);
+	List<Agent> findByGrade(Grade grade);
+	List<Agent> findByFixeBureau(String fix);
+	List<Agent> findByLieuNaissance(String lieuNaissance);
+	List<Agent> findByLieuNaissanceContains(String lieuNaissance);
+	List<Agent> findByNom(String nom);
+	List<Agent> findByNomContains(String nom);
+	List<Agent> findByPrenom(String prenom);
+	List<Agent> findByPrenomContains(String prenom);
+	List<Agent> findByPosition(String position);
+	List<Agent> findByPost(Post post);
+	List<Agent> findBySexe(String sexe);
+	List<Agent> findBySituationPresence(String situationPresence);
+	List<Agent> findByEtatRecrutement(String etatRecrutement);
+	List<Agent> findByTutelleDirecte(UniteAdmin tutelleDirecte);
+	List<Agent> findByStatutAgent(String statutAgent);
 	
-	public List<Agent> findByEmploi(Emploi emploi);
-	public List<Agent> findByFonction(Fonction fonction);
-	public List<Agent> findByGrade(Grade grade);
-	public List<Agent> findByFixeBureau(String fix);
-	public List<Agent> findByLieuNaissance(String lieuNaissance);
-	public List<Agent> findByLieuNaissanceContains(String lieuNaissance);
-	public List<Agent> findByNom(String nom);
-	public List<Agent> findByNomContains(String nom);
-	public List<Agent> findByPrenom(String prenom);
-	public List<Agent> findByPrenomContains(String prenom);
-	public List<Agent> findByPosition(String position);
-	public List<Agent> findByPost(Post post);
-	public List<Agent> findBySexe(String sexe);
-	public List<Agent> findBySituationPresence(String situationPresence);
-	public List<Agent> findByEtatRecrutement(String etatRecrutement);
-	public List<Agent> findByTutelleDirecte(UniteAdmin tutelleDirecte);
-	public List<Agent> findByStatutAgent(String statutAgent);
-	
-	public Agent findByUser(AppUser user);
-	public Agent findByEmailPro(String emailPro);
-	public Agent findByNumBadge(String numBadge);
+	Agent findByUser(AppUser user);
+	Agent findByEmailPro(String emailPro);
+	Agent findByNumBadge(String numBadge);
 	
 	
-	public boolean existsByUser(AppUser user);
-	public boolean existsByUserIdUser(Long idUser);
-	public boolean existsByEmailPro(String emailPro);
-	public boolean existsByNumBadge(String numBadge);
-	public boolean existsById(Long id);
-	public boolean existsByMatricule(String matricule);
-	public boolean existsByEmail(String email);
-	public boolean existsByNumPiece(String numPiece);
-	public boolean existsByTel(String tel);
-	
+	boolean existsByUser(AppUser user);
+	boolean existsByUserIdUser(Long idUser);
+	boolean existsByEmailPro(String emailPro);
+	boolean existsByNumBadge(String numBadge);
+	boolean existsById(Long id);
+	boolean existsByMatricule(String matricule);
+	boolean existsByEmail(String email);
+	boolean existsByNumPiece(String numPiece);
+	boolean existsByTel(String tel);
 }

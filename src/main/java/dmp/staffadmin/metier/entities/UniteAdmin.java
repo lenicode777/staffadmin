@@ -64,6 +64,12 @@ public class UniteAdmin
 	@ManyToOne @JoinColumn(name="ID_TYPE_UA")
 	private TypeUniteAdmin typeUniteAdmin;
 	private String ficheTechPath;
+
+	private long idUserCreateur;
+	private long idUserDerniereModif;
+	private Date dateEnregistrement;
+	private Date dateDerniereModif;
+
 	@Transient
 	private MultipartFile ficheTechFile;
 	

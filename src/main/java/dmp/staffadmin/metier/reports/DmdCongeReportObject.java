@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 //@Data @NoArgsConstructor @AllArgsConstructor
+@Deprecated
 public class DmdCongeReportObject 
 {
 	/*
